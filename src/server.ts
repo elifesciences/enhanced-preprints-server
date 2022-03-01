@@ -1,6 +1,7 @@
 import express from 'express';
 import { convert } from '@stencila/encoda';
 import { readdirSync } from "fs";
+import { convertToHtml } from "./conversion/encode";
 
 const app = express();
 
@@ -66,15 +67,7 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
   const journalId = req.params.journalId;
   const articleId = req.params.articleId;
   const jsonReq = req.query.json === 'true';
-  const response = await convert(`data/${journalId}/${articleId}/${articleId}.xml`, undefined, {
-    from: 'jats',
-    to: jsonReq ? 'json' : 'html',
-    encodeOptions: {
-      theme: 'elife',
-      isStandalone: true,
-      isBundle: true,
-    }
-  });
+  const response = await convertToHtml(journalId, articleId, jsonReq);
   res.send(response);
 })
 
