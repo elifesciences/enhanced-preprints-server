@@ -9,7 +9,7 @@ RUN yarn
 FROM node:16.14-alpine3.15 as prod
 
 COPY data data
-COPY src/server.ts src/server.ts
+COPY src/ src/
 COPY package.json package.json
 COPY --from=build node_modules node_modules
 
