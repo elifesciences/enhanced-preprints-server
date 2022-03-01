@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
   const journals = getDirectories('./data');
   journals.forEach(journal => articles[journal] = []);
   journals.forEach(journal => {
-    readdirSync(`./data/${journal}`).forEach(articleDir => articles[journal].push(articleDir)) //reuse getDirectories
+    getDirectories(`./data/${journal}`).forEach(articleDir => articles[journal].push(articleDir))
   })
   res.send(generateArticleList(journals, articles));
 });
