@@ -21,5 +21,6 @@
     "start": "ts-node src/server.ts",
     "docker-build": "docker build . -t epp-node",
     "docker-start": "docker run --rm -p 3000:3000 epp-node:latest"
-  }
+  },
+  "packageManager": "yarn@3.2.0"
 }
