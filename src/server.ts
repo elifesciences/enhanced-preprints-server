@@ -1,7 +1,8 @@
 import express from 'express';
 import { readdirSync } from "fs";
-import { convertToHtml } from "./conversion/encode";
+import { convertJatsToHtml, convertJatsToJSON } from "./conversion/encode";
 import { generateArticleList } from "./pages/article-list";
+import { wrapArticleInHtml } from "./pages/article-page";
 
 const app = express();
 
@@ -24,9 +25,10 @@ app.get('/', (req, res) => {
 app.get('/article/:journalId/:articleId', async (req, res) => {
   const journalId = req.params.journalId;
   const articleId = req.params.articleId;
-  const jsonReq = req.query.json === 'true';
-  const response = await convertToHtml(journalId, articleId, jsonReq);
-  res.send(response);
+  const articleHtml = await convertJatsToHtml(journalId, articleId);
+  const article = await convertJatsToJSON(journalId, articleId);
+  const responseHtml = wrapArticleInHtml(articleHtml, article['title'].toString())
+  res.send(responseHtml);
 })
 
 app.listen(3000, () => {
