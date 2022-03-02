@@ -27,6 +27,7 @@
   "scripts": {
     "start": "ts-node src/server.ts",
     "test": "jest",
+    "lint": "eslint . --ext .ts",
     "docker-build": "docker build . -t epp-node",
     "docker-start": "docker run --rm -p 3000:3000 epp-node:latest"
   },
