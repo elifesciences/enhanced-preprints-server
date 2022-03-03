@@ -5,6 +5,7 @@ import { generateArticleList } from "./pages/article-list";
 import { wrapArticleInHtml } from "./pages/article-page";
 
 const app = express();
+const cache: Record<string, string> = {};
 
 const getDirectories = (source: string) => {
   return readdirSync(source, { withFileTypes: true })
@@ -25,7 +26,11 @@ app.get('/', (req, res) => {
 app.get('/article/:journalId/:articleId', async (req, res) => {
   const journalId = req.params.journalId;
   const articleId = req.params.articleId;
-  const articleHtml = await convertJatsToHtml(journalId, articleId);
+  let articleHtml = cache[`${journalId}:${articleId}`];
+  if (!articleHtml) {
+    articleHtml = await convertJatsToHtml(journalId, articleId);
+    cache[`${journalId}:${articleId}`] = articleHtml;
+  }
   const responseHtml = wrapArticleInHtml(articleHtml)
   res.send(responseHtml);
 })
