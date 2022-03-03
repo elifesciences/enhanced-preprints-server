@@ -26,8 +26,7 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
   const journalId = req.params.journalId;
   const articleId = req.params.articleId;
   const articleHtml = await convertJatsToHtml(journalId, articleId);
-  const article = await convertJatsToJSON(journalId, articleId);
-  const responseHtml = wrapArticleInHtml(articleHtml, article['title'].toString())
+  const responseHtml = wrapArticleInHtml(articleHtml)
   res.send(responseHtml);
 })
 
