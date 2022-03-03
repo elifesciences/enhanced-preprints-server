@@ -1,4 +1,4 @@
-import { JSDOM, } from 'jsdom';
+import { JSDOM } from 'jsdom';
 
 export const wrapArticleInHtml = (articleHTML: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
