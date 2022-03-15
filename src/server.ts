@@ -1,6 +1,6 @@
 import express from 'express';
 import { readdirSync } from "fs";
-import { convertJatsToHtml, convertJatsToJSON } from "./conversion/encode";
+import { convertJatsToHtml } from "./conversion/encode";
 import { generateArticleList } from "./pages/article-list";
 import { wrapArticleInHtml } from "./pages/article-page";
 

@@ -13,12 +13,3 @@ export const convertJatsToHtml = async (journalId: string, articleId: string): P
 
   return converted || '';
 };
-
-export const convertJatsToJSON = async (journalId: string, articleId: string): Promise<Record<string, object>> => {
-  const converted = await convert(`data/${journalId}/${articleId}/${articleId}.xml`, undefined, { // undefined output here is required to return html, causes console output
-    from: 'jats',
-    to: 'json',
-  });
-
-  return JSON.parse(converted || '');
-};
