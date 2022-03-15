@@ -55,11 +55,11 @@ export const wrapArticleInHtml = (articleHTML: string): string => {
     </main>
 </body>
 </html>
-`;
+`.trim();
 };
 
 const generateToC = (headings: Heading[]): string => {
-  return `
+  return headings.length ? `
     <div class="toc-container">
       <h2>Table of Contents</h2>
       <ul class="toc-list">${headings.map(heading => {
@@ -74,7 +74,7 @@ const generateToC = (headings: Heading[]): string => {
         }
       </ul>
     </div>
-`
+` : '';
 }
 
 const getTitle = (articleDom: DocumentFragment): string => {
