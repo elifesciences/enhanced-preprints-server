@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { wrapArticleInHtml } from "./article-page";
 import { JSDOM } from 'jsdom';
 
