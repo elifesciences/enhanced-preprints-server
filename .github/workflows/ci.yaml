@@ -8,13 +8,30 @@ on:
       - '*'
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16.13'
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-client-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-client-
+      - name: yarn install
+        run: yarn
+      - name: Lint
+        run: yarn lint
+      - name: Unit Test
+        run: yarn test
   build-and-push:
       runs-on: ubuntu-18.04
       if: github.ref == 'refs/heads/master'
       steps:
         - uses: actions/checkout@v2
-          with:
-            submodules: true
         - name: Get current date
           id: date
           run: echo "::set-output name=date::$(date --utc +%Y%m%d.%H%M)"
