@@ -1,9 +1,39 @@
-type FetchReviews = (doi: string, reviewingGroup: string) => Array<string>;
+import axios from 'axios';
 
-export const fetchReviews: FetchReviews = (doi, reviewingGroup) => {
+type HypothesisResponse = {
+  text: string,
+}
+
+type FetchReviews = (doi: string, reviewingGroup: string) => Promise<Array<string>>;
+export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
   const docmaps = fetchDocmaps(doi);
-  docmaps.filter(docmap => docmap.publisher.id === reviewingGroup)
-  return [];
+  const docmap = docmaps.find(docmap => docmap.publisher.id === reviewingGroup);
+  if (!docmap) {
+    return Promise.reject(`No docmap for reviewingGroup: ${reviewingGroup} and doi: ${doi}`);
+  }
+  const hypothesisUrls = Object.values(docmap.steps)
+    .flatMap(docmapStep => docmapStep.actions
+      .flatMap(action => action.outputs
+        .flatMap(output => output.content
+          .filter(content => content.url.includes('hypothes.is'))
+          .flatMap(content => content.url)
+        )
+      )
+    );
+
+  const hypothesisIds = hypothesisUrls.map(url => {
+    const urlParts = url.split('/');
+    return urlParts[urlParts.length -1];
+  });
+
+  const hypothesisResponses = await Promise.all(hypothesisIds.map(id => {
+    return axios(`https://api.hypothes.is/api/annotations/${id}`);
+  }));
+
+  return await Promise.all(hypothesisResponses.map(async (response) => {
+    const { text } = await response.data as HypothesisResponse;
+    return text;
+  }));
 }
 
 type FetchDocmap = (doi: string) => Array<Docmap>;
