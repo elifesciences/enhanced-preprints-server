@@ -15,7 +15,7 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
     .flatMap(docmapStep => docmapStep.actions
       .flatMap(action => action.outputs
         .flatMap(output => output.content
-          .filter(content => content.url.includes('hypothes.is'))
+          .filter(content => content.type == "web-page" && content.url.includes('://hypothes.is/'))
           .flatMap(content => content.url)
         )
       )

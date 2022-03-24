@@ -32,14 +32,10 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
     articleHtml = await convertJatsToHtml(journalId, articleId);
     cache[`${journalId}:${articleId}`] = articleHtml;
   }
-  const responseHtml = wrapArticleInHtml(articleHtml)
+  const responseHtml = wrapArticleInHtml(articleHtml);
   res.send(responseHtml);
-})
-
-app.get('/bleh', async (req, res) => {
-  res.send(await fetchReviews('10.1101/2021.07.05.451181', 'https://www.sciencecolab.org/biophysics-colab'));
 });
 
 app.listen(3000, () => {
-  console.log(`Example app listening on port 3000`)
-})
+  console.log(`Example app listening on port 3000`);
+});
