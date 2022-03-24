@@ -3,6 +3,7 @@ import { readdirSync } from "fs";
 import { convertJatsToHtml } from "./conversion/encode";
 import { generateArticleList } from "./pages/article-list";
 import { wrapArticleInHtml } from "./pages/article-page";
+import { fetchReviews } from "./reviews/fetch-reviews";
 
 const app = express();
 const cache: Record<string, string> = {};
@@ -31,10 +32,10 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
     articleHtml = await convertJatsToHtml(journalId, articleId);
     cache[`${journalId}:${articleId}`] = articleHtml;
   }
-  const responseHtml = wrapArticleInHtml(articleHtml)
+  const responseHtml = wrapArticleInHtml(articleHtml);
   res.send(responseHtml);
-})
+});
 
 app.listen(3000, () => {
-  console.log(`Example app listening on port 3000`)
-})
+  console.log(`Example app listening on port 3000`);
+});
