@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
 
-export const wrapArticleInHtml = (articleHTML: string): string => {
+export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
   const title = getTitle(articleFragment);
   const headings = getHeadings(articleFragment);
@@ -21,6 +21,10 @@ export const wrapArticleInHtml = (articleHTML: string): string => {
       src="https://unpkg.com/@stencila/components@&lt;=1/dist/stencila-components/stencila-components.js"
       type="text/javascript" nomodule=""></script>
       <style>
+        main {
+          margin-top: 2rem;
+          border-top: 0;
+        }
         .toc-container {
           max-width: 69.625rem;
           margin: auto;
@@ -46,10 +50,17 @@ export const wrapArticleInHtml = (articleHTML: string): string => {
           color: #212121;
           font-family: Noto Sans,Arial,Helvetica,sans-serif;
         }
+        .review-link__container {
+          max-width: 69.625rem;
+          margin: auto;
+          padding-left: 48px;
+          text-align: right;
+        }
       </style>
   </head>
   <body>
     <main role="main">
+        <div class="review-link__container"><a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a></div>
         ${generateToC(headings)}
         ${articleHTML}
     </main>

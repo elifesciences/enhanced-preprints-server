@@ -34,7 +34,7 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
     articleHtml = await convertJatsToHtml(journalId, articleId);
     cache[`${journalId}:${articleId}`] = articleHtml;
   }
-  const responseHtml = wrapArticleInHtml(articleHtml);
+  const responseHtml = wrapArticleInHtml(articleHtml, `${journalId}/${articleId}`);
   res.send(responseHtml);
 });
 
@@ -42,7 +42,7 @@ app.get('/article/:journalId/:articleId/reviews', async (req, res) => {
   const { journalId, articleId } = req.params;
   const doi = `${journalId}/${articleId}`;
   const reviews = await fetchReviews(doi, 'https://www.sciencecolab.org/biophysics-colab');
-  res.send(generateReviewPage(reviews));
+  res.send(generateReviewPage(reviews, doi));
 });
 
 app.listen(3000, () => {
