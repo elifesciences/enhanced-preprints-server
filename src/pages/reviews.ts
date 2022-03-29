@@ -1,5 +1,8 @@
+import { marked } from "marked";
+
 export const generateReviewPage = (reviews: string[]): string => {
-  const reviewListItems = reviews.map(review => `<li><p>${review}</p></li>`)
+
+  const reviewListItems = reviews.map(review => `<li><p>${marked.parse(review)}</p></li>`)
   return wrapWithHtml(reviewListItems.join(''));
 }
 
