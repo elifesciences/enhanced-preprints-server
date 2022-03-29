@@ -131,6 +131,82 @@ const hardCodedDocmap = `
             ]
           }
         ]
+      },
+      "_:b1": {
+        "assertions": [],
+        "inputs": [
+          {
+            "doi": "10.1101/2021.07.05.451181",
+            "url": "https://doi.org/10.1101/2021.07.05.451181"
+          }
+        ],
+        "actions": [
+          {
+            "participants": [
+              {
+                "actor": {
+                  "name": "Name",
+                  "type": "person"
+                },
+                "role": "author"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "author-response",
+                "published": "2021-09-08T14:51:35.000Z",
+                "content": [
+                  {
+                    "type": "web-page",
+                    "url": "https://hypothes.is/a/Q9GJ9BC0EeyPVBtgAn5Yjw"
+                  },
+                  {
+                    "type": "web-page",
+                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:Q9GJ9BC0EeyPVBtgAn5Yjw"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "_:b2": {
+        "assertions": [],
+        "inputs": [
+          {
+            "doi": "10.1101/2021.07.05.451181",
+            "url": "https://doi.org/10.1101/2021.07.05.451181"
+          }
+        ],
+        "actions": [
+          {
+            "participants": [
+              {
+                "actor": {
+                  "name": "Biophysics Colab",
+                  "type": "organization"
+                },
+                "role": "peer-reviewer"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "endorsement",
+                "published": "2021-09-08T14:57:57.000Z",
+                "content": [
+                  {
+                    "type": "web-page",
+                    "url": "https://hypothes.is/a/J2qSChC1EeyvHS8fi9T9oQ"
+                  },
+                  {
+                    "type": "web-page",
+                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:J2qSChC1EeyvHS8fi9T9oQ"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     }
   }

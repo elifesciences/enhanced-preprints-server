@@ -4,6 +4,8 @@ import { convertJatsToHtml } from "./conversion/encode";
 import { generateArticleList } from "./pages/article-list";
 import { wrapArticleInHtml } from "./pages/article-page";
 import { fetchReviews } from "./reviews/fetch-reviews";
+import { generateReviewPage } from "./pages/reviews";
+
 
 const app = express();
 const cache: Record<string, string> = {};
@@ -34,6 +36,13 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
   }
   const responseHtml = wrapArticleInHtml(articleHtml);
   res.send(responseHtml);
+});
+
+app.get('/article/:journalId/:articleId/reviews', async (req, res) => {
+  const { journalId, articleId } = req.params;
+  const doi = `${journalId}/${articleId}`;
+  const reviews = await fetchReviews(doi, 'https://www.sciencecolab.org/biophysics-colab');
+  res.send(generateReviewPage(reviews));
 });
 
 app.listen(3000, () => {
