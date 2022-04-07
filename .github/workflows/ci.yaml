@@ -39,7 +39,7 @@ jobs:
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Login to DockerHub
+      - name: Login to GHCR
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
@@ -49,6 +49,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: |
             ghcr.io/elifesciences/enhanced-preprints:latest
             ghcr.io/elifesciences/enhanced-preprints:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
