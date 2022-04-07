@@ -1,4 +1,4 @@
-import { wrapArticleInHtml } from "./article-page";
+import { wrapArticleInHtml } from "./article";
 import { JSDOM } from 'jsdom';
 
 const validArticleHtml = `

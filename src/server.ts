@@ -1,10 +1,10 @@
 import express from 'express';
 import { readdirSync } from "fs";
 import { convertJatsToHtml } from "./conversion/encode";
-import { generateArticleList } from "./pages/article-list";
-import { wrapArticleInHtml } from "./pages/article-page";
+import { generateArticleList } from "./article-list/article-list";
+import { wrapArticleInHtml } from "./article/article";
 import { fetchReviews } from "./reviews/fetch-reviews";
-import { generateReviewPage } from "./pages/reviews";
+import { generateReviewPage } from "./reviews/reviews";
 
 
 const app = express();
