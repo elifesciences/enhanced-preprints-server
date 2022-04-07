@@ -48,4 +48,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/elifesciences/enhanced-preprints:latest
-            ghcr.io/elifesciences/enhanced-preprints:${branch}-${GITHUB_SHA:0:8}-${timestamp}
+            ghcr.io/elifesciences/enhanced-preprints:${{branch}}-${{GITHUB_SHA:0:8}}-${{timestamp}}
