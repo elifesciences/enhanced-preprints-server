@@ -20,43 +20,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
     <script
       src="https://unpkg.com/@stencila/components@&lt;=1/dist/stencila-components/stencila-components.js"
       type="text/javascript" nomodule=""></script>
-      <style>
-        main {
-          margin-top: 2rem;
-          border-top: 0;
-        }
-        .toc-container {
-          max-width: 69.625rem;
-          margin: auto;
-          padding-left: 48px;
-        }
-        .toc-list {
-          list-style: none;
-          padding-left: 0;
-        }
-        .toc-list__subheadings {
-          list-style: none;          
-        }
-        .toc-list__item {
-          min-width: 150px;
-          margin-bottom: 5px;
-        }
-        .toc-list__link {
-          color: #212121;
-          font-weight: bold;
-          font-family: Noto Sans,Arial,Helvetica,sans-serif;
-        }
-        .toc-list__link--subheading {
-          color: #212121;
-          font-family: Noto Sans,Arial,Helvetica,sans-serif;
-        }
-        .review-link__container {
-          max-width: 69.625rem;
-          margin: auto;
-          padding-left: 48px;
-          text-align: right;
-        }
-      </style>
+      <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>
     <main role="main">

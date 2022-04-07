@@ -1,0 +1,90 @@
+.articles-page {
+    font-family: "Roboto Light", sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: min-content auto;
+}
+
+.articles-page ul {
+    list-style: none;
+}
+
+.articles-list {
+    margin-top: 50px;
+    grid-column: 2;
+}
+
+h1 {
+    grid-column: 1/4;
+    margin-bottom: 0;
+    text-align: center;
+    height: fit-content;
+    color: rgb(33,33,33);
+}
+
+h2 {
+    color: rgb(33,33,33);
+}
+
+main {
+  margin-top: 2rem;
+  border-top: 0;
+}
+
+.toc-container {
+  max-width: 69.625rem;
+  margin: auto;
+  padding-left: 48px;
+}
+
+.toc-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc-list__subheadings {
+  list-style: none;
+}
+
+.toc-list__item {
+  min-width: 150px;
+  margin-bottom: 5px;
+}
+
+.toc-list__link {
+  color: #212121;
+  font-weight: bold;
+  font-family: Noto Sans,Arial,Helvetica,sans-serif;
+}
+
+.toc-list__link--subheading {
+  color: #212121;
+  font-family: Noto Sans,Arial,Helvetica,sans-serif;
+}
+
+.review-link__container {
+  max-width: 69.625rem;
+  margin: auto;
+  padding-left: 48px;
+  text-align: right;
+}
+
+.review-list {
+  list-style: none;
+  margin: 2rem;
+  padding: 0;
+  font-family: Noto Sans,Arial,Helvetica,sans-serif;
+}
+
+.review-list__item {
+  padding-top: 2rem;
+  border-bottom: 1px solid black;
+}
+
+.review-list__item:first-child {
+  padding-top: 0;
+}
+
+.review-list__item:last-child {
+  border-bottom: none;
+}

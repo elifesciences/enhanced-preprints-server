@@ -16,6 +16,8 @@ const getDirectories = (source: string) => {
     .map(dirent => dirent.name);
 }
 
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
   const articles: Record<string, Array<string>> = {};
   const journals = getDirectories('./data');
