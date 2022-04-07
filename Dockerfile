@@ -12,6 +12,7 @@ COPY data data
 COPY src/ src/
 COPY package.json package.json
 COPY --from=build node_modules node_modules
+RUN yarn sass
 
 EXPOSE 3000
 CMD [ "yarn", "start" ]

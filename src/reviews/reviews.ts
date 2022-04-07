@@ -13,24 +13,7 @@ const wrapWithHtml = (reviews: string, doi: string) => `
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://unpkg.com/@stencila/thema@2/dist/themes/elife/styles.css" rel="stylesheet">
-    <style>
-      .review-list {
-        list-style: none;
-        margin: 2rem;
-        padding: 0;
-        font-family: Noto Sans,Arial,Helvetica,sans-serif;
-      }
-      .review-list__item {
-        padding-top: 2rem;
-        border-bottom: 1px solid black;
-      }
-      .review-list__item:first-child {
-        padding-top: 0;
-      }
-      .review-list__item:last-child {
-        border-bottom: none;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>
     <main role="main">
