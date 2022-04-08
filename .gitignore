@@ -111,3 +111,6 @@ dist
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# generated CSS
+public/styles.css
