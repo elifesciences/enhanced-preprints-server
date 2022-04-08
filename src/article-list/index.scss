@@ -1,5 +1,7 @@
+@use '../sass/settings';
+
 .articles-page {
-  font-family: "Roboto Light", sans-serif;
+  font-family: settings.$font-family;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: min-content auto;
@@ -13,11 +15,11 @@
     margin-bottom: 0;
     text-align: center;
     height: fit-content;
-    color: rgb(33,33,33);
+    color: settings.$colour-text;
   }
 
   h2 {
-    color: rgb(33,33,33);
+    color: settings.$colour-text;
   }
 
   .articles-list {

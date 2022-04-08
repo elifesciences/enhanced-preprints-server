@@ -2,6 +2,7 @@ export const generateArticleList = (journals: string[], articles: Record<string,
 <html lang="en">
   <head>
     <title>Enhanced Preprint</title>
+    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Sans" rel="stylesheet"/>
     <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>

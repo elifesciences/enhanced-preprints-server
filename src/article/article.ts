@@ -12,6 +12,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://unpkg.com/@stencila/thema@2/dist/themes/elife/styles.css" rel="stylesheet">
+    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Sans" rel="stylesheet"/>
     <script src="https://unpkg.com/@stencila/thema@2/dist/themes/elife/index.js"
       type="text/javascript"></script>
     <script

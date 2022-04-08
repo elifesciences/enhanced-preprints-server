@@ -24,13 +24,13 @@ main {
 }
 
 .toc-list__link {
-  color: #212121;
+  color: rgb(33, 33, 33);
   font-weight: bold;
   font-family: Noto Sans, Arial, Helvetica, sans-serif;
 }
 
 .toc-list__link--subheading {
-  color: #212121;
+  color: rgb(33, 33, 33);
   font-family: Noto Sans, Arial, Helvetica, sans-serif;
 }
 
@@ -42,7 +42,7 @@ main {
 }
 
 .articles-page {
-  font-family: "Roboto Light", sans-serif;
+  font-family: Noto Sans, Arial, Helvetica, sans-serif;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: min-content auto;

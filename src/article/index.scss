@@ -1,3 +1,5 @@
+@use '../sass/settings';
+
 main {
   margin-top: 2rem;
   border-top: 0;
@@ -24,14 +26,14 @@ main {
 }
 
 .toc-list__link {
-  color: #212121;
+  color: settings.$colour-text;
   font-weight: bold;
-  font-family: Noto Sans,Arial,Helvetica,sans-serif;
+  font-family: settings.$font-family;
 }
 
 .toc-list__link--subheading {
-  color: #212121;
-  font-family: Noto Sans,Arial,Helvetica,sans-serif;
+  color: settings.$colour-text;
+  font-family: settings.$font-family;
 }
 
 .review-link__container {
