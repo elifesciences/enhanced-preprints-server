@@ -39,12 +39,8 @@ const generateToC = (headings: Heading[]): string => {
     <div class="toc-container">
       <h2>Table of Contents</h2>
       <ul class="toc-list">${headings.map(heading => {
-            const subHeadingListItems = heading.children.map(subHeading => `
-              <li class="toc-list__item"><a class="toc-list__link--subheading" href="#${subHeading.id}">${subHeading.text}</a></li>
-            `);
-            const subHeadings = subHeadingListItems.length ? `<ul class="toc-list__subheadings">${subHeadingListItems.join('')}</ul>` : ''
             return `
-              <li class="toc-list__item"><a class="toc-list__link" href="#${heading.id}">${heading.text}</a>${subHeadings}</li>
+              <li class="toc-list__item"><a class="toc-list__link" href="#${heading.id}">${heading.text}</a></li>
             `
           }).join('')
         }

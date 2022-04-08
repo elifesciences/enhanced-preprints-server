@@ -16,10 +16,6 @@ main {
   padding-left: 0;
 }
 
-.toc-list__subheadings {
-  list-style: none;
-}
-
 .toc-list__item {
   min-width: 150px;
   margin-bottom: 5px;
@@ -28,11 +24,6 @@ main {
 .toc-list__link {
   color: settings.$colour-text;
   font-weight: bold;
-  font-family: settings.$font-family;
-}
-
-.toc-list__link--subheading {
-  color: settings.$colour-text;
   font-family: settings.$font-family;
 }
 
