@@ -1,4 +1,5 @@
 @use '../sass/settings';
+@use '../sass/typography';
 
 main {
   margin-top: 2rem;
@@ -22,9 +23,11 @@ main {
 }
 
 .toc-list__link {
-  color: settings.$colour-text;
-  font-weight: bold;
-  font-family: settings.$font-family;
+  @include typography.navigation-heading();
+}
+
+.toc-list__link--selected {
+  @include typography.navigation-heading-selected();
 }
 
 .review-link__container {

@@ -1,0 +1,29 @@
+@use 'settings';
+
+@mixin title() {
+  color: settings.$colour-text;
+  font-family: settings.$font-family;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: 0.21px;
+  line-height: 40px;
+}
+
+@mixin _navigation-heading-base() {
+  font-family: settings.$font-family;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 26px;
+}
+
+@mixin navigation-heading() {
+  @include _navigation-heading-base();
+  color: settings.$colour-text-inactive;
+  font-weight: 400;
+}
+
+@mixin navigation-heading-selected() {
+  @include _navigation-heading-base();
+  color: settings.$colour-text;
+  font-weight: 600;
+}
