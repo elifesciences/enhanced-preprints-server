@@ -27,6 +27,15 @@
   line-height: 28px;
 }
 
+@mixin heading-4() {
+  color: settings.$colour-text;
+  font-family: settings.$font-family-sans;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
 @mixin _navigation-heading-base() {
   font-family: settings.$font-family-sans;
   font-size: 14px;
@@ -58,6 +67,14 @@
 @mixin body-text() {
   color: settings.$colour-text;
   font-family: settings.$font-family-serif;
+}
+
+@mixin body-small() {
+  color: settings.$colour-text;
+  font-family: settings.$font-family-sans;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
 }
 
 @mixin link-text-sans() {
