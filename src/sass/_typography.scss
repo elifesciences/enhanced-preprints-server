@@ -34,50 +34,45 @@
   line-height: 24px;
 }
 
-@mixin _navigation-heading-base() {
+@mixin navigation-heading() {
+  color: settings.$colour-text-inactive;
   font-family: settings.$font-family-sans;
   font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0;
   line-height: 26px;
 }
 
-@mixin navigation-heading() {
-  @include _navigation-heading-base();
-  color: settings.$colour-text-inactive;
-  font-weight: 400;
-}
-
 @mixin navigation-heading-selected() {
-  @include _navigation-heading-base();
+  @include navigation-heading();
   color: settings.$colour-text;
   font-weight: 600;
 }
 
 @mixin subheading() {
-  color: settings.$colour-text;
-  font-family: settings.$font-family-sans;
+  @include _heading-base();
   font-size: 16px;
-  font-weight: 600;
   letter-spacing: 0;
   line-height: 24px;
 }
 
-@mixin body-text() {
+@mixin body() {
   color: settings.$colour-text;
   font-family: settings.$font-family-serif;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
 }
 
 @mixin body-small() {
-  color: settings.$colour-text;
+  @include body();
   font-family: settings.$font-family-sans;
   font-size: 14px;
-  letter-spacing: 0;
-  line-height: 24px;
 }
 
-@mixin link-text-sans() {
-  font-family: settings.$font-family-sans;
+@mixin link-text() {
   color: settings.$colour-emphasis;
+  font-family: settings.$font-family-sans;
   text-decoration: none;
 
   :visited {
@@ -86,11 +81,6 @@
 }
 
 @mixin link-text-serif() {
+  @include link-text();
   font-family: settings.$font-family-serif;
-  color: settings.$colour-emphasis;
-  text-decoration: none;
-
-  :visited {
-    color: settings.$colour-emphasis;
-  }
 }

@@ -23,7 +23,7 @@
 
 .review-list-content {
   p {
-    @include typography.body-text();
+    @include typography.body();
   }
 
   strong {
@@ -44,5 +44,5 @@
 }
 
 .return-link {
-  @include typography.link-text-sans();
+  @include typography.link-text();
 }

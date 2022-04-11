@@ -42,5 +42,5 @@ main {
 }
 
 .review-link__anchor {
-  @include typography.link-text-sans();
+  @include typography.link-text();
 }

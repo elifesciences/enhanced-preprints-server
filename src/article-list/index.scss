@@ -31,5 +31,5 @@
 }
 
 .article-list__link {
-  @include typography.link-text-sans();
+  @include typography.link-text();
 }
