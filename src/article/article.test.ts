@@ -65,15 +65,6 @@ describe('article-page', () => {
     expect(headings).toStrictEqual(expect.arrayContaining(['heading 1', 'heading 2', 'heading 3']));
   });
 
-  it('generates a list of subheadings', () => {
-    const wrappedArticle = wrapArticleInHtml(validArticleHtml, '');
-    const container = JSDOM.fragment(wrappedArticle);
-    const subHeadingsNode = container.querySelectorAll('.toc-list__item > .toc-list__link--subheading');
-    const headings = Array.from(subHeadingsNode).map(element => element.textContent).filter(heading => heading !== null);
-
-    expect(headings).toStrictEqual(expect.arrayContaining(['subheading 1', 'subheading 2']));
-  });
-
   it('does not add any html when there are no subheadings', () => {
     const wrappedArticle = wrapArticleInHtml(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);
