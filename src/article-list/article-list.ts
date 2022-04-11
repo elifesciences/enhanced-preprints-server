@@ -7,10 +7,10 @@ export const generateArticleList = (journals: string[], articles: Record<string,
   </head>
   <body>
     <div class="articles-page">
-      <h1>Enhanced Preprint Display</h1>
+      <h1 class="articles-page__title">Enhanced Preprint Display</h1>
       <div class="articles-list">
         ${journals.map(journal => `
-        <h2>${journal}</h2>
+        <h2 class="articles-list__heading">${journal}</h2>
         <ul>
             ${articles[journal].map(article => `<li><a class="article-list__link" href="/article/${journal}/${article}">${article}</a></li>`)}
         </ul>

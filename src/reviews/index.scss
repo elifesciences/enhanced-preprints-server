@@ -25,6 +25,10 @@
   p {
     @include typography.body-text();
   }
+
+  strong {
+    @include typography.heading-2();
+  }
 }
 
 .return-link {

@@ -11,22 +11,22 @@
     list-style: none;
   }
 
-  h1 {
-    grid-column: 1/4;
-    margin-bottom: 0;
-    text-align: center;
-    height: fit-content;
-    color: settings.$colour-text;
-  }
-
-  h2 {
-    color: settings.$colour-text;
-  }
-
   .articles-list {
     margin-top: 50px;
     grid-column: 2;
   }
+}
+
+.articles-page__title {
+  grid-column: 1/4;
+  margin-bottom: 0;
+  text-align: center;
+  height: fit-content;
+  @include typography.heading-1();
+}
+
+.articles-list__heading {
+  @include typography.heading-2();
 }
 
 .article-list__link {
