@@ -1,37 +1,35 @@
 @use 'settings';
 
-@mixin heading-1() {
+@mixin _heading-base() {
   color: settings.$colour-text;
   font-family: settings.$font-family-sans;
-  font-size: 34px;
   font-weight: 600;
+}
+
+@mixin heading-1() {
+  @include _heading-base();
+  font-size: 34px;
   letter-spacing: 0.21px;
   line-height: 40px;
 }
 
 @mixin heading-2() {
-  color: settings.$colour-text;
-  font-family: settings.$font-family-sans;
+  @include _heading-base();
   font-size: 26px;
-  font-weight: 600;
   letter-spacing: 0;
   line-height: 36px;
 }
 
 @mixin heading-3() {
-  color: settings.$colour-text;
-  font-family: settings.$font-family-sans;
+  @include _heading-base();
   font-size: 20px;
-  font-weight: 600;
   letter-spacing: 0;
   line-height: 28px;
 }
 
 @mixin heading-4() {
-  color: settings.$colour-text;
-  font-family: settings.$font-family-sans;
+  @include _heading-base();
   font-size: 14px;
-  font-weight: 600;
   letter-spacing: 0;
   line-height: 24px;
 }
