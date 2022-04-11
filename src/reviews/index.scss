@@ -26,3 +26,7 @@
     @include typography.body-text();
   }
 }
+
+.return-link {
+  @include typography.link-text-sans();
+}

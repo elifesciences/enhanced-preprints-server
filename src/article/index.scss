@@ -36,3 +36,7 @@ main {
   padding-left: 48px;
   text-align: right;
 }
+
+.review-link__anchor {
+  @include typography.link-text-sans();
+}

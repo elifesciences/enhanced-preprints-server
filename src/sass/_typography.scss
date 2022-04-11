@@ -41,3 +41,13 @@
   color: settings.$colour-text;
   font-family: settings.$font-family-serif;
 }
+
+@mixin link-text-sans() {
+  font-family: settings.$font-family-sans;
+  color: settings.$colour-emphasis;
+  text-decoration: none;
+
+  :visited {
+    color: settings.$colour-emphasis;
+  }
+}
