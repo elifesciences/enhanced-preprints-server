@@ -51,3 +51,13 @@
     color: settings.$colour-emphasis;
   }
 }
+
+@mixin link-text-serif() {
+  font-family: settings.$font-family-serif;
+  color: settings.$colour-emphasis;
+  text-decoration: none;
+
+  :visited {
+    color: settings.$colour-emphasis;
+  }
+}
