@@ -1,3 +1,6 @@
+@use '../sass/settings';
+@use '../sass/typography';
+
 main {
   margin-top: 2rem;
   border-top: 0;
@@ -9,13 +12,13 @@ main {
   padding-left: 48px;
 }
 
+.toc-title {
+  @include typography.heading-2();
+}
+
 .toc-list {
   list-style: none;
   padding-left: 0;
-}
-
-.toc-list__subheadings {
-  list-style: none;
 }
 
 .toc-list__item {
@@ -24,14 +27,11 @@ main {
 }
 
 .toc-list__link {
-  color: #212121;
-  font-weight: bold;
-  font-family: Noto Sans,Arial,Helvetica,sans-serif;
+  @include typography.navigation-heading();
 }
 
-.toc-list__link--subheading {
-  color: #212121;
-  font-family: Noto Sans,Arial,Helvetica,sans-serif;
+.toc-list__link--selected {
+  @include typography.navigation-heading-selected();
 }
 
 .review-link__container {
@@ -39,4 +39,8 @@ main {
   margin: auto;
   padding-left: 48px;
   text-align: right;
+}
+
+.review-link__anchor {
+  @include typography.link-text();
 }

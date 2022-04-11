@@ -1,31 +1,35 @@
+@use '../sass/settings';
+@use '../sass/typography';
+
 .articles-page {
-  font-family: "Roboto Light", sans-serif;
+  font-family: settings.$font-family-sans;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: min-content auto;
-
-  ul {
-    list-style: none;
-  }
-
-  h1 {
-    grid-column: 1/4;
-    margin-bottom: 0;
-    text-align: center;
-    height: fit-content;
-    color: rgb(33,33,33);
-  }
-
-  h2 {
-    color: rgb(33,33,33);
-  }
-
-  .articles-list {
-    margin-top: 50px;
-    grid-column: 2;
-  }
 }
 
+.articles-page__title {
+  grid-column: 1/4;
+  margin-bottom: 0;
+  text-align: center;
+  height: fit-content;
+  @include typography.heading-1();
+}
 
+.journals-list {
+  margin-top: 50px;
+  grid-column: 2;
+  list-style: none;
+}
 
+.articles-list {
+  list-style: none;
+}
 
+.articles-list__heading {
+  @include typography.heading-2();
+}
+
+.article-list__link {
+  @include typography.link-text();
+}

@@ -12,14 +12,8 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://unpkg.com/@stencila/thema@2/dist/themes/elife/styles.css" rel="stylesheet">
-    <script src="https://unpkg.com/@stencila/thema@2/dist/themes/elife/index.js"
-      type="text/javascript"></script>
-    <script
-      src="https://unpkg.com/@stencila/components@&lt;=1/dist/stencila-components/stencila-components.esm.js"
-      type="module"></script>
-    <script
-      src="https://unpkg.com/@stencila/components@&lt;=1/dist/stencila-components/stencila-components.js"
-      type="text/javascript" nomodule=""></script>
+    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Sans" rel="stylesheet"/>
+    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Serif" rel="stylesheet"/>
       <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>
@@ -36,14 +30,10 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
 const generateToC = (headings: Heading[]): string => {
   return headings.length ? `
     <div class="toc-container">
-      <h2>Table of Contents</h2>
+      <h2 class="toc-title">Table of Contents</h2>
       <ul class="toc-list">${headings.map(heading => {
-            const subHeadingListItems = heading.children.map(subHeading => `
-              <li class="toc-list__item"><a class="toc-list__link--subheading" href="#${subHeading.id}">${subHeading.text}</a></li>
-            `);
-            const subHeadings = subHeadingListItems.length ? `<ul class="toc-list__subheadings">${subHeadingListItems.join('')}</ul>` : ''
             return `
-              <li class="toc-list__item"><a class="toc-list__link" href="#${heading.id}">${heading.text}</a>${subHeadings}</li>
+              <li class="toc-list__item"><a class="toc-list__link" href="#${heading.id}">${heading.text}</a></li>
             `
           }).join('')
         }
