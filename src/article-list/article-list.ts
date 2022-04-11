@@ -12,7 +12,7 @@ export const generateArticleList = (journals: string[], articles: Record<string,
         ${journals.map(journal => `
         <h2>${journal}</h2>
         <ul>
-            ${articles[journal].map(article => `<li><a href="/article/${journal}/${article}">${article}</a></li>`)}
+            ${articles[journal].map(article => `<li><a class="article-list__link" href="/article/${journal}/${article}">${article}</a></li>`)}
         </ul>
         `).join('')}
       </div>

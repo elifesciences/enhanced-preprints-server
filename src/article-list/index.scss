@@ -1,4 +1,5 @@
 @use '../sass/settings';
+@use '../sass/typography';
 
 .articles-page {
   font-family: settings.$font-family-sans;
@@ -28,6 +29,6 @@
   }
 }
 
-
-
-
+.article-list__link {
+  @include typography.link-text-sans();
+}
