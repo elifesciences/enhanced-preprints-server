@@ -1,4 +1,5 @@
 @use '../sass/settings';
+@use '../sass/typography';
 
 .review-list {
   list-style: none;
@@ -20,7 +21,8 @@
   border-bottom: none;
 }
 
-
-
-
-
+.review-list-content {
+  p {
+    @include typography.body-text();
+  }
+}
