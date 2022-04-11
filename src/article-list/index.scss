@@ -6,15 +6,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: min-content auto;
-
-  ul {
-    list-style: none;
-  }
-
-  .articles-list {
-    margin-top: 50px;
-    grid-column: 2;
-  }
 }
 
 .articles-page__title {
@@ -23,6 +14,16 @@
   text-align: center;
   height: fit-content;
   @include typography.heading-1();
+}
+
+.journals-list {
+  margin-top: 50px;
+  grid-column: 2;
+  list-style: none;
+}
+
+.articles-list {
+  list-style: none;
 }
 
 .articles-list__heading {
