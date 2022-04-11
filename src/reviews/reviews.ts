@@ -15,6 +15,7 @@ const wrapWithHtml = (reviews: string, doi: string) => `
     <link href="https://unpkg.com/@stencila/thema@2/dist/themes/elife/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css"/>
     <link href="https://api.fonts.coollabs.io/css2?family=Noto+Sans" rel="stylesheet"/>
+    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Serif" rel="stylesheet"/>
   </head>
   <body>
     <main role="main">
