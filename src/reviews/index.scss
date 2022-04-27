@@ -33,12 +33,12 @@
   blockquote {
     p, li {
       @include typography.body-small();
-      color: settings.$colour-text-inactive;
+      color: settings.$color-text-inactive;
     }
 
     strong {
       @include typography.heading-4();
-      color: settings.$colour-text-inactive;
+      color: settings.$color-text-inactive;
     }
   }
 }

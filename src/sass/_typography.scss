@@ -1,7 +1,7 @@
 @use 'settings';
 
 @mixin _heading-base() {
-  color: settings.$colour-text;
+  color: settings.$color-text;
   font-family: settings.$font-family-sans;
   font-weight: 600;
 }
@@ -35,7 +35,7 @@
 }
 
 @mixin navigation-heading() {
-  color: settings.$colour-text-inactive;
+  color: settings.$color-text-inactive;
   font-family: settings.$font-family-sans;
   font-size: 14px;
   font-weight: 400;
@@ -45,7 +45,7 @@
 
 @mixin navigation-heading-selected() {
   @include navigation-heading();
-  color: settings.$colour-text;
+  color: settings.$color-text;
   font-weight: 600;
 }
 
@@ -57,7 +57,7 @@
 }
 
 @mixin body() {
-  color: settings.$colour-text;
+  color: settings.$color-text;
   font-family: settings.$font-family-serif;
   font-size: 16px;
   letter-spacing: 0;
@@ -71,12 +71,12 @@
 }
 
 @mixin link-text() {
-  color: settings.$colour-emphasis;
+  color: settings.$color-emphasis;
   font-family: settings.$font-family-sans;
   text-decoration: none;
 
   :visited {
-    color: settings.$colour-emphasis;
+    color: settings.$color-emphasis;
   }
 }
 
