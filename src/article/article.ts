@@ -4,6 +4,8 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
   const title = getTitle(articleFragment);
   const headings = getHeadings(articleFragment);
+  const header = getHeader(articleFragment);
+  const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   return `
 <html lang="en">
   <head>
@@ -19,7 +21,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   <body>
     <div class="grid-container">
       <div class="content-header">
-        Content Header
+        ${header}
       </div>
 
       <div class="secondary-column">
@@ -84,4 +86,32 @@ const getHeadings = (articleDom: DocumentFragment): Heading[] => {
     }
     return headings;
   }, new Array<Heading>());
+}
+
+const getHeader = (articleDom: DocumentFragment): string => {
+  const headline = articleDom.querySelector('article > [itemprop="headline"]');
+  const authors = articleDom.querySelector('article > [data-itemprop="authors"]');
+  const affiliations = articleDom.querySelector('article > [data-itemprop="affiliations"]');
+  const publisher = articleDom.querySelector('article > [itemprop="publisher"]');
+  const datePublished = articleDom.querySelector('article > [itemprop="datePublished"]');
+  const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
+
+  return `<div class="header">
+    ${headline?.outerHTML}
+    ${authors?.outerHTML}
+    ${affiliations?.outerHTML}
+    ${publisher?.outerHTML}
+    ${datePublished?.outerHTML}
+    ${identifiers?.outerHTML}
+  </div>`;
+}
+
+const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
+  const articleElement = articleDom.children[0];
+  console.log(articleElement.outerHTML);
+
+  var articleHtml = "";
+  articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *').forEach((elem) => articleHtml += elem.outerHTML);
+
+  return `<article itemscope="" itemtype="http://schema.org/Article" data-itemscope="root">${articleHtml}</article>`;
 }
