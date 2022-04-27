@@ -34,11 +34,13 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   </head>
   <body>
     <div class="grid-container">
-      <main>
-          <div class="review-link__container"><a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a></div>
+      <main class="content">
           ${generateToC(headings)}
           ${articleHTML}
       </main>
+      <div class="secondary-column">
+        <div class="review-link__container"><a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a></div>
+      </div>
     </div>
 </body>
 </html>

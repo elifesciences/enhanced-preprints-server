@@ -1,6 +1,14 @@
 @use '../sass/settings';
 @use '../sass/typography';
 
+.content {
+  grid-column: 1 / 10;
+}
+
+.secondary-column {
+  grid-column: 10 / 13;
+}
+
 main {
   margin-top: 2rem;
   border-top: 0;
