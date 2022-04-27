@@ -2,44 +2,39 @@
 
 @mixin _heading-base() {
   color: settings.$color-text;
-  font-family: settings.$font-family-sans;
+  font-family: settings.$font-family-primary;
   font-weight: 600;
 }
 
 @mixin heading-1() {
   @include _heading-base();
   font-size: 34px;
-  letter-spacing: 0.21px;
   line-height: 40px;
 }
 
 @mixin heading-2() {
   @include _heading-base();
   font-size: 26px;
-  letter-spacing: 0;
   line-height: 36px;
 }
 
 @mixin heading-3() {
   @include _heading-base();
   font-size: 20px;
-  letter-spacing: 0;
   line-height: 28px;
 }
 
 @mixin heading-4() {
   @include _heading-base();
   font-size: 14px;
-  letter-spacing: 0;
   line-height: 24px;
 }
 
 @mixin navigation-heading() {
   color: settings.$color-text-inactive;
-  font-family: settings.$font-family-sans;
+  font-family: settings.$font-family-primary;
   font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0;
   line-height: 26px;
 }
 
@@ -52,27 +47,25 @@
 @mixin subheading() {
   @include _heading-base();
   font-size: 16px;
-  letter-spacing: 0;
   line-height: 24px;
 }
 
 @mixin body() {
   color: settings.$color-text;
-  font-family: settings.$font-family-serif;
+  font-family: settings.$font-family-secondary;
   font-size: 16px;
-  letter-spacing: 0;
   line-height: 24px;
 }
 
 @mixin body-small() {
   @include body();
-  font-family: settings.$font-family-sans;
+  font-family: settings.$font-family-primary;
   font-size: 14px;
 }
 
 @mixin link-text() {
   color: settings.$color-emphasis;
-  font-family: settings.$font-family-sans;
+  font-family: settings.$font-family-primary;
   text-decoration: none;
 
   :visited {
@@ -82,5 +75,5 @@
 
 @mixin link-text-serif() {
   @include link-text();
-  font-family: settings.$font-family-serif;
+  font-family: settings.$font-family-secondary;
 }
