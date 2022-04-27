@@ -1,3 +1,19 @@
+/*
+ * TODO:
+ * - Parent grid:
+ *    - 2 columns
+ *      - "primary column"
+ *      - "secondary column"
+ * - "primary column":
+ *    - header
+ *    - nested grid
+ *      - TOC
+ *      - article / main tag
+ * - move the review link out of main into "secondary column"
+ * -
+ *
+ */
+
 import { JSDOM } from 'jsdom';
 
 export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
@@ -17,11 +33,13 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
       <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>
-    <main role="main">
-        <div class="review-link__container"><a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a></div>
-        ${generateToC(headings)}
-        ${articleHTML}
-    </main>
+    <div class="grid-container">
+      <main>
+          <div class="review-link__container"><a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a></div>
+          ${generateToC(headings)}
+          ${articleHTML}
+      </main>
+    </div>
 </body>
 </html>
 `.trim();
