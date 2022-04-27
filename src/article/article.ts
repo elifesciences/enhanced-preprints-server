@@ -34,7 +34,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   </head>
   <body>
     <div class="grid-container">
-      <main class="content">
+      <main class="primary-column">
           ${generateToC(headings)}
           ${articleHTML}
       </main>
