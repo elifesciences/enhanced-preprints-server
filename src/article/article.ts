@@ -27,20 +27,30 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://unpkg.com/@stencila/thema@2/dist/themes/elife/styles.css" rel="stylesheet">
     <link href="https://api.fonts.coollabs.io/css2?family=Noto+Sans" rel="stylesheet"/>
     <link href="https://api.fonts.coollabs.io/css2?family=Noto+Serif" rel="stylesheet"/>
       <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>
     <div class="grid-container">
-      <main class="primary-column">
-          ${generateToC(headings)}
-          ${articleHTML}
-      </main>
-      <div class="secondary-column">
-        <div class="review-link__container"><a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a></div>
+      <div class="content-header">
+        Content Header
       </div>
+
+      <div class="secondary-column">
+        <div class="review-link__container">
+          <a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a>
+        </div>
+      </div>
+
+      <main class="primary-column">
+        <div class="table-contents">
+          ${generateToC(headings)}
+        </div>
+        <div class="main-content-area">
+          ${articleHTML}
+        </div>
+      </main>
     </div>
 </body>
 </html>

@@ -1,17 +1,50 @@
 @use '../sass/settings';
 @use '../sass/typography';
 
-.primary-column {
-  grid-column: 1 / 10;
+img {
+   max-width: 100%;
 }
 
-.secondary-column {
-  grid-column: 10 / 13;
+
+@media only all and (min-width: 730px) {
+  .content-header {
+    grid-column: 1/10;
+    grid-row: 1;
+  }
+
+  .secondary-column {
+    grid-column: 10 / 13;
+    grid-row: 1/3;
+  }
+
+  .primary-column {
+    grid-column: 1/10;
+    grid-row: 2;
+  }
 }
 
-main {
-  margin-top: 2rem;
-  border-top: 0;
+@media only all and (min-width: 1000px) {
+  .primary-column {
+    display: grid;
+    grid-column: 1 / 10;
+  }
+
+  .secondary-column {
+    grid-column: 10 / 13;
+  }
+
+  .table-contents {
+    grid-column: 1/3;
+  }
+
+  .main-content-area {
+    grid-column: 3/10;
+  }
+
+  main {
+    border-top: 0;
+    margin-top: 2rem;
+  }
 }
 
 .toc-container {
