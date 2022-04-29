@@ -1,19 +1,3 @@
-/*
- * TODO:
- * - Parent grid:
- *    - 2 columns
- *      - "primary column"
- *      - "secondary column"
- * - "primary column":
- *    - header
- *    - nested grid
- *      - TOC
- *      - article / main tag
- * - move the review link out of main into "secondary column"
- * -
- *
- */
-
 import { JSDOM } from 'jsdom';
 
 export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
