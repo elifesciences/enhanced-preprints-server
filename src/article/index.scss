@@ -5,6 +5,11 @@ img {
    max-width: 100%;
 }
 
+.content-header {
+  margin: 0;
+  text-align: left;
+}
+
 
 @media only all and (min-width: 730px) {
   .content-header {
@@ -24,6 +29,7 @@ img {
 }
 
 @media only all and (min-width: 1000px) {
+
   .primary-column {
     display: grid;
     grid-column: 1 / 10;
