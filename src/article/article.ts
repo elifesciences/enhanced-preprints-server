@@ -113,5 +113,5 @@ const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
   let articleHtml = "";
   articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *').forEach((elem) => articleHtml += elem.outerHTML);
 
-  return `<article itemscope="" itemtype="http://schema.org/Article" data-itemscope="root">${articleHtml}</article>`;
+  return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
 }
