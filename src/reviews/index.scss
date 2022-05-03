@@ -5,7 +5,7 @@
   list-style: none;
   margin: 2rem;
   padding: 0;
-  font-family: settings.$font-family-sans;
+  font-family: settings.$font-family-primary;
 }
 
 .review-list__item {
@@ -33,12 +33,12 @@
   blockquote {
     p, li {
       @include typography.body-small();
-      color: settings.$colour-text-inactive;
+      color: settings.$color-text-inactive;
     }
 
     strong {
       @include typography.heading-4();
-      color: settings.$colour-text-inactive;
+      color: settings.$color-text-inactive;
     }
   }
 }

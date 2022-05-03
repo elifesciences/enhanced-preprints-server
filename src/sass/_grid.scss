@@ -1,0 +1,17 @@
+@use 'settings';
+
+.grid-container {
+  margin: 0 auto;
+  padding: 0 24px;
+
+  @media only all and (min-width: 480px) {
+    padding: 0 48px;
+  }
+
+  @media only all and (min-width: 730px) {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: settings.$grid-gutter;
+    max-width: settings.$max-site-width;
+  }
+}

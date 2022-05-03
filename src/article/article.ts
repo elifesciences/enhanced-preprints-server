@@ -17,11 +17,26 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
       <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>
-    <main role="main">
-        <div class="review-link__container"><a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a></div>
-        ${generateToC(headings)}
-        ${articleHTML}
-    </main>
+    <div class="grid-container">
+      <div class="content-header">
+        Content Header
+      </div>
+
+      <div class="secondary-column">
+        <div class="review-link__container">
+          <a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a>
+        </div>
+      </div>
+
+      <main class="primary-column">
+        <div class="table-contents">
+          ${generateToC(headings)}
+        </div>
+        <div class="main-content-area">
+          ${articleHTML}
+        </div>
+      </main>
+    </div>
 </body>
 </html>
 `.trim();
