@@ -20,10 +20,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   </head>
   <body>
     <div class="grid-container">
-      <div class="content-header">
-        ${header}
-      </div>
-
+      ${header}
       <div class="secondary-column">
         <div class="review-link__container">
           <a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a>
@@ -35,7 +32,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
           ${generateToC(headings)}
         </div>
         <div class="main-content-area">
-          ${articleHTML}
+          ${articleHtmlWithoutHeader}
         </div>
       </main>
     </div>
@@ -96,7 +93,7 @@ const getHeader = (articleDom: DocumentFragment): string => {
   const datePublished = articleDom.querySelector('article > [itemprop="datePublished"]');
   const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
 
-  return `<div class="header">
+  return `<div itemtype="http://schema.org/Article" class="content-header" data-itemscope="root">
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}
