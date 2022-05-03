@@ -5,7 +5,7 @@ const validArticleHtml = `
   <article>
     <h1 itemprop="headline" content="Article">Article</h1>
     <ol data-itemprop="authors">
-      <li itemscope="" itemtype="http://schema.org/Person" itemprop="author">
+      <li itemtype="http://schema.org/Person" itemprop="author">
         <meta itemprop="name" content="Dr Reece Urcher">
         <span data-itemprop="givenNames">
           <span itemprop="givenName">Reece</span>
@@ -19,43 +19,43 @@ const validArticleHtml = `
       </li>
     </ol>
     <ol data-itemprop="affiliations">
-      <li itemscope="" itemtype="http://schema.org/Organization" itemid="#author-organization-1" id="author-organization-1">
+      <li itemtype="http://schema.org/Organization" itemid="#author-organization-1" id="author-organization-1">
         <span itemprop="name">Department of Neuroscience, The University of Texas at Austin</span>
       </li>
     </ol>
-    <span itemscope="" itemtype="http://schema.org/Organization" itemprop="publisher">
+    <span itemtype="http://schema.org/Organization" itemprop="publisher">
       <meta itemprop="name" content="Unknown">
-      <span itemscope="" itemtype="http://schema.org/ImageObject" itemprop="logo">
+      <span itemtype="http://schema.org/ImageObject" itemprop="logo">
         <meta itemprop="url" content="https://via.placeholder.com/600x60/dbdbdb/4a4a4a.png?text=Unknown">
       </span>
     </span>
     <time itemprop="datePublished" datetime="2021-07-06">2021-07-06</time>
     <ul data-itemprop="about">
-      <li itemscope="" itemtype="http://schema.org/DefinedTerm" itemprop="about">
+      <li itemtype="http://schema.org/DefinedTerm" itemprop="about">
         <span itemprop="name">New Results</span>
       </li>
     </ul>
     <ul data-itemprop="identifiers">
-      <li itemscope="" itemtype="http://schema.org/PropertyValue" itemprop="identifier">
+      <li itemtype="http://schema.org/PropertyValue" itemprop="identifier">
         <meta itemprop="propertyID" content="https://registry.identifiers.org/registry/doi">
         <span itemprop="name">doi</span><span itemprop="value">12.345/67890213445</span>
       </li>
     </ul>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1">heading 1</h2>
-    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-1">subheading 1</h3>
-    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-2">subheading 2</h3>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s2">heading 2</h2>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s3">heading 3</h2>
+    <h2 itemtype="http://schema.stenci.la/Heading" id="s1">heading 1</h2>
+    <h3 itemtype="http://schema.stenci.la/Heading" id="s1-1">subheading 1</h3>
+    <h3 itemtype="http://schema.stenci.la/Heading" id="s1-2">subheading 2</h3>
+    <h2 itemtype="http://schema.stenci.la/Heading" id="s2">heading 2</h2>
+    <h2 itemtype="http://schema.stenci.la/Heading" id="s3">heading 3</h2>
   </article>
 `;
 
 const articleHtmlNoTitle = `
   <article>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1">heading 1</h2>
-    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-1">subheading 1</h3>
-    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-2">subheading 2</h3>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s2">heading 2</h2>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s3">heading 3</h2>
+    <h2 itemtype="http://schema.stenci.la/Heading" id="s1">heading 1</h2>
+    <h3 itemtype="http://schema.stenci.la/Heading" id="s1-1">subheading 1</h3>
+    <h3 itemtype="http://schema.stenci.la/Heading" id="s1-2">subheading 2</h3>
+    <h2 itemtype="http://schema.stenci.la/Heading" id="s2">heading 2</h2>
+    <h2 itemtype="http://schema.stenci.la/Heading" id="s3">heading 3</h2>
   </article>
 `
 
