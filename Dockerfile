@@ -19,7 +19,7 @@ FROM base as prod
 COPY data data
 COPY src/ src/
 COPY package.json package.json
-COPY --from=build node_modules node_modules
+COPY --from=build /opt/epp/node_modules node_modules
 RUN yarn sass
 
 EXPOSE 3000
