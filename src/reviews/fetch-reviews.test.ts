@@ -120,40 +120,29 @@ const mockedDocmap = `
   }
 ]`;
 
-const mockedReviews = [
-  '{"id": "Q9GJ9BC0EeyPVBtgAn5Yjw", "created": "2021-09-08T14:51:35.722360+00:00", "updated": "2021-09-08T15:44:52.871334+00:00", "user": "acct:biophysics_sciencecolab@hypothes.is", "uri": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "text": "review1", "tags": [], "group": "e277wiod", "permissions": {"read": ["group:__world__"], "admin": ["acct:biophysics_sciencecolab@hypothes.is"], "update": ["acct:biophysics_sciencecolab@hypothes.is"], "delete": ["acct:biophysics_sciencecolab@hypothes.is"]}, "target": [{"source": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1"}], "document": {"title": ["Single-molecule imaging with cell-derived nanovesicles reveals early binding dynamics at a cyclic nucleotide-gated ion channel"]}, "links": {"html": "https://hypothes.is/a/Q9GJ9BC0EeyPVBtgAn5Yjw", "incontext": "https://hyp.is/Q9GJ9BC0EeyPVBtgAn5Yjw/www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "json": "https://hypothes.is/api/annotations/Q9GJ9BC0EeyPVBtgAn5Yjw"}, "user_info": {"display_name": null}, "flagged": false, "hidden": false}',
-  '{"id": "A2ZbGBCxEeyu-CsIpygfMQ", "created": "2021-09-08T14:28:19.243832+00:00", "updated": "2021-09-08T14:28:19.243832+00:00", "user": "acct:biophysics_sciencecolab@hypothes.is", "uri": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "text": "review2", "tags": [], "group": "e277wiod", "permissions": {"read": ["group:__world__"], "admin": ["acct:biophysics_sciencecolab@hypothes.is"], "update": ["acct:biophysics_sciencecolab@hypothes.is"], "delete": ["acct:biophysics_sciencecolab@hypothes.is"]}, "target": [{"source": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1"}], "document": {"title": ["Single-molecule imaging with cell-derived nanovesicles reveals early binding dynamics at a cyclic nucleotide-gated ion channel"]}, "links": {"html": "https://hypothes.is/a/A2ZbGBCxEeyu-CsIpygfMQ", "incontext": "https://hyp.is/A2ZbGBCxEeyu-CsIpygfMQ/www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "json": "https://hypothes.is/api/annotations/A2ZbGBCxEeyu-CsIpygfMQ"}, "user_info": {"display_name": null}, "flagged": false, "hidden": false}',
-  '{"id": "J2qSChC1EeyvHS8fi9T9oQ", "created": "2021-09-08T14:57:57.652991+00:00", "updated": "2021-09-08T14:57:57.652991+00:00", "user": "acct:biophysics_sciencecolab@hypothes.is", "uri": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "text": "review3", "tags": [], "group": "e277wiod", "permissions": {"read": ["group:__world__"], "admin": ["acct:biophysics_sciencecolab@hypothes.is"], "update": ["acct:biophysics_sciencecolab@hypothes.is"], "delete": ["acct:biophysics_sciencecolab@hypothes.is"]}, "target": [{"source": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1"}], "document": {"title": ["Single-molecule imaging with cell-derived nanovesicles reveals early binding dynamics at a cyclic nucleotide-gated ion channel"]}, "links": {"html": "https://hypothes.is/a/J2qSChC1EeyvHS8fi9T9oQ", "incontext": "https://hyp.is/J2qSChC1EeyvHS8fi9T9oQ/www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "json": "https://hypothes.is/api/annotations/J2qSChC1EeyvHS8fi9T9oQ"}, "user_info": {"display_name": null}, "flagged": false, "hidden": false}',
-];
+const mockedReviews: Record<string, string> = {
+  Q9GJ9BC0EeyPVBtgAn5Yjw: '{"id": "Q9GJ9BC0EeyPVBtgAn5Yjw", "created": "2021-09-08T14:51:35.722360+00:00", "updated": "2021-09-08T15:44:52.871334+00:00", "user": "acct:biophysics_sciencecolab@hypothes.is", "uri": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "text": "review1", "tags": [], "group": "e277wiod", "permissions": {"read": ["group:__world__"], "admin": ["acct:biophysics_sciencecolab@hypothes.is"], "update": ["acct:biophysics_sciencecolab@hypothes.is"], "delete": ["acct:biophysics_sciencecolab@hypothes.is"]}, "target": [{"source": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1"}], "document": {"title": ["Single-molecule imaging with cell-derived nanovesicles reveals early binding dynamics at a cyclic nucleotide-gated ion channel"]}, "links": {"html": "https://hypothes.is/a/Q9GJ9BC0EeyPVBtgAn5Yjw", "incontext": "https://hyp.is/Q9GJ9BC0EeyPVBtgAn5Yjw/www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "json": "https://hypothes.is/api/annotations/Q9GJ9BC0EeyPVBtgAn5Yjw"}, "user_info": {"display_name": null}, "flagged": false, "hidden": false}',
+  "A2ZbGBCxEeyu-CsIpygfMQ": '{"id": "A2ZbGBCxEeyu-CsIpygfMQ", "created": "2021-09-08T14:28:19.243832+00:00", "updated": "2021-09-08T14:28:19.243832+00:00", "user": "acct:biophysics_sciencecolab@hypothes.is", "uri": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "text": "review2", "tags": [], "group": "e277wiod", "permissions": {"read": ["group:__world__"], "admin": ["acct:biophysics_sciencecolab@hypothes.is"], "update": ["acct:biophysics_sciencecolab@hypothes.is"], "delete": ["acct:biophysics_sciencecolab@hypothes.is"]}, "target": [{"source": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1"}], "document": {"title": ["Single-molecule imaging with cell-derived nanovesicles reveals early binding dynamics at a cyclic nucleotide-gated ion channel"]}, "links": {"html": "https://hypothes.is/a/A2ZbGBCxEeyu-CsIpygfMQ", "incontext": "https://hyp.is/A2ZbGBCxEeyu-CsIpygfMQ/www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "json": "https://hypothes.is/api/annotations/A2ZbGBCxEeyu-CsIpygfMQ"}, "user_info": {"display_name": null}, "flagged": false, "hidden": false}',
+  J2qSChC1EeyvHS8fi9T9oQ: '{"id": "J2qSChC1EeyvHS8fi9T9oQ", "created": "2021-09-08T14:57:57.652991+00:00", "updated": "2021-09-08T14:57:57.652991+00:00", "user": "acct:biophysics_sciencecolab@hypothes.is", "uri": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "text": "review3", "tags": [], "group": "e277wiod", "permissions": {"read": ["group:__world__"], "admin": ["acct:biophysics_sciencecolab@hypothes.is"], "update": ["acct:biophysics_sciencecolab@hypothes.is"], "delete": ["acct:biophysics_sciencecolab@hypothes.is"]}, "target": [{"source": "https://www.biorxiv.org/content/10.1101/2021.07.05.451181v1"}], "document": {"title": ["Single-molecule imaging with cell-derived nanovesicles reveals early binding dynamics at a cyclic nucleotide-gated ion channel"]}, "links": {"html": "https://hypothes.is/a/J2qSChC1EeyvHS8fi9T9oQ", "incontext": "https://hyp.is/J2qSChC1EeyvHS8fi9T9oQ/www.biorxiv.org/content/10.1101/2021.07.05.451181v1", "json": "https://hypothes.is/api/annotations/J2qSChC1EeyvHS8fi9T9oQ"}, "user_info": {"display_name": null}, "flagged": false, "hidden": false}',
+};
 
 describe('fetch-reviews', () => {
   it('fetches docmap from Sciety for a specific reviewing group', async () => {
     const mockedGet = mocked(axios.get, true);
 
-    mockedGet.mockImplementationOnce(() => {
-      return Promise.resolve({
-        data: JSON.parse(mockedDocmap),
+    mockedGet.mockImplementation((url) => {
+      const response = {
+        data: '',
         status: 200,
-      });
-    })
-      .mockImplementationOnce(() => {
-        return Promise.resolve({
-          data: JSON.parse(mockedReviews[0]),
-          status: 200,
-        });
-      })
-      .mockImplementationOnce(() => {
-        return Promise.resolve({
-          data: JSON.parse(mockedReviews[1]),
-          status: 200,
-        });
-      })
-      .mockImplementationOnce(() => {
-        return Promise.resolve({
-          data: JSON.parse(mockedReviews[2]),
-          status: 200,
-        });
-      });
+      }
+      if (url.includes('docmap')) {
+        response.data = mockedDocmap;
+      } else {
+        const id = url.split('/').pop() || '';
+        response.data = mockedReviews[id];
+      }
+      return Promise.resolve(response);
+    });
 
     const reviews = await fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org');
 
