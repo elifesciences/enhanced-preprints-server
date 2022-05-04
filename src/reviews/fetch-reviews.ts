@@ -27,11 +27,11 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
   });
 
   const hypothesisResponses = await Promise.all(hypothesisIds.map(id => {
-    return axios(`https://api.hypothes.is/api/annotations/${id}`);
+    return axios.get<HypothesisResponse>(`https://api.hypothes.is/api/annotations/${id}`);
   }));
 
   return await Promise.all(hypothesisResponses.map(async (response) => {
-    const { text } = await response.data as HypothesisResponse;
+    const { text } = response.data;
     return text;
   }));
 }
