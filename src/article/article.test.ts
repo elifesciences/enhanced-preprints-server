@@ -51,11 +51,11 @@ const validArticleHtml = `
 
 const articleHtmlNoTitle = `
   <article>
-    <h2 itemtype="http://schema.stenci.la/Heading" id="s1">heading 1</h2>
-    <h3 itemtype="http://schema.stenci.la/Heading" id="s1-1">subheading 1</h3>
-    <h3 itemtype="http://schema.stenci.la/Heading" id="s1-2">subheading 2</h3>
-    <h2 itemtype="http://schema.stenci.la/Heading" id="s2">heading 2</h2>
-    <h2 itemtype="http://schema.stenci.la/Heading" id="s3">heading 3</h2>
+    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1">heading 1</h2>
+    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-1">subheading 1</h3>
+    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-2">subheading 2</h3>
+    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s2">heading 2</h2>
+    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s3">heading 3</h2>
   </article>
 `
 
