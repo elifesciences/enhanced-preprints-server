@@ -38,7 +38,7 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
 
 type FetchDocmap = (doi: string) => Promise<Array<Docmap>>;
 const fetchDocmaps: FetchDocmap = async (doi) => {
-  return axios(`https://sciety.org/docmaps/v1/articles/${doi}.docmap.json`).then(async (response) => response.data);
+  return axios.get<Array<Docmap>>(`https://sciety.org/docmaps/v1/articles/${doi}.docmap.json`).then(async (response) => response.data);
 }
 
 type DocmapStep = {
