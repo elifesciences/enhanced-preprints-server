@@ -1,5 +1,0 @@
-FROM node:16.14-alpine3.15
-
-RUN mkdir /opt/epp
-# this expects a volume to be mounted to /opt/epp
-WORKDIR /opt/epp

@@ -10,7 +10,7 @@ public/styles.css: node_modules $(shell find src/**/*.scss -type f)
 	@yarn sass
 
 watch: node_modules public/styles.css
-	@docker build . -f Dockerfile.Watch -t epp-watch
+	@docker build . --target dev -t epp-watch
 	@docker run -d --rm --name epp-watch -p 8080:3000 -v $(CURDIR):/opt/epp:rw epp-watch /opt/epp/scripts/watch.sh
 
 stop:
