@@ -49,16 +49,6 @@ const validArticleHtml = `
   </article>
 `;
 
-const articleHtmlNoTitle = `
-  <article>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1">heading 1</h2>
-    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-1">subheading 1</h3>
-    <h3 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s1-2">subheading 2</h3>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s2">heading 2</h2>
-    <h2 itemscope="" itemtype="http://schema.stenci.la/Heading" id="s3">heading 3</h2>
-  </article>
-`
-
 const articleHtmlNoHeadings = `
   <article>
     <h1 itemprop="headline" content="Article">Article</h1>
@@ -66,27 +56,6 @@ const articleHtmlNoHeadings = `
 `;
 
 describe('article-page', () => {
-  it('wraps the article html with the themed page html', () => {
-    const result = buildArticlePage(validArticleHtml, '').trim();
-
-    expect(result.startsWith('<html lang="en">')).toBeTruthy();
-    expect(result.endsWith('</html>')).toBeTruthy();
-  });
-
-  it('gets the title from the html', () => {
-    const wrappedArticle = buildArticlePage(validArticleHtml, '');
-    const container = JSDOM.fragment(wrappedArticle);
-
-    expect(container.querySelector('title')?.textContent).toBe('Article');
-  });
-
-  it('sets the title to empty string if it is not found', () => {
-    const wrappedArticle = buildArticlePage(articleHtmlNoTitle, '');
-    const container = JSDOM.fragment(wrappedArticle);
-
-    expect(container.querySelector('title')?.textContent).toBe('');
-  });
-
   it('moves the article heading elements out of the article body and into an article header', () => {
     const wrappedArticle = buildArticlePage(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);

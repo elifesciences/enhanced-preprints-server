@@ -2,9 +2,10 @@ import express from 'express';
 import { readdirSync } from "fs";
 import { convertJatsToHtml } from "./conversion/encode";
 import { generateArticleList } from "./article-list/article-list";
-import { wrapArticleInHtml } from "./article/article";
+import { buildArticlePage } from "./article/article";
 import { fetchReviews } from "./reviews/fetch-reviews";
 import { generateReviewPage } from "./reviews/reviews";
+import { basePage } from "./base-page/base-page";
 
 
 const app = express();
@@ -25,7 +26,7 @@ app.get('/', (req, res) => {
   journals.forEach(journal => {
     getDirectories(`./data/${journal}`).forEach(articleDir => articles[journal].push(articleDir))
   })
-  res.send(generateArticleList(journals, articles));
+  res.send(basePage(generateArticleList(journals, articles)));
 });
 
 app.get('/article/:journalId/:articleId', async (req, res) => {
@@ -36,15 +37,14 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
     articleHtml = await convertJatsToHtml(journalId, articleId);
     cache[`${journalId}:${articleId}`] = articleHtml;
   }
-  const responseHtml = wrapArticleInHtml(articleHtml, `${journalId}/${articleId}`);
-  res.send(responseHtml);
+  res.send(basePage(buildArticlePage(articleHtml, `${journalId}/${articleId}`)));
 });
 
 app.get('/article/:journalId/:articleId/reviews', async (req, res) => {
   const { journalId, articleId } = req.params;
   const doi = `${journalId}/${articleId}`;
   const reviews = await fetchReviews(doi, 'https://biophysics.sciencecolab.org');
-  res.send(generateReviewPage(reviews, doi));
+  res.send(basePage(generateReviewPage(reviews, doi)));
 });
 
 app.listen(3000, () => {

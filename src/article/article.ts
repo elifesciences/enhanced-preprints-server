@@ -1,14 +1,11 @@
 import { JSDOM } from 'jsdom';
-import { basePage } from "../base-page/base-page";
 
 export const buildArticlePage = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
-  const title = getTitle(articleFragment);
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);
   const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
-  const pageContent = `
-    <div class="grid-container">
+  return `<div class="grid-container">
       ${header}
       <div class="secondary-column">
         <div class="review-link__container">
@@ -24,9 +21,7 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
           ${articleHtmlWithoutHeader}
         </div>
       </main>
-    </div>
-  `;
-  return basePage(pageContent, title);
+    </div>`;
 };
 
 const generateToC = (headings: Heading[]): string => {
@@ -42,10 +37,6 @@ const generateToC = (headings: Heading[]): string => {
       </ul>
     </div>
 ` : '';
-}
-
-const getTitle = (articleDom: DocumentFragment): string => {
-  return articleDom.querySelector('h1')?.getAttribute('content') || '';
 }
 
 type HeadingData = { id: string, text: string };
