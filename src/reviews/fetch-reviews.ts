@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-type HypothesisResponse = {
+export type HypothesisResponse = {
   text: string,
 }
 
@@ -53,6 +53,7 @@ type DocmapStep = {
     }[]
   }[]
 };
+
 type Docmap = {
   publisher: {
     id: string,
