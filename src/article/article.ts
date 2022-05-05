@@ -105,10 +105,9 @@ const getHeader = (articleDom: DocumentFragment): string => {
 
 const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
   const articleElement = articleDom.children[0];
-  console.log(articleElement.outerHTML);
 
-  let articleHtml = "";
-  articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *').forEach((elem) => articleHtml += elem.outerHTML);
+  const articleHtml = Array.from(articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
+    .reduce((prev, current) => prev.concat(current.outerHTML), '');
 
   return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
 }
