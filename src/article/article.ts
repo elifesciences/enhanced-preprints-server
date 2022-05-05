@@ -4,6 +4,8 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
   const title = getTitle(articleFragment);
   const headings = getHeadings(articleFragment);
+  const header = getHeader(articleFragment);
+  const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   return `
 <html lang="en">
   <head>
@@ -18,10 +20,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   </head>
   <body>
     <div class="grid-container">
-      <div class="content-header">
-        Content Header
-      </div>
-
+      ${header}
       <div class="secondary-column">
         <div class="review-link__container">
           <a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a>
@@ -33,7 +32,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
           ${generateToC(headings)}
         </div>
         <div class="main-content-area">
-          ${articleHTML}
+          ${articleHtmlWithoutHeader}
         </div>
       </main>
     </div>
@@ -84,4 +83,31 @@ const getHeadings = (articleDom: DocumentFragment): Heading[] => {
     }
     return headings;
   }, new Array<Heading>());
+}
+
+const getHeader = (articleDom: DocumentFragment): string => {
+  const headline = articleDom.querySelector('article > [itemprop="headline"]');
+  const authors = articleDom.querySelector('article > [data-itemprop="authors"]');
+  const affiliations = articleDom.querySelector('article > [data-itemprop="affiliations"]');
+  const publisher = articleDom.querySelector('article > [itemprop="publisher"]');
+  const datePublished = articleDom.querySelector('article > [itemprop="datePublished"]');
+  const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
+
+  return `<div itemtype="http://schema.org/Article" class="content-header" data-itemscope="root">
+    ${headline?.outerHTML}
+    ${authors?.outerHTML}
+    ${affiliations?.outerHTML}
+    ${publisher?.outerHTML}
+    ${datePublished?.outerHTML}
+    ${identifiers?.outerHTML}
+  </div>`;
+}
+
+const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
+  const articleElement = articleDom.children[0];
+
+  const articleHtml = Array.from(articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
+    .reduce((prev, current) => prev.concat(current.outerHTML), '');
+
+  return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
 }
