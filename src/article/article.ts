@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+import { basePage } from "../base-page/base-page";
 
 export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
@@ -6,19 +7,7 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);
   const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
-  return `
-<html lang="en">
-  <head>
-    <title>${title}</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://unpkg.com/@stencila/thema@2/dist/themes/elife/styles.css" rel="stylesheet">
-    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Sans" rel="stylesheet"/>
-    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Serif" rel="stylesheet"/>
-      <link rel="stylesheet" href="/styles.css"/>
-  </head>
-  <body>
+  const pageContent = `
     <div class="grid-container">
       ${header}
       <div class="secondary-column">
@@ -36,9 +25,8 @@ export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
         </div>
       </main>
     </div>
-</body>
-</html>
-`.trim();
+  `;
+  return basePage(pageContent, title);
 };
 
 const generateToC = (headings: Heading[]): string => {
