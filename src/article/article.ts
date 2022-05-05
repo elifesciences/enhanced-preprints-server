@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import { basePage } from "../base-page/base-page";
 
-export const wrapArticleInHtml = (articleHTML: string, doi: string): string => {
+export const buildArticlePage = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
   const title = getTitle(articleFragment);
   const headings = getHeadings(articleFragment);

@@ -1,4 +1,4 @@
-import { wrapArticleInHtml } from "./article";
+import { buildArticlePage } from "./article";
 import { JSDOM } from 'jsdom';
 
 const validArticleHtml = `
@@ -67,27 +67,28 @@ const articleHtmlNoHeadings = `
 
 describe('article-page', () => {
   it('wraps the article html with the themed page html', () => {
-    const result = wrapArticleInHtml(validArticleHtml, '');
+    const result = buildArticlePage(validArticleHtml, '').trim();
 
-    expect(result.startsWith('<html lang="en">') && result.endsWith('</html>')).toBeTruthy();
+    expect(result.startsWith('<html lang="en">')).toBeTruthy();
+    expect(result.endsWith('</html>')).toBeTruthy();
   });
 
   it('gets the title from the html', () => {
-    const wrappedArticle = wrapArticleInHtml(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('title')?.textContent).toBe('Article');
   });
 
   it('sets the title to empty string if it is not found', () => {
-    const wrappedArticle = wrapArticleInHtml(articleHtmlNoTitle, '');
+    const wrappedArticle = buildArticlePage(articleHtmlNoTitle, '');
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('title')?.textContent).toBe('');
   });
 
   it('moves the article heading elements out of the article body and into an article header', () => {
-    const wrappedArticle = wrapArticleInHtml(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('article > h1')).toBeNull()
@@ -106,14 +107,14 @@ describe('article-page', () => {
   });
 
   it('does not include Table of Contents if no headings found', () => {
-    const wrappedArticle = wrapArticleInHtml(articleHtmlNoHeadings, '');
+    const wrappedArticle = buildArticlePage(articleHtmlNoHeadings, '');
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('.toc-container')).toBeNull();
   });
 
   it('generates a list of headings', () => {
-    const wrappedArticle = wrapArticleInHtml(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);
     const headingsNode = container.querySelectorAll('.toc-list__item > .toc-list__link');
     const headings = Array.from(headingsNode).map(element => element.textContent).filter(heading => heading !== null);
@@ -122,7 +123,7 @@ describe('article-page', () => {
   });
 
   it('does not add any html when there are no subheadings', () => {
-    const wrappedArticle = wrapArticleInHtml(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);
     const subHeadingsNode = container.querySelector('.toc-list:nth-child(2) > .toc-list__item > .toc-list__link--subheading');
 

@@ -1,11 +1,7 @@
-export const generateArticleList = (journals: string[], articles: Record<string, string[]>): string => `
-<html lang="en">
-  <head>
-    <title>Enhanced Preprint</title>
-    <link href="https://api.fonts.coollabs.io/css2?family=Noto+Sans" rel="stylesheet"/>
-    <link rel="stylesheet" href="/styles.css"/>
-  </head>
-  <body>
+import { basePage } from "../base-page/base-page";
+
+export const generateArticleList = (journals: string[], articles: Record<string, string[]>): string => {
+  const pageContent = `
     <div class="articles-page">
       <h1 class="articles-page__title">Enhanced Preprint Display</h1>
       <div class="journals-list">
@@ -17,6 +13,6 @@ export const generateArticleList = (journals: string[], articles: Record<string,
         `).join('')}
       </div>
     </div>
-  </body>
-</html>
-`;
+  `;
+  return basePage(pageContent, 'Enhanced preprints');
+}
