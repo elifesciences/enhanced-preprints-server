@@ -1,43 +1,14 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleStore, ProcessedArticle, ReviewingGroupStore } from '../model/model';
+import { ArticleRepository, ProcessedArticle } from '../model/model';
 
 
 
-export const loadXmlArticlesFromDirIntoStores = (dir: string, articleStore: ArticleStore, reviewingGroupStore: ReviewingGroupStore) => {
-  getReviewingGroupsFromDataDirectory(dir).forEach((reviewingGroup) => {
-    reviewingGroupStore.addReviewingGroup({
-      id: reviewingGroup.id,
-      name: reviewingGroup.name
-    });
-    reviewingGroup.files.forEach(async (PreprintXmlFile) => {
-      articleStore.storeArticle(await processArticle(PreprintXmlFile), reviewingGroup.id);
-    });
+export const loadXmlArticlesFromDirIntoStores = (dataDir: string, articleRepository: ArticleRepository) => {
+  const xmlFiles = getDirectories(dataDir).map(articleId => `${dataDir}/${articleId}/${articleId}.xml`).filter((xmlFilePath) => existsSync(xmlFilePath));
+  xmlFiles.forEach(async (xmlFile) => {
+    articleRepository.storeArticle(await processArticle(xmlFile));
   });
-
-};
-
-type ReviewingGroupData = {
-  id: string,
-  name: string,
-  files: PreprintXmlFile[]
-}
-const getReviewingGroupsFromDataDirectory = (dataDir: string): ReviewingGroupData[] => {
-  const reviewingGroupDirs = getDirectories(dataDir);
-  const reviewGroupArticleData = reviewingGroupDirs.map((reviewingGroupDir) => {
-    const info = existsSync(`${dataDir}/${reviewingGroupDir}/info.json`)
-      ? JSON.parse(readFileSync(`${dataDir}/${reviewingGroupDir}/info.json`).toString()) as {id: string, name: string}
-      : { id: reviewingGroupDir, name: reviewingGroupDir };
-
-    const articles = getArticlesInReviewingGroupDir(reviewingGroupDir);
-
-    return {
-      id: info.id,
-      name: info.name,
-      files: articles
-    };
-  });
-  return reviewGroupArticleData;
 }
 
 const getDirectories = (source: string) => {
@@ -45,12 +16,6 @@ const getDirectories = (source: string) => {
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 }
-
-const getArticlesInReviewingGroupDir = (reviewingGroupDir: string): string[] => {
-  return getDirectories(`./data/${reviewingGroupDir}`).map(articleDir => `./data/${reviewingGroupDir}/${articleDir}/${articleDir}.xml`);
-}
-
-
 
 const processArticle = async (file: PreprintXmlFile): Promise<ProcessedArticle> => {
   const xml = readFileSync(file).toString();

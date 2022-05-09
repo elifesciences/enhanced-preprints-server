@@ -1,7 +1,8 @@
 import { JSDOM } from 'jsdom';
+import { EnhancedArticle } from '../model/model';
 
-export const buildArticlePage = (articleHTML: string, doi: string): string => {
-  const articleFragment = JSDOM.fragment(articleHTML);
+export const buildArticlePage = (article: EnhancedArticle): string => {
+  const articleFragment = JSDOM.fragment(article.html);
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);
   const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
@@ -9,7 +10,7 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
       ${header}
       <div class="secondary-column">
         <div class="review-link__container">
-          <a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a>
+          <a class="review-link__anchor" href="/article/${article.doi}/reviews">Reviews ></a>
         </div>
       </div>
 

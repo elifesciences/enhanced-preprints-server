@@ -1,14 +1,9 @@
 import { marked } from "marked";
+import { EnhancedArticle } from "../model/model";
 
-export const generateReviewPage = (reviews: string[], doi: string): string => {
-  const reviewListItems = reviews.map(review => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review)}</article></li>`)
-  return wrapWithHtml(reviewListItems.join(''), doi);
-}
-
-const wrapWithHtml = (reviews: string, doi: string): string =>
-  `<main role="main">
-    <a class="return-link" href="/article/${doi}">< Back to article</a>
-    <ul class="review-list">
-        ${reviews}
-    </ul>
-  </main>`;
+export const generateReviewPage = (article: EnhancedArticle): string => `<main role="main">
+<a class="return-link" href="/article/${article.doi}">< Back to article</a>
+<ul class="review-list">
+    ${article.reviews.map(review => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review.text)}</article></li>`)}
+</ul>
+</main>`;

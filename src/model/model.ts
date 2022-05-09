@@ -1,5 +1,4 @@
-import { createInMemoryArticleStore } from "./in-memory/article-store";
-import { createInMemoryReviewingGroupStore } from "./in-memory/reviewing-group-store";
+import { createInMemoryArticleRepository } from "./in-memory/article-repository";
 
 
 export type ReviewingGroupId = string;
@@ -18,8 +17,6 @@ export type ArticleXML = string;
 export type ArticleTitle = string;
 export type ArticleHTML = string;
 export type ArticleJSON = string;
-
-// The states of the article
 export type ProcessedArticle = {
   doi: Doi
   title: ArticleTitle,
@@ -28,8 +25,11 @@ export type ProcessedArticle = {
   html: ArticleHTML,
   json: ArticleJSON,
 };
-export type ReviewingArticle = ProcessedArticle & {
-  reviewingGroupId: ReviewingGroupId
+
+export type ArticleSummary = {
+  doi: Doi
+  title: ArticleTitle,
+  date: Date,
 }
 
 export type ReviewText = string;
@@ -40,47 +40,30 @@ export enum ReviewType {
 export type Review = {
   date: Date,
   reviewType: ReviewType,
-  review: ReviewText,
-}
-export type ReviewedArticle = ReviewingArticle & {
-  review: Review,
+  text: ReviewText,
+  reviewOf: ProcessedArticle
 }
 
-export type EnhancedArticle = (ReviewingArticle | ReviewedArticle) & {
-  previousVersions: EnhancedArticle[]
+export type EnhancedArticle = ProcessedArticle & {
+  reviews: Review[]
 };
 
-export interface ArticleStore {
-  storeArticle(article: ProcessedArticle, reviewingGroupId: ReviewingGroupId): boolean;
-  getArticle(doi: Doi): EnhancedArticle;
-  addReview(doi: Doi, review: Review): boolean;
-  getArticlesForReviewingGroup(reviewingGroup: ReviewingGroupId): EnhancedArticle[];
-}
 
-export interface ReviewingGroupStore {
-  addReviewingGroup(reviewingGroup: ReviewingGroup): boolean;
-  getReviewingGroup(reviewingGroupId: ReviewingGroupId): ReviewingGroup;
-  getReviewingGroups(): ReviewingGroup[];
+export interface ArticleRepository {
+  storeArticle(article: ProcessedArticle): boolean;
+  getArticle(doi: Doi): ProcessedArticle;
+  getArticleSummaries(): ArticleSummary[];
 }
 
 export enum StoreType {
   InMemory
 }
 
-export const createArticleStore = (kind: StoreType): ArticleStore => {
+export const createArticleRepository = (kind: StoreType): ArticleRepository => {
   if (kind == StoreType.InMemory) {
-    return createInMemoryArticleStore();
+    return createInMemoryArticleRepository();
   }
 
   //default to InMemory
-  return createInMemoryArticleStore();
-}
-
-export const createReviewingGroupStore = (kind: StoreType): ReviewingGroupStore => {
-  if (kind == StoreType.InMemory) {
-    return createInMemoryReviewingGroupStore();
-  }
-
-  //default to InMemory
-  return createInMemoryReviewingGroupStore();
+  return createInMemoryArticleRepository();
 }
