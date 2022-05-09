@@ -2,8 +2,8 @@ import { createInMemoryArticleRepository } from './article-repository';
 
 describe('in-memory-article-store', () => {
   it('stores article', async () => {
-    const inMemoryArticleStore = createInMemoryArticleRepository();
-    const stored = inMemoryArticleStore.storeArticle({
+    const inMemoryArticleStore = await createInMemoryArticleRepository();
+    const stored = await inMemoryArticleStore.storeArticle({
       doi: 'test/article.1',
       title: 'Test Article 1',
       date: new Date('2008-01-03'),
@@ -16,7 +16,7 @@ describe('in-memory-article-store', () => {
   });
 
   it('stores and retrieves a specific article by ID', async () => {
-    const inMemoryArticleStore = createInMemoryArticleRepository();
+    const inMemoryArticleStore = await createInMemoryArticleRepository();
     const exampleArticle = {
       doi: 'test/article.2',
       title: 'Test Article 2',
@@ -27,7 +27,7 @@ describe('in-memory-article-store', () => {
     };
     inMemoryArticleStore.storeArticle(exampleArticle);
 
-    const article = inMemoryArticleStore.getArticle('test/article.2');
+    const article = await inMemoryArticleStore.getArticle('test/article.2');
 
     expect(article).toBeDefined();
     expect(article.doi).toStrictEqual('test/article.2');
@@ -39,12 +39,12 @@ describe('in-memory-article-store', () => {
   });
 
   it('errors when retrieving unknown article', async () => {
-    const inMemoryArticleStore = createInMemoryArticleRepository();
-    expect(() => inMemoryArticleStore.getArticle('test/article.3')).toThrowError();
+    const inMemoryArticleStore = await createInMemoryArticleRepository();
+    expect(async () => await inMemoryArticleStore.getArticle('test/article.3')).toThrowError();
   });
 
   it('gets articles summaries', async () => {
-    const inMemoryArticleStore = createInMemoryArticleRepository();
+    const inMemoryArticleStore = await createInMemoryArticleRepository();
     const exampleArticle1 = {
       doi: 'test/article.4',
       title: 'Test Article 4',
@@ -73,7 +73,7 @@ describe('in-memory-article-store', () => {
     inMemoryArticleStore.storeArticle(exampleArticle2);
     inMemoryArticleStore.storeArticle(exampleArticle3);
 
-    const articleSummaries = inMemoryArticleStore.getArticleSummaries();
+    const articleSummaries = await inMemoryArticleStore.getArticleSummaries();
 
     expect(articleSummaries).toContainEqual({
       doi: 'test/article.4',

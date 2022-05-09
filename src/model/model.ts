@@ -50,16 +50,16 @@ export type EnhancedArticle = ProcessedArticle & {
 
 
 export interface ArticleRepository {
-  storeArticle(article: ProcessedArticle): boolean;
-  getArticle(doi: Doi): ProcessedArticle;
-  getArticleSummaries(): ArticleSummary[];
+  storeArticle(article: ProcessedArticle): Promise<boolean>;
+  getArticle(doi: Doi): Promise<ProcessedArticle>;
+  getArticleSummaries(): Promise<ArticleSummary[]>;
 }
 
 export enum StoreType {
   InMemory
 }
 
-export const createArticleRepository = (kind: StoreType): ArticleRepository => {
+export const createArticleRepository = async (kind: StoreType): Promise<ArticleRepository> => {
   if (kind == StoreType.InMemory) {
     return createInMemoryArticleRepository();
   }

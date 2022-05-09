@@ -5,7 +5,7 @@ class InMemoryArticleRepository implements ArticleRepository {
   constructor(store: Map<string, ProcessedArticle>) {
     this.store = store;
   }
-  storeArticle(article: ProcessedArticle): boolean {
+  async storeArticle(article: ProcessedArticle): Promise<boolean> {
     this.store.set(article.doi, {
       doi: article.doi,
       xml: article.xml,
@@ -17,7 +17,7 @@ class InMemoryArticleRepository implements ArticleRepository {
 
     return true;
   }
-  getArticle(doi: Doi): ProcessedArticle {
+  async getArticle(doi: Doi): Promise<ProcessedArticle> {
     const article = this.store.get(doi);
     if (article === undefined) {
       throw new Error(`Article with DOI "${doi}" was not found`);
@@ -25,7 +25,7 @@ class InMemoryArticleRepository implements ArticleRepository {
     return article;
   }
 
-  getArticleSummaries(): ArticleSummary[] {
+  async getArticleSummaries(): Promise<ArticleSummary[]> {
     return Array.from(this.store.values()).map((article) => {
       return {
         doi: article.doi,
@@ -36,6 +36,6 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 }
 
-export const createInMemoryArticleRepository = () => {
+export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => {
   return new InMemoryArticleRepository(new Map<string, ProcessedArticle>());
 }
