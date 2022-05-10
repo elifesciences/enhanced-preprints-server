@@ -64,21 +64,16 @@ const getHeadings = (articleDom: DocumentFragment): Heading[] => {
 }
 
 const getHeader = (articleDom: DocumentFragment): string => {
+  replaceAttributesWithClassName(articleDom, '[itemprop="author"]', 'person');
+  replaceAttributesWithClassName(articleDom, '[data-itemprop="familyNames"]');
+  replaceAttributesWithClassName(articleDom, '[itemprop="familyName"]', 'person__family_name');
+  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="authors"]', 'content-header__authors');
+  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
+
   const headline = articleDom.querySelector('article > [itemprop="headline"]');
-  const authors = articleDom.querySelector('article > [data-itemprop="authors"]');
-  const affiliations = articleDom.querySelector('article > [data-itemprop="affiliations"]');
+  const authors = articleDom.querySelector('.content-header__authors');
+  const affiliations = articleDom.querySelector('.content-header__affiliations');
   const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
-
-  authors?.removeAttribute('data-itemprop');
-  authors?.classList.add('content-header__authors');
-  Array.from(articleDom.querySelectorAll('[itemprop="author"]')).forEach(personElement => replaceAttributesWithClassName(personElement, 'person'));
-
-  Array.from(articleDom.querySelectorAll('[data-itemprop="familyNames"]')).forEach(familyNamesElement => replaceAttributesWithClassName(familyNamesElement));
-
-  Array.from(articleDom.querySelectorAll('[itemprop="familyName"]')).forEach(familyNameElement => replaceAttributesWithClassName(familyNameElement, 'person__family_name'));
-
-  affiliations?.removeAttribute('data-itemprop');
-  affiliations?.classList.add('content-header__affiliations');
 
   return `<div class="content-header">
     ${headline?.outerHTML}
@@ -97,12 +92,14 @@ const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
   return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
 }
 
-const replaceAttributesWithClassName = (element:Element, newClass?: string): void => {
-  element.removeAttribute('itemprop');
-  element.removeAttribute('itemtype');
-  element.removeAttribute('data-itemprop');
-  element.removeAttribute('itemscope');
-  if (newClass) {
-    element.classList.add(newClass);
-  }
+const replaceAttributesWithClassName = (articleDom:DocumentFragment, selector: string, newClass?: string): void => {
+  Array.from(articleDom.querySelectorAll(selector)).forEach(element => {
+    element.removeAttribute('itemprop');
+    element.removeAttribute('itemtype');
+    element.removeAttribute('data-itemprop');
+    element.removeAttribute('itemscope');
+    if (newClass) {
+      element.classList.add(newClass);
+    }
+  });
 }
