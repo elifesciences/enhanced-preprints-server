@@ -71,20 +71,20 @@ const getHeader = (articleDom: DocumentFragment): string => {
 
   authors?.removeAttribute('data-itemprop');
   authors?.classList.add('content-header__authors');
+  Array.from(articleDom.querySelectorAll('[itemprop="author"]')).forEach(personElement => {
+    personElement.removeAttribute('itemprop');
+    personElement.removeAttribute('itemtype');
+    personElement.classList.add('person');
+  });
 
-  if (authors) {
-    Array.from(authors.querySelectorAll('[itemprop="author"]')).forEach(personElement => {
-      personElement.removeAttribute('itemprop');
-      personElement.removeAttribute('itemtype');
-      personElement.classList.add('person');
-      const familyNames = personElement.querySelector('[data-itemprop="familyNames"]');
-      familyNames?.removeAttribute('data-itemprop');
-      Array.from(familyNames?.querySelectorAll('[itemprop="familyName"]') || []).forEach(familyNameElement => {
-        familyNameElement.removeAttribute('itemprop');
-        familyNameElement.classList.add('person__family_name');
-      });
-    });
-  }
+  Array.from(articleDom.querySelectorAll('[data-itemprop="familyNames"]')).forEach(familyNamesElement => {
+    familyNamesElement.removeAttribute('data-itemprop');
+  });
+
+  Array.from(articleDom.querySelectorAll('[itemprop="familyName"]')).forEach(familyNameElement => {
+    familyNameElement.removeAttribute('itemprop');
+    familyNameElement.classList.add('person__family_name');
+  });
 
   affiliations?.removeAttribute('data-itemprop');
   affiliations?.classList.add('content-header__affiliations');
