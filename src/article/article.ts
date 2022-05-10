@@ -77,6 +77,12 @@ const getHeader = (articleDom: DocumentFragment): string => {
       personElement.removeAttribute('itemprop');
       personElement.removeAttribute('itemtype');
       personElement.classList.add('person');
+      const familyNames = personElement.querySelector('[data-itemprop="familyNames"]');
+      familyNames?.removeAttribute('data-itemprop');
+      Array.from(familyNames?.querySelectorAll('[itemprop="familyName"]') || []).forEach(familyNameElement => {
+        familyNameElement.removeAttribute('itemprop');
+        familyNameElement.classList.add('person__family_name');
+      });
     });
   }
 

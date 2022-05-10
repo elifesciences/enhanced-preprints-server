@@ -15,11 +15,15 @@ img {
   margin-top: 43px;
 }
 
-.person [itemprop~=familyName]:after {
+.person__family_name:after {
+  content: " ";
+}
+
+.person__family_name:last-child:after {
   content: ", ";
 }
 
-.person:last-child [itemprop~=familyName]:after {
+.person:last-child .person__family_name:last-child:after {
   content: "";
 }
 
