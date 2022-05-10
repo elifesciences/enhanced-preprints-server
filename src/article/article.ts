@@ -2,9 +2,9 @@ import { JSDOM } from 'jsdom';
 
 export const buildArticlePage = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
+  const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);
-  const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   return `<div class="grid-container">
       ${header}
       <div class="secondary-column">
@@ -75,11 +75,12 @@ const getHeader = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, '.person [itemprop="affiliation"]');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
   replaceAttributesWithClassName(articleDom, '.content-header__affiliations > [itemtype="http://schema.org/Organization"]', 'organisation');
+  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="identifiers"]', 'content-header__identifiers');
 
   const headline = articleDom.querySelector('.content-header__title');
   const authors = articleDom.querySelector('.content-header__authors');
   const affiliations = articleDom.querySelector('.content-header__affiliations');
-  const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
+  const identifiers = articleDom.querySelector('.content-header__identifiers');
 
   return `<div class="content-header">
     ${headline?.outerHTML}
