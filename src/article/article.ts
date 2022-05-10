@@ -74,6 +74,9 @@ const getHeader = (articleDom: DocumentFragment): string => {
   authors?.removeAttribute('data-itemprop');
   authors?.classList.add('content-header__authors');
 
+  affiliations?.removeAttribute('data-itemprop');
+  affiliations?.classList.add('content-header__affiliations');
+
   return `<div class="content-header">
     ${headline?.outerHTML}
     ${authors?.outerHTML}

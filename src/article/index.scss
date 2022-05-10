@@ -27,10 +27,10 @@ img {
 .content-header [itemtype~="http://schema.org/Person"] [data-itemprop~=givenNames] [itemprop~=givenName]:after {
   content: "\00a0";
 }
-.content-header [data-itemprop~=affiliations] [itemtype~="http://schema.org/Organization"]:after {
+.content-header__affiliations [itemtype~="http://schema.org/Organization"]:after {
   content: " • ";
 }
-.content-header [data-itemprop~=affiliations] [itemtype~="http://schema.org/Organization"]:last-child:after {
+.content-header__affiliations [itemtype~="http://schema.org/Organization"]:last-child:after {
   content: "";
 }
 
@@ -52,11 +52,11 @@ img {
   display: inline;
 }
 
-.content-header [data-itemprop~=affiliations] {
+.content-header__affiliations {
   list-style: none;
   padding: 0;
 }
-.content-header [data-itemprop~=affiliations] [itemtype~="http://schema.org/Organization"] {
+.content-header__affiliations [itemtype~="http://schema.org/Organization"] {
   @include typography.affiliations-list-text();
   display: inline;
 }
