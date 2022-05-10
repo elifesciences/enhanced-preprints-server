@@ -1,18 +1,26 @@
-import { Doi, ArticleRepository, ProcessedArticle, ArticleSummary } from "../model";
+import { Doi, ArticleRepository, ProcessedArticle, ArticleSummary, ArticleContent, ArticleStruct } from "../model";
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ProcessedArticle>;
   constructor(store: Map<string, ProcessedArticle>) {
     this.store = store;
   }
-  async storeArticle(article: ProcessedArticle): Promise<boolean> {
+  async storeArticle(article: ArticleContent): Promise<boolean> {
+    const articleStruct = JSON.parse(article.json) as ArticleStruct;
+
+    // extract title
+    const title = articleStruct.title;
+
+    // extract publish date
+    const date = new Date(articleStruct.datePublished.value);
+
     this.store.set(article.doi, {
       doi: article.doi,
       xml: article.xml,
-      title: article.title,
+      title: title,
       html: article.html,
       json: article.json,
-      date: article.date,
+      date: date,
     });
 
     return true;

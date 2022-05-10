@@ -1,4 +1,5 @@
 import { createInMemoryArticleRepository } from "./in-memory/article-repository";
+import { createSqliteArticleRepository } from "./sqlite/article-repository";
 
 
 export type ReviewingGroupId = string;
@@ -17,13 +18,17 @@ export type ArticleXML = string;
 export type ArticleTitle = string;
 export type ArticleHTML = string;
 export type ArticleJSON = string;
-export type ProcessedArticle = {
+
+export type ArticleContent = {
   doi: Doi
-  title: ArticleTitle,
-  date: Date,
   xml: ArticleXML,
   html: ArticleHTML,
   json: ArticleJSON,
+}
+
+export type ProcessedArticle = ArticleContent & {
+  title: ArticleTitle,
+  date: Date,
 };
 
 export type ArticleSummary = {
@@ -50,20 +55,42 @@ export type EnhancedArticle = ProcessedArticle & {
 
 
 export interface ArticleRepository {
-  storeArticle(article: ProcessedArticle): Promise<boolean>;
+  storeArticle(article: ArticleContent): Promise<boolean>;
   getArticle(doi: Doi): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
 }
 
 export enum StoreType {
-  InMemory
+  InMemory,
+  Sqlite
 }
 
-export const createArticleRepository = async (kind: StoreType): Promise<ArticleRepository> => {
-  if (kind == StoreType.InMemory) {
-    return createInMemoryArticleRepository();
+export const createArticleRepository = async (kind: StoreType, connectionString = ''): Promise<ArticleRepository> => {
+  if (kind == StoreType.Sqlite) {
+    return createSqliteArticleRepository(connectionString);
   }
 
   //default to InMemory
   return createInMemoryArticleRepository();
+}
+
+
+//type related to the JSON output of encoda
+export type ArticleStruct = {
+  id: string,
+  journal: string,
+  title: string,
+  datePublished: DateType
+  dateAccepted: DateType
+  dateReceived: DateType
+  identifiers: Array<ArticleIdentifier>
+}
+type ArticleIdentifier = {
+  name: string,
+  value: string
+}
+
+type DateType = {
+  type: string,
+  value: string
 }
