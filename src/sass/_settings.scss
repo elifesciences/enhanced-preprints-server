@@ -14,3 +14,15 @@ $font-family-secondary: Noto Serif,serif;
 $max-site-width: 1296px;
 $grid-column: 78px;
 $grid-gutter: 24px;
+
+$logo-url: url(https://static.wixstatic.com/media/1f1e58_cde9872c8ecf470d8f8238a81a1d4f1b~mv2.png/v1/fill/w_492,h_192,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/210628_Biophysics%20Logo_FINAL%202.png);
+
+// Logo
+@mixin logo-img {
+  background-image: $logo-url;
+  background-size: 120px 46px;
+  display: inline-block;
+  width: 120px;
+  height: 46px;
+  content: "";
+}

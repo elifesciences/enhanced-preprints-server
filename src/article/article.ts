@@ -2,9 +2,9 @@ import { JSDOM } from 'jsdom';
 
 export const buildArticlePage = (articleHTML: string, doi: string): string => {
   const articleFragment = JSDOM.fragment(articleHTML);
+  const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);
-  const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   return `<div class="grid-container">
       ${header}
       <div class="secondary-column">
@@ -64,19 +64,28 @@ const getHeadings = (articleDom: DocumentFragment): Heading[] => {
 }
 
 const getHeader = (articleDom: DocumentFragment): string => {
-  const headline = articleDom.querySelector('article > [itemprop="headline"]');
-  const authors = articleDom.querySelector('article > [data-itemprop="authors"]');
-  const affiliations = articleDom.querySelector('article > [data-itemprop="affiliations"]');
-  const publisher = articleDom.querySelector('article > [itemprop="publisher"]');
-  const datePublished = articleDom.querySelector('article > [itemprop="datePublished"]');
-  const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
+  replaceAttributesWithClassName(articleDom, 'article > [itemprop="headline"]', 'content-header__title');
+  replaceAttributesWithClassName(articleDom, '[itemprop="author"]', 'person');
+  replaceAttributesWithClassName(articleDom, '[data-itemprop="familyNames"]');
+  replaceAttributesWithClassName(articleDom, '[itemprop="familyName"]', 'person__family_name');
+  replaceAttributesWithClassName(articleDom, '[data-itemprop="givenNames"]');
+  replaceAttributesWithClassName(articleDom, '[itemprop="givenName"]', 'person__given_name');
+  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="authors"]', 'content-header__authors');
+  replaceAttributesWithClassName(articleDom, '.person [data-itemprop="affiliations"]', 'person__affiliations');
+  replaceAttributesWithClassName(articleDom, '.person [itemprop="affiliation"]');
+  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
+  replaceAttributesWithClassName(articleDom, '.content-header__affiliations > [itemtype="http://schema.org/Organization"]', 'organisation');
+  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="identifiers"]', 'content-header__identifiers');
 
-  return `<div itemtype="http://schema.org/Article" class="content-header" data-itemscope="root">
+  const headline = articleDom.querySelector('.content-header__title');
+  const authors = articleDom.querySelector('.content-header__authors');
+  const affiliations = articleDom.querySelector('.content-header__affiliations');
+  const identifiers = articleDom.querySelector('.content-header__identifiers');
+
+  return `<div class="content-header">
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}
-    ${publisher?.outerHTML}
-    ${datePublished?.outerHTML}
     ${identifiers?.outerHTML}
   </div>`;
 }
@@ -88,4 +97,16 @@ const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
     .reduce((prev, current) => prev.concat(current.outerHTML), '');
 
   return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
+}
+
+const replaceAttributesWithClassName = (articleDom:DocumentFragment, selector: string, newClass?: string): void => {
+  Array.from(articleDom.querySelectorAll(selector)).forEach(element => {
+    element.removeAttribute('itemprop');
+    element.removeAttribute('itemtype');
+    element.removeAttribute('data-itemprop');
+    element.removeAttribute('itemscope');
+    if (newClass) {
+      element.classList.add(newClass);
+    }
+  });
 }

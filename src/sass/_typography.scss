@@ -77,3 +77,18 @@
   @include link-text();
   font-family: settings.$font-family-secondary;
 }
+
+@mixin author-list-text() {
+  color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+@mixin affiliations-list-text() {
+  color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 24px;
+}
