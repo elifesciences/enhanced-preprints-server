@@ -75,6 +75,23 @@ img {
   display: none;
 }
 
+.main-content-area {
+  @include typography.body();
+  padding: 0 48px;
+}
+.main-content-area h1 {
+  @include typography.heading-1();
+}
+.main-content-area h2 {
+  @include typography.heading-2();
+}
+.main-content-area h3 {
+  @include typography.heading-3();
+}
+.main-content-area h4 {
+  @include typography.heading-4();
+}
+
 @media only all and (min-width: 730px) {
   .content-header {
     grid-column: 1/10;
