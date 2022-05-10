@@ -14,6 +14,7 @@
     "@types/jsdom": "^16.2.14",
     "@types/marked": "^4.0.3",
     "@types/node": "16",
+    "@types/sqlite3": "^3.1.8",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
     "eslint": "^8.10.0",
@@ -30,7 +31,9 @@
     "axios": "^0.26.1",
     "express": "^4.17.2",
     "jsdom": "^19.0.0",
-    "marked": "^4.0.12"
+    "marked": "^4.0.12",
+    "sqlite": "^4.1.1",
+    "sqlite3": "^5.0.6"
   },
   "scripts": {
     "start": "ts-node src/server.ts",
