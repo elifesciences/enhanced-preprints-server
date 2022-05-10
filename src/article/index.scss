@@ -10,6 +10,11 @@ img {
   text-align: left;
 }
 
+.content-header::before {
+  @include settings.logo-img();
+  margin-top: 43px;
+}
+
 .content-header [data-itemprop~=authors] [itemtype~="http://schema.org/Person"] [itemprop~=familyName]:after {
   content: ", ";
 }
@@ -58,6 +63,7 @@ img {
 .content-header h1 {
   @include typography.heading-1();
   margin-bottom: 36px;
+  margin-top: 55px;
 }
 
 @media only all and (min-width: 730px) {
