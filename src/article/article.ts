@@ -64,6 +64,7 @@ const getHeadings = (articleDom: DocumentFragment): Heading[] => {
 }
 
 const getHeader = (articleDom: DocumentFragment): string => {
+  replaceAttributesWithClassName(articleDom, 'article > [itemprop="headline"]', 'content-header__title');
   replaceAttributesWithClassName(articleDom, '[itemprop="author"]', 'person');
   replaceAttributesWithClassName(articleDom, '[data-itemprop="familyNames"]');
   replaceAttributesWithClassName(articleDom, '[itemprop="familyName"]', 'person__family_name');
@@ -75,7 +76,7 @@ const getHeader = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
   replaceAttributesWithClassName(articleDom, '.content-header__affiliations > [itemtype="http://schema.org/Organization"]', 'organisation');
 
-  const headline = articleDom.querySelector('article > [itemprop="headline"]');
+  const headline = articleDom.querySelector('.content-header__title');
   const authors = articleDom.querySelector('.content-header__authors');
   const affiliations = articleDom.querySelector('.content-header__affiliations');
   const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
