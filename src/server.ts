@@ -1,12 +1,11 @@
 import express from 'express';
 import { generateArticleList } from "./article-list/article-list";
 import { buildArticlePage } from "./article/article";
-import { fetchReviews } from "./reviews/fetch-reviews";
 import { generateReviewPage } from "./reviews/reviews";
 import { basePage } from "./base-page/base-page";
-import { StoreType, createArticleRepository } from './model/model';
+import { StoreType, createArticleRepository, ArticleRepository } from './model/model';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
-import { createEnhancedArticleGetter } from './reviews/get-enhanced-article';
+import { createEnhancedArticleGetter, getEnhancedArticle } from './reviews/get-enhanced-article';
 
 
 const app = express();
@@ -18,14 +17,19 @@ const config = {
   dataDir: './articles'
 }
 
-const articleRepository = createArticleRepository(StoreType.InMemory);
-loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
-const getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
+let articleRepository: ArticleRepository;
+let getEnhancedArticle: getEnhancedArticle;
+createArticleRepository(StoreType.InMemory).then((repo: ArticleRepository) => {
+  articleRepository = repo;
+  loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
+  getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
+});
+
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.send(basePage(generateArticleList(config.name, articleRepository.getArticleSummaries())));
+app.get('/', async (req, res) => {
+  res.send(basePage(generateArticleList(config.name, await articleRepository.getArticleSummaries())));
 });
 
 app.get('/article/:publisherId/:articleId', async (req, res) => {

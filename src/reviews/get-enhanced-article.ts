@@ -5,7 +5,7 @@ import { fetchReviews } from "./fetch-reviews";
 export type getEnhancedArticle = (doi: Doi) => Promise<EnhancedArticle>;
 
 const getEnhancedArticleWithDependencies = async (doi: Doi, articleRepository: ArticleRepository, reviewingGroupId: string): Promise<EnhancedArticle> => {
-  const article = articleRepository.getArticle(doi);
+  const article = await articleRepository.getArticle(doi);
   const reviewTexts = await fetchReviews(doi, reviewingGroupId);
 
   const reviews = reviewTexts.map((reviewText: string): Review => {
