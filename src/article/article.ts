@@ -67,6 +67,8 @@ const getHeader = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, '[itemprop="author"]', 'person');
   replaceAttributesWithClassName(articleDom, '[data-itemprop="familyNames"]');
   replaceAttributesWithClassName(articleDom, '[itemprop="familyName"]', 'person__family_name');
+  replaceAttributesWithClassName(articleDom, '[data-itemprop="givenNames"]');
+  replaceAttributesWithClassName(articleDom, '[itemprop="givenName"]', 'person__given_name');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="authors"]', 'content-header__authors');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
 

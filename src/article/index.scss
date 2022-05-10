@@ -27,8 +27,8 @@ img {
   content: "";
 }
 
-.person [data-itemprop~=givenNames] [itemprop~=givenName]:after {
-  content: "\00a0";
+.person__given_name:after {
+  content: " ";
 }
 
 .content-header__authors [data-itemprop~=affiliations] {
