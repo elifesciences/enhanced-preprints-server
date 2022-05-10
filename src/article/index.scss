@@ -15,13 +15,13 @@ img {
   margin-top: 43px;
 }
 
-.content-header [data-itemprop~=authors] [itemtype~="http://schema.org/Person"] [itemprop~=familyName]:after {
+.content-header__authors [itemtype~="http://schema.org/Person"] [itemprop~=familyName]:after {
   content: ", ";
 }
-.content-header [data-itemprop~=authors] [itemtype~="http://schema.org/Person"]:last-child [itemprop~=familyName]:after {
+.content-header__authors [itemtype~="http://schema.org/Person"]:last-child [itemprop~=familyName]:after {
   content: "";
 }
-.content-header [data-itemprop~=authors] [data-itemprop~=affiliations] {
+.content-header__authors [data-itemprop~=affiliations] {
   display: none;
 }
 .content-header [itemtype~="http://schema.org/Person"] [data-itemprop~=givenNames] [itemprop~=givenName]:after {
@@ -43,7 +43,7 @@ img {
   display: none;
 }
 
-.content-header [data-itemprop~=authors] {
+.content-header__authors {
   list-style: none;
   padding: 0;
 }

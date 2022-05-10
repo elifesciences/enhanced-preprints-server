@@ -71,6 +71,9 @@ const getHeader = (articleDom: DocumentFragment): string => {
   const datePublished = articleDom.querySelector('article > [itemprop="datePublished"]');
   const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
 
+  authors?.removeAttribute('data-itemprop');
+  authors?.classList.add('content-header__authors');
+
   return `<div class="content-header">
     ${headline?.outerHTML}
     ${authors?.outerHTML}
