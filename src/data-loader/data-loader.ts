@@ -7,7 +7,12 @@ import { ArticleContent, ArticleRepository, ArticleStruct } from '../model/model
 export const loadXmlArticlesFromDirIntoStores = (dataDir: string, articleRepository: ArticleRepository) => {
   const xmlFiles = getDirectories(dataDir).map(articleId => `${dataDir}/${articleId}/${articleId}.xml`).filter((xmlFilePath) => existsSync(xmlFilePath));
   xmlFiles.forEach(async (xmlFile) => {
-    articleRepository.storeArticle(await processArticle(xmlFile));
+    const articleContent = await processArticle(xmlFile);
+    try {
+      await articleRepository.getArticle(articleContent.doi);
+    } catch(error) {
+      articleRepository.storeArticle(articleContent);
+    }
   });
 }
 
