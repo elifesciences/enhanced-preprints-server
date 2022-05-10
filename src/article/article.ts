@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
-import { EnhancedArticle } from '../model/model';
+import { ProcessedArticle } from '../model/model';
 
-export const buildArticlePage = (article: EnhancedArticle): string => {
+export const buildArticlePage = (article: ProcessedArticle): string => {
   const articleFragment = JSDOM.fragment(article.html);
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);

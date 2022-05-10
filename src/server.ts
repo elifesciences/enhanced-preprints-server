@@ -14,12 +14,13 @@ const cache: Record<string, string> = {};
 const config = {
   id: 'https://biophysics.sciencecolab.org',
   name: "Biophysics Colab",
-  dataDir: './articles'
+  dataDir: './articles',
+  databasePath: './data.db'
 }
 
 let articleRepository: ArticleRepository;
 let getEnhancedArticle: getEnhancedArticle;
-createArticleRepository(StoreType.InMemory).then((repo: ArticleRepository) => {
+createArticleRepository(StoreType.Sqlite, config.databasePath).then((repo: ArticleRepository) => {
   articleRepository = repo;
   loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
@@ -35,7 +36,7 @@ app.get('/', async (req, res) => {
 app.get('/article/:publisherId/:articleId', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
-  res.send(basePage(buildArticlePage(await getEnhancedArticle(doi))));
+  res.send(basePage(buildArticlePage(await articleRepository.getArticle(doi))));
 });
 
 app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
