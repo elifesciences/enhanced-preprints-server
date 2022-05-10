@@ -72,6 +72,14 @@ const getHeader = (articleDom: DocumentFragment): string => {
   authors?.removeAttribute('data-itemprop');
   authors?.classList.add('content-header__authors');
 
+  if (authors) {
+    Array.from(authors.querySelectorAll('[itemprop="author"]')).forEach(personElement => {
+      personElement.removeAttribute('itemprop');
+      personElement.removeAttribute('itemtype');
+      personElement.classList.add('person');
+    });
+  }
+
   affiliations?.removeAttribute('data-itemprop');
   affiliations?.classList.add('content-header__affiliations');
 
