@@ -35,11 +35,16 @@ img {
   display: none;
 }
 
-.content-header__affiliations [itemtype~="http://schema.org/Organization"]:after {
+.organisation {
+  @include typography.affiliations-list-text();
+  display: inline;
+}
+
+.organisation:after {
   content: " • ";
 }
 
-.content-header__affiliations [itemtype~="http://schema.org/Organization"]:last-child:after {
+.organisation:last-child:after {
   content: "";
 }
 
@@ -60,11 +65,6 @@ img {
 .content-header__affiliations {
   list-style: none;
   padding: 0;
-}
-
-.content-header__affiliations [itemtype~="http://schema.org/Organization"] {
-  @include typography.affiliations-list-text();
-  display: inline;
 }
 
 .content-header h1 {

@@ -73,6 +73,7 @@ const getHeader = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, '.person [data-itemprop="affiliations"]', 'person__affiliations');
   replaceAttributesWithClassName(articleDom, '.person [itemprop="affiliation"]');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
+  replaceAttributesWithClassName(articleDom, '.content-header__affiliations > [itemtype="http://schema.org/Organization"]', 'organisation');
 
   const headline = articleDom.querySelector('article > [itemprop="headline"]');
   const authors = articleDom.querySelector('.content-header__authors');
