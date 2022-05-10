@@ -71,20 +71,11 @@ const getHeader = (articleDom: DocumentFragment): string => {
 
   authors?.removeAttribute('data-itemprop');
   authors?.classList.add('content-header__authors');
-  Array.from(articleDom.querySelectorAll('[itemprop="author"]')).forEach(personElement => {
-    personElement.removeAttribute('itemprop');
-    personElement.removeAttribute('itemtype');
-    personElement.classList.add('person');
-  });
+  Array.from(articleDom.querySelectorAll('[itemprop="author"]')).forEach(personElement => replaceAttributesWithClassName(personElement, 'person'));
 
-  Array.from(articleDom.querySelectorAll('[data-itemprop="familyNames"]')).forEach(familyNamesElement => {
-    familyNamesElement.removeAttribute('data-itemprop');
-  });
+  Array.from(articleDom.querySelectorAll('[data-itemprop="familyNames"]')).forEach(familyNamesElement => replaceAttributesWithClassName(familyNamesElement));
 
-  Array.from(articleDom.querySelectorAll('[itemprop="familyName"]')).forEach(familyNameElement => {
-    familyNameElement.removeAttribute('itemprop');
-    familyNameElement.classList.add('person__family_name');
-  });
+  Array.from(articleDom.querySelectorAll('[itemprop="familyName"]')).forEach(familyNameElement => replaceAttributesWithClassName(familyNameElement, 'person__family_name'));
 
   affiliations?.removeAttribute('data-itemprop');
   affiliations?.classList.add('content-header__affiliations');
@@ -104,4 +95,14 @@ const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
     .reduce((prev, current) => prev.concat(current.outerHTML), '');
 
   return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
+}
+
+const replaceAttributesWithClassName = (element:Element, newClass?: string): void => {
+  element.removeAttribute('itemprop');
+  element.removeAttribute('itemtype');
+  element.removeAttribute('data-itemprop');
+  element.removeAttribute('itemscope');
+  if (newClass) {
+    element.classList.add(newClass);
+  }
 }
