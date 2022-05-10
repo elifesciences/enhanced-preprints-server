@@ -33,6 +33,9 @@ img {
   @include typography.affiliations-list-text();
   display: inline;
 }
+.content-header h1 {
+  margin-bottom: 36px;
+}
 
 @media only all and (min-width: 730px) {
   .content-header {
