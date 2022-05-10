@@ -71,7 +71,7 @@ const getHeader = (articleDom: DocumentFragment): string => {
   const datePublished = articleDom.querySelector('article > [itemprop="datePublished"]');
   const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
 
-  return `<div itemtype="http://schema.org/Article" class="content-header" data-itemscope="root">
+  return `<div class="content-header">
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}

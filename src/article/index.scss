@@ -10,6 +10,29 @@ img {
   text-align: left;
 }
 
+.content-header [data-itemprop=about],
+.content-header [data-itemprop=genre],
+.content-header [data-itemprop~=identifiers],
+.content-header [data-itemprop~=keywords],
+.content-header [itemprop=datePublished] {
+  display: none;
+}
+
+.content-header [data-itemprop~=authors] {
+  padding: 0;
+}
+.content-header [itemtype~="http://schema.org/Person"] {
+  @include typography.author-list-text();
+}
+
+.content-header [data-itemprop~=affiliations] {
+  list-style: none;
+  padding: 0;
+}
+.content-header [data-itemprop~=affiliations] [itemtype~="http://schema.org/Organization"] {
+  @include typography.affiliations-list-text();
+  display: inline;
+}
 
 @media only all and (min-width: 730px) {
   .content-header {
