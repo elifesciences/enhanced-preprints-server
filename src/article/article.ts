@@ -67,8 +67,6 @@ const getHeader = (articleDom: DocumentFragment): string => {
   const headline = articleDom.querySelector('article > [itemprop="headline"]');
   const authors = articleDom.querySelector('article > [data-itemprop="authors"]');
   const affiliations = articleDom.querySelector('article > [data-itemprop="affiliations"]');
-  const publisher = articleDom.querySelector('article > [itemprop="publisher"]');
-  const datePublished = articleDom.querySelector('article > [itemprop="datePublished"]');
   const identifiers = articleDom.querySelector('article > [data-itemprop="identifiers"]');
 
   authors?.removeAttribute('data-itemprop');
@@ -81,8 +79,6 @@ const getHeader = (articleDom: DocumentFragment): string => {
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}
-    ${publisher?.outerHTML}
-    ${datePublished?.outerHTML}
     ${identifiers?.outerHTML}
   </div>`;
 }

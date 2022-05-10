@@ -34,12 +34,7 @@ img {
   content: "";
 }
 
-
-.content-header [data-itemprop=about],
-.content-header [data-itemprop=genre],
-.content-header [data-itemprop~=identifiers],
-.content-header [data-itemprop~=keywords],
-.content-header [itemprop=datePublished] {
+.content-header [data-itemprop~=identifiers] {
   display: none;
 }
 
