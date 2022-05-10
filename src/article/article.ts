@@ -27,7 +27,6 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
 const generateToC = (headings: Heading[]): string => {
   return headings.length ? `
     <div class="toc-container">
-      <h2 class="toc-title">Table of Contents</h2>
       <ul class="toc-list">${headings.map(heading => {
             return `
               <li class="toc-list__item"><a class="toc-list__link" href="#${heading.id}">${heading.text}</a></li>

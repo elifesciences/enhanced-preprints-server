@@ -54,10 +54,6 @@ img {
   padding-left: 48px;
 }
 
-.toc-title {
-  @include typography.heading-2();
-}
-
 .toc-list {
   list-style: none;
   padding-left: 0;
