@@ -41,7 +41,7 @@ const generateToC = (headings: Heading[]): string => {
 type HeadingData = { id: string, text: string };
 type Heading = { children: HeadingData[] } & HeadingData;
 const getHeadings = (articleDom: DocumentFragment): Heading[] => {
-  const headingElements = articleDom.querySelectorAll('article > [itemtype="http://schema.stenci.la/Heading"]');
+  const headingElements = articleDom.querySelectorAll('article > [itemtype="http://schema.stenci.la/Heading"], article > [data-itemprop="description"] > [data-itemtype="http://schema.stenci.la/Heading"]');
 
   return Array.from(headingElements).reduce((headings: Heading[], heading) => {
     switch (heading.tagName) {
