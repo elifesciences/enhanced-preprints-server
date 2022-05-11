@@ -3,7 +3,6 @@ import { readdirSync } from "fs";
 import { convertJatsToHtml } from "./conversion/encode";
 import { generateArticleList } from "./article-list/article-list";
 import { buildArticlePage } from "./article/article";
-import { fetchReviews } from "./reviews/fetch-reviews";
 import { generateReviewPage } from "./reviews/reviews";
 import { basePage } from "./base-page/base-page";
 

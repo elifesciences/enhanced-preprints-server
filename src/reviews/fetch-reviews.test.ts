@@ -37,4 +37,9 @@ describe('fetch-reviews', () => {
     expect(mockedGet).toHaveBeenNthCalledWith(3, expect.stringContaining('A2ZbGBCxEeyu-CsIpygfMQ'));
     expect(mockedGet).toHaveBeenNthCalledWith(4, expect.stringContaining('J2qSChC1EeyvHS8fi9T9oQ'));
   });
+
+  describe('when unable to retrieve the docmap', () => {
+    it.todo('returns empty array on http errors');
+    it.todo('returns empty array if there are no hypothesis link in the docmap');
+  })
 });
