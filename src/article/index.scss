@@ -152,6 +152,9 @@ img {
   margin-bottom: 24px;
   padding-left: 20px;
   border-left: 2px solid settings.$color-less-light-grey;
+  &:hover {
+    border-left: 2px solid settings.$color-emphasis;
+  }
 }
 .toc-list__item:last-child {
   margin-bottom: 0px;
