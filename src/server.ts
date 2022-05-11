@@ -43,8 +43,7 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
 app.get('/article/:journalId/:articleId/reviews', async (req, res) => {
   const { journalId, articleId } = req.params;
   const doi = `${journalId}/${articleId}`;
-  const reviews = await fetchReviews(doi, 'https://biophysics.sciencecolab.org').catch(() => []);
-  res.send(basePage(generateReviewPage(reviews, doi)));
+  res.send(basePage(await generateReviewPage(doi)));
 });
 
 app.listen(3000, () => {

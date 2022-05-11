@@ -9,7 +9,8 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
   const docmaps = await fetchDocmaps(doi);
   const docmap = docmaps.find(docmap => docmap.publisher.id === reviewingGroup);
   if (!docmap) {
-    return Promise.reject(`No docmap for reviewingGroup: ${reviewingGroup} and doi: ${doi}`);
+    console.warn(`No docmap for reviewingGroup: ${reviewingGroup} and doi: ${doi}`)
+    return Promise.resolve([]);
   }
   const hypothesisUrls = Object.values(docmap.steps)
     .flatMap(docmapStep => docmapStep.actions
@@ -21,6 +22,10 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
       )
     );
 
+  if (!hypothesisUrls.length) {
+    console.warn(`No hypothesis urls found in docmap for reviewingGroup: ${reviewingGroup} and doi: ${doi}`);
+    return Promise.resolve([]);
+  }
   const hypothesisIds = hypothesisUrls.map(url => {
     const urlParts = url.split('/');
     return urlParts[urlParts.length -1];

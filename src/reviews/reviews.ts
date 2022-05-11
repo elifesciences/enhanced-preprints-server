@@ -1,6 +1,8 @@
 import { marked } from "marked";
+import { fetchReviews } from "./fetch-reviews";
 
-export const generateReviewPage = (reviews: string[], doi: string): string => {
+export const generateReviewPage = async (doi: string): Promise<string> => {
+  const reviews = await fetchReviews(doi, 'https://biophysics.sciencecolab.org')
   if (reviews.length == 0) {
     return wrapWithHtml('<li class="review-list__item"><article class="review-list-content">No reviews found</article></li>', doi);
   }
