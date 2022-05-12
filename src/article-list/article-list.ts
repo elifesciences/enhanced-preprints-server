@@ -5,7 +5,7 @@ export const generateArticleList = (journals: string[], articles: Record<string,
       ${journals.map(journal => `
       <h2 class="articles-list__heading">${journal}</h2>
       <ul class="articles-list">
-          ${articles[journal].map(article => `<li><a class="article-list__link" href="/article/${journal}/${article}">${article}</a></li>`)}
+          ${articles[journal].map(article => `<li><a class="article-list__link" href="/article/${journal}/${article}">${article}</a></li>`).join('')}
       </ul>
       `).join('')}
     </div>
