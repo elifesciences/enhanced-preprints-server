@@ -3,7 +3,6 @@ import { readdirSync } from "fs";
 import { convertJatsToHtml } from "./conversion/encode";
 import { generateArticleList } from "./article-list/article-list";
 import { buildArticlePage } from "./article/article";
-import { fetchReviews } from "./reviews/fetch-reviews";
 import { generateReviewPage } from "./reviews/reviews";
 import { basePage } from "./base-page/base-page";
 
@@ -43,8 +42,7 @@ app.get('/article/:journalId/:articleId', async (req, res) => {
 app.get('/article/:journalId/:articleId/reviews', async (req, res) => {
   const { journalId, articleId } = req.params;
   const doi = `${journalId}/${articleId}`;
-  const reviews = await fetchReviews(doi, 'https://biophysics.sciencecolab.org');
-  res.send(basePage(generateReviewPage(reviews, doi)));
+  res.send(basePage(await generateReviewPage(doi)));
 });
 
 app.listen(3000, () => {
