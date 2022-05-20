@@ -185,3 +185,26 @@ img {
 .review-link__anchor {
   @include typography.link-text();
 }
+
+.article-status {
+  border-bottom: 1px solid settings.$color-divider-grey;
+  // TODO: magic number
+  margin: 150px auto 36px;
+  padding-bottom: 36px;
+  width: 230px;
+}
+
+.article-status__heading {
+  font-family: settings.$font-family-primary;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+  color: settings.$color-emphasis
+}
+
+.article-status__text {
+  @include typography.body-small;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+}
