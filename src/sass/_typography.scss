@@ -67,6 +67,9 @@
   color: settings.$color-emphasis;
   font-family: settings.$font-family-primary;
   text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 24px;
 
   :visited {
     color: settings.$color-emphasis;
@@ -91,4 +94,19 @@
   font-family: settings.$font-family-primary;
   font-size: 14px;
   line-height: 24px;
+}
+
+@mixin timeline-event() {
+  color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+@mixin timeline-date() {
+  color: settings.$color-text-inactive;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 32px;
 }
