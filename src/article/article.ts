@@ -8,6 +8,10 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
   return `<div class="grid-container">
       ${header}
       <div class="secondary-column">
+        <div class="article-status">
+            <h2 class="article-status__heading">Reviewed Preprint</h2>
+            <span class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</span>
+        </div>
         <div class="review-link__container">
           <a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a>
         </div>
