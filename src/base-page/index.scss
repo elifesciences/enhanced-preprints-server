@@ -1,0 +1,9 @@
+@use '../sass/settings';
+
+.banner {
+  height: 94px;
+  &::before {
+    @include settings.logo-img();
+    margin-top: 30px;
+  }
+}
