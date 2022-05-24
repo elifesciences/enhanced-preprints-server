@@ -11,7 +11,7 @@ export const generateReviewPage = async (doi: string): Promise<string> => {
 }
 
 const wrapWithHtml = (reviews: string, doi: string): string =>
-  `<main role="main">
+  `<main class="reviews-page" role="main">
     <a class="return-link" href="/article/${doi}">< Back to article</a>
     <ul class="review-list">
         ${reviews}
