@@ -2,6 +2,19 @@
 @use '../sass/settings';
 @use '../sass/typography';
 
+@mixin _right-column-section() {
+  border-bottom: 1px solid settings.$color-divider-grey;
+  margin-top: 36px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 36px;
+  width: 230px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
 img {
    max-width: 100%;
 }
@@ -171,22 +184,8 @@ img {
   @include typography.navigation-heading-selected();
 }
 
-.review-link__container {
-  max-width: 69.625rem;
-  margin: auto;
-  padding-left: 48px;
-  text-align: right;
-}
-
-.review-link__anchor {
-  @include typography.link-text();
-}
-
 .article-status {
-  margin-left:auto;
-  margin-right:auto;
-  padding-bottom: 36px;
-  width: 230px;
+  @include _right-column-section();
 }
 
 .article-status__heading {
@@ -206,10 +205,9 @@ img {
 }
 
 .article-actions {
-  border-bottom: 1px solid settings.$color-divider-grey;
+  padding-top: 36px;
   margin-left: auto;
   margin-right: auto;
-  padding-bottom: 36px;
   width: 230px;
 }
 
@@ -226,4 +224,39 @@ img {
 
 .article-actions__button_icon{
   @include buttons.button-icon();
+}
+
+.review-timeline {
+  @include _right-column-section();
+}
+
+.review-timeline__list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.review-timeline__list_item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.review-timeline__event {
+  @include typography.timeline-event();
+}
+
+.review-timeline__event {
+  @include typography.timeline-event();
+}
+
+.review-timeline__date {
+  @include typography.timeline-date();
+}
+
+.review-timeline__reviews_link {
+  @include typography.link-text();
+}
+
+.link-icon {
+  vertical-align: bottom;
 }
