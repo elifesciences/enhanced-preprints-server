@@ -1,3 +1,4 @@
+@use '../sass/buttons';
 @use '../sass/settings';
 @use '../sass/typography';
 
@@ -187,9 +188,9 @@ img {
 }
 
 .article-status {
-  border-bottom: 1px solid settings.$color-divider-grey;
-  // TODO: magic number
-  margin: 150px auto 36px;
+  margin-top: 150px;// TODO: magic number
+  margin-left:auto;
+  margin-right:auto;
   padding-bottom: 36px;
   width: 230px;
 }
@@ -207,4 +208,27 @@ img {
   font-size: 12px;
   font-weight: 600;
   line-height: 22px;
+}
+
+.article-actions {
+  border-bottom: 1px solid settings.$color-divider-grey;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 36px;
+  width: 230px;
+}
+
+.article-actions__button {
+  @include buttons.action-button();
+  margin-bottom: 12px;
+  margin-right: 6px;
+  display: inline-block;
+
+  &:nth-child(even) {
+    margin-right: 0;
+  }
+}
+
+.article-actions__button_icon{
+  @include buttons.button-icon();
 }
