@@ -12,6 +12,12 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
             <h2 class="article-status__heading">Reviewed Preprint</h2>
             <span class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</span>
         </div>
+        <div class="article-actions">
+            <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">download</span>Download</a>
+            <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">format_quote</span>Cite</a>
+            <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">notifications</span>Follow</a>
+            <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">share</span>Share</a>
+        </div>
         <div class="review-link__container">
           <a class="review-link__anchor" href="/article/${doi}/reviews">Reviews ></a>
         </div>
