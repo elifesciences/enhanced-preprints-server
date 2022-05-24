@@ -29,9 +29,9 @@ $color-emphasis: rgb(8,122,204); // "accessible blue"
 // Logo
 @mixin logo-img {
   background-image: $logo-url;
-  background-size: 120px 46px;
+  background-size: 79px 30px;
   display: inline-block;
-  width: 120px;
-  height: 46px;
+  width: 79px;
+  height: 30px;
   content: "";
 }

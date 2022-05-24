@@ -10,6 +10,9 @@ export const basePage = (pageContent: string): string =>
         <link rel="stylesheet" href="/styles.css"/>
       </head>
       <body>
-        ${pageContent}
+        <div class="grid-container">
+          <div class="banner"></div>
+          ${pageContent}
+        </div>
     </body>
   </html>`;

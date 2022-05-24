@@ -5,8 +5,7 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
   const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);
-  return `<div class="grid-container">
-      ${header}
+  return `${header}
       <div class="secondary-column">
         <div class="article-status">
             <h2 class="article-status__heading">Reviewed Preprint</h2>
@@ -30,8 +29,7 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
         <div class="main-content-area">
           ${articleHtmlWithoutHeader}
         </div>
-      </main>
-    </div>`;
+      </main>`;
 };
 
 const generateToC = (headings: Heading[]): string => {
