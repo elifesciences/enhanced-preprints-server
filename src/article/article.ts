@@ -37,7 +37,7 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
                 <li class="article-subject-areas__item">Ion channels</li>
                 <li class="article-subject-areas__item">Ligand binding</li>
             </ul>
-            <a class="article-metadata__similar_research_link" href="/article/${doi}/reviews"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
+            <a class="article-metadata__similar_research_link" href="#"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
         </div>
       </div>
 
