@@ -110,3 +110,17 @@
   font-size: 14px;
   line-height: 32px;
 }
+
+@mixin metrics() {
+  color: settings.$color-text-inactive;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+@mixin subject-areas() {
+  color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 12px;
+  line-height: 18px;
+}
