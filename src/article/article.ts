@@ -16,7 +16,7 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
               <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">notifications</span>Follow</a>
               <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">share</span>Share</a>
           </div>
-        </div>        
+        </div>
         <div class="review-timeline">
             <ol class="review-timeline__list">
                 <li class="review-timeline__list_item"><span class="review-timeline__event">Author response</span><span class="review-timeline__date">Mar 6, 2022</span></li>
@@ -102,6 +102,7 @@ const getHeader = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, '.person [itemprop="affiliation"]');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
   replaceAttributesWithClassName(articleDom, '.content-header__affiliations > [itemtype="http://schema.org/Organization"]', 'organisation');
+  replaceAttributesWithClassName(articleDom, '.organisation > address', 'organisation__address');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="identifiers"]', 'content-header__identifiers');
 
   const headline = articleDom.querySelector('.content-header__title');
