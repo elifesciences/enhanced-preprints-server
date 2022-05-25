@@ -81,6 +81,13 @@ img {
     content: "";
   }
 }
+.organisation__address {
+  display: inline;
+  font-style: normal;
+  &::before {
+    content: ', ';
+  }
+}
 
 .content-header__identifiers {
   display: none;
