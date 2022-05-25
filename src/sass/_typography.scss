@@ -76,9 +76,11 @@
   }
 }
 
-@mixin link-text-serif() {
-  @include link-text();
-  font-family: settings.$font-family-secondary;
+@mixin right-bar-text() {
+  color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 32px;
 }
 
 @mixin author-list-text() {
@@ -94,28 +96,6 @@
   font-family: settings.$font-family-primary;
   font-size: 14px;
   line-height: 24px;
-}
-
-@mixin timeline-event() {
-  color: settings.$color-text;
-  font-family: settings.$font-family-primary;
-  font-size: 14px;
-  line-height: 32px;
-  font-weight: 600;
-}
-
-@mixin timeline-date() {
-  color: settings.$color-text-inactive;
-  font-family: settings.$font-family-primary;
-  font-size: 14px;
-  line-height: 32px;
-}
-
-@mixin metrics() {
-  color: settings.$color-text-inactive;
-  font-family: settings.$font-family-primary;
-  font-size: 14px;
-  line-height: 36px;
 }
 
 @mixin subject-areas() {
