@@ -3,7 +3,7 @@
 @use '../sass/typography';
 
 @mixin _right-column-section() {
-  border-bottom: 1px solid settings.$color-divider-grey;
+  border-bottom: settings.$border;
   margin-top: 36px;
   margin-left: auto;
   margin-right: auto;
@@ -22,7 +22,7 @@ img {
 .content-header {
   margin: 0;
   text-align: left;
-  border-bottom: 1px solid settings.$color-divider-grey;
+  border-bottom: settings.$border;
   padding-bottom: 36px;
 }
 
