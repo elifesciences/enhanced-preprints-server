@@ -25,6 +25,20 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
             </ol>
             <a class="review-timeline__reviews_link" href="/article/${doi}/reviews"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
         </div>
+        <div class="article-metadata">
+            <ul class="article-metrics">
+                <li class="article-metrics__item">1,467 views</li>
+                <li class="article-metrics__item">1 citation</li>
+                <li class="article-metrics__item">13 tweets</li>
+            </ul>
+            <ul class="article-subject-areas">
+                <li class="article-subject-areas__item">Important findings</li>
+                <li class="article-subject-areas__item">Single-molecule</li>
+                <li class="article-subject-areas__item">Ion channels</li>
+                <li class="article-subject-areas__item">Ligand binding</li>
+            </ul>
+            <a class="article-metadata__similar_research_link" href="/article/${doi}/reviews"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
+        </div>
       </div>
 
       <main class="primary-column">
