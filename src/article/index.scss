@@ -5,13 +5,12 @@
 @mixin _right-column-section() {
   border-bottom: settings.$border;
   margin-top: 36px;
-  margin-left: auto;
-  margin-right: auto;
   padding-bottom: 36px;
-  width: 230px;
 
-  &:first-child {
-    margin-top: 0;
+  @media only all and (min-width: 730px) {
+    margin-left: auto;
+    margin-right: auto;
+    width: 230px;
   }
 }
 
@@ -29,7 +28,7 @@ img {
 .content-header__title {
   @include typography.heading-1();
   margin-bottom: 36px;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .content-header__authors {
@@ -193,6 +192,11 @@ img {
 
 .article-status {
   @include _right-column-section();
+  margin-top: 48px;
+
+  @media only all and (min-width: 730px) {
+    margin-top: 0;
+  }
 }
 
 .article-status__heading {
@@ -213,9 +217,6 @@ img {
 
 .article-actions {
   padding-top: 36px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 230px;
 }
 
 .article-actions__button {
@@ -295,7 +296,6 @@ img {
   padding-left: 0;
   padding-top: 36px;
   margin-top: 0;
-  width: 230px;
   display: flex;
   flex-wrap: wrap;
 }
