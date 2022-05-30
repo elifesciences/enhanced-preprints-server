@@ -72,5 +72,23 @@
 }
 
 .content-header__identifiers {
+  @include typography.identifiers-list-text();
+  list-style: none;
+  padding: 0;
+}
+
+.content-header__identifier {
+  display: none;
+}
+.content-header__identifier:first-child {
+  display: list-item;
+}
+
+.content-header__identifier a {
+  @include typography.identifiers-list-text();
+  text-decoration: none;
+}
+
+.identifier__name {
   display: none;
 }

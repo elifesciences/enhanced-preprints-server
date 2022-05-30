@@ -103,19 +103,29 @@ const getHeader = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
   replaceAttributesWithClassName(articleDom, '.content-header__affiliations > [itemtype="http://schema.org/Organization"]', 'organisation');
   replaceAttributesWithClassName(articleDom, '.organisation > address', 'organisation__address');
-  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="identifiers"]', 'content-header__identifiers');
 
   const headline = articleDom.querySelector('.content-header__title');
   const authors = articleDom.querySelector('.content-header__authors');
   const affiliations = articleDom.querySelector('.content-header__affiliations');
-  const identifiers = articleDom.querySelector('.content-header__identifiers');
+  const dois = getDois(articleDom);
 
   return `<div class="content-header">
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}
-    ${identifiers?.outerHTML}
+    ${dois}
   </div>`;
+}
+
+const getDois = (articleDom: DocumentFragment): string => {
+  const dois = Array.from(articleDom.querySelectorAll('[data-itemprop="identifiers"] [itemtype="http://schema.org/PropertyValue"]'))
+    .filter((identifierDom) => {
+      return identifierDom.querySelector('[itemprop="name"]')?.textContent?.trim() == "doi"
+    }).map((identifierDom) => {
+      const doi = identifierDom.querySelector('[itemprop="value"]')?.textContent?.trim();
+      return `<li class="content-header__identifier"><a href="https://doi.org/${doi}">https://doi.org/${doi}</a></li>`;
+    });
+  return `<ul class="content-header__identifiers">${dois.join('')}</ul>`;
 }
 
 const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {

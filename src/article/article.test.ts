@@ -70,7 +70,7 @@ describe('article-page', () => {
     expect(container.querySelector('.content-header__title')?.textContent).toBe('Article');
     expect(container.querySelector('.content-header__authors')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Reece Urcher 1');
     expect(container.querySelector('.content-header__affiliations')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Department of Neuroscience, The University of Texas at Austin');
-    expect(container.querySelector('.content-header__identifiers')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('doi12.345/67890213445');
+    expect(container.querySelector('.content-header__identifiers')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('https://doi.org/12.345/67890213445');
   });
 
   it('does not include Table of Contents if no headings found', () => {
