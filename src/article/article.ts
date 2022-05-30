@@ -113,7 +113,21 @@ const getHeader = (articleDom: DocumentFragment): string => {
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}
-    ${dois}
+    <div class="content-header__footer">
+      ${dois}
+      <ul class="content-header__icons">
+        <li>
+          <a href="https://en.wikipedia.org/wiki/Open_access" class="content-header__icon content-header__icon--oa">
+                <span class="visuallyhidden">Open access</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://creativecommons.org/licenses/by/4.0/" class="content-header__icon content-header__icon--cc">
+            <span class="visuallyhidden">Copyright information</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>`;
 }
 
