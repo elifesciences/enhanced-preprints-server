@@ -63,7 +63,6 @@ describe('article-page', () => {
       date: new Date(''),
       xml: '',
       json: '',
-      reviews: [],
       html: validArticleHtml,
     });
     const container = JSDOM.fragment(wrappedArticle);
@@ -88,7 +87,6 @@ describe('article-page', () => {
       date: new Date(''),
       xml: '',
       json: '',
-      reviews: [],
       html: articleHtmlNoHeadings
     });
     const container = JSDOM.fragment(wrappedArticle);
@@ -103,7 +101,6 @@ describe('article-page', () => {
       date: new Date(''),
       xml: '',
       json: '',
-      reviews: [],
       html: validArticleHtml
     });
     const container = JSDOM.fragment(wrappedArticle);
@@ -120,7 +117,6 @@ describe('article-page', () => {
       date: new Date(''),
       xml: '',
       json: '',
-      reviews: [],
       html: validArticleHtml
     });
     const container = JSDOM.fragment(wrappedArticle);
