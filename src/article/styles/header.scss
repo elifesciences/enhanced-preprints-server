@@ -2,10 +2,10 @@
 @use '../../sass/typography';
 
 .content-header {
-  margin: 0;
-  text-align: left;
   border-bottom: settings.$border;
+  margin: 0;
   padding-bottom: 36px;
+  text-align: left;
 }
 
 .content-header__title {
@@ -66,11 +66,71 @@
 .organisation__address {
   display: inline;
   font-style: normal;
+
   &::before {
     content: ', ';
   }
 }
 
+.content-header__footer {
+  display: flex;
+}
+
 .content-header__identifiers {
+  @include typography.identifiers-list-text();
+  list-style: none;
+  padding: 0;
+}
+
+.content-header__identifier {
   display: none;
+}
+.content-header__identifier:first-child {
+  display: list-item;
+}
+
+.content-header__identifier a {
+  @include typography.identifiers-list-text();
+  text-decoration: none;
+}
+
+.content-header__icons {
+  margin: 14px 5px;
+  padding: 0px;
+}
+.content-header__icons li {
+  @include typography.identifiers-list-text();
+  display: inline-block;
+}
+.content-header__icon--oa {
+  background-image: url(/images/oa.svg),linear-gradient(transparent, transparent);
+  height: 26px;
+  width: 16px;
+}
+.content-header__icon {
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+.content-header__icon--cc {
+  background-image: url(/images/cc.svg),linear-gradient(transparent,transparent);
+  height: 24px;
+  width: 18px;
+}
+
+.identifier__name {
+  display: none;
+}
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  user-select: none;
+  width: 1px;
 }

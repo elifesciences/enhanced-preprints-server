@@ -98,6 +98,13 @@
   line-height: 24px;
 }
 
+@mixin identifiers-list-text() {
+  color: settings.$color-text-inactive;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 24px;
+}
+
 @mixin subject-areas() {
   color: settings.$color-text;
   font-family: settings.$font-family-primary;
