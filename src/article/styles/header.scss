@@ -2,10 +2,10 @@
 @use '../../sass/typography';
 
 .content-header {
-  margin: 0;
-  text-align: left;
   border-bottom: settings.$border;
+  margin: 0;
   padding-bottom: 36px;
+  text-align: left;
 }
 
 .content-header__title {
@@ -66,6 +66,7 @@
 .organisation__address {
   display: inline;
   font-style: normal;
+
   &::before {
     content: ', ';
   }
@@ -107,11 +108,11 @@
   width: 16px;
 }
 .content-header__icon {
-  vertical-align: middle;
-  background-repeat: no-repeat;
   background-position: left bottom;
-  display: inline-block;
+  background-repeat: no-repeat;
   background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
 }
 .content-header__icon--cc {
   background-image: url(/images/cc.svg),linear-gradient(transparent,transparent);
@@ -130,6 +131,6 @@
   overflow: hidden;
   padding: 0;
   position: absolute;
-  width: 1px;
   user-select: none;
+  width: 1px;
 }
