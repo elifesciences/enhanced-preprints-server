@@ -1,7 +1,7 @@
 import { fetchReviews, HypothesisResponse } from './fetch-reviews';
 import axios from 'axios';
 import { mocked } from 'jest-mock';
-import { docmapMock } from "../../test-utils/docmap-mock";
+import { docmapMock, docmapNoHypothesisMock } from "../../test-utils/docmap-mock";
 
 jest.mock('axios');
 
@@ -37,4 +37,28 @@ describe('fetch-reviews', () => {
     expect(mockedGet).toHaveBeenNthCalledWith(3, expect.stringContaining('A2ZbGBCxEeyu-CsIpygfMQ'));
     expect(mockedGet).toHaveBeenNthCalledWith(4, expect.stringContaining('J2qSChC1EeyvHS8fi9T9oQ'));
   });
+
+  describe('when unable to retrieve the docmap', () => {
+    it('returns empty array on http errors', async () => {
+      const mockedGet = mocked(axios.get, true);
+      mockedGet.mockImplementation(() => Promise.reject({
+        data: {},
+        status: 404,
+      }));
+      const reviews = await fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org');
+
+      expect(reviews).toStrictEqual([]);
+    });
+
+    it('returns empty array if there are no hypothesis link in the docmap', async () => {
+      const mockedGet = mocked(axios.get, true);
+      mockedGet.mockImplementation(() => Promise.resolve({
+        data: docmapNoHypothesisMock,
+        status: 200,
+      }));
+      const reviews = await fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org');
+
+      expect(reviews).toStrictEqual([]);
+    });
+  })
 });

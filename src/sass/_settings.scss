@@ -2,7 +2,15 @@
 $color-text: rgb(33,33,33);
 $color-text-inactive: rgb(118, 118, 118);
 
-$color-emphasis: rgb(188,35,37); // red
+$color-less-light-grey: rgb(237, 239, 244);
+$color-divider-grey: rgb(224, 224, 224);
+
+$color-near-black: rgb(33, 33, 33);
+
+$color-emphasis: rgb(8,122,204); // "accessible blue"
+
+// Borders
+$border: 1px solid $color-divider-grey;
 
 // Fonts
 $font-family-primary: Noto Sans,Arial,Helvetica,sans-serif;
@@ -12,3 +20,21 @@ $font-family-secondary: Noto Serif,serif;
 $max-site-width: 1296px;
 $grid-column: 78px;
 $grid-gutter: 24px;
+
+// biophysics-colab
+// $logo-url: url(https://static.wixstatic.com/media/1f1e58_cde9872c8ecf470d8f8238a81a1d4f1b~mv2.png/v1/fill/w_492,h_192,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/210628_Biophysics%20Logo_FINAL%202.png);
+// $color-emphasis: rgb(188,35,37); // "biophysics red"
+
+// elife
+$logo-url: url(https://elifesciences.org/assets/patterns/img/patterns/organisms/elife-logo-xs.fd623d00.svg);
+$color-emphasis: rgb(8,122,204); // "accessible blue"
+
+// Logo
+@mixin logo-img {
+  background-image: $logo-url;
+  background-size: 79px 30px;
+  display: inline-block;
+  width: 79px;
+  height: 30px;
+  content: "";
+}

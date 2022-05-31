@@ -9,7 +9,7 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
   const docmaps = await fetchDocmaps(doi);
   const docmap = docmaps.find(docmap => docmap.publisher.id === reviewingGroup);
   if (!docmap) {
-    return Promise.reject(`No docmap for reviewingGroup: ${reviewingGroup} and doi: ${doi}`);
+    return Promise.resolve([]);
   }
   const hypothesisUrls = Object.values(docmap.steps)
     .flatMap(docmapStep => docmapStep.actions
@@ -21,6 +21,9 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
       )
     );
 
+  if (!hypothesisUrls.length) {
+    return Promise.resolve([]);
+  }
   const hypothesisIds = hypothesisUrls.map(url => {
     const urlParts = url.split('/');
     return urlParts[urlParts.length -1];
@@ -38,7 +41,7 @@ export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
 
 type FetchDocmap = (doi: string) => Promise<Array<Docmap>>;
 const fetchDocmaps: FetchDocmap = async (doi) => {
-  return axios.get<Array<Docmap>>(`https://sciety.org/docmaps/v1/articles/${doi}.docmap.json`).then(async (response) => response.data);
+  return axios.get<Array<Docmap>>(`https://sciety.org/docmaps/v1/articles/${doi}.docmap.json`).then(async (response) => response.data).catch(() => []);
 }
 
 type DocmapStep = {

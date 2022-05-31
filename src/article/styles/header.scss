@@ -1,0 +1,76 @@
+@use '../../sass/settings';
+@use '../../sass/typography';
+
+.content-header {
+  margin: 0;
+  text-align: left;
+  border-bottom: settings.$border;
+  padding-bottom: 36px;
+}
+
+.content-header__title {
+  @include typography.heading-1();
+  margin-bottom: 36px;
+  margin-top: 0;
+}
+
+.content-header__authors {
+  list-style: none;
+  padding: 0;
+}
+
+.person {
+  @include typography.author-list-text();
+  display: inline;
+
+  &:last-child .person__family_name:last-child:after {
+    content: "";
+  }
+}
+
+.person__family_name {
+  &:after {
+    content: " ";
+  }
+
+  &:last-child:after {
+    content: ", ";
+  }
+}
+
+.person__given_name:after {
+  content: " ";
+}
+
+.person__affiliations {
+  display: none;
+}
+
+.content-header__affiliations {
+  list-style: none;
+  padding: 0;
+}
+
+.organisation {
+  @include typography.affiliations-list-text();
+  display: inline;
+
+  &:after {
+    content: " • ";
+  }
+
+  &:last-child:after {
+    content: "";
+  }
+}
+.organisation__address {
+  display: inline;
+  font-style: normal;
+  &::before {
+    content: ', ';
+  }
+}
+
+.content-header__identifiers {
+  display: none;
+}

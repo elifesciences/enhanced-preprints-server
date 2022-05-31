@@ -75,12 +75,10 @@ describe('article-page', () => {
     expect(container.querySelector('article > [itemprop="datePublished"]')).toBeNull()
     expect(container.querySelector('article > [data-itemprop="identifiers"]')).toBeNull()
 
-    expect(container.querySelector('.content-header > h1')?.textContent).toBe('Article');
-    expect(container.querySelector('.content-header > [data-itemprop="authors"]')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Reece Urcher 1');
-    expect(container.querySelector('.content-header > [data-itemprop="affiliations"]')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Department of Neuroscience, The University of Texas at Austin');
-    expect(container.querySelector('.content-header > [itemprop="publisher"]')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('');
-    expect(container.querySelector('.content-header > [itemprop="datePublished"]')?.textContent).toBe('2021-07-06');
-    expect(container.querySelector('.content-header > [data-itemprop="identifiers"]')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('doi12.345/67890213445');
+    expect(container.querySelector('.content-header__title')?.textContent).toBe('Article');
+    expect(container.querySelector('.content-header__authors')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Reece Urcher 1');
+    expect(container.querySelector('.content-header__affiliations')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Department of Neuroscience, The University of Texas at Austin');
+    expect(container.querySelector('.content-header__identifiers')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('doi12.345/67890213445');
   });
 
   it('does not include Table of Contents if no headings found', () => {
