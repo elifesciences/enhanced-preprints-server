@@ -1,4 +1,5 @@
 import { Doi, ArticleRepository, ProcessedArticle, ArticleSummary, ArticleContent, ArticleStruct } from "../model";
+import { normaliseTitleJson } from "../utils";
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ProcessedArticle>;
@@ -30,14 +31,22 @@ class InMemoryArticleRepository implements ArticleRepository {
     if (article === undefined) {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
-    return article;
+
+    return {
+      doi: article.doi,
+      xml: article.xml,
+      title: normaliseTitleJson(article.title),
+      html: article.html,
+      json: article.json,
+      date: article.date,
+    };
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
     return Array.from(this.store.values()).map((article) => {
       return {
         doi: article.doi,
-        title: article.title,
+        title: normaliseTitleJson(article.title),
         date: article.date,
       };
     });

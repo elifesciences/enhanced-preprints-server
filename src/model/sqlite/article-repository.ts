@@ -1,6 +1,7 @@
 import { Doi, ArticleRepository, ProcessedArticle, ArticleSummary, ArticleContent } from "../model";
 import { Database as SqliteDatabase, Statement } from "sqlite3";
 import { open, Database } from "sqlite";
+import { normaliseTitleJson } from "../utils";
 
 class SqliteArticleRepository implements ArticleRepository {
   connection: Database<SqliteDatabase, Statement>;
@@ -26,6 +27,8 @@ class SqliteArticleRepository implements ArticleRepository {
     }
     //remap date to a Date object
     article.date = new Date(article.date);
+    article.title = normaliseTitleJson(article.title);
+
     return article;
   }
 
@@ -33,6 +36,8 @@ class SqliteArticleRepository implements ArticleRepository {
     const summaries = await this.connection.all<ArticleSummary[]>(sqlStatements.getArticleSummary);
     return summaries.map((articleSummary) => {
       articleSummary.date = new Date(articleSummary.date);
+      articleSummary.title = normaliseTitleJson(articleSummary.title);
+
       return articleSummary;
     });
   }
