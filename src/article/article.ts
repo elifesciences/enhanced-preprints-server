@@ -118,7 +118,7 @@ const getHeader = (articleDom: DocumentFragment): string => {
       <ul class="content-header__icons">
         <li>
           <a href="https://en.wikipedia.org/wiki/Open_access" class="content-header__icon content-header__icon--oa">
-                <span class="visuallyhidden">Open access</span>
+            <span class="visuallyhidden">Open access</span>
           </a>
         </li>
         <li>
