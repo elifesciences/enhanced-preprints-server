@@ -107,14 +107,14 @@ const getHeader = (articleDom: DocumentFragment): string => {
   const headline = articleDom.querySelector('.content-header__title');
   const authors = articleDom.querySelector('.content-header__authors');
   const affiliations = articleDom.querySelector('.content-header__affiliations');
-  const dois = getDois(articleDom);
+  const doi = getDoi(articleDom);
 
   return `<div class="content-header">
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}
     <div class="content-header__footer">
-      ${dois}
+      ${doi}
       <ul class="content-header__icons">
         <li>
           <a href="https://en.wikipedia.org/wiki/Open_access" class="content-header__icon content-header__icon--oa">
@@ -131,7 +131,7 @@ const getHeader = (articleDom: DocumentFragment): string => {
   </div>`;
 }
 
-const getDois = (articleDom: DocumentFragment): string => {
+const getDoi = (articleDom: DocumentFragment): string => {
   const dois = Array.from(articleDom.querySelectorAll('[data-itemprop="identifiers"] [itemtype="http://schema.org/PropertyValue"]'))
     .filter((identifierDom) => {
       return identifierDom.querySelector('[itemprop="name"]')?.textContent?.trim() == "doi"
@@ -139,7 +139,12 @@ const getDois = (articleDom: DocumentFragment): string => {
       const doi = identifierDom.querySelector('[itemprop="value"]')?.textContent?.trim();
       return `<li class="content-header__identifier"><a href="https://doi.org/${doi}">https://doi.org/${doi}</a></li>`;
     });
-  return `<ul class="content-header__identifiers">${dois.join('')}</ul>`;
+
+  if (dois.length != 1) {
+    throw Error(`Found multiple DOIs in manuscript: ${dois.join(',')}`);
+  }
+  const doi  = dois.shift();
+  return `<ul class="content-header__identifiers">${doi}</ul>`;
 }
 
 const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
