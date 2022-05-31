@@ -52,12 +52,18 @@ const validArticleHtml = `
 const articleHtmlNoHeadings = `
   <article>
     <h1 itemprop="headline" content="Article">Article</h1>
+    <ul data-itemprop="identifiers">
+      <li itemtype="http://schema.org/PropertyValue" itemprop="identifier">
+        <meta itemprop="propertyID" content="https://registry.identifiers.org/registry/doi">
+        <span itemprop="name">doi</span><span itemprop="value">12.345/67890213445</span>
+      </li>
+    </ul>
   </article>
 `;
 
 describe('article-page', () => {
   it('moves the article heading elements out of the article body and into an article header', () => {
-    const wrappedArticle = buildArticlePage(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage(validArticleHtml, '12.345/67890213445');
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('article > h1')).toBeNull()
@@ -74,7 +80,7 @@ describe('article-page', () => {
   });
 
   it('does not include Table of Contents if no headings found', () => {
-    const wrappedArticle = buildArticlePage(articleHtmlNoHeadings, '');
+    const wrappedArticle = buildArticlePage(articleHtmlNoHeadings, '12.345/67890213445');
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('.toc-container')).toBeNull();
