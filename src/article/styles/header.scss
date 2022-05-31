@@ -93,11 +93,6 @@
   text-decoration: none;
 }
 
-.identifier__name {
-  display: none;
-}
-
-
 .content-header__icons {
   margin: 14px 5px;
   padding: 0px;
@@ -123,6 +118,10 @@
   height: 24px;
   width: 18px;
 }
+
+.identifier__name {
+  display: none;
+}
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -132,8 +131,5 @@
   padding: 0;
   position: absolute;
   width: 1px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
