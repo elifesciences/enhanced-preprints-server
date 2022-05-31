@@ -9,12 +9,11 @@ import { createEnhancedArticleGetter, getEnhancedArticle } from './reviews/get-e
 
 
 const app = express();
-const cache: Record<string, string> = {};
 
 const config = {
-  id: 'https://biophysics.sciencecolab.org',
-  name: "Biophysics Colab",
-  dataDir: './articles',
+  id: 'https://elifesciences.org',
+  name: "eLife",
+  dataDir: './data/10.1101',
   databasePath: './data.db'
 }
 
