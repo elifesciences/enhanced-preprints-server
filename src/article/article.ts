@@ -140,8 +140,11 @@ const getDoi = (articleDom: DocumentFragment): string => {
       return `<li class="content-header__identifier"><a href="https://doi.org/${doi}">https://doi.org/${doi}</a></li>`;
     });
 
-  if (dois.length != 1) {
+  if (dois.length > 1) {
     throw Error(`Found multiple DOIs in manuscript: ${dois.join(',')}`);
+  }
+  if (dois.length === 0) {
+    return '';
   }
   const doi  = dois.shift();
   return `<ul class="content-header__identifiers">${doi}</ul>`;
