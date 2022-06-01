@@ -3,6 +3,6 @@ CREATE TABLE articles (
     xml TEXT NOT NULL,
     html TEXT NOT NULL,
     json TEXT NOT NULL,
-    title TEXT NOT NULL GENERATED ALWAYS AS (json_extract(json, '$.title')) STORED,
-    date TEXT NOT NULL GENERATED ALWAYS AS (json_extract(json, '$.datePublished.value')) STORED
+    title TEXT NOT NULL GENERATED ALWAYS AS (json_extract(json, '$.title')) VIRTUAL,
+    date TEXT NOT NULL GENERATED ALWAYS AS (json_extract(json, '$.datePublished.value')) VIRTUAL
 );
