@@ -1,5 +1,4 @@
-export const basePage = (pageContent: string): string =>
-  `<html lang="en">
+export const basePage = (pageContent: string): string => `<html lang="en">
       <head>
         <title>Enhanced Preprints</title>
         <meta charset="utf-8">
