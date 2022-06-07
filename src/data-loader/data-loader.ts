@@ -2,18 +2,17 @@ import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import { ArticleContent, ArticleRepository, ArticleStruct } from '../model/model';
 
-
-
-export const loadXmlArticlesFromDirIntoStores = (dataDir: string, articleRepository: ArticleRepository) => {
+export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository) => {
   const xmlFiles = getDirectories(dataDir).map(articleId => `${dataDir}/${articleId}/${articleId}.xml`).filter((xmlFilePath) => existsSync(xmlFilePath));
-  xmlFiles.forEach(async (xmlFile) => {
+
+  for (const xmlFile of xmlFiles) {
     const articleContent = await processArticle(xmlFile);
     try {
       await articleRepository.getArticle(articleContent.doi);
     } catch(error) {
-      articleRepository.storeArticle(articleContent);
+      await articleRepository.storeArticle(articleContent);
     }
-  });
+  }
 }
 
 const getDirectories = (source: string) => {
@@ -30,10 +29,7 @@ const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> =>
 
   // extract DOI
   const dois = articleStruct.identifiers.filter((identifier) => {
-    if (identifier.name == "doi") {
-      return true;
-    }
-    return false;
+    return identifier.name == "doi";
   });
   const doi = dois[0].value;
 

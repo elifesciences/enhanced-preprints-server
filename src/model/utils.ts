@@ -24,9 +24,9 @@ export const normaliseTitleJson = (title: Title): string => {
 };
 
 type DecoratedContent = {
-  content: string,
+  content: string | string[],
   type: string,
 };
 
-type TitlePart = string|DecoratedContent;
-type Title = string|TitlePart[];
+type TitlePart = string | DecoratedContent;
+type Title = string | TitlePart[];

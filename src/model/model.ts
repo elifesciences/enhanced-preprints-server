@@ -1,17 +1,5 @@
-import { createInMemoryArticleRepository } from "./in-memory/article-repository";
-import { createSqliteArticleRepository } from "./sqlite/article-repository";
-
-
-export type ReviewingGroupId = string;
-export type ReviewingGroupName = string;
-export type ReviewingGroup = {
-  id: ReviewingGroupId,
-  name: ReviewingGroupName,
-};
-
-
-
-
+import { createInMemoryArticleRepository } from "./in-memory/in-memory-repository";
+import { createSqliteArticleRepository } from "./sqlite/sqlite-repository";
 
 export type Doi = string;
 export type ArticleXML = string;
@@ -40,7 +28,6 @@ export type ArticleSummary = {
 export type ReviewText = string;
 export enum ReviewType {
   EvaluationSummary = "evaluation_summary",
-  AuthorResponse = "author_response",
 }
 export type Review = {
   date: Date,
@@ -53,7 +40,6 @@ export type EnhancedArticle = ProcessedArticle & {
   reviews: Review[]
 };
 
-
 export interface ArticleRepository {
   storeArticle(article: ArticleContent): Promise<boolean>;
   getArticle(doi: Doi): Promise<ProcessedArticle>;
@@ -61,8 +47,8 @@ export interface ArticleRepository {
 }
 
 export enum StoreType {
-  InMemory,
-  Sqlite
+  InMemory = "InMemory",
+  Sqlite = "Sqlite"
 }
 
 export const createArticleRepository = async (kind: StoreType, connectionString = ''): Promise<ArticleRepository> => {
@@ -73,7 +59,6 @@ export const createArticleRepository = async (kind: StoreType, connectionString 
   //default to InMemory
   return createInMemoryArticleRepository();
 }
-
 
 //type related to the JSON output of encoda
 export type ArticleStruct = {

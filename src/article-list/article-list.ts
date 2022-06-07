@@ -8,7 +8,7 @@ const dateSort = (a: ArticleSummary, b: ArticleSummary) => {
 }
 
 export const generateArticleList = (journalName: string, articleSummaries: ArticleSummary[]): string => {
-  if (articleSummaries.length == 0) {
+  if (articleSummaries.length === 0) {
     return wrapInPageHtml(journalName, '<p>No articles found</p>');
   }
 

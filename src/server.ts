@@ -19,10 +19,13 @@ const config = {
 
 let articleRepository: ArticleRepository;
 let getEnhancedArticle: getEnhancedArticle;
-createArticleRepository(StoreType.Sqlite, config.databasePath).then((repo: ArticleRepository) => {
+createArticleRepository(StoreType.Sqlite, config.databasePath).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
-  loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
+  await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
+  app.listen(3000, () => {
+    console.log(`Example app listening on port 3000`);
+  });
 });
 
 
@@ -42,8 +45,4 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
   res.send(basePage(generateReviewPage(await getEnhancedArticle(doi))));
-});
-
-app.listen(3000, () => {
-  console.log(`Example app listening on port 3000`);
 });
