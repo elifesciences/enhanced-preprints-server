@@ -5,10 +5,13 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'plugin:prettier/recommended',
   ],
   rules: {
     'no-multiple-empty-lines': ['warn', { max: 1 }],
+    "no-trailing-spaces": "error",
+    semi: ["error", "always"],
+    "comma-dangle": ["error", "always"],
+    quotes: ["error", "single"],
+    "arrow-parens": ["error", "always"]
   },
 };
