@@ -6,4 +6,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   extends: ['airbnb/base', 'airbnb-typescript/base'],
+  rules: {
+    "import/prefer-default-export": 0,
+  }
 };
