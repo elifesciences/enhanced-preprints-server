@@ -31,5 +31,4 @@ const getEnhancedArticleWithDependencies = async (doi: Doi, articleRepository: A
   };
 };
 
-export const createEnhancedArticleGetter = (articleRepository: ArticleRepository, reviewingGroupId: string): GetEnhancedArticle =>
-  async (doi: Doi) => getEnhancedArticleWithDependencies(doi, articleRepository, reviewingGroupId);
+export const createEnhancedArticleGetter = (articleRepository: ArticleRepository, reviewingGroupId: string): GetEnhancedArticle => async (doi: Doi) => getEnhancedArticleWithDependencies(doi, articleRepository, reviewingGroupId);
