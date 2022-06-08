@@ -1,6 +1,26 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleContent, ArticleRepository, ArticleStruct } from '../model/model';
+import { ArticleContent, ArticleRepository } from '../model/model';
+
+// type related to the JSON output of encoda
+export type ArticleStruct = {
+  id: string,
+  journal: string,
+  title: string,
+  datePublished: DateType
+  dateAccepted: DateType
+  dateReceived: DateType
+  identifiers: Array<ArticleIdentifier>
+};
+type ArticleIdentifier = {
+  name: string,
+  value: string
+};
+
+type DateType = {
+  type: string,
+  value: string
+};
 
 const getDirectories = (source: string) => readdirSync(source, { withFileTypes: true })
   .filter((dirent) => dirent.isDirectory())

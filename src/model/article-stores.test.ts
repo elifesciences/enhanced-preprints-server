@@ -1,12 +1,10 @@
-import { StoreType } from './model';
-import { createInMemoryArticleRepository } from './in-memory/in-memory-repository';
-import { createSqliteArticleRepository } from './sqlite/sqlite-repository';
+import { createArticleRepository, StoreType } from './create-article-repository';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
-    return createInMemoryArticleRepository();
+    return createArticleRepository(StoreType.InMemory);
   }
-  return createSqliteArticleRepository(':memory:');
+  return createArticleRepository(StoreType.Sqlite, ':memory:');
 };
 
 describe('article-stores', () => {

@@ -1,10 +1,10 @@
+import { ArticleStruct } from '../../data-loader/data-loader';
 import {
   Doi,
   ArticleRepository,
   ProcessedArticle,
   ArticleSummary,
   ArticleContent,
-  ArticleStruct,
 } from '../model';
 import { normaliseTitleJson } from '../utils';
 
