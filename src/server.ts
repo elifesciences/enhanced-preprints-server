@@ -1,33 +1,32 @@
 import express from 'express';
-import { generateArticleList } from "./article-list/article-list";
-import { buildArticlePage } from "./article/article";
-import { generateReviewPage } from "./reviews/reviews";
-import { basePage } from "./base-page/base-page";
+import { generateArticleList } from './article-list/article-list';
+import { buildArticlePage } from './article/article';
+import { generateReviewPage } from './reviews/reviews';
+import { basePage } from './base-page/base-page';
 import { StoreType, createArticleRepository, ArticleRepository } from './model/model';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
-import { createEnhancedArticleGetter, getEnhancedArticle } from './reviews/get-enhanced-article';
-
+import { createEnhancedArticleGetter, GetEnhancedArticle } from './reviews/get-enhanced-article';
 
 const app = express();
 
 const config = {
   id: 'https://elifesciences.org',
-  name: "eLife",
+  name: 'eLife',
   dataDir: './data/10.1101',
-  databasePath: './data.db'
-}
+  databasePath: './data.db',
+};
 
 let articleRepository: ArticleRepository;
-let getEnhancedArticle: getEnhancedArticle;
+let getEnhancedArticle: GetEnhancedArticle;
 createArticleRepository(StoreType.Sqlite, config.databasePath).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
   await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
   app.listen(3000, () => {
-    console.log(`Example app listening on port 3000`);
+    // eslint-disable-next-line no-console
+    console.log('Example app listening on port 3000');
   });
 });
-
 
 app.use(express.static('public'));
 

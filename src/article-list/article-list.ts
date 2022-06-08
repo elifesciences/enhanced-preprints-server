@@ -1,24 +1,11 @@
-import { ArticleSummary } from "../model/model";
+import { ArticleSummary } from '../model/model';
 
 const dateSort = (a: ArticleSummary, b: ArticleSummary) => {
   if (a.date.getTime() === b.date.getTime()) {
     return 0;
   }
   return a.date.getTime() > b.date.getTime() ? 1 : -1;
-}
-
-export const generateArticleList = (journalName: string, articleSummaries: ArticleSummary[]): string => {
-  if (articleSummaries.length === 0) {
-    return wrapInPageHtml(journalName, '<p>No articles found</p>');
-  }
-
-  const articleList = articleSummaries.sort(dateSort).map(articleSummary => `
-    <li><a class="article-list__link" href="/article/${articleSummary.doi}">${articleSummary.date.toLocaleDateString('en-GB')} - ${articleSummary.title}</a></li>
-    `).join('');
-  return wrapInPageHtml(journalName, wrapInArticleListHtml(articleList));
-}
-
-const wrapInArticleListHtml = (articleList: string) => `<ul class="articles-list">${articleList}</ul>`;
+};
 
 const wrapInPageHtml = (journalName: string, articleList: string) => `
 <div class="articles-page">
@@ -26,3 +13,16 @@ const wrapInPageHtml = (journalName: string, articleList: string) => `
   ${articleList}
 </div>
 `;
+
+const wrapInArticleListHtml = (articleList: string) => `<ul class="articles-list">${articleList}</ul>`;
+
+export const generateArticleList = (journalName: string, articleSummaries: ArticleSummary[]): string => {
+  if (articleSummaries.length === 0) {
+    return wrapInPageHtml(journalName, '<p>No articles found</p>');
+  }
+
+  const articleList = articleSummaries.sort(dateSort).map((articleSummary) => `
+    <li><a class="article-list__link" href="/article/${articleSummary.doi}">${articleSummary.date.toLocaleDateString('en-GB')} - ${articleSummary.title}</a></li>
+    `).join('');
+  return wrapInPageHtml(journalName, wrapInArticleListHtml(articleList));
+};

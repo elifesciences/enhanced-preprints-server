@@ -1,16 +1,25 @@
-import { Doi, ArticleRepository, ProcessedArticle, ArticleSummary, ArticleContent, ArticleStruct } from "../model";
-import { normaliseTitleJson } from "../utils";
+import {
+  Doi,
+  ArticleRepository,
+  ProcessedArticle,
+  ArticleSummary,
+  ArticleContent,
+  ArticleStruct,
+} from '../model';
+import { normaliseTitleJson } from '../utils';
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ProcessedArticle>;
+
   constructor(store: Map<string, ProcessedArticle>) {
     this.store = store;
   }
+
   async storeArticle(article: ArticleContent): Promise<boolean> {
     const articleStruct = JSON.parse(article.json) as ArticleStruct;
 
     // extract title
-    const title = articleStruct.title;
+    const { title } = articleStruct;
 
     // extract publish date
     const date = new Date(articleStruct.datePublished.value);
@@ -18,14 +27,15 @@ class InMemoryArticleRepository implements ArticleRepository {
     this.store.set(article.doi, {
       doi: article.doi,
       xml: article.xml,
-      title: title,
       html: article.html,
       json: article.json,
-      date: date,
+      title,
+      date,
     });
 
     return true;
   }
+
   async getArticle(doi: Doi): Promise<ProcessedArticle> {
     const article = this.store.get(doi);
     if (article === undefined) {
@@ -43,16 +53,12 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    return Array.from(this.store.values()).map((article) => {
-      return {
-        doi: article.doi,
-        title: normaliseTitleJson(article.title),
-        date: article.date,
-      };
-    });
+    return Array.from(this.store.values()).map((article) => ({
+      doi: article.doi,
+      title: normaliseTitleJson(article.title),
+      date: article.date,
+    }));
   }
 }
 
-export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => {
-  return new InMemoryArticleRepository(new Map<string, ProcessedArticle>());
-}
+export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => new InMemoryArticleRepository(new Map<string, ProcessedArticle>());

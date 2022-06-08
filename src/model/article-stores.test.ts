@@ -1,14 +1,13 @@
-import { StoreType } from "./model";
-import { createInMemoryArticleRepository } from "./in-memory/in-memory-repository";
-import { createSqliteArticleRepository } from "./sqlite/sqlite-repository";
+import { StoreType } from './model';
+import { createInMemoryArticleRepository } from './in-memory/in-memory-repository';
+import { createSqliteArticleRepository } from './sqlite/sqlite-repository';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
     return createInMemoryArticleRepository();
-  } else {
-    return createSqliteArticleRepository(':memory:');
   }
-}
+  return createSqliteArticleRepository(':memory:');
+};
 
 describe('article-stores', () => {
   describe.each([StoreType.InMemory, StoreType.Sqlite])('Test article store backed by %s', (store) => {
@@ -89,11 +88,7 @@ describe('article-stores', () => {
         doi: 'test/article.6',
         title: 'Test Article 6',
         date: new Date('2008-06-03'),
-      }]))
+      }]));
     });
   });
-})
-
-
-
-
+});
