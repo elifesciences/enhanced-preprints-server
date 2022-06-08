@@ -21,6 +21,20 @@ describe('article-stores', () => {
       expect(stored).toStrictEqual(true);
     });
 
+    it('fails to store article if already stored', async () => {
+      const articleStore = await createArticleRepo(store);
+      const article = {
+        doi: 'test/article.1',
+        xml: '<article></article>',
+        html: '<article></article>',
+        json: '{"title":"Test Article 1", "datePublished":{"value": "2008-01-03"}}',
+      };
+      await articleStore.storeArticle(article);
+      const stored = await articleStore.storeArticle(article);
+
+      expect(stored).toStrictEqual(false);
+    });
+
     it('stores article content and retrieves a specific processed article by ID', async () => {
       const articleStore = await createArticleRepo(store);
       const exampleArticle = {

@@ -10,7 +10,7 @@ import {
 import { normaliseTitleJson } from '../utils';
 
 const sqlStatements = {
-  insertArticle: 'INSERT INTO articles (doi, xml, html, json) VALUES (?, ?, ?, ?)',
+  insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, json) VALUES (?, ?, ?, ?)',
   getArticle: `
     SELECT
       articles.doi as "doi",

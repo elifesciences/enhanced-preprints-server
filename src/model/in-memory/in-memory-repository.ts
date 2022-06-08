@@ -16,6 +16,9 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async storeArticle(article: ArticleContent): Promise<boolean> {
+    if (this.store.has(article.doi)) {
+      return false;
+    }
     const articleStruct = JSON.parse(article.json) as ArticleStruct;
 
     // extract title

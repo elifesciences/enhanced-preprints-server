@@ -47,12 +47,5 @@ const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> =>
 export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository) => {
   const xmlFiles = getDirectories(dataDir).map((articleId) => `${dataDir}/${articleId}/${articleId}.xml`).filter((xmlFilePath) => existsSync(xmlFilePath));
 
-  for (const xmlFile of xmlFiles) {
-    const articleContent = await processArticle(xmlFile);
-    try {
-      await articleRepository.getArticle(articleContent.doi);
-    } catch (error) {
-      await articleRepository.storeArticle(articleContent);
-    }
-  }
+  return Promise.all(xmlFiles.map((xmlFile) => processArticle(xmlFile).then((articleContent) => articleRepository.storeArticle(articleContent))));
 };

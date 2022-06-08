@@ -3,9 +3,10 @@ import { generateArticleList } from './article-list/article-list';
 import { buildArticlePage } from './article/article';
 import { generateReviewPage } from './reviews/reviews';
 import { basePage } from './base-page/base-page';
-import { StoreType, createArticleRepository, ArticleRepository } from './model/model';
+import { ArticleRepository } from './model/model';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
 import { createEnhancedArticleGetter, GetEnhancedArticle } from './reviews/get-enhanced-article';
+import { createArticleRepository, StoreType } from './model/create-article-repository';
 
 const app = express();
 
