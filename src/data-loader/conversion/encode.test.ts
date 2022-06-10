@@ -7,6 +7,7 @@ describe('encode', () => {
       const convertMock = jest.spyOn(encoda, 'convert');
       convertMock.mockImplementation(() => Promise.resolve('<html lang="en">article</html>'));
       const html = await convertJatsToHtml('data/journalId/articleId/articleId.xml');
+
       expect(html).not.toBeNull();
       expect(convertMock).toHaveBeenCalledTimes(1);
       expect(convertMock).toHaveBeenCalledWith('data/journalId/articleId/articleId.xml', undefined, {
