@@ -1,5 +1,5 @@
-import { buildArticlePage } from "./article";
 import { JSDOM } from 'jsdom';
+import { buildArticlePage } from './article';
 
 const validArticleHtml = `
   <article>
@@ -60,17 +60,17 @@ describe('article-page', () => {
     const wrappedArticle = buildArticlePage(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);
 
-    expect(container.querySelector('article > h1')).toBeNull()
-    expect(container.querySelector('article > [data-itemprop="authors"]')).toBeNull()
-    expect(container.querySelector('article > [data-itemprop="affiliations"]')).toBeNull()
-    expect(container.querySelector('article > [itemprop="publisher"]')).toBeNull()
-    expect(container.querySelector('article > [itemprop="datePublished"]')).toBeNull()
-    expect(container.querySelector('article > [data-itemprop="identifiers"]')).toBeNull()
+    expect(container.querySelector('article > h1')).toBeNull();
+    expect(container.querySelector('article > [data-itemprop="authors"]')).toBeNull();
+    expect(container.querySelector('article > [data-itemprop="affiliations"]')).toBeNull();
+    expect(container.querySelector('article > [itemprop="publisher"]')).toBeNull();
+    expect(container.querySelector('article > [itemprop="datePublished"]')).toBeNull();
+    expect(container.querySelector('article > [data-itemprop="identifiers"]')).toBeNull();
 
     expect(container.querySelector('.content-header__title')?.textContent).toBe('Article');
-    expect(container.querySelector('.content-header__authors')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Reece Urcher 1');
-    expect(container.querySelector('.content-header__affiliations')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('Department of Neuroscience, The University of Texas at Austin');
-    expect(container.querySelector('.content-header__identifiers')?.textContent?.replaceAll(/[\s]{2,}/g,' ').trim()).toBe('https://doi.org/12.345/67890213445');
+    expect(container.querySelector('.content-header__authors')?.textContent?.replaceAll(/[\s]{2,}/g, ' ').trim()).toBe('Reece Urcher 1');
+    expect(container.querySelector('.content-header__affiliations')?.textContent?.replaceAll(/[\s]{2,}/g, ' ').trim()).toBe('Department of Neuroscience, The University of Texas at Austin');
+    expect(container.querySelector('.content-header__identifiers')?.textContent?.replaceAll(/[\s]{2,}/g, ' ').trim()).toBe('https://doi.org/12.345/67890213445');
   });
 
   it('does not include Table of Contents if no headings found', () => {
@@ -84,7 +84,9 @@ describe('article-page', () => {
     const wrappedArticle = buildArticlePage(validArticleHtml, '');
     const container = JSDOM.fragment(wrappedArticle);
     const headingsNode = container.querySelectorAll('.toc-list__item > .toc-list__link');
-    const headings = Array.from(headingsNode).map(element => element.textContent).filter(heading => heading !== null);
+    const headings = Array.from(headingsNode)
+      .map((element) => element.textContent)
+      .filter((heading) => heading !== null);
 
     expect(headings).toStrictEqual(expect.arrayContaining(['heading 1', 'heading 2', 'heading 3']));
   });
@@ -95,5 +97,5 @@ describe('article-page', () => {
     const subHeadingsNode = container.querySelector('.toc-list:nth-child(2) > .toc-list__item > .toc-list__link--subheading');
 
     expect(subHeadingsNode).toBeNull();
-  })
-})
+  });
+});
