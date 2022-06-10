@@ -1,12 +1,12 @@
-import { normaliseTitleJson } from "./utils";
+import { normaliseTitleJson } from './utils';
 
 describe('utils', () => {
   const complicatedTitle: string | (string | {
     content: string[],
     type: string,
   })[] = [
-    {"type":"Emphasis", "content":["emphasised"]},
-    " normal text",
+    { type: 'Emphasis', content: ['emphasised'] },
+    ' normal text',
   ];
 
   it.each([
@@ -17,5 +17,5 @@ describe('utils', () => {
     const title = normaliseTitleJson(input);
 
     expect(title).toStrictEqual(expected);
-  })
-})
+  });
+});

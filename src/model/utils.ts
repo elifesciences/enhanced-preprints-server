@@ -4,23 +4,23 @@
  * This will take any of these forms (and additionally will attempt to decode a JSON string)
  */
 export const normaliseTitleJson = (title: Title): string => {
-  if (typeof title == "string") {
+  if (typeof title === 'string') {
     try {
       return normaliseTitleJson(JSON.parse(title));
     } catch {
-      //just an ordinary string
+      // just an ordinary string
       return title;
     }
   }
 
-  title = title.map((titlePart) => {
-    if (typeof titlePart == "string") {
+  const titleParts = title.map((titlePart) => {
+    if (typeof titlePart === 'string') {
       return titlePart;
     }
     return normaliseTitleJson(titlePart?.content);
   });
 
-  return title.join('');
+  return titleParts.join('');
 };
 
 type DecoratedContent = {

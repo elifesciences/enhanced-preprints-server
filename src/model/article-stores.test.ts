@@ -1,14 +1,11 @@
-import { StoreType } from "./model";
-import { createInMemoryArticleRepository } from "./in-memory/in-memory-repository";
-import { createSqliteArticleRepository } from "./sqlite/sqlite-repository";
+import { createArticleRepository, StoreType } from './create-article-repository';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
-    return createInMemoryArticleRepository();
-  } else {
-    return createSqliteArticleRepository(':memory:');
+    return createArticleRepository(StoreType.InMemory);
   }
-}
+  return createArticleRepository(StoreType.Sqlite, ':memory:');
+};
 
 describe('article-stores', () => {
   describe.each([StoreType.InMemory, StoreType.Sqlite])('Test article store backed by %s', (store) => {
@@ -22,6 +19,20 @@ describe('article-stores', () => {
       });
 
       expect(stored).toStrictEqual(true);
+    });
+
+    it('fails to store article if already stored', async () => {
+      const articleStore = await createArticleRepo(store);
+      const article = {
+        doi: 'test/article.1',
+        xml: '<article></article>',
+        html: '<article></article>',
+        json: '{"title":"Test Article 1", "datePublished":{"value": "2008-01-03"}}',
+      };
+      await articleStore.storeArticle(article);
+      const stored = await articleStore.storeArticle(article);
+
+      expect(stored).toStrictEqual(false);
     });
 
     it('stores article content and retrieves a specific processed article by ID', async () => {
@@ -89,11 +100,7 @@ describe('article-stores', () => {
         doi: 'test/article.6',
         title: 'Test Article 6',
         date: new Date('2008-06-03'),
-      }]))
+      }]));
     });
   });
-})
-
-
-
-
+});
