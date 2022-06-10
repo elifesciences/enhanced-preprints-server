@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+import { ProcessedArticle } from '../model/model';
 
 const generateToC = (headings: Heading[]): string => (headings.length ? `
     <div class="toc-container">
@@ -115,8 +116,8 @@ const getHeader = (articleDom: DocumentFragment): string => {
   </div>`;
 };
 
-export const buildArticlePage = (articleHTML: string, doi: string): string => {
-  const articleFragment = JSDOM.fragment(articleHTML);
+export const buildArticlePage = (article: ProcessedArticle): string => {
+  const articleFragment = JSDOM.fragment(article.html);
   const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
   const headings = getHeadings(articleFragment);
   const header = getHeader(articleFragment);
@@ -138,7 +139,7 @@ export const buildArticlePage = (articleHTML: string, doi: string): string => {
                 <li class="review-timeline__list_item"><span class="review-timeline__event">Peer review</span><span class="review-timeline__date">Mar 3, 2022</span></li>
                 <li class="review-timeline__list_item"><span class="review-timeline__event">Preprint posted</span><span class="review-timeline__date">Nov 8, 2021</span></li>
             </ol>
-            <a class="review-timeline__reviews_link" href="/article/${doi}/reviews"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
+            <a class="review-timeline__reviews_link" href="/article/${article.doi}/reviews"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
         </div>
         <div class="article-metadata">
             <ul class="article-metrics">

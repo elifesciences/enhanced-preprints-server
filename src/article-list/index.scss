@@ -25,10 +25,6 @@
   list-style: none;
 }
 
-.articles-list__heading {
-  @include typography.heading-2();
-}
-
 .article-list__link {
   @include typography.link-text();
 }

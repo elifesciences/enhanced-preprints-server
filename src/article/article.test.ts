@@ -57,7 +57,14 @@ const articleHtmlNoHeadings = `
 
 describe('article-page', () => {
   it('moves the article heading elements out of the article body and into an article header', () => {
-    const wrappedArticle = buildArticlePage(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage({
+      doi: '',
+      title: '',
+      date: new Date(''),
+      xml: '',
+      json: '',
+      html: validArticleHtml,
+    });
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('article > h1')).toBeNull();
@@ -74,14 +81,28 @@ describe('article-page', () => {
   });
 
   it('does not include Table of Contents if no headings found', () => {
-    const wrappedArticle = buildArticlePage(articleHtmlNoHeadings, '');
+    const wrappedArticle = buildArticlePage({
+      doi: '',
+      title: '',
+      date: new Date(''),
+      xml: '',
+      json: '',
+      html: articleHtmlNoHeadings,
+    });
     const container = JSDOM.fragment(wrappedArticle);
 
     expect(container.querySelector('.toc-container')).toBeNull();
   });
 
   it('generates a list of headings', () => {
-    const wrappedArticle = buildArticlePage(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage({
+      doi: '',
+      title: '',
+      date: new Date(''),
+      xml: '',
+      json: '',
+      html: validArticleHtml,
+    });
     const container = JSDOM.fragment(wrappedArticle);
     const headingsNode = container.querySelectorAll('.toc-list__item > .toc-list__link');
     const headings = Array.from(headingsNode)
@@ -92,7 +113,14 @@ describe('article-page', () => {
   });
 
   it('does not add any html when there are no subheadings', () => {
-    const wrappedArticle = buildArticlePage(validArticleHtml, '');
+    const wrappedArticle = buildArticlePage({
+      doi: '',
+      title: '',
+      date: new Date(''),
+      xml: '',
+      json: '',
+      html: validArticleHtml,
+    });
     const container = JSDOM.fragment(wrappedArticle);
     const subHeadingsNode = container.querySelector('.toc-list:nth-child(2) > .toc-list__item > .toc-list__link--subheading');
 

@@ -1,14 +1,28 @@
-// eslint-disable-next-line import/prefer-default-export
-export const generateArticleList = (journals: string[], articles: Record<string, string[]>): string => `
-  <div class="articles-page">
-    <h1 class="articles-page__title">Enhanced Preprint Display</h1>
-    <div class="journals-list">
-      ${journals.map((journal) => `
-      <h2 class="articles-list__heading">${journal}</h2>
-      <ul class="articles-list">
-          ${articles[journal].map((article) => `<li><a class="article-list__link" href="/article/${journal}/${article}">${article}</a></li>`).join('')}
-      </ul>
-      `).join('')}
-    </div>
-  </div>
+import { ArticleSummary } from '../model/model';
+
+const dateSort = (a: ArticleSummary, b: ArticleSummary) => {
+  if (a.date.getTime() === b.date.getTime()) {
+    return 0;
+  }
+  return a.date.getTime() > b.date.getTime() ? 1 : -1;
+};
+
+const wrapInPageHtml = (journalName: string, articleList: string) => `
+<div class="articles-page">
+  <h1 class="articles-page__title">${journalName} Reviewed Preprints</h1>
+  ${articleList}
+</div>
 `;
+
+const wrapInArticleListHtml = (articleList: string) => `<ul class="articles-list">${articleList}</ul>`;
+
+export const generateArticleList = (journalName: string, articleSummaries: ArticleSummary[]): string => {
+  if (articleSummaries.length === 0) {
+    return wrapInPageHtml(journalName, '<p>No articles found</p>');
+  }
+
+  const articleList = articleSummaries.sort(dateSort).map((articleSummary) => `
+    <li><a class="article-list__link" href="/article/${articleSummary.doi}">${articleSummary.date.toLocaleDateString('en-GB')} - ${articleSummary.title}</a></li>
+    `).join('');
+  return wrapInPageHtml(journalName, wrapInArticleListHtml(articleList));
+};
