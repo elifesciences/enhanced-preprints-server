@@ -14,6 +14,11 @@
   }
 }
 
+.sticky-column {
+  position: sticky;
+  top: 151px; // magic number (distance between top of window and top of right column)
+}
+
 .article-status {
   @include _right-column-section();
   margin-top: 48px;
