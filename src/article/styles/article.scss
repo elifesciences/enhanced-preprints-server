@@ -1,3 +1,4 @@
+@use '../../sass/grid';
 @use '../../sass/settings';
 @use '../../sass/typography';
 
@@ -26,6 +27,7 @@ img {
 }
 
 .toc-container {
+  @include grid.sticky-grid-item();
   max-width: 69.625rem;
   margin: auto;
   border-left: 2px solid settings.$color-less-light-grey;

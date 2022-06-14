@@ -15,3 +15,8 @@
     max-width: settings.$max-site-width;
   }
 }
+
+@mixin sticky-grid-item() {
+  position: sticky;
+  top: 151px; // magic number (distance between top of window and where item should stop scrolling)
+}
