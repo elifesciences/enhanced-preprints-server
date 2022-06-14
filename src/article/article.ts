@@ -123,7 +123,7 @@ export const buildArticlePage = (article: ProcessedArticle): string => {
   const header = getHeader(articleFragment);
   return `${header}
       <div class="secondary-column">
-        <div class="sticky-column">
+        <div class="article-furniture">
           <div class="article-status">
               <h2 class="article-status__heading">Reviewed Preprint</h2>
               <span class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</span>

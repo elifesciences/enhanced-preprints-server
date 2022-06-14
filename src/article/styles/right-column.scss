@@ -1,4 +1,5 @@
 @use '../../sass/buttons';
+@use '../../sass/grid';
 @use '../../sass/settings';
 @use '../../sass/typography';
 
@@ -14,9 +15,8 @@
   }
 }
 
-.sticky-column {
-  position: sticky;
-  top: 151px; // magic number (distance between top of window and top of right column)
+.article-furniture {
+  @include grid.sticky-grid-item();
 }
 
 .article-status {
