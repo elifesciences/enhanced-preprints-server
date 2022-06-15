@@ -11,10 +11,10 @@ import { createArticleRepository, StoreType } from './model/create-article-repos
 const app = express();
 
 const config = {
-  id: 'https://elifesciences.org',
-  name: 'eLife',
-  dataDir: './data/10.1101',
-  databasePath: './data.db',
+  id: process.env.EPP_REVIEWGROUP_ID ?? 'https://elifesciences.org',
+  name: process.env.EPP_REVIEWGROUP_NAME ?? 'eLife',
+  dataDir: process.env.EPP_ARTICLE_DIR_PATH ?? './data/10.1101',
+  databasePath: process.env.EPP_DATABASE_PATH ?? './data.db',
 };
 
 let articleRepository: ArticleRepository;
