@@ -1,6 +1,6 @@
 import express from 'express';
 import { generateArticleList } from './article-list/article-list';
-import { buildArticlePage } from './article/article';
+import { articlePage } from './article/article-page';
 import { generateReviewPage } from './reviews/reviews';
 import { basePage } from './base-page/base-page';
 import { ArticleRepository } from './model/model';
@@ -38,7 +38,7 @@ app.get('/', async (req, res) => {
 app.get('/article/:publisherId/:articleId', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
-  res.send(basePage(buildArticlePage(await articleRepository.getArticle(doi))));
+  res.send(basePage(articlePage(await articleRepository.getArticle(doi))));
 });
 
 app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
