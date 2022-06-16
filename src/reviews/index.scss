@@ -1,3 +1,4 @@
+@use '../sass/buttons';
 @use '../sass/settings';
 @use '../sass/typography';
 
@@ -48,6 +49,10 @@
   }
 }
 
-.return-link {
-  @include typography.link-text();
+.return-button {
+  @include buttons.action-button();
+}
+
+.return-button__icon {
+  @include buttons.button-icon();
 }
