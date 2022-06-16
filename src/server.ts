@@ -1,4 +1,5 @@
 import express from 'express';
+import { exit } from 'process';
 import { generateArticleList } from './article-list/article-list';
 import { articlePage } from './article/article-page';
 import { generateReviewPage } from './reviews/reviews';
@@ -13,13 +14,24 @@ const app = express();
 const config = {
   id: process.env.REVIEWGROUP_ID ?? 'https://elifesciences.org',
   name: process.env.REVIEWGROUP_NAME ?? 'eLife',
-  dataDir: process.env.ARTICLE_DIR_PATH ?? './data/10.1101',
-  databasePath: process.env.DATABASE_PATH ?? './data.db',
+  dataDir: process.env.IMPORT_DIR_PATH ?? './data/10.1101',
+  repoType: process.env.REPO_TYPE ?? 'Sqlite',
+  repoConnection: process.env.REPO_CONNECTION ?? './data.db',
 };
+
+let repositoryType: StoreType;
+if (config.repoType === 'Sqlite') {
+  repositoryType = StoreType.Sqlite;
+} else if (config.repoType === 'InMemory') {
+  repositoryType = StoreType.InMemory;
+} else {
+  console.log(`Cannot find article repository type of ${config.repoType}`);
+  exit(1);
+}
 
 let articleRepository: ArticleRepository;
 let getEnhancedArticle: GetEnhancedArticle;
-createArticleRepository(StoreType.Sqlite, config.databasePath).then(async (repo: ArticleRepository) => {
+createArticleRepository(repositoryType, config.repoConnection).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
   await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
