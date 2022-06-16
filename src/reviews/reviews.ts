@@ -2,7 +2,7 @@ import { marked } from 'marked';
 import { EnhancedArticle } from '../model/model';
 
 const wrapWithHtml = (reviews: string, doi: string): string => `<main class="reviews-page" role="main">
-    <a class="return-link" href="/article/${doi}">< Back to article</a>
+    <a class="article-actions__button" href="/article/${doi}"><span class="material-icons article-actions__button_icon">chevron_left</span>Back to article</a>
     <ul class="review-list">
         ${reviews}
     </ul>
