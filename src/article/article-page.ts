@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { EnhancedArticle, ProcessedArticle } from '../model/model';
+import { ProcessedArticle } from '../model/model';
 import { jumpToMenu } from './jump-to-menu';
 import { header } from './header';
 import { articleFurniture } from './article-furniture';
