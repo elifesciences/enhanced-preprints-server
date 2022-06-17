@@ -40,12 +40,18 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   res.send(basePage(generateReviewPage(await getEnhancedArticle(doi))));
 });
 
+
+app.get('/import', async (req, res) => {
+  res.send(basePage(`<form method="POST">
+    <input type="submit" value="import">
+  </form>`));
+});
 app.post('/import', async (req, res) => {
   const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   if (results.every((value) => value === true)) {
     res.send({ status: true, message: 'Import completed' });
   } else if (results.every((value) => value === false)) {
-    res.status(500).send({ status: false, message: 'No new files were imported' });
+    res.send({ status: false, message: 'No new files were imported' });
   } else {
     res.send({ status: true, message: 'Some new items imported' });
   }
