@@ -1,8 +1,9 @@
 import { JSDOM } from 'jsdom';
-import { ProcessedArticle } from '../model/model';
+import { EnhancedArticle, ProcessedArticle } from '../model/model';
 import { jumpToMenu } from './jump-to-menu';
 import { header } from './header';
 import { articleFurniture } from './article-furniture';
+import { evaluationSummary } from './article-evaluation-summary';
 
 const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
   const articleElement = articleDom.children[0];
@@ -27,6 +28,7 @@ export const articlePage = (article: ProcessedArticle): string => {
           ${jumpToMenu(articleFragment)}
         </div>
         <div class="main-content-area">
+          ${evaluationSummary(article)}
           ${articleHtmlWithoutHeader}
         </div>
       </main>`;
