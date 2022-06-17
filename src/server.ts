@@ -40,7 +40,7 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   res.send(basePage(generateReviewPage(await getEnhancedArticle(doi))));
 });
 
-app.get('/import', async (req, res) => {
+app.post('/import', async (req, res) => {
   const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   if (results.every((value) => value === true)) {
     res.send({ status: true, message: 'Import completed' });
