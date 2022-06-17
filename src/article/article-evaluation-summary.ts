@@ -1,4 +1,4 @@
-import { Doi } from "../model/model";
+import { Doi } from '../model/model';
 
 export const evaluationSummary = (doi: Doi): string => `
 <section class="evaluation-summary">
