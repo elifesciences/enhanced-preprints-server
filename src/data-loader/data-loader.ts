@@ -44,7 +44,7 @@ const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> =>
   };
 };
 
-export const loadXmlArticlesFromDirIntoStores = (dataDir: string, articleRepository: ArticleRepository) => {
+export const loadXmlArticlesFromDirIntoStores = (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
   const xmlFiles = getDirectories(dataDir).map((articleId) => `${dataDir}/${articleId}/${articleId}.xml`).filter((xmlFilePath) => existsSync(xmlFilePath));
 
   return Promise.all(xmlFiles.map((xmlFile) => processArticle(xmlFile).then((articleContent) => articleRepository.storeArticle(articleContent))));
