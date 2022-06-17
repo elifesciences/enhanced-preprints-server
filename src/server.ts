@@ -25,6 +25,7 @@ if (config.repoType === 'Sqlite') {
 } else if (config.repoType === 'InMemory') {
   repositoryType = StoreType.InMemory;
 } else {
+  // eslint-disable-next-line no-console
   console.log(`Cannot find article repository type of ${config.repoType}`);
   exit(1);
 }
@@ -33,7 +34,6 @@ let articleRepository: ArticleRepository;
 let getEnhancedArticle: GetEnhancedArticle;
 createArticleRepository(repositoryType, config.repoConnection).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
-  await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
   app.listen(3000, () => {
     // eslint-disable-next-line no-console
@@ -57,4 +57,9 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
   res.send(basePage(generateReviewPage(await getEnhancedArticle(doi))));
+});
+
+app.get('/import', async (req, res) => {
+  await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
+  res.send({ status: true, message: 'Import completed' });
 });
