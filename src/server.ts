@@ -41,6 +41,10 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
 });
 
 app.get('/import', async (req, res) => {
-  await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
-  res.send({ status: true, message: 'Import completed' });
+  const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
+  if (results.every((value) => value === true)) {
+    res.send({ status: true, message: 'Import completed' });
+  } else {
+    res.send({ status: false, message: 'Some files were not imported.' });
+  }
 });
