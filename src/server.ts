@@ -44,7 +44,9 @@ app.post('/import', async (req, res) => {
   const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   if (results.every((value) => value === true)) {
     res.send({ status: true, message: 'Import completed' });
+  } else if (results.every((value) => value === false)) {
+    res.status(500).send({ status: false, message: 'No new files were imported' });
   } else {
-    res.status(500).send({ status: false, message: 'Some files were not imported.' });
+    res.send({ status: true, message: 'Some new items imported' });
   }
 });
