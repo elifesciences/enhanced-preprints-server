@@ -9,12 +9,12 @@ export enum StoreType {
   CouchDB = 'CouchDB',
 }
 
-export const createArticleRepository = async (kind: StoreType, connectionString = ''): Promise<ArticleRepository> => {
+export const createArticleRepository = async (kind: StoreType, connectionString: string, username: string, password: string): Promise<ArticleRepository> => {
   switch (kind) {
     case StoreType.Sqlite:
       return createSqliteArticleRepository(connectionString);
     case StoreType.CouchDB:
-      return createCouchDBArticleRepository(connectionString);
+      return createCouchDBArticleRepository(connectionString, username, password);
     case StoreType.InMemory:
     default:
       return createInMemoryArticleRepository();

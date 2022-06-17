@@ -22,4 +22,6 @@ export const config = {
   dataDir: process.env.IMPORT_DIR_PATH ?? './data/10.1101',
   repoType: process.env.REPO_TYPE ? getStoreTypeFromString(process.env.REPO_TYPE) : StoreType.Sqlite,
   repoConnection: process.env.REPO_CONNECTION ?? './data.db',
+  repoUserName: process.env.REPO_USERNAME ?? '',
+  repoPassword: process.env.REPO_PASSWORD ?? '',
 };
