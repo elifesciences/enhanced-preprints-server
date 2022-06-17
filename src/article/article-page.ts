@@ -28,7 +28,7 @@ export const articlePage = (article: ProcessedArticle): string => {
           ${jumpToMenu(articleFragment)}
         </div>
         <div class="main-content-area">
-          ${evaluationSummary(article)}
+          ${evaluationSummary(article.doi)}
           ${articleHtmlWithoutHeader}
         </div>
       </main>`;

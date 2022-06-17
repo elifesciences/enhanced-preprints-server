@@ -1,6 +1,6 @@
-import { ProcessedArticle } from "../model/model";
+import { Doi } from "../model/model";
 
-export const evaluationSummary = (article: ProcessedArticle): string => `
+export const evaluationSummary = (doi: Doi): string => `
 <section class="evaluation-summary">
   <h2 class="evaluation-summary__header">eLife review summary</h2>
   <p>
@@ -11,7 +11,7 @@ export const evaluationSummary = (article: ProcessedArticle): string => `
     ambitious, large-scale biological resource generation at its apotheosis.
   </p>
   <ul class="evaluation-summary-links">
-    <li class="evaluation-summary-links__item"><a class="evaluation-summary-links__item_link" href="/article/${article.doi}/reviews">Read the full peer reviews</a></li>
+    <li class="evaluation-summary-links__item"><a class="evaluation-summary-links__item_link" href="/article/${doi}/reviews">Read the full peer reviews</a></li>
     <li class="evaluation-summary-links__item"><a class="evaluation-summary-links__item_link" href="#">About eLife's peer review process</a></li>
   </ul>
 </section>
