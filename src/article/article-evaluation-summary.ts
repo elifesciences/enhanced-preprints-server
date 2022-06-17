@@ -2,7 +2,7 @@ import { Doi } from '../model/model';
 
 export const evaluationSummary = (doi: Doi): string => `
 <section class="evaluation-summary">
-  <h2 class="evaluation-summary__header">eLife review summary</h2>
+  <h2 class="evaluation-summary__header" id="evaluation-summary">eLife review summary</h2>
   <p>
     This is a landmark paper and a tour-de-force that ties together decades of advances in electron microscopy
     to produce a dataset of both breadth and extreme technical quality whose very existence will have profound
