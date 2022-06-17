@@ -45,6 +45,6 @@ app.get('/import', async (req, res) => {
   if (results.every((value) => value === true)) {
     res.send({ status: true, message: 'Import completed' });
   } else {
-    res.send({ status: false, message: 'Some files were not imported.' });
+    res.status(500).send({ status: false, message: 'Some files were not imported.' });
   }
 });
