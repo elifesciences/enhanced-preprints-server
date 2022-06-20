@@ -40,7 +40,6 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   res.send(basePage(generateReviewPage(await getEnhancedArticle(doi))));
 });
 
-
 app.get('/import', async (req, res) => {
   res.send(basePage(`<form method="POST">
     <input type="submit" value="import">
