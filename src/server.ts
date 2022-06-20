@@ -13,7 +13,7 @@ const app = express();
 
 let articleRepository: ArticleRepository;
 let getEnhancedArticle: GetEnhancedArticle;
-createArticleRepository(config.repoType, config.repoConnection).then(async (repo: ArticleRepository) => {
+createArticleRepository(config.repoType, config.repoConnection, config.repoUserName, config.repoPassword).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
   app.listen(3000, () => {
