@@ -2,11 +2,6 @@
 @use '../sass/settings';
 @use '../sass/typography';
 
-.reviews-page {
-  grid-column: 1/12;
-  grid-row: 2;
-}
-
 .review-list {
   list-style: none;
   margin: 2rem;
@@ -51,6 +46,7 @@
 
 .return-button {
   @include buttons.action-button();
+  margin-bottom: 36px;
 }
 
 .return-button__icon {
