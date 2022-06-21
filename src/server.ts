@@ -6,22 +6,15 @@ import { basePage } from './base-page/base-page';
 import { ArticleRepository } from './model/model';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
 import { createEnhancedArticleGetter, GetEnhancedArticle } from './reviews/get-enhanced-article';
-import { createArticleRepository, StoreType } from './model/create-article-repository';
+import { createArticleRepository } from './model/create-article-repository';
+import { config } from './config';
 
 const app = express();
 
-const config = {
-  id: 'https://elifesciences.org',
-  name: 'eLife',
-  dataDir: './data/10.1101',
-  databasePath: './data.db',
-};
-
 let articleRepository: ArticleRepository;
 let getEnhancedArticle: GetEnhancedArticle;
-createArticleRepository(StoreType.Sqlite, config.databasePath).then(async (repo: ArticleRepository) => {
+createArticleRepository(config.repoType, config.repoConnection, config.repoUserName, config.repoPassword).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
-  await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
   app.listen(3000, () => {
     // eslint-disable-next-line no-console
@@ -45,4 +38,20 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
   res.send(basePage(generateReviewPage(await getEnhancedArticle(doi))));
+});
+
+app.get('/import', async (req, res) => {
+  res.send(basePage(`<form method="POST">
+    <input type="submit" value="import">
+  </form>`));
+});
+app.post('/import', async (req, res) => {
+  const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
+  if (results.every((value) => value === true)) {
+    res.send({ status: true, message: 'Import completed' });
+  } else if (results.every((value) => value === false)) {
+    res.send({ status: false, message: 'No new files were imported' });
+  } else {
+    res.send({ status: true, message: 'Some new items imported' });
+  }
 });
