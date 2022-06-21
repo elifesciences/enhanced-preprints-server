@@ -1,4 +1,4 @@
-export const basePage = (pageContent: string): string => `<html lang="en">
+export const basePage = (pageContent: string, noHeader: boolean = false): string => `<html lang="en">
       <head>
         <title>Enhanced Preprints</title>
         <meta charset="utf-8">
@@ -10,7 +10,7 @@ export const basePage = (pageContent: string): string => `<html lang="en">
       </head>
       <body>
         <div class="grid-container">
-          <div class="banner"></div>
+          ${noHeader ? '' : '<div class="banner"></div>'}
           ${pageContent}
         </div>
         <script src="/script.js"></script>

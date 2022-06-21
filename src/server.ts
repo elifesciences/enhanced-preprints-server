@@ -31,7 +31,9 @@ app.get('/', async (req, res) => {
 app.get('/article/:publisherId/:articleId', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
-  res.send(basePage(articlePage(await articleRepository.getArticle(doi))));
+  const { noHeader } = req.query;
+  const pageContent = articlePage(await articleRepository.getArticle(doi));
+  res.send(basePage(pageContent, noHeader === 'true'));
 });
 
 app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
