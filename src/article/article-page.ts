@@ -14,7 +14,7 @@ const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
   return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
 };
 
-export const articlePage = (article: ProcessedArticle): string => {
+export const articlePage = (article: ProcessedArticle, noHeader: boolean): string => {
   const articleFragment = JSDOM.fragment(article.html);
   const abstractHeading = articleFragment.querySelector('article > [data-itemprop="description"] > h2[data-itemtype="http://schema.stenci.la/Heading"]');
   abstractHeading?.setAttribute('id', 'abstract');
@@ -22,7 +22,7 @@ export const articlePage = (article: ProcessedArticle): string => {
 
   return `${header(articleFragment)}
       <div class="secondary-column">
-        ${articleFurniture(article.doi)}
+        ${articleFurniture(article.doi, noHeader)}
       </div>
 
       <main class="primary-column">

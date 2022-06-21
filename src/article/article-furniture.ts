@@ -1,4 +1,4 @@
-export const articleFurniture = (doi: string) => `<div class="article-furniture">
+export const articleFurniture = (doi: string, noHeader: boolean) => `<div class="article-furniture">
           <div class="article-status">
               <h2 class="article-status__heading">Reviewed Preprint</h2>
               <span class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</span>
@@ -15,7 +15,7 @@ export const articleFurniture = (doi: string) => `<div class="article-furniture"
                   <li class="review-timeline__list_item"><span class="review-timeline__event">Peer review</span><span class="review-timeline__date">Mar 3, 2022</span></li>
                   <li class="review-timeline__list_item"><span class="review-timeline__event">Preprint posted</span><span class="review-timeline__date">Nov 8, 2021</span></li>
               </ol>
-              <a class="review-timeline__reviews_link" href="/article/${doi}/reviews"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
+              <a class="review-timeline__reviews_link" href="/article/${doi}/reviews${noHeader ? '?noHeader=true' : ''}"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
           </div>
           <div class="article-metadata">
               <ul class="article-metrics">

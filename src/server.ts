@@ -31,15 +31,17 @@ app.get('/', async (req, res) => {
 app.get('/article/:publisherId/:articleId', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
-  const { noHeader } = req.query;
-  const pageContent = articlePage(await articleRepository.getArticle(doi));
-  res.send(basePage(pageContent, noHeader === 'true'));
+  const noHeader = req.query.noHeader !== undefined && req.query.noHeader === 'true';
+  const pageContent = articlePage(await articleRepository.getArticle(doi), noHeader);
+  res.send(basePage(pageContent, noHeader));
 });
 
 app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
-  res.send(basePage(generateReviewPage(await getEnhancedArticle(doi))));
+  const noHeader = req.query.noHeader !== undefined && req.query.noHeader === 'true';
+  const pageContent = generateReviewPage(await getEnhancedArticle(doi), noHeader);
+  res.send(basePage(pageContent, noHeader));
 });
 
 app.get('/import', async (req, res) => {
@@ -49,9 +51,9 @@ app.get('/import', async (req, res) => {
 });
 app.post('/import', async (req, res) => {
   const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
-  if (results.every((value) => value === true)) {
+  if (results.every((value) => value)) {
     res.send({ status: true, message: 'Import completed' });
-  } else if (results.every((value) => value === false)) {
+  } else if (results.every((value) => !value)) {
     res.send({ status: false, message: 'No new files were imported' });
   } else {
     res.send({ status: true, message: 'Some new items imported' });
