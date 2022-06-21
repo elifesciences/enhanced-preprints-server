@@ -23,7 +23,7 @@ function navHighlighter() {
     const sectionId = current.getAttribute('id');
 
     if (
-      scrollY > sectionTop
+      (scrollY > sectionTop || i === 0)
         && (next === undefined || scrollY <= next.offsetTop - 50)
     ) {
       document.querySelector(`.toc-list__link[href*=${sectionId}]`)?.parentElement.classList.add('toc-list__item--selected');
@@ -34,3 +34,4 @@ function navHighlighter() {
 }
 
 window.addEventListener('scroll', () => throttle(navHighlighter, 250));
+window.addEventListener('load', navHighlighter);
