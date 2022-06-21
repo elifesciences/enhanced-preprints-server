@@ -6,9 +6,8 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
     secondary column
   </div>
   <main class="primary-column">
-        <a class="return-button" href="/article/${doi}${noHeader ? '?noHeader=true' : ''}"><span class="material-icons return-button__icon">chevron_left</span>Back to article</a>
         <div class="table-contents">
-          ToC
+          <a class="return-button" href="/article/${doi}${noHeader ? '?noHeader=true' : ''}"><span class="material-icons return-button__icon">chevron_left</span>Back to article</a>
         </div>
         <div class="main-content-area">
           <ul class="review-list">

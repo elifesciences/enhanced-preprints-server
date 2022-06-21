@@ -46,6 +46,7 @@
 
 .return-button {
   @include buttons.action-button();
+  margin-bottom: 36px;
 }
 
 .return-button__icon {

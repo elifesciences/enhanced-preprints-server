@@ -22,10 +22,6 @@ img {
   @include typography.heading-4();
 }
 
-.primary-column {
-  margin-top: 32px;
-}
-
 .toc-container {
   @include grid.sticky-grid-item();
   max-width: 69.625rem;
