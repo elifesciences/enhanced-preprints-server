@@ -1,7 +1,9 @@
 type Heading = { id: string, text: string };
 const getHeadings = (articleDom: DocumentFragment): Heading[] => {
-  const headingElements = articleDom.querySelectorAll('article > [itemtype="http://schema.stenci.la/Heading"], article > [data-itemprop="description"] > [data-itemtype="http://schema.stenci.la/Heading"]');
-
+  const headingElements = articleDom.querySelectorAll('article > h2[itemtype="http://schema.stenci.la/Heading"]');
+  if (headingElements.length === 0) { // don't add abstract if there are no headings found.
+    return [];
+  }
   return Array.from(headingElements).reduce((headings: Heading[], heading) => {
     if (heading.tagName === 'H2') {
       headings.push({
@@ -10,7 +12,7 @@ const getHeadings = (articleDom: DocumentFragment): Heading[] => {
       });
     }
     return headings;
-  }, new Array<Heading>());
+  }, new Array<Heading>({ id: 'abstract', text: 'Abstract' }));
 };
 
 export const jumpToMenu = (articleFragment: DocumentFragment): string => {

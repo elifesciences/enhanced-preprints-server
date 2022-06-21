@@ -62,6 +62,7 @@ img {
 
 .toc-list__link {
   @include typography.navigation-heading();
+  text-decoration: none;
 }
 
 .toc-list__item--selected .toc-list__link {

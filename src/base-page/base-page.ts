@@ -13,5 +13,6 @@ export const basePage = (pageContent: string): string => `<html lang="en">
           <div class="banner"></div>
           ${pageContent}
         </div>
+        <script src="/script.js"></script>
     </body>
   </html>`;
