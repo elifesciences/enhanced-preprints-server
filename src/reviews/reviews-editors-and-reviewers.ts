@@ -7,6 +7,20 @@ export const editorsAndReviewers = (): string => `
       <div class="editors-and-reviewers__person-name">Eve Marder</div>
       <div class="editors-and-reviewers__person-affiliation">Brandeis University, United States</div>
     </li>
+    <li class="editors-and-reviewers__person">
+      <div class="editors-and-reviewers__person-role">Senior Editor</div>
+      <div class="editors-and-reviewers__person-name">Michael B Eisen</div>
+      <div class="editors-and-reviewers__person-affiliation">University of California, Berkeley, United States</div>
+    </li>
+    <li class="editors-and-reviewers__person">
+      <div class="editors-and-reviewers__person-role">Reviewer 1</div>
+      <div class="editors-and-reviewers__person-name">Jason Pipkin</div>
+      <div class="editors-and-reviewers__person-affiliation">Brandeis University, United States</div>
+    </li>
+    <li class="editors-and-reviewers__person">
+      <div class="editors-and-reviewers__person-role">Reviewer 2</div>
+      <div class="editors-and-reviewers__person-name">Anonymous</div>
+    </li>
   </ul>
 </section>
 `;

@@ -52,3 +52,29 @@
 .return-button__icon {
   @include buttons.button-icon();
 }
+
+.editors-and-reviewers__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  @include typography.editors-and-reviewers-list-text();
+}
+
+.editors-and-reviewers__person {
+  margin-bottom: 24px;
+}
+
+.editors-and-reviewers__person-role {
+  @include typography.editors-and-reviewers-role-text();
+  margin-bottom: 6px;
+}
+
+.editors-and-reviewers__person-name {
+  @include typography.heading-3();
+  margin-bottom: 6px;
+  line-height: 24px;
+}
+
+.editors-and-reviewers__person-affiliation {
+  @include typography.body();
+}
