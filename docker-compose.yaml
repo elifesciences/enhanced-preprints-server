@@ -1,0 +1,85 @@
+services:
+  # SQLite profile
+  app-sqlite:
+    profiles:
+    - sqlite
+    build:
+      target: prod
+    command: yarn start:dev
+    environment:
+      REPO_CONNECTION: /opt/epp-data/data.db
+    ports:
+    - "8080:3000"
+    volumes:
+    - ./src:/opt/epp/src
+    - epp-data:/opt/epp-data
+  litestream:
+    profiles:
+    - sqlite
+    image: litestream/litestream
+    command: replicate -config /opt/litestream.cfg
+    environment:
+      AWS_ACCESS_KEY_ID: admin
+      AWS_SECRET_ACCESS_KEY: testtest
+    volumes:
+    - epp-data:/opt/epp-data
+    - ./.docker/litestream.cfg:/opt/litestream.cfg
+  minio:
+    profiles:
+    - sqlite
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: testtest
+    ports:
+    - "9000:9000"
+    - "9001:9001"
+    volumes:
+    - minio:/data
+  create-bucket:
+    profiles:
+    - sqlite
+    image: minio/mc
+    command: mb local/epp
+    environment:
+      MC_HOST_local: http://admin:testtest@minio:9000/
+
+  # couchdb profile
+  app-couchdb:
+    profiles:
+    - couchdb
+    build:
+      target: prod
+    command: yarn start:dev
+    environment:
+      REPO_TYPE: CouchDB
+      REPO_CONNECTION: http://couchdb:5984/
+      REPO_USERNAME: admin
+      REPO_PASSWORD: testtest
+    ports:
+    - "8080:3000"
+    volumes:
+    - ./src:/opt/epp/src
+    - epp-data:/opt/epp-data
+  couchdb:
+    profiles:
+    - couchdb
+    image: couchdb
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: testtest
+    ports:
+    - "5984:5984"
+    volumes:
+    - couchdb:/home/couchdb/data
+  create-database:
+    profiles:
+    - couchdb
+    image: curlimages/curl
+    entrypoint: sh
+    command: -c 'sleep 5; curl -X PUT -u admin:testtest http://couchdb:5984/epp'
+volumes:
+  epp-data:
+  couchdb:
+  minio:
