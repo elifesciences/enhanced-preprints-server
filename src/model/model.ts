@@ -1,9 +1,8 @@
 export type Doi = string;
+
 export type ArticleXML = string;
-export type ArticleTitle = string;
 export type ArticleHTML = string;
 export type ArticleJSON = string;
-
 export type ArticleContent = {
   doi: Doi
   xml: ArticleXML,
@@ -11,9 +10,34 @@ export type ArticleContent = {
   json: ArticleJSON,
 };
 
+export type MarkdownText = string;
+export type ArticleTitle = MarkdownText;
+export type ArticleAbstract = MarkdownText;
+export type Address = {
+  addressCountry: string,
+};
+export type Organisation = {
+  name: string,
+  address: Address,
+};
+
+export type Author = {
+  familyNames: string[],
+  givenNames: string[],
+  affiliations: Organisation[],
+};
+
+export type License = {
+  type: string,
+  url: string,
+};
+
 export type ProcessedArticle = ArticleContent & {
   title: ArticleTitle,
   date: Date,
+  authors: Author[],
+  abstract: ArticleAbstract,
+  licenses: License[],
 };
 
 export type ArticleSummary = {

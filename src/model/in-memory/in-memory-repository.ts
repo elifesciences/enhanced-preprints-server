@@ -6,12 +6,12 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseTitleJson } from '../utils';
+import { normaliseContentToMarkdown, normaliseContentToText } from '../utils';
 
 class InMemoryArticleRepository implements ArticleRepository {
-  store: Map<string, ProcessedArticle>;
+  store: Map<string, ArticleContent>;
 
-  constructor(store: Map<string, ProcessedArticle>) {
+  constructor(store: Map<string, ArticleContent>) {
     this.store = store;
   }
 
@@ -19,21 +19,12 @@ class InMemoryArticleRepository implements ArticleRepository {
     if (this.store.has(article.doi)) {
       return false;
     }
-    const articleStruct = JSON.parse(article.json) as ArticleStruct;
-
-    // extract title
-    const { title } = articleStruct;
-
-    // extract publish date
-    const date = new Date(articleStruct.datePublished.value);
 
     this.store.set(article.doi, {
       doi: article.doi,
       xml: article.xml,
       html: article.html,
       json: article.json,
-      title,
-      date,
     });
 
     return true;
@@ -45,23 +36,43 @@ class InMemoryArticleRepository implements ArticleRepository {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
 
+    const articleStruct = JSON.parse(article.json) as ArticleStruct;
+
+    // extract title
+    const { title } = articleStruct;
+
+    // extract publish date
+    const date = new Date(articleStruct.datePublished.value);
+
     return {
       doi: article.doi,
       xml: article.xml,
-      title: normaliseTitleJson(article.title),
       html: article.html,
       json: article.json,
-      date: article.date,
+      title: normaliseContentToMarkdown(title),
+      date,
+      authors: articleStruct.authors,
+      abstract: normaliseContentToMarkdown(articleStruct.description),
+      licenses: articleStruct.licenses,
     };
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    return Array.from(this.store.values()).map((article) => ({
-      doi: article.doi,
-      title: normaliseTitleJson(article.title),
-      date: article.date,
-    }));
+    return Array.from(this.store.values()).map((article) => {
+      const articleStruct = JSON.parse(article.json) as ArticleStruct;
+
+      // extract title
+      const { title } = articleStruct;
+
+      // extract publish date
+      const date = new Date(articleStruct.datePublished.value);
+      return {
+        doi: article.doi,
+        title: normaliseContentToText(title),
+        date,
+      };
+    });
   }
 }
 
-export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => new InMemoryArticleRepository(new Map<string, ProcessedArticle>());
+export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => new InMemoryArticleRepository(new Map<string, ArticleContent>());

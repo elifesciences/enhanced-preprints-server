@@ -7,14 +7,13 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseTitleJson } from '../utils';
+import { normaliseContentToMarkdown, normaliseContentToText } from '../utils';
 import { ArticleStruct } from '../../data-loader/data-loader';
 
 type ArticleDocument = {
   _id: string,
-  title: string,
-  date: Date,
   doi: string,
+  json: ArticleStruct
 } & MaybeDocument;
 
 class CouchDBArticleRepository implements ArticleRepository {
@@ -27,17 +26,10 @@ class CouchDBArticleRepository implements ArticleRepository {
   async storeArticle(article: ArticleContent): Promise<boolean> {
     const articleStruct = JSON.parse(article.json) as ArticleStruct;
 
-    // extract title
-    const { title } = articleStruct;
-
-    // extract publish date
-    const date = new Date(articleStruct.datePublished.value);
-
     const response = await this.documentScope.insert({
       _id: article.doi,
-      title,
-      date,
       doi: article.doi,
+      json: articleStruct,
     });
 
     if (response.ok) {
@@ -56,15 +48,16 @@ class CouchDBArticleRepository implements ArticleRepository {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
 
-    article.title = normaliseTitleJson(article.title);
-
     return {
-      title: article.title,
-      date: article.date,
+      title: normaliseContentToText(article.json.title),
+      date: new Date(article.json.datePublished.value),
       doi: article.doi,
       xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
       json: Buffer.from(article._attachments.json.data, 'base64').toString('utf-8'),
       html: Buffer.from(article._attachments.html.data, 'base64').toString('utf-8'),
+      authors: article.json.authors,
+      abstract: normaliseContentToMarkdown(article.json.description),
+      licenses: article.json.licenses,
     };
   }
 
@@ -73,7 +66,7 @@ class CouchDBArticleRepository implements ArticleRepository {
     return rows.map((row) => ({
       doi: row.value.doi,
       date: new Date(row.value.date),
-      title: normaliseTitleJson(row.value.title),
+      title: normaliseContentToMarkdown(row.value.title),
     }));
   }
 }

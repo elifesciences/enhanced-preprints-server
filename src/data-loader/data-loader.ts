@@ -1,16 +1,41 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleContent, ArticleRepository } from '../model/model';
+import { ArticleContent, ArticleRepository, Doi } from '../model/model';
+import { Content } from '../model/utils';
 
 // type related to the JSON output of encoda
+type Address = {
+  type: 'PostalAddress',
+  addressCountry: string,
+};
+type Organisation = {
+  type: 'Organization',
+  name: string,
+  address: Address,
+};
+type Person = {
+  type: 'Person',
+  affiliations: Array<Organisation>,
+  familyNames: Array<string>,
+  givenNames: Array<string>,
+};
+type License = {
+  type: 'CreativeWork',
+  url: string,
+};
+
 export type ArticleStruct = {
   id: string,
   journal: string,
-  title: string,
+  title: Content,
   datePublished: DateType
   dateAccepted: DateType
   dateReceived: DateType
   identifiers: Array<ArticleIdentifier>
+  authors: Array<Person>,
+  description: Content,
+  licenses: Array<License>,
+  content: Content,
 };
 type ArticleIdentifier = {
   name: string,
