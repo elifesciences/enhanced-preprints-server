@@ -5,7 +5,7 @@
 
 .article-review-status {
   border-bottom: settings.$border;
-  margin-top:48px;
+  margin-top:24px;
   padding-bottom: 36px;
 
   @media only all and (min-width: 730px) {
@@ -40,12 +40,12 @@ h1.article-review-status__heading {
 }
 
 .article-review-status-timeline__event {
-  @include typography.right-bar-text();
+  @include typography.article-review-timeline-text();
   font-weight: 600;
 }
 
 .article-review-status-timeline__date {
-  @include typography.right-bar-text();
+  @include typography.article-review-timeline-text();
   color: settings.$color-text-inactive;
 }
 
