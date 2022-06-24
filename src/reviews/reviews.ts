@@ -13,7 +13,9 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
           <div class="article-review-status">
             <h1 class="article-review-status__heading">Peer reviewed by eLife</h1>
             <span class="article-review-status__text">
-              This research was submitted to eLife and sent for consultative peer review. Reviewers and eLife's editors consulted to provide a summary following individual anonymous reviews. Authors have not yet chosen to revise and resubmit their paper, but have provided a response to the reviews.
+              This research was submitted to eLife and sent for consultative peer review. Reviewers and eLife's editors
+              consulted to provide a summary following individual anonymous reviews. Authors have not yet chosen to
+              revise and resubmit their paper, but have provided a response to the reviews.
             </span>
             <div class="article-review-status-timeline">
               <ol class="article-review-status-timeline__list">
