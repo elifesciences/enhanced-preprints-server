@@ -1,16 +1,50 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleContent, ArticleRepository } from '../model/model';
+import { ArticleHTML, ArticleRepository, Doi, ProcessedArticle } from '../model/model';
+import { Content, normaliseContentToMarkdown } from '../model/utils';
+
+export type ArticleXML = string;
+export type ArticleJSON = string;
+export type ArticleContent = {
+  doi: Doi
+  xml: ArticleXML,
+  html: ArticleHTML,
+  json: ArticleJSON,
+};
 
 // type related to the JSON output of encoda
+type Address = {
+  type: 'PostalAddress',
+  addressCountry: string,
+};
+type Organisation = {
+  type: 'Organization',
+  name: string,
+  address: Address,
+};
+type Person = {
+  type: 'Person',
+  affiliations: Array<Organisation>,
+  familyNames: Array<string>,
+  givenNames: Array<string>,
+};
+type License = {
+  type: 'CreativeWork',
+  url: string,
+};
+
 export type ArticleStruct = {
   id: string,
   journal: string,
-  title: string,
+  title: Content,
   datePublished: DateType
   dateAccepted: DateType
   dateReceived: DateType
   identifiers: Array<ArticleIdentifier>
+  authors: Array<Person>,
+  description: Content,
+  licenses: Array<License>,
+  content: Content,
 };
 type ArticleIdentifier = {
   name: string,
@@ -26,7 +60,7 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
-const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> => {
+const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const xml = readFileSync(file).toString();
   const html = await convertJatsToHtml(file);
   const json = await convertJatsToJson(file);
@@ -44,8 +78,28 @@ const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> =>
   };
 };
 
+const processArticle = (article: ArticleContent): ProcessedArticle => {
+  const articleStruct = JSON.parse(article.json) as ArticleStruct;
+
+  // extract title
+  const { title } = articleStruct;
+
+  // extract publish date
+  const date = new Date(articleStruct.datePublished.value);
+
+  return {
+    doi: article.doi,
+    title: normaliseContentToMarkdown(title),
+    date,
+    authors: articleStruct.authors,
+    abstract: normaliseContentToMarkdown(articleStruct.description),
+    licenses: articleStruct.licenses,
+    htmlContent: article.html,
+  };
+};
+
 export const loadXmlArticlesFromDirIntoStores = (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
   const xmlFiles = getDirectories(dataDir).map((articleId) => `${dataDir}/${articleId}/${articleId}.xml`).filter((xmlFilePath) => existsSync(xmlFilePath));
 
-  return Promise.all(xmlFiles.map((xmlFile) => processArticle(xmlFile).then((articleContent) => articleRepository.storeArticle(articleContent))));
+  return Promise.all(xmlFiles.map((xmlFile) => processXml(xmlFile).then((articleContent) => articleRepository.storeArticle(processArticle(articleContent)))));
 };

@@ -5,17 +5,12 @@ import {
   ArticleRepository,
   ProcessedArticle,
   ArticleSummary,
-  ArticleContent,
 } from '../model';
-import { normaliseTitleJson } from '../utils';
-import { ArticleStruct } from '../../data-loader/data-loader';
+import { normaliseContentToText } from '../utils';
 
 type ArticleDocument = {
   _id: string,
-  title: string,
-  date: Date,
-  doi: string,
-} & MaybeDocument;
+} & ProcessedArticle & MaybeDocument;
 
 class CouchDBArticleRepository implements ArticleRepository {
   documentScope: DocumentScope<ArticleDocument>;
@@ -24,30 +19,19 @@ class CouchDBArticleRepository implements ArticleRepository {
     this.documentScope = documentScope;
   }
 
-  async storeArticle(article: ArticleContent): Promise<boolean> {
-    const articleStruct = JSON.parse(article.json) as ArticleStruct;
-
-    // extract title
-    const { title } = articleStruct;
-
-    // extract publish date
-    const date = new Date(articleStruct.datePublished.value);
-
+  async storeArticle(article: ProcessedArticle): Promise<boolean> {
     const response = await this.documentScope.insert({
       _id: article.doi,
-      title,
-      date,
       doi: article.doi,
+      abstract: article.abstract,
+      authors: article.authors,
+      date: article.date,
+      htmlContent: article.htmlContent,
+      licenses: article.licenses,
+      title: article.title,
     });
 
-    if (response.ok) {
-      const xmlResponse = await this.documentScope.attachment.insert(article.doi, 'xml', article.xml, 'application/xml', { rev: response.rev });
-      const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.json, 'application/json', { rev: xmlResponse.rev });
-      const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
-      return xmlResponse.ok && jsonResponse.ok && htmlResponse.ok;
-    }
-
-    return false;
+    return response.ok;
   }
 
   async getArticle(doi: Doi): Promise<ProcessedArticle> {
@@ -56,15 +40,14 @@ class CouchDBArticleRepository implements ArticleRepository {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
 
-    article.title = normaliseTitleJson(article.title);
-
     return {
       title: article.title,
-      date: article.date,
+      date: new Date(article.date),
       doi: article.doi,
-      xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
-      json: Buffer.from(article._attachments.json.data, 'base64').toString('utf-8'),
-      html: Buffer.from(article._attachments.html.data, 'base64').toString('utf-8'),
+      authors: article.authors,
+      abstract: article.abstract,
+      licenses: article.licenses,
+      htmlContent: article.htmlContent,
     };
   }
 
@@ -73,7 +56,7 @@ class CouchDBArticleRepository implements ArticleRepository {
     return rows.map((row) => ({
       doi: row.value.doi,
       date: new Date(row.value.date),
-      title: normaliseTitleJson(row.value.title),
+      title: row.value.title,
     }));
   }
 }
