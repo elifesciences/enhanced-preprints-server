@@ -7,8 +7,6 @@ export const authors = (articleDom: DocumentFragment): HTMLElement | null => {
   replaceAttributesWithClassName(articleDom, '[data-itemprop="givenNames"]');
   replaceAttributesWithClassName(articleDom, '[itemprop="givenName"]', 'person__given_name');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="authors"]', 'content-header__authors');
-  replaceAttributesWithClassName(articleDom, '.person [data-itemprop="affiliations"]', 'person__affiliations');
-  replaceAttributesWithClassName(articleDom, '.person [itemprop="affiliation"]');
 
   return articleDom.querySelector('.content-header__authors');
 };
