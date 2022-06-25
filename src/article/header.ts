@@ -1,5 +1,18 @@
-import { replaceAttributesWithClassName } from '../utils/utils';
-import { authors } from './authors';
+const replaceAttributesWithClassName = (
+  articleDom: DocumentFragment,
+  selector: string,
+  newClass?: string,
+): void => {
+  Array.from(articleDom.querySelectorAll(selector)).forEach((element) => {
+    element.removeAttribute('itemprop');
+    element.removeAttribute('itemtype');
+    element.removeAttribute('data-itemprop');
+    element.removeAttribute('itemscope');
+    if (newClass) {
+      element.classList.add(newClass);
+    }
+  });
+};
 
 const getDoi = (articleDom: DocumentFragment): string => {
   const dois = Array.from(articleDom.querySelectorAll('[data-itemprop="identifiers"] [itemtype="http://schema.org/PropertyValue"]'))
@@ -20,6 +33,12 @@ const getDoi = (articleDom: DocumentFragment): string => {
 
 export const header = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, 'article > [itemprop="headline"]', 'content-header__title');
+  replaceAttributesWithClassName(articleDom, '[itemprop="author"]', 'person');
+  replaceAttributesWithClassName(articleDom, '[data-itemprop="familyNames"]');
+  replaceAttributesWithClassName(articleDom, '[itemprop="familyName"]', 'person__family_name');
+  replaceAttributesWithClassName(articleDom, '[data-itemprop="givenNames"]');
+  replaceAttributesWithClassName(articleDom, '[itemprop="givenName"]', 'person__given_name');
+  replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="authors"]', 'content-header__authors');
   replaceAttributesWithClassName(articleDom, '.person [data-itemprop="affiliations"]', 'person__affiliations');
   replaceAttributesWithClassName(articleDom, '.person [itemprop="affiliation"]');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
@@ -27,13 +46,13 @@ export const header = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, '.organisation > address', 'organisation__address');
 
   const headline = articleDom.querySelector('.content-header__title');
-  const articleAuthors = authors(articleDom);
+  const authors = articleDom.querySelector('.content-header__authors');
   const affiliations = articleDom.querySelector('.content-header__affiliations');
   const doi = getDoi(articleDom);
 
   return `<div class="content-header">
     ${headline?.outerHTML}
-    ${articleAuthors?.outerHTML}
+    ${authors?.outerHTML}
     ${affiliations?.outerHTML}
     <div class="content-header__footer">
       ${doi}
