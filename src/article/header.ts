@@ -20,6 +20,8 @@ const getDoi = (articleDom: DocumentFragment): string => {
 
 export const header = (articleDom: DocumentFragment): string => {
   replaceAttributesWithClassName(articleDom, 'article > [itemprop="headline"]', 'content-header__title');
+  replaceAttributesWithClassName(articleDom, '.person [data-itemprop="affiliations"]', 'person__affiliations');
+  replaceAttributesWithClassName(articleDom, '.person [itemprop="affiliation"]');
   replaceAttributesWithClassName(articleDom, 'article > [data-itemprop="affiliations"]', 'content-header__affiliations');
   replaceAttributesWithClassName(articleDom, '.content-header__affiliations > [itemtype="http://schema.org/Organization"]', 'organisation');
   replaceAttributesWithClassName(articleDom, '.organisation > address', 'organisation__address');
