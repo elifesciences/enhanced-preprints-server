@@ -21,10 +21,6 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
   const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
 
   return `${header(articleFragment)}
-      <div class="secondary-column">
-        ${articleFurniture(article.doi, noHeader)}
-      </div>
-
       <main class="primary-column">
         <div class="table-contents">
           ${jumpToMenu(articleFragment)}
@@ -33,5 +29,9 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
           ${evaluationSummary(article.doi)}
           ${articleHtmlWithoutHeader}
         </div>
-      </main>`;
+      </main>
+
+      <div class="secondary-column">
+        ${articleFurniture(article.doi, noHeader)}
+      </div>`;
 };
