@@ -23,6 +23,9 @@ $max-site-width: 1296px;
 $grid-column: 78px;
 $grid-gutter: 24px;
 
+// Site Spacing
+$site-spacing: 24px;
+
 // Breakpoints
 $breakpoint-small: 480px;
 $breakpoint-medium: 768px;
@@ -45,4 +48,17 @@ $logo-url: url(https://elifesciences.org/assets/patterns/img/patterns/organisms/
   width: 79px;
   height: 30px;
   content: "";
+}
+
+@mixin padding($padding: true) {
+  @if $padding {
+    padding-left: $site-spacing;
+    padding-right: $site-spacing;
+
+    @media only screen and (min-width: $breakpoint-small) {
+      padding-left: $site-spacing * 2;
+      padding-right: $site-spacing * 2;
+    }
+
+  }
 }

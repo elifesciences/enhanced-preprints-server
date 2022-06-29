@@ -1,12 +1,8 @@
 @use 'settings';
 
 .grid-container {
+  @include settings.padding();
   margin: 0 auto;
-  padding: 0 24px;
-
-  @media only all and (min-width: 480px) {
-    padding: 0 48px;
-  }
 
   @media only all and (min-width: settings.$breakpoint-medium) {
     display: grid;
