@@ -21,13 +21,22 @@ $max-site-width: 1296px;
 $grid-column: 78px;
 $grid-gutter: 24px;
 
+// Site Spacing
+$site-spacing: 24px;
+
+// Breakpoints
+$breakpoint-small: 480px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 1000px;
+$breakpoint-extra-large: 1296px;
+
+
 // biophysics-colab
 // $logo-url: url(https://static.wixstatic.com/media/1f1e58_cde9872c8ecf470d8f8238a81a1d4f1b~mv2.png/v1/fill/w_492,h_192,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/210628_Biophysics%20Logo_FINAL%202.png);
 // $color-emphasis: rgb(188,35,37); // "biophysics red"
 
 // elife
 $logo-url: url(https://elifesciences.org/assets/patterns/img/patterns/organisms/elife-logo-xs.fd623d00.svg);
-$color-emphasis: rgb(8,122,204); // "accessible blue"
 
 // Logo
 @mixin logo-img {
@@ -37,4 +46,17 @@ $color-emphasis: rgb(8,122,204); // "accessible blue"
   width: 79px;
   height: 30px;
   content: "";
+}
+
+@mixin padding($padding: true) {
+  @if $padding {
+    padding-left: $site-spacing;
+    padding-right: $site-spacing;
+
+    @media only screen and (min-width: $breakpoint-small) {
+      padding-left: $site-spacing * 2;
+      padding-right: $site-spacing * 2;
+    }
+
+  }
 }

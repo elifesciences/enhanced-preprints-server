@@ -1,4 +1,6 @@
-@media only all and (min-width: 730px) {
+@use 'settings';
+
+@media only all and (min-width: settings.$breakpoint-medium) {
   .content-header {
     grid-column: 1/10;
     grid-row: 2;
@@ -15,7 +17,7 @@
   }
 }
 
-@media only all and (min-width: 1000px) {
+@media only all and (min-width: settings.$breakpoint-large) {
 
   .primary-column {
     display: grid;
