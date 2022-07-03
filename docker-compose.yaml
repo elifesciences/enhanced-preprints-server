@@ -13,37 +13,6 @@ services:
     volumes:
     - ./src:/opt/epp/src
     - epp-data:/opt/epp-data
-  litestream:
-    profiles:
-    - sqlite
-    image: litestream/litestream
-    command: replicate -config /opt/litestream.cfg
-    environment:
-      AWS_ACCESS_KEY_ID: admin
-      AWS_SECRET_ACCESS_KEY: testtest
-    volumes:
-    - epp-data:/opt/epp-data
-    - ./.docker/litestream.cfg:/opt/litestream.cfg
-  minio:
-    profiles:
-    - sqlite
-    image: minio/minio
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: admin
-      MINIO_ROOT_PASSWORD: testtest
-    ports:
-    - "9000:9000"
-    - "9001:9001"
-    volumes:
-    - minio:/data
-  create-bucket:
-    profiles:
-    - sqlite
-    image: minio/mc
-    command: mb local/epp
-    environment:
-      MC_HOST_local: http://admin:testtest@minio:9000/
 
   # couchdb profile
   app-couchdb:
