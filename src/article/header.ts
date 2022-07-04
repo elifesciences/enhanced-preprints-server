@@ -50,7 +50,7 @@ export const header = (articleDom: DocumentFragment): string => {
   const affiliations = articleDom.querySelector('.content-header__affiliations');
   const doi = getDoi(articleDom);
 
-  return `<div class="content-header">
+  return `<header class="content-header">
     ${headline?.outerHTML}
     ${authors?.outerHTML}
     ${affiliations?.outerHTML}
@@ -69,5 +69,5 @@ export const header = (articleDom: DocumentFragment): string => {
         </li>
       </ul>
     </div>
-  </div>`;
+  </header>`;
 };
