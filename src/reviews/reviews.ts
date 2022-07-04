@@ -39,7 +39,7 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
               ambitious, large-scale biological resource generation at its apotheosis.
             </p>
 
-            <h3>Importance of claim</h3>
+            <h3 class="summary-heading">Importance of claim</h3>
             <ol class="summary-badge-list">
               <li class="summary-badge-list__item summary-badge-list__item--active">Landmark</li>
               <li class="summary-badge-list__item">Fundamental</li>
@@ -52,7 +52,7 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
               The insights (if true) will substantially change the way we think about an important topic - or have wide reaching practical implications. Important idea that everybody in the field should know about.
             </p>
 
-            <h3>Strength of evidence</h3>
+            <h3 class="summary-heading">Strength of evidence</h3>
             <ol class="summary-badge-list">
               <li class="summary-badge-list__item summary-badge-list__item--active">Tour-de-force</li>
               <li class="summary-badge-list__item">Compelling</li>

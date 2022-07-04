@@ -112,6 +112,11 @@ h1.article-review-status__heading {
   color: settings.$color-emphasis;
 }
 
+h3.summary-heading {
+  @include typography.summary-heading();
+  font-weight: unset;
+}
+
 .summary-badge-list {
   display: flex;
   flex-wrap: wrap;
@@ -122,6 +127,7 @@ h1.article-review-status__heading {
 
 .summary-badge-list__item {
   @include buttons.action-button();
+  @include typography.summary-badge();
   margin-bottom: 6px;
   margin-right: 6px;
   padding: 8px 12px;
