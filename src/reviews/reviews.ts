@@ -29,6 +29,38 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
               Read about eLife’s peer review process
             </a>
           </div>
+          <div class="article-review-summary">
+            <h2>Summary</h2>
+            <p>
+              This is a landmark paper and a tour-de-force that ties together decades of advances in electron microscopy to produce a dataset of both breadth and extreme technical quality whose very existence will have profound and lasting influence on neuroscience. The manuscript is extensive and well-illustrated, and the data, methods and analyses are made available to the community in an exemplary manner. The work represents ambitious, large-scale biological resource generation at its apotheosis.
+            </p>
+
+            <h3>Importance of claim</h3>
+            <ol>
+              <li>Landmark</li>
+              <li>Fundamental</li>
+              <li>Important</li>
+              <li>Noteworthy</li>
+              <li>Useful</li>
+              <li>Flawed</li>
+            </ol>
+            <p>
+              The insights (if true) will substantially change the way we think about an important topic - or have wide reaching practical implications. Important idea that everybody in the field should know about.
+            </p>
+
+            <h3>Strength of evidence</h3>
+            <ol>
+              <li>Tour-de-force</li>
+              <li>Compelling</li>
+              <li>Convincing</li>
+              <li>Solid</li>
+              <li>Incomplete</li>
+              <li>Inadequate</li>
+            </ol>
+            <p>
+              The quality of the dataset and / or analysis by far exceeds the current state of the art in the field. A major tour-de-force that sets new standards for years to come.
+            </p>
+          </div>
           <ul class="review-list">
               ${reviews}
           </ul>
