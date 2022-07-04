@@ -2,6 +2,57 @@
 @use '../sass/settings';
 @use '../sass/typography';
 
+
+.article-review-status {
+  border-bottom: settings.$border;
+  margin-top:24px;
+  padding-bottom: 36px;
+
+  @media only all and (min-width: 730px) {
+    margin-top: 0;
+  }
+}
+
+h1.article-review-status__heading {
+  color: settings.$color-emphasis;
+  font-family: settings.$font-family-primary;
+  margin-top: 0;
+}
+
+.article-review-status__text {
+  @include typography.body;
+}
+
+
+.article-review-status-timeline {
+  max-width: 220px;
+}
+
+.article-review-status-timeline__list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.article-review-status-timeline__list_item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.article-review-status-timeline__event {
+  @include typography.article-review-timeline-text();
+  font-weight: 600;
+}
+
+.article-review-status-timeline__date {
+  @include typography.article-review-timeline-text();
+  color: settings.$color-text-inactive;
+}
+
+.article-review-link {
+  @include typography.link-text();
+}
+
 .review-list {
   list-style: none;
   margin: 2rem;

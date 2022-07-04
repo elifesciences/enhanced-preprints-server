@@ -112,3 +112,10 @@
   font-size: 12px;
   line-height: 18px;
 }
+
+@mixin article-review-timeline-text() {
+  color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 32px;
+}
