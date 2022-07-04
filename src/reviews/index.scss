@@ -103,3 +103,18 @@ h1.article-review-status__heading {
 .return-button__icon {
   @include buttons.button-icon();
 }
+
+.summary-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0;
+}
+
+.summary-badge-list__item {
+ @include buttons.action-button();
+  margin-bottom: 6px;
+  margin-right: 6px;
+  padding: 8px 12px;
+}

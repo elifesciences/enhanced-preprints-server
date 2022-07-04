@@ -36,26 +36,26 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
             </p>
 
             <h3>Importance of claim</h3>
-            <ol>
-              <li>Landmark</li>
-              <li>Fundamental</li>
-              <li>Important</li>
-              <li>Noteworthy</li>
-              <li>Useful</li>
-              <li>Flawed</li>
+            <ol class="summary-badge-list">
+              <li class="summary-badge-list__item">Landmark</li>
+              <li class="summary-badge-list__item">Fundamental</li>
+              <li class="summary-badge-list__item">Important</li>
+              <li class="summary-badge-list__item">Noteworthy</li>
+              <li class="summary-badge-list__item">Useful</li>
+              <li class="summary-badge-list__item">Flawed</li>
             </ol>
             <p>
               The insights (if true) will substantially change the way we think about an important topic - or have wide reaching practical implications. Important idea that everybody in the field should know about.
             </p>
 
             <h3>Strength of evidence</h3>
-            <ol>
-              <li>Tour-de-force</li>
-              <li>Compelling</li>
-              <li>Convincing</li>
-              <li>Solid</li>
-              <li>Incomplete</li>
-              <li>Inadequate</li>
+            <ol class="summary-badge-list">
+              <li class="summary-badge-list__item">Tour-de-force</li>
+              <li class="summary-badge-list__item">Compelling</li>
+              <li class="summary-badge-list__item">Convincing</li>
+              <li class="summary-badge-list__item">Solid</li>
+              <li class="summary-badge-list__item">Incomplete</li>
+              <li class="summary-badge-list__item">Inadequate</li>
             </ol>
             <p>
               The quality of the dataset and / or analysis by far exceeds the current state of the art in the field. A major tour-de-force that sets new standards for years to come.
