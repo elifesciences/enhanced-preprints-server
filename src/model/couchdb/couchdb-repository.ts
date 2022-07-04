@@ -69,22 +69,17 @@ class CouchDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    const { rows } = await this.documentScope.list({ include_docs: true });
-    return rows.reduce((previousValue, currentValue) => {
-      if (currentValue.doc) {
-        previousValue.push({
-          doi: currentValue.doc.doi,
-          date: new Date(currentValue.doc.date),
-          title: normaliseTitleJson(currentValue.doc.title),
-        });
-      }
-      return previousValue;
-    }, new Array<ArticleSummary>());
+    const { rows } = await this.documentScope.view<ArticleSummary>('article-summaries', 'article-summaries');
+    return rows.map((row) => ({
+      doi: row.value.doi,
+      date: new Date(row.value.date),
+      title: normaliseTitleJson(row.value.title),
+    }));
   }
 }
 
 export const createCouchDBArticleRepository = async (connectionString: string, username: string, password: string) => {
-  const couchServer = await nano({
+  const couchServer = nano({
     url: connectionString,
     requestDefaults: {
       auth: {
@@ -93,7 +88,20 @@ export const createCouchDBArticleRepository = async (connectionString: string, u
       },
     },
   });
-  const connection = await couchServer.use<ArticleDocument>('epp');
-
+  await couchServer.use('epp').head('_design/article-summaries', async (error, _, headers) => {
+    if (error) {
+      await couchServer.use('epp').insert(
+        {
+          _id: '_design/article-summaries',
+          views: {
+            'article-summaries': {
+              map: 'function (doc) {\n  emit(doc._id, { doi: doc.doi, title: doc.title, date: doc.date});\n}',
+            },
+          },
+        },
+      );
+    }
+  })
+  const connection = couchServer.use<ArticleDocument>('epp');
   return new CouchDBArticleRepository(connection);
 };
