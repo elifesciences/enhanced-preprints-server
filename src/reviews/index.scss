@@ -142,6 +142,10 @@
   background-color: settings.$color-badge-active;
 }
 
+.editors-and-reviewers__header {
+  @include typography.heading-2();
+}
+
 .editors-and-reviewers__list {
   list-style: none;
   margin: 0;
