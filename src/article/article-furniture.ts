@@ -23,12 +23,5 @@ export const articleFurniture = (doi: string, noHeader: boolean) => `<div class=
                   <li class="article-metrics__item">1 citation</li>
                   <li class="article-metrics__item">13 tweets</li>
               </ul>
-              <ul class="article-subject-areas">
-                  <li class="article-subject-areas__item">Important findings</li>
-                  <li class="article-subject-areas__item">Single-molecule</li>
-                  <li class="article-subject-areas__item">Ion channels</li>
-                  <li class="article-subject-areas__item">Ligand binding</li>
-              </ul>
-              <a class="article-metadata__similar_research_link" href="#"><span class="material-icons link-icon">arrow_forward</span>See similar research</a>
           </div>
         </div>`;

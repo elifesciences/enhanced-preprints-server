@@ -119,26 +119,3 @@
     content: "";
   }
 }
-
-.article-subject-areas {
-  list-style: none;
-  padding-left: 0;
-  padding-top: 36px;
-  margin-top: 0;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.article-subject-areas__item {
-  @include buttons.subject-area-button();
-  margin-right: 12px;
-  margin-bottom: 12px;
-
-  &:last-child {
-    margin-right: 0;
-  }
-}
-
-.article-metadata__similar_research_link {
-  @include typography.link-text();
-}
