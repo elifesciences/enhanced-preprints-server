@@ -106,16 +106,24 @@
   line-height: 24px;
 }
 
-@mixin subject-areas() {
-  color: settings.$color-text;
-  font-family: settings.$font-family-primary;
-  font-size: 12px;
-  line-height: 18px;
-}
-
 @mixin article-review-timeline-text() {
   color: settings.$color-text;
   font-family: settings.$font-family-primary;
   font-size: 14px;
   line-height: 32px;
+}
+
+@mixin summary-heading() {
+  color: settings.$color-text-inactive;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 30px;
+
+}
+
+@mixin summary-badge() {
+  color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 12px;
+  line-height: 18px;
 }
