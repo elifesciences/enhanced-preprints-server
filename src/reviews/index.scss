@@ -113,8 +113,13 @@ h1.article-review-status__heading {
 }
 
 .summary-badge-list__item {
- @include buttons.action-button();
+  @include buttons.action-button();
   margin-bottom: 6px;
   margin-right: 6px;
   padding: 8px 12px;
+}
+
+.summary-badge-list__item--active {
+  color: white;
+  background-color: settings.$color-badge-active;
 }

@@ -37,7 +37,7 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
 
             <h3>Importance of claim</h3>
             <ol class="summary-badge-list">
-              <li class="summary-badge-list__item">Landmark</li>
+              <li class="summary-badge-list__item summary-badge-list__item--active">Landmark</li>
               <li class="summary-badge-list__item">Fundamental</li>
               <li class="summary-badge-list__item">Important</li>
               <li class="summary-badge-list__item">Noteworthy</li>
@@ -50,7 +50,7 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
 
             <h3>Strength of evidence</h3>
             <ol class="summary-badge-list">
-              <li class="summary-badge-list__item">Tour-de-force</li>
+              <li class="summary-badge-list__item summary-badge-list__item--active">Tour-de-force</li>
               <li class="summary-badge-list__item">Compelling</li>
               <li class="summary-badge-list__item">Convincing</li>
               <li class="summary-badge-list__item">Solid</li>
