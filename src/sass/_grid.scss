@@ -1,14 +1,10 @@
 @use 'settings';
 
 .grid-container {
+  @include settings.padding();
   margin: 0 auto;
-  padding: 0 24px;
 
-  @media only all and (min-width: 480px) {
-    padding: 0 48px;
-  }
-
-  @media only all and (min-width: 730px) {
+  @media only all and (min-width: settings.$breakpoint-medium) {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: settings.$grid-gutter;
@@ -18,5 +14,5 @@
 
 @mixin sticky-grid-item() {
   position: sticky;
-  top: 151px; // magic number (distance between top of window and where item should stop scrolling)
+  top: settings.$site-spacing * 4; // distance between top of window and where item should stop scrolling
 }

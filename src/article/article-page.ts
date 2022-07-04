@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
 import { ProcessedArticle } from '../model/model';
-import { jumpToMenu } from './jump-to-menu';
+import { jumpToMenu } from './jump-menu';
 import { header } from './header';
 import { articleFurniture } from './article-furniture';
 import { evaluationSummary } from './article-evaluation-summary';
@@ -21,10 +21,6 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
   const articleHtmlWithoutHeader = getArticleHtmlWithoutHeader(articleFragment);
 
   return `${header(articleFragment)}
-      <div class="secondary-column">
-        ${articleFurniture(article.doi, noHeader)}
-      </div>
-
       <main class="primary-column">
         <div class="table-contents">
           ${jumpToMenu(articleFragment)}
@@ -33,5 +29,9 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
           ${evaluationSummary(article.doi)}
           ${articleHtmlWithoutHeader}
         </div>
-      </main>`;
+      </main>
+
+      <div class="secondary-column">
+        ${articleFurniture(article.doi, noHeader)}
+      </div>`;
 };
