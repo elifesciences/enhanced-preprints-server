@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { jumpToMenu } from './jump-to-menu';
+import { jumpToMenu } from './jump-menu';
 
 const articleFragmentNoHeadings = JSDOM.fragment(`
   <article>
@@ -55,17 +55,17 @@ const articleFragmentWithHeadings = JSDOM.fragment(`
   </article>
 `);
 
-describe('jump-to-menu', () => {
+describe('jump-menu', () => {
   it('returns empty string if no headings found', () => {
     const result = JSDOM.fragment(jumpToMenu(articleFragmentNoHeadings));
 
-    expect(result.querySelector('.toc-container')).toBeNull();
+    expect(result.querySelector('.jump-menu-container')).toBeNull();
   });
 
   it('returns a list of headings when headings are in the article', () => {
     const result = JSDOM.fragment(jumpToMenu(articleFragmentWithHeadings));
 
-    const headingsNode = result.querySelectorAll('.toc-list__item > .toc-list__link');
+    const headingsNode = result.querySelectorAll('.jump-menu-list__item > .jump-menu-list__link');
     const headings = Array.from(headingsNode)
       .map((element) => element.textContent)
       .filter((heading) => heading !== null);
@@ -76,7 +76,7 @@ describe('jump-to-menu', () => {
   it('only returns h2 headings and not h3', () => {
     const result = JSDOM.fragment(jumpToMenu(articleFragmentWithHeadings));
 
-    const headingsNode = result.querySelectorAll('.toc-list__item > .toc-list__link');
+    const headingsNode = result.querySelectorAll('.jump-menu-list__item > .jump-menu-list__link');
     const headings = Array.from(headingsNode)
       .map((element) => element.textContent)
       .filter((heading) => heading !== null);
