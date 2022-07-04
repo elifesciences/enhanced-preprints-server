@@ -13,7 +13,7 @@
   }
 }
 
-h1.article-review-status__heading {
+.article-review-status__heading {
   color: settings.$color-emphasis;
   font-family: settings.$font-family-primary;
   margin-top: 0;
@@ -104,6 +104,10 @@ h1.article-review-status__heading {
   @include buttons.button-icon();
 }
 
+.summary-title {
+  @include typography.heading-2();
+}
+
 .summary-text {
   @include typography.body();
 }
@@ -112,9 +116,9 @@ h1.article-review-status__heading {
   color: settings.$color-emphasis;
 }
 
-h3.summary-heading {
+.summary-heading {
   @include typography.summary-heading();
-  font-weight: unset;
+  font-weight: normal;
 }
 
 .summary-badge-list {

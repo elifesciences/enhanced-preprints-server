@@ -29,8 +29,8 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
               Read about eLife’s peer review process
             </a>
           </div>
-          <div class="article-review-summary">
-            <h2>Summary</h2>
+          <div>
+            <h2 class="summary-title">Summary</h2>
             <p class="summary-text">
               This is a <span class="summary-text__highlight">landmark</span> paper and a <span class="summary-text__highlight">tour-de-force</span> that ties together decades of advances in electron microscopy
               to produce a dataset of both breadth and extreme technical quality whose very existence will have profound
