@@ -88,7 +88,7 @@ export const createCouchDBArticleRepository = async (connectionString: string, u
       },
     },
   });
-  await couchServer.use('epp').head('_design/article-summaries', async (error, _, headers) => {
+  await couchServer.use('epp').head('_design/article-summaries', async (error) => {
     if (error) {
       await couchServer.use('epp').insert(
         {
@@ -101,7 +101,7 @@ export const createCouchDBArticleRepository = async (connectionString: string, u
         },
       );
     }
-  })
+  });
   const connection = couchServer.use<ArticleDocument>('epp');
   return new CouchDBArticleRepository(connection);
 };
