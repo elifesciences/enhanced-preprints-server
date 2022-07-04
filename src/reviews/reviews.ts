@@ -31,8 +31,8 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
           </div>
           <div class="article-review-summary">
             <h2>Summary</h2>
-            <p>
-              This is a <span class="summary-highlight">landmark</span> paper and a <span class="summary-highlight">tour-de-force</span> that ties together decades of advances in electron microscopy
+            <p class="summary-text">
+              This is a <span class="summary-text__highlight">landmark</span> paper and a <span class="summary-text__highlight">tour-de-force</span> that ties together decades of advances in electron microscopy
               to produce a dataset of both breadth and extreme technical quality whose very existence will have profound
               and lasting influence on neuroscience. The manuscript is extensive and well-illustrated, and the data,
               methods and analyses are made available to the community in an exemplary manner. The work represents
@@ -48,7 +48,7 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
               <li class="summary-badge-list__item">Useful</li>
               <li class="summary-badge-list__item">Flawed</li>
             </ol>
-            <p>
+            <p class="summary-text">
               The insights (if true) will substantially change the way we think about an important topic - or have wide reaching practical implications. Important idea that everybody in the field should know about.
             </p>
 
@@ -61,7 +61,7 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
               <li class="summary-badge-list__item">Incomplete</li>
               <li class="summary-badge-list__item">Inadequate</li>
             </ol>
-            <p>
+            <p class="summary-text">
               The quality of the dataset and / or analysis by far exceeds the current state of the art in the field. A major tour-de-force that sets new standards for years to come.
             </p>
           </div>

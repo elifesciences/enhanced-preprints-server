@@ -104,6 +104,14 @@ h1.article-review-status__heading {
   @include buttons.button-icon();
 }
 
+.summary-text {
+  @include typography.body();
+}
+
+.summary-text__highlight {
+  color: settings.$color-emphasis;
+}
+
 .summary-badge-list {
   display: flex;
   flex-wrap: wrap;
@@ -122,8 +130,4 @@ h1.article-review-status__heading {
 .summary-badge-list__item--active {
   color: white;
   background-color: settings.$color-badge-active;
-}
-
-.summary-highlight {
-  color: settings.$color-emphasis;
 }
