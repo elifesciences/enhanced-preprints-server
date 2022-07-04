@@ -4,6 +4,7 @@ services:
     profiles:
     - sqlite
     build:
+      context: .
       target: prod
     command: yarn start:dev
     environment:
@@ -19,6 +20,7 @@ services:
     profiles:
     - couchdb
     build:
+      context: .
       target: prod
     command: yarn start:dev
     environment:
