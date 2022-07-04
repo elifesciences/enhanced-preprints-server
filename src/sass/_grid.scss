@@ -14,5 +14,5 @@
 
 @mixin sticky-grid-item() {
   position: sticky;
-  top: 151px; // magic number (distance between top of window and where item should stop scrolling)
+  top: settings.$site-spacing * 4; // distance between top of window and where item should stop scrolling
 }
