@@ -10,7 +10,7 @@ export const basePage = (pageContent: string, noHeader: boolean = false): string
       </head>
       <body>
         <div class="grid-container">
-          ${noHeader ? '' : '<div class="banner"></div>'}
+          ${noHeader ? '' : '<div class="banner"><div class="banner__logo">eLife Sciences Publications</div></div>'}
           ${pageContent}
         </div>
         <script src="/script.js"></script>
