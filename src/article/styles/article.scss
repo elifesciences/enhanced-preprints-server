@@ -6,19 +6,19 @@ img {
   max-width: 100%;
 }
 
-.main-content-area {
+.article-body {
   @include typography.body();
 }
-.main-content-area h1 {
+.article-body h1 {
   @include typography.heading-1();
 }
-.main-content-area h2 {
+.article-body h2 {
   @include typography.heading-2();
 }
-.main-content-area h3 {
+.article-body h3 {
   @include typography.heading-3();
 }
-.main-content-area h4 {
+.article-body h4 {
   @include typography.heading-4();
 }
 
