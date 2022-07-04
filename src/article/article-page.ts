@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
 import { ProcessedArticle } from '../model/model';
-import { jumpToMenu } from './jump-to-menu';
+import { jumpToMenu } from './jump-menu';
 import { header } from './header';
 import { articleFurniture } from './article-furniture';
 import { evaluationSummary } from './article-evaluation-summary';
