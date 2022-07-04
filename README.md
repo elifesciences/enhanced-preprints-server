@@ -19,7 +19,7 @@ We currently have two supported databases:
 - SQLite
 - CouchDB
 
-Both databases can be brought up locally using docker-compose v2 and above. NOTE: docker-compose v1 is not supported.
+Both databases can be brought up locally using docker-compose.
 
 ## Running with SQLite
 
