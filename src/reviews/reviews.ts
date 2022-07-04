@@ -32,7 +32,11 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
           <div class="article-review-summary">
             <h2>Summary</h2>
             <p>
-              This is a landmark paper and a tour-de-force that ties together decades of advances in electron microscopy to produce a dataset of both breadth and extreme technical quality whose very existence will have profound and lasting influence on neuroscience. The manuscript is extensive and well-illustrated, and the data, methods and analyses are made available to the community in an exemplary manner. The work represents ambitious, large-scale biological resource generation at its apotheosis.
+              This is a <span class="summary-highlight">landmark</span> paper and a <span class="summary-highlight">tour-de-force</span> that ties together decades of advances in electron microscopy
+              to produce a dataset of both breadth and extreme technical quality whose very existence will have profound
+              and lasting influence on neuroscience. The manuscript is extensive and well-illustrated, and the data,
+              methods and analyses are made available to the community in an exemplary manner. The work represents
+              ambitious, large-scale biological resource generation at its apotheosis.
             </p>
 
             <h3>Importance of claim</h3>
