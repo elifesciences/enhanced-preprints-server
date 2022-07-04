@@ -26,8 +26,10 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
           ${jumpToMenu(articleFragment)}
         </div>
         <div class="main-content-area">
-          ${evaluationSummary(article.doi)}
-          ${articleHtmlWithoutHeader}
+          <div class="article-body">
+            ${evaluationSummary(article.doi)}
+            ${articleHtmlWithoutHeader}
+          </div>
         </div>
       </main>
 
