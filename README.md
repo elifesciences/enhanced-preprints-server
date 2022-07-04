@@ -23,14 +23,14 @@ Both databases can be brought up locally using docker-compose.
 
 ## Running with SQLite
 
-run `docker-compose --profile sqlite up -d` to bring up the application and all related services.
+run either `make watch-sqlite` or `docker-compose --profile sqlite up -d` to bring up the application and all related services.
 You can then import articles as described above.
 
 NOTE: You will need to run `docker-compose --profile sqlite down --volumes` to fully remove data after the service has shutdown.
 
 ## Running with CouchDB
 
-run `docker-compose --profile couchdb up -d` to bring up the application and all related services.
+run either `make watch-couchdb` or `docker-compose --profile couchdb up -d` to bring up the application and all related services.
 You can then import articles as described above.
 
 NOTE: You will need to run `docker-compose --profile couchdb down --volumes` to fully remove data after the service has shutdown.
