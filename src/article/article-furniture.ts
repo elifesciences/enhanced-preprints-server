@@ -1,7 +1,7 @@
 export const articleFurniture = (doi: string, noHeader: boolean) => `<div class="article-furniture">
           <div class="article-status">
               <h2 class="article-status__heading">Reviewed Preprint</h2>
-              <span class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</span>
+              <p class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</p>
               <div class="article-actions">
                 <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">download</span>Download</a>
                 <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">format_quote</span>Cite</a>
