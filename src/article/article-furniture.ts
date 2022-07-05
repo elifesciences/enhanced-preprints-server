@@ -1,13 +1,18 @@
 export const articleFurniture = (doi: string, noHeader: boolean) => `<div class="article-furniture">
-          <div class="article-status">
+            <div class="article-status">
               <h2 class="article-status__heading">Reviewed Preprint</h2>
               <p class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</p>
-              <div class="article-actions">
-                <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">download</span>Download</a>
-                <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">format_quote</span>Cite</a>
-                <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">notifications</span>Follow</a>
-                <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">share</span>Share</a>
-            </div>
+              <ul class="article-actions">
+                <li class="article-actions__list-item">
+                    <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">download</span>Download</a>
+                </li>
+                    <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">format_quote</span>Cite</a>
+                </li>
+                    <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">notifications</span>Follow</a>
+                </li>
+                    <a class="article-actions__button" href="#"><span class="material-icons article-actions__button_icon">share</span>Share</a>
+                </li>
+              </ul>
           </div>
           <div class="review-timeline">
               <ol class="review-timeline__list">

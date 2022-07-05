@@ -6,7 +6,7 @@
 @mixin _right-column-section() {
   border-bottom: settings.$border;
   margin-top: 36px;
-  padding-bottom: 36px;
+  padding-bottom: 24px;
 
   @media only all and (min-width: settings.$breakpoint-medium) {
     margin-left: auto;
@@ -45,14 +45,21 @@
 }
 
 .article-actions {
-  padding-top: 36px;
+  margin: 0;
+  padding-left: 0;
+  padding-top: 24px;
+}
+
+.article-actions__list-item {
+  display: inline-block;
+  list-style: none;
 }
 
 .article-actions__button {
   @include buttons.action-button();
+  display: inline-block;
   margin-bottom: 12px;
   margin-right: 6px;
-  display: inline-block;
 
   &:nth-child(even) {
     margin-right: 0;
