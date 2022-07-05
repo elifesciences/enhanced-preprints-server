@@ -15,11 +15,14 @@ export const articleFurniture = (doi: string, noHeader: boolean) => `<div class=
               </ul>
           </div>
           <div class="review-timeline">
-              <ol class="review-timeline__list">
-                  <li class="review-timeline__list_item"><span class="review-timeline__event">Author response</span><span class="review-timeline__date">Mar 6, 2022</span></li>
-                  <li class="review-timeline__list_item"><span class="review-timeline__event">Peer review</span><span class="review-timeline__date">Mar 3, 2022</span></li>
-                  <li class="review-timeline__list_item"><span class="review-timeline__event">Preprint posted</span><span class="review-timeline__date">Nov 8, 2021</span></li>
-              </ol>
+              <dl class="review-timeline__list">
+                <dt class="review-timeline__event">Author response</dt>
+                <dd class="review-timeline__date">Mar 6, 2022</dd>
+                <dt class="review-timeline__event">Peer review</dt>
+                <dd class="review-timeline__date">Mar 3, 2022</dd>
+                <dt class="review-timeline__event">Preprint posted</dt>
+                <dd class="review-timeline__date">Nov 8, 2021</dd>
+              </dl>
               <a class="review-timeline__reviews_link" href="/article/${doi}/reviews${noHeader ? '?noHeader=true' : ''}"><span class="material-icons link-icon">arrow_forward</span>Read the peer-review by eLife</a>
           </div>
           <div class="article-metadata">

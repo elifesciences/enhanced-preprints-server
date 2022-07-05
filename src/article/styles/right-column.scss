@@ -77,22 +77,30 @@
 .review-timeline__list {
   list-style: none;
   padding-left: 0;
+  display: flex;
+  flex-flow: row wrap;
+
 }
 
 .review-timeline__list_item {
-  display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
 }
 
 .review-timeline__event {
   @include typography.right-bar-text();
+  flex-basis: 50%;
   font-weight: 600;
+  margin: 0;
 }
 
 .review-timeline__date {
   @include typography.right-bar-text();
   color: settings.$color-text-inactive;
+  flex-basis: 35%;
+  flex-grow: 1;
+  margin: 0;
+  text-align: right;
 }
 
 .review-timeline__reviews_link {
