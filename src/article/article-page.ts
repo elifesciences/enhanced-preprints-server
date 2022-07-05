@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom';
 import { ProcessedArticle } from '../model/model';
 import { jumpToMenu } from './jump-menu';
 import { header } from './header';
-import { articleFurniture } from './article-furniture';
+import { articleDetails } from './article-details';
 import { evaluationSummary } from './article-evaluation-summary';
 
 const getArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
@@ -34,6 +34,6 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
       </main>
 
       <div class="secondary-column">
-        ${articleFurniture(article.doi, noHeader)}
+        ${articleDetails(article.doi, noHeader)}
       </div>`;
 };
