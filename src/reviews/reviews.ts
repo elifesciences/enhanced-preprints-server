@@ -74,10 +74,10 @@ const wrapWithHtml = (editorsAndReviewersSection: string, reviews: string, doi: 
       </main>`;
 
 export const generateReviewPage = (article: EnhancedArticle, noHeader: boolean): string => {
-  if (article.reviews.length === 0) {
+  if (typeof article.peerReview === 'string' || article.peerReview.reviews.length === 0) {
     return wrapWithHtml(editorsAndReviewers(), '<li class="review-list__item"><article class="review-list-content">No reviews found</article></li>', article.doi, noHeader);
   }
-  const reviewListItems = article.reviews.map((review) => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review.text)}</article></li>`);
+  const reviewListItems = article.peerReview.reviews.map((review) => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review.text)}</article></li>`);
 
   return wrapWithHtml(editorsAndReviewers(), reviewListItems.join(''), article.doi, noHeader);
 };

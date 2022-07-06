@@ -1,41 +1,63 @@
 import axios from 'axios';
+import { Evaluation, PeerReview, ReviewType } from '../model/model';
 
 export type HypothesisResponse = {
   text: string,
 };
 
-type FetchReviews = (doi: string, reviewingGroup: string) => Promise<Array<string>>;
+type FetchReviews = (doi: string, reviewingGroup: string) => Promise<PeerReview | string>;
 
-type FetchDocmap = (doi: string) => Promise<Array<Docmap>>;
-const fetchDocmaps: FetchDocmap = async (doi) => axios.get<Array<Docmap>>(`https://sciety.org/docmaps/v1/articles/${doi}.docmap.json`).then(async (response) => response.data).catch(() => []);
+type FetchDocmap = (doi: string) => Promise<Docmap>;
+// const fetchDocmaps: FetchDocmap = async (doi) => axios.get<Array<Docmap>>(`https://sciety.org/docmaps/v1/articles/${doi}.docmap.json`).then(async (response) => response.data).catch(() => []);
+const fetchDocmaps: FetchDocmap = async (doi) => axios.get<Docmap>('https://staging.sciety.org/docmaps/v1/evaluations-by/elife/10.1101/2021.06.02.446694.docmap.json').then(async (response) => response.data);
 
-export const fetchReviews: FetchReviews = async (doi, reviewingGroup) => {
-  const docmaps = await fetchDocmaps(doi);
-  const docmap = docmaps.find((docmapItem) => docmapItem.publisher.id === reviewingGroup);
-  if (!docmap) {
-    return Promise.resolve([]);
-  }
-  const hypothesisUrls = Object.values(docmap.steps)
-    .flatMap((docmapStep) => docmapStep.actions
-      .flatMap((action) => action.outputs
-        .flatMap((output) => output.content
-          .filter((content) => content.type === 'web-page' && content.url.includes('://hypothes.is/'))
-          .flatMap((content) => content.url))));
-
-  if (!hypothesisUrls.length) {
-    return Promise.resolve([]);
-  }
-  const hypothesisIds = hypothesisUrls.map((url) => {
-    const urlParts = url.split('/');
-    return urlParts[urlParts.length - 1];
+const getTextFromContent = async (contents: DocmapContent[]): Promise<string> => {
+  let rawUrl = '';
+  contents.forEach((content) => {
+    if (content['_raw-html']) {
+      rawUrl = content['_raw-html'];
+    }
   });
 
-  const hypothesisResponses = await Promise.all(hypothesisIds.map((id) => axios.get<HypothesisResponse>(`https://api.hypothes.is/api/annotations/${id}`)));
+  if (!rawUrl.length) {
+    return '';
+  }
+  return (await axios.get(rawUrl)).data;
+};
 
-  return Promise.all(hypothesisResponses.map(async (response) => {
-    const { text } = response.data;
-    return text;
-  }));
+export const fetchReviews: FetchReviews = async (doi) => {
+  let docmap;
+  try {
+    docmap = await fetchDocmaps(doi);
+  } catch (error) {
+    return `Unable to retrieve docmap for article: ${doi}`;
+  }
+
+  const evaluations = await Promise.all(Object.values(docmap.steps)
+    .flatMap((docmapStep) => docmapStep.actions)
+    .flatMap((action) => action.outputs)
+    .map<Promise<Evaluation>>(async (output) => ({
+    date: new Date(output.published),
+    reviewType: <ReviewType> output.type,
+    text: await getTextFromContent(output.content),
+  })));
+
+  const evaluationSummary = evaluations.find((evaluation) => evaluation.reviewType === ReviewType.EvaluationSummary);
+  if (!evaluationSummary) {
+    return 'Summary is missing from evaluations';
+  }
+
+  return {
+    reviews: evaluations.filter((evaluation) => evaluation.reviewType === ReviewType.Review),
+    evaluationSummary,
+    authorResponse: evaluations.find((evaluation) => evaluation.reviewType === ReviewType.AuthorResponse),
+  };
+};
+
+type DocmapContent = {
+  type: string,
+  url: string,
+  '_raw-html'?: string,
 };
 
 type DocmapStep = {
@@ -43,10 +65,7 @@ type DocmapStep = {
     outputs: {
       type: string,
       published: string,
-      content: {
-        type: string,
-        url: string,
-      }[]
+      content: DocmapContent[]
     }[]
   }[]
 };
