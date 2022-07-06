@@ -1,6 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleHTML, ArticleRepository, Doi, ProcessedArticle } from '../model/model';
+import { ArticleHTML, ArticleRepository, Doi, ProcessedArticle, Section } from '../model/model';
 import { Content, normaliseContentToMarkdown } from '../model/utils';
 
 export type ArticleXML = string;
@@ -78,6 +78,10 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   };
 };
 
+const extractSections = (articleStruct: ArticleStruct): Section[] => {
+  return [];
+};
+
 const processArticle = (article: ArticleContent): ProcessedArticle => {
   const articleStruct = JSON.parse(article.json) as ArticleStruct;
 
@@ -95,6 +99,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     abstract: normaliseContentToMarkdown(articleStruct.description),
     licenses: articleStruct.licenses,
     content: article.html,
+    sections: extractSections(articleStruct),
   };
 };
 

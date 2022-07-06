@@ -7,8 +7,8 @@ import {
   ArticleSummary,
   License,
   Author,
+  Section,
 } from '../model';
-import { normaliseContentToMarkdown, normaliseContentToText } from '../utils';
 
 const sqlStatements = {
   insertArticle: `INSERT OR IGNORE INTO articles (
@@ -18,8 +18,14 @@ const sqlStatements = {
     date,
     authors,
     licenses,
+<<<<<<< HEAD
     content
   ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+=======
+    sections,
+    htmlContent
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+>>>>>>> bcb3d70 (try to add new sections to model)
   getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleSummary: `
     SELECT
@@ -48,6 +54,7 @@ class SqliteArticleRepository implements ArticleRepository {
         article.date.toUTCString(),
         JSON.stringify(article.authors),
         JSON.stringify(article.licenses),
+        JSON.stringify(article.sections),
         article.content,
       ],
     );
@@ -65,6 +72,7 @@ class SqliteArticleRepository implements ArticleRepository {
     // decode various JSON back to structures
     article.licenses = JSON.parse(article.licenses) as License[];
     article.authors = JSON.parse(article.authors) as Author[];
+    article.sections = JSON.parse(article.sections) as Section[];
     return article;
   }
 

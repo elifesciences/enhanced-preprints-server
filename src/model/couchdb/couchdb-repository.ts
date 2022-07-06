@@ -6,7 +6,6 @@ import {
   ProcessedArticle,
   ArticleSummary,
 } from '../model';
-import { normaliseContentToText } from '../utils';
 
 type ArticleDocument = {
   _id: string,
@@ -29,6 +28,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       content: article.content,
       licenses: article.licenses,
       title: article.title,
+      sections: article.sections,
     });
 
     return response.ok;
@@ -48,6 +48,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       abstract: article.abstract,
       licenses: article.licenses,
       content: article.content,
+      sections: article.sections,
     };
   }
 

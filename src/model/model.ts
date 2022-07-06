@@ -24,6 +24,11 @@ export type License = {
   url: string,
 };
 
+export type Section = {
+  id: string,
+  name: string,
+};
+
 export type ProcessedArticle = {
   doi: Doi,
   title: ArticleTitle,
@@ -32,6 +37,7 @@ export type ProcessedArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: ArticleHTML,
+  sections: Section[],
 };
 
 export type ArticleSummary = {
