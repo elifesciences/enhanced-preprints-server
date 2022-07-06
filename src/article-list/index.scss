@@ -8,17 +8,17 @@
 }
 
 .articles-page__title {
+  @include typography.heading-1();
   grid-column: 1/4;
+  height: fit-content;
   margin-bottom: 0;
   text-align: center;
-  height: fit-content;
-  @include typography.heading-1();
 }
 
 .journals-list {
-  margin-top: 50px;
   grid-column: 2;
   list-style: none;
+  margin-top: 50px;
 }
 
 .articles-list {

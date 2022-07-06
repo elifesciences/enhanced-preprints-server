@@ -44,10 +44,10 @@ $logo-url: url(https://elifesciences.org/assets/patterns/img/patterns/organisms/
 @mixin logo-img {
   background-image: $logo-url;
   background-size: 79px 30px;
-  display: inline-block;
-  width: 79px;
-  height: 30px;
   content: "";
+  display: inline-block;
+  height: 30px;
+  width: 79px;
 }
 
 @mixin padding($padding: true) {
