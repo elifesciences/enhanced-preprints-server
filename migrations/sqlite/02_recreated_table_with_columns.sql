@@ -7,5 +7,5 @@ CREATE TABLE articles (
     authors TEXT NOT NULL,
     abstract TEXT NOT NULL,
     licenses TEXT NOT NULL,
-    htmlContent TEXT NOT NULL
+    content TEXT NOT NULL
 );

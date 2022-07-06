@@ -26,7 +26,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       abstract: article.abstract,
       authors: article.authors,
       date: article.date,
-      htmlContent: article.htmlContent,
+      content: article.content,
       licenses: article.licenses,
       title: article.title,
     });
@@ -47,7 +47,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       authors: article.authors,
       abstract: article.abstract,
       licenses: article.licenses,
-      htmlContent: article.htmlContent,
+      content: article.content,
     };
   }
 

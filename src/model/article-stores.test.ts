@@ -47,7 +47,7 @@ describe('article-stores', () => {
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
         date: new Date('2008-01-03'),
-        htmlContent: '<article></article>',
+        content: '<article></article>',
         licenses: exampleLicenses,
       });
 
@@ -62,7 +62,7 @@ describe('article-stores', () => {
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
         date: new Date('2008-01-03'),
-        htmlContent: '<article></article>',
+        content: '<article></article>',
         licenses: exampleLicenses,
       };
       await articleStore.storeArticle(article);
@@ -80,7 +80,7 @@ describe('article-stores', () => {
         abstract: 'Test article 2 abstract',
         date: new Date('2008-02-03'),
         authors: exampleAuthors,
-        htmlContent: '<article></article>',
+        content: '<article></article>',
         licenses: exampleLicenses,
       };
       const result = await articleStore.storeArticle(exampleArticle);
@@ -95,7 +95,7 @@ describe('article-stores', () => {
       expect(article.date).toStrictEqual(new Date('2008-02-03'));
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
-      expect(article.htmlContent).toStrictEqual('<article></article>');
+      expect(article.content).toStrictEqual('<article></article>');
     });
 
     it('errors when retrieving unknown article', async () => {
@@ -111,7 +111,7 @@ describe('article-stores', () => {
         abstract: 'Test article 4 abstract',
         date: new Date('2008-04-03'),
         authors: exampleAuthors,
-        htmlContent: '<article></article>',
+        content: '<article></article>',
         licenses: exampleLicenses,
       };
       const exampleArticle2 = {
@@ -120,7 +120,7 @@ describe('article-stores', () => {
         abstract: 'Test article 5 abstract',
         date: new Date('2008-05-03'),
         authors: exampleAuthors,
-        htmlContent: '<article></article>',
+        content: '<article></article>',
         licenses: exampleLicenses,
       };
       const exampleArticle3 = {
@@ -129,7 +129,7 @@ describe('article-stores', () => {
         abstract: 'Test article 6 abstract',
         date: new Date('2008-06-03'),
         authors: exampleAuthors,
-        htmlContent: '<article></article>',
+        content: '<article></article>',
         licenses: exampleLicenses,
       };
       await articleStore.storeArticle(exampleArticle1);

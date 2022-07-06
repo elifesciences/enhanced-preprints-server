@@ -18,7 +18,7 @@ const sqlStatements = {
     date,
     authors,
     licenses,
-    htmlContent
+    content
   ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
   getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleSummary: `
@@ -48,7 +48,7 @@ class SqliteArticleRepository implements ArticleRepository {
         article.date.toUTCString(),
         JSON.stringify(article.authors),
         JSON.stringify(article.licenses),
-        article.htmlContent,
+        article.content,
       ],
     );
     return result.changes === 1;

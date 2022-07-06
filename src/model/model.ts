@@ -31,7 +31,7 @@ export type ProcessedArticle = {
   authors: Author[],
   abstract: ArticleAbstract,
   licenses: License[],
-  htmlContent: ArticleHTML,
+  content: ArticleHTML,
 };
 
 export type ArticleSummary = {

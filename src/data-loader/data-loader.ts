@@ -94,7 +94,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     authors: articleStruct.authors,
     abstract: normaliseContentToMarkdown(articleStruct.description),
     licenses: articleStruct.licenses,
-    htmlContent: article.html,
+    content: article.html,
   };
 };
 
