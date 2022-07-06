@@ -7,7 +7,7 @@ import {
   ArticleSummary,
   License,
   Author,
-  Section,
+  Heading,
 } from '../model';
 
 const sqlStatements = {
@@ -18,14 +18,9 @@ const sqlStatements = {
     date,
     authors,
     licenses,
-<<<<<<< HEAD
+    headings,
     content
-  ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-=======
-    sections,
-    htmlContent
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
->>>>>>> bcb3d70 (try to add new sections to model)
   getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleSummary: `
     SELECT
@@ -54,7 +49,7 @@ class SqliteArticleRepository implements ArticleRepository {
         article.date.toUTCString(),
         JSON.stringify(article.authors),
         JSON.stringify(article.licenses),
-        JSON.stringify(article.sections),
+        JSON.stringify(article.headings),
         article.content,
       ],
     );
@@ -72,7 +67,7 @@ class SqliteArticleRepository implements ArticleRepository {
     // decode various JSON back to structures
     article.licenses = JSON.parse(article.licenses) as License[];
     article.authors = JSON.parse(article.authors) as Author[];
-    article.sections = JSON.parse(article.sections) as Section[];
+    article.headings = JSON.parse(article.headings) as Heading[];
     return article;
   }
 

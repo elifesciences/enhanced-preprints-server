@@ -10,7 +10,7 @@ export type Address = {
 };
 export type Organisation = {
   name: string,
-  address: Address,
+  address?: Address,
 };
 
 export type Author = {
@@ -24,9 +24,9 @@ export type License = {
   url: string,
 };
 
-export type Section = {
+export type Heading = {
   id: string,
-  name: string,
+  text: string,
 };
 
 export type ProcessedArticle = {
@@ -37,7 +37,7 @@ export type ProcessedArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: ArticleHTML,
-  sections: Section[],
+  headings: Heading[],
 };
 
 export type ArticleSummary = {

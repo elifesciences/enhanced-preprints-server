@@ -28,7 +28,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       content: article.content,
       licenses: article.licenses,
       title: article.title,
-      sections: article.sections,
+      headings: article.headings,
     });
 
     return response.ok;
@@ -48,7 +48,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       abstract: article.abstract,
       licenses: article.licenses,
       content: article.content,
-      sections: article.sections,
+      headings: article.headings,
     };
   }
 

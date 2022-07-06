@@ -49,6 +49,7 @@ describe('article-stores', () => {
         date: new Date('2008-01-03'),
         content: '<article></article>',
         licenses: exampleLicenses,
+        headings: [],
       });
 
       expect(stored).toStrictEqual(true);
@@ -64,6 +65,7 @@ describe('article-stores', () => {
         date: new Date('2008-01-03'),
         content: '<article></article>',
         licenses: exampleLicenses,
+        headings: [],
       };
       await articleStore.storeArticle(article);
       const stored = await articleStore.storeArticle(article);
@@ -82,6 +84,7 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
+        headings: [],
       };
       const result = await articleStore.storeArticle(exampleArticle);
       expect(result).toStrictEqual(true);
@@ -113,6 +116,7 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
+        headings: [],
       };
       const exampleArticle2 = {
         doi: 'test/article.5',
@@ -122,6 +126,7 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
+        headings: [],
       };
       const exampleArticle3 = {
         doi: 'test/article.6',
@@ -131,6 +136,7 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
+        headings: [],
       };
       await articleStore.storeArticle(exampleArticle1);
       await articleStore.storeArticle(exampleArticle2);
