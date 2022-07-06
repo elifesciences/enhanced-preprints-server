@@ -1,7 +1,8 @@
 import { marked } from 'marked';
 import { EnhancedArticle } from '../model/model';
+import { editorsAndReviewers } from './reviews-editors-and-reviewers';
 
-const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string => `
+const wrapWithHtml = (editorsAndReviewersSection: string, reviews: string, doi: string, noHeader: boolean): string => `
   <div class="secondary-column">
     secondary column
   </div>
@@ -65,6 +66,7 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
               The quality of the dataset and / or analysis by far exceeds the current state of the art in the field. A major tour-de-force that sets new standards for years to come.
             </p>
           </div>
+          ${editorsAndReviewersSection}
           <ul class="review-list">
               ${reviews}
           </ul>
@@ -73,8 +75,9 @@ const wrapWithHtml = (reviews: string, doi: string, noHeader: boolean): string =
 
 export const generateReviewPage = (article: EnhancedArticle, noHeader: boolean): string => {
   if (article.reviews.length === 0) {
-    return wrapWithHtml('<li class="review-list__item"><article class="review-list-content">No reviews found</article></li>', article.doi, noHeader);
+    return wrapWithHtml(editorsAndReviewers(), '<li class="review-list__item"><article class="review-list-content">No reviews found</article></li>', article.doi, noHeader);
   }
   const reviewListItems = article.reviews.map((review) => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review.text)}</article></li>`);
-  return wrapWithHtml(reviewListItems.join(''), article.doi, noHeader);
+
+  return wrapWithHtml(editorsAndReviewers(), reviewListItems.join(''), article.doi, noHeader);
 };

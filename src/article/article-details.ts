@@ -1,5 +1,5 @@
-export const articleFurniture = (doi: string, noHeader: boolean) => `<div class="article-furniture">
-            <div class="article-status">
+export const articleDetails = (doi: string, noHeader: boolean) => `<div class="article-details">
+          <div class="article-status">
               <h2 class="article-status__heading">Reviewed Preprint</h2>
               <p class="article-status__text">This preprint has been reviewed by eLife. Authors have responded but not yet submitted a revised edition</p>
               <ul class="article-actions">
