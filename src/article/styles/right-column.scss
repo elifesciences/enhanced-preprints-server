@@ -5,7 +5,7 @@
 
 @mixin _right-column-section() {
   border-bottom: settings.$border;
-  margin-top: 36px;
+  margin-top: 24px;
   padding-bottom: 24px;
 
   @media only all and (min-width: settings.$breakpoint-medium) {
