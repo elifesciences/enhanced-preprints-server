@@ -75,7 +75,7 @@ class SqliteArticleRepository implements ArticleRepository {
       authors: JSON.parse(article.authors) as Author[],
       abstract: normaliseContentToMarkdown(article.abstract),
       licenses: JSON.parse(article.licenses) as License[],
-      content: article.content,
+      content: normaliseContentToMarkdown(article.content),
     };
   }
 

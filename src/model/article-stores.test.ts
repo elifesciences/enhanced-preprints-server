@@ -7,48 +7,35 @@ const createArticleRepo = async (type: StoreType) => {
   return createArticleRepository(StoreType.Sqlite, ':memory:');
 };
 
-const authorsJson = `[{"type": "Person",
-  "affiliations": [
-    {
-      "type": "Organization",
-      "address": {
-        "type": "PostalAddress",
-        "addressCountry": "Belgium"
+const exampleAuthors = [
+  {
+    type: 'Person',
+    affiliations: [
+      {
+        type: 'Organization',
+        address: {
+          type: 'PostalAddress',
+          addressCountry: 'Belgium',
+        },
+        name: 'GIGA-Cyclotron Research Centre-In Vivo Imaging, University of Liège',
       },
-      "name": "GIGA-Cyclotron Research Centre-In Vivo Imaging, University of Liège"
-    }
-  ],
-  "familyNames": [
-    "Van",
-    "Egroo"
-  ],
-  "givenNames": [
-    "Maxime"
-  ]}]`;
+    ],
+    familyNames: [
+      'Van',
+      'Egroo',
+    ],
+    givenNames: [
+      'Maxime',
+    ],
+  },
+];
 
-const descriptionJson = `[
-    "Abstract Text can be plain strings, or interspersed with",
-    {
-      "type": "Superscript",
-      "content": [
-        "superscript,"
-      ]
-    },
-    {
-      "type": "Subscript",
-      "content": [
-        "subscript"
-      ]
-    }
-  ]`;
-
-const licensesJson = `
-  [
-    {
-      "type": "CreativeWork",
-      "url": "http://creativecommons.org/licenses/by/4.0/"
-    }
-  ]`;
+const exampleLicenses = [
+  {
+    type: 'CreativeWork',
+    url: 'http://creativecommons.org/licenses/by/4.0/',
+  },
+];
 
 describe('article-stores', () => {
   describe.each([StoreType.InMemory, StoreType.Sqlite])('Test article store backed by %s', (store) => {
@@ -61,9 +48,9 @@ describe('article-stores', () => {
         json: `{
           "title":"Test Article 1",
           "datePublished":{"value": "2008-01-03"},
-          "description": ${descriptionJson},
-          "authors": ${authorsJson},
-          "licenses": ${licensesJson},
+          "description": "Test article 1 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
           "content":[]
         }`,
       });
@@ -80,9 +67,9 @@ describe('article-stores', () => {
         json: `{
           "title":"Test Article 1",
           "datePublished":{"value": "2008-01-03"},
-          "description": ${descriptionJson},
-          "authors": ${authorsJson},
-          "licenses": ${licensesJson},
+          "description": "Test article 1 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
           "content":[]
         }`,
       };
@@ -98,9 +85,9 @@ describe('article-stores', () => {
       const exampleArticleJson = `{
         "title":"Test Article 2",
         "datePublished":{"value": "2008-02-03"},
-        "description": ${descriptionJson},
-        "authors": ${authorsJson},
-        "licenses": ${licensesJson},
+        "description": "Test article 2 abstract",
+        "authors": ${JSON.stringify(exampleAuthors)},
+        "licenses": ${JSON.stringify(exampleLicenses)},
         "content":[]
       }`;
       const exampleArticle = {
@@ -117,7 +104,11 @@ describe('article-stores', () => {
       expect(article).toBeDefined();
       expect(article.doi).toStrictEqual('test/article.2');
       expect(article.title).toStrictEqual('Test Article 2');
+      expect(article.abstract).toStrictEqual('Test article 2 abstract');
       expect(article.date).toStrictEqual(new Date('2008-02-03'));
+      expect(article.authors).toStrictEqual(exampleAuthors);
+      expect(article.licenses).toStrictEqual(exampleLicenses);
+      expect(article.content).toStrictEqual('');
       expect(article.xml).toStrictEqual('<article><article-title>Test article 2</article-title></article>');
       expect(article.html).toStrictEqual('<article><h1 itemprop="headline">Test article 2</h1></article>');
       expect(article.json).toStrictEqual(exampleArticleJson);
@@ -137,9 +128,9 @@ describe('article-stores', () => {
         json: `{
           "title":"Test Article 4",
           "datePublished":{"value": "2008-04-03"},
-          "description": ${descriptionJson},
-          "authors": ${authorsJson},
-          "licenses": ${licensesJson},
+          "description": "Test article 4 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
           "content":[]
         }`,
       };
@@ -150,9 +141,9 @@ describe('article-stores', () => {
         json: `{
           "title":"Test Article 5",
           "datePublished":{"value": "2008-05-03"},
-          "description": ${descriptionJson},
-          "authors": ${authorsJson},
-          "licenses": ${licensesJson},
+          "description": "Test article 5 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
           "content":[]
         }`,
       };
@@ -163,9 +154,9 @@ describe('article-stores', () => {
         json: `{
           "title":"Test Article 6",
           "datePublished":{"value": "2008-06-03"},
-          "description": ${descriptionJson},
-          "authors": ${authorsJson},
-          "licenses": ${licensesJson},
+          "description": "Test article 6 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
           "content":[]
         }`,
       };

@@ -31,6 +31,7 @@ const getEnhancedArticleWithDependencies = async (doi: Doi, articleRepository: A
     abstract: article.abstract,
     licenses: article.licenses,
     reviews,
+    content: article.content,
   };
 };
 
