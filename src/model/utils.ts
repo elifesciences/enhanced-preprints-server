@@ -8,7 +8,7 @@ import { MarkdownText } from './model';
  *
  * TODO: markdown it up baby!
  */
-export const normaliseContentToMarkdown = (content: Content): string => {
+export const normaliseContentToMarkdown = (content: Content): MarkdownText => {
   if (typeof content === 'string') {
     try {
       return normaliseContentToMarkdown(JSON.parse(content));

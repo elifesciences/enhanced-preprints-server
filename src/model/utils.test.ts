@@ -10,8 +10,8 @@ describe('utils', () => {
   ];
 
   it.each([
-    [complicatedTitle, 'emphasised normal text'],
-    [JSON.stringify(complicatedTitle), 'emphasised normal text'],
+    [complicatedTitle, '**emphasised** normal text'],
+    [JSON.stringify(complicatedTitle), '**emphasised** normal text'],
     ['This is a title', 'This is a title'],
   ])('process %o to equal "%s"', (input, expected) => {
     const title = normaliseContentToMarkdown(input);
