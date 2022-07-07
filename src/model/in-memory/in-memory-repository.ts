@@ -49,6 +49,7 @@ class InMemoryArticleRepository implements ArticleRepository {
       abstract: normaliseContentToMarkdown(articleStruct.description),
       licenses: articleStruct.licenses,
       content: normaliseContentToMarkdown(articleStruct.content),
+      headings: [],
     };
   }
 

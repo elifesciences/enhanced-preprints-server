@@ -61,6 +61,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       abstract: normaliseContentToMarkdown(article.json.description),
       licenses: article.json.licenses,
       content: html,
+      headings: [],
     };
   }
 

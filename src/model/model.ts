@@ -18,7 +18,7 @@ export type Address = {
 };
 export type Organisation = {
   name: string,
-  address: Address,
+  address?: Address,
 };
 
 export type Author = {
@@ -32,6 +32,11 @@ export type License = {
   url: string,
 };
 
+export type Heading = {
+  id: string,
+  text: string,
+};
+
 export type ProcessedArticle = ArticleContent & {
   title: ArticleTitle,
   date: Date,
@@ -39,6 +44,7 @@ export type ProcessedArticle = ArticleContent & {
   abstract: ArticleAbstract,
   licenses: License[],
   content: ArticleHTML,
+  headings: Heading[],
 };
 
 export type ArticleSummary = {
