@@ -62,11 +62,14 @@ class CouchDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    const { rows } = await this.documentScope.view<ArticleSummary>('article-summaries', 'article-summaries');
-    return rows.map((row) => ({
-      doi: row.value.doi,
-      date: new Date(row.value.date),
-      title: normaliseContentToMarkdown(row.value.title),
+    const { docs } = await this.documentScope.find({
+      selector: {},
+      fields: ['doi', 'json.datePublished.value', 'json.title'],
+    });
+    return docs.map((doc) => ({
+      doi: doc.doi,
+      date: new Date(doc.json.datePublished.value),
+      title: normaliseContentToMarkdown(doc.json.title),
     }));
   }
 }
