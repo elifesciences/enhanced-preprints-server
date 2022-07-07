@@ -2,7 +2,7 @@ import { Author, Organisation, ProcessedArticle } from '../model/model';
 
 const formatAuthorName = (author: Author) => `${author.givenNames.join(' ')} ${author.familyNames.join('')}`;
 
-const formatOrganisation = (organisation: Organisation) => `${organisation.name} ${organisation.address?.addressCountry ?? ''}`;
+const formatOrganisation = (organisation: Organisation) => `${organisation.name}<address class="organisation__address">${organisation.address?.addressCountry ?? ''}</address>`;
 
 export const header = (article: ProcessedArticle): string => {
   const organisationListItems = article.authors.flatMap((author) => author.affiliations).map((organisation: Organisation) => `<li class="organisation">${formatOrganisation(organisation)}</li>`);
