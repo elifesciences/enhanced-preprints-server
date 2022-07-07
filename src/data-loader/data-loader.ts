@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import { ArticleContent, ArticleRepository, Doi } from '../model/model';
 import { Content } from '../model/utils';
+import { JSDOM } from 'jsdom';
 
 // type related to the JSON output of encoda
 type Address = {
@@ -51,6 +52,14 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
+const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
+  const articleElement = articleDom.children[0];
+  const articleHtml = Array.from(articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
+    .reduce((prev, current) => prev.concat(current.outerHTML), '');
+
+  return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
+};
+
 const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const xml = readFileSync(file).toString();
   const html = await convertJatsToHtml(file);
@@ -61,10 +70,13 @@ const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> =>
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
   const doi = dois[0].value;
 
+  // extract HTML content without header
+  const content = extractArticleHtmlWithoutHeader(JSDOM.fragment(html));
+
   return {
     doi,
     xml,
-    html,
+    html: content,
     json,
   };
 };
