@@ -23,6 +23,10 @@ export const normaliseContentToMarkdown = (content: Content): string => {
       return contentPart;
     }
 
+    if (contentPart?.type === 'Emphasis') {
+      return `**${normaliseContentToMarkdown(contentPart.content)}**`;
+    }
+
     return normaliseContentToMarkdown(contentPart?.content);
   });
 
