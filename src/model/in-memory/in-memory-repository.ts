@@ -6,7 +6,7 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseContentToMarkdown, normaliseContentToText } from '../utils';
+import { normaliseContentToMarkdown } from '../utils';
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ArticleContent>;
@@ -68,7 +68,7 @@ class InMemoryArticleRepository implements ArticleRepository {
       const date = new Date(articleStruct.datePublished.value);
       return {
         doi: article.doi,
-        title: normaliseContentToText(title),
+        title: normaliseContentToMarkdown(title),
         date,
       };
     });

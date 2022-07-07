@@ -9,7 +9,7 @@ import {
   License,
   Author,
 } from '../model';
-import { normaliseContentToMarkdown, normaliseContentToText } from '../utils';
+import { normaliseContentToMarkdown } from '../utils';
 
 const sqlStatements = {
   insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, json) VALUES (?, ?, ?, ?)',
@@ -63,19 +63,18 @@ class SqliteArticleRepository implements ArticleRepository {
     if (article === undefined) {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
-    // remap date to a Date object
-    article.date = new Date(article.date);
 
-    // convert title to Text
-    article.title = normaliseContentToText(article.title);
-
-    // convert abstract to Markdown text
-    article.abstract = normaliseContentToMarkdown(article.abstract);
-
-    // decode various JSON back to structures
-    article.licenses = JSON.parse(article.licenses) as License[];
-    article.authors = JSON.parse(article.authors) as Author[];
-    return article;
+    return {
+      doi: article.doi,
+      date: new Date(article.date),
+      title: normaliseContentToMarkdown(article.title),
+      xml: article.xml,
+      json: article.json,
+      html: article.html,
+      authors: JSON.parse(article.authors) as Author[],
+      abstract: normaliseContentToMarkdown(article.abstract),
+      licenses: JSON.parse(article.licenses) as License[],
+    };
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
@@ -83,7 +82,7 @@ class SqliteArticleRepository implements ArticleRepository {
     return summaries.map((articleSummary) => ({
       doi: articleSummary.doi,
       date: new Date(articleSummary.date),
-      title: normaliseContentToText(articleSummary.title),
+      title: normaliseContentToMarkdown(articleSummary.title),
     }));
   }
 }

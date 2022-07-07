@@ -7,7 +7,7 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseContentToMarkdown, normaliseContentToText } from '../utils';
+import { normaliseContentToMarkdown } from '../utils';
 import { ArticleStruct } from '../../data-loader/data-loader';
 
 type ArticleDocument = {
@@ -49,7 +49,7 @@ class CouchDBArticleRepository implements ArticleRepository {
     }
 
     return {
-      title: normaliseContentToText(article.json.title),
+      title: normaliseContentToMarkdown(article.json.title),
       date: new Date(article.json.datePublished.value),
       doi: article.doi,
       xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
