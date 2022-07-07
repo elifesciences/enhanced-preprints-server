@@ -1,0 +1,55 @@
+services:
+  # SQLite profile
+  app-sqlite:
+    profiles:
+    - sqlite
+    build:
+      context: .
+      target: prod
+    command: yarn start:dev
+    environment:
+      REPO_CONNECTION: /opt/epp-data/data.db
+    ports:
+    - "8080:3000"
+    volumes:
+    - ./src:/opt/epp/src
+    - epp-data:/opt/epp-data
+
+  # couchdb profile
+  app-couchdb:
+    profiles:
+    - couchdb
+    build:
+      context: .
+      target: prod
+    command: yarn start:dev
+    environment:
+      REPO_TYPE: CouchDB
+      REPO_CONNECTION: http://couchdb:5984/
+      REPO_USERNAME: admin
+      REPO_PASSWORD: testtest
+    ports:
+    - "8080:3000"
+    volumes:
+    - ./src:/opt/epp/src
+    - epp-data:/opt/epp-data
+  couchdb:
+    profiles:
+    - couchdb
+    image: couchdb
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: testtest
+    ports:
+    - "5984:5984"
+    volumes:
+    - couchdb:/home/couchdb/data
+  create-database:
+    profiles:
+    - couchdb
+    image: curlimages/curl
+    entrypoint: sh
+    command: -c 'sleep 5; curl -X PUT -u admin:testtest http://couchdb:5984/epp'
+volumes:
+  epp-data:
+  couchdb:

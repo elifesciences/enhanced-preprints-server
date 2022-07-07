@@ -21,10 +21,3 @@
   margin-right: 6px;
   vertical-align: middle;
 }
-
-@mixin subject-area-button() {
-  @include typography.subject-areas();
-  @include _button-base();
-  max-height: 28px;
-  padding: 5px 10px 6px 10px;
-}

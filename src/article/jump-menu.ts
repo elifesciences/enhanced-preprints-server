@@ -18,11 +18,11 @@ const getHeadings = (articleDom: DocumentFragment): Heading[] => {
 export const jumpToMenu = (articleFragment: DocumentFragment): string => {
   const headings = getHeadings(articleFragment);
   return (headings.length ? `
-      <div class="toc-container">
-        <ul class="toc-list">
-        <li class="toc-list__item"><a class="toc-list__link" href="#evaluation-summary">eLife review summary</a></li>
+      <div class="jump-menu-container">
+        <ul class="jump-menu-list">
+        <li class="jump-menu-list__item"><a class="jump-menu-list__link" href="#evaluation-summary">eLife review summary</a></li>
           ${headings.map((heading) => `
-                <li class="toc-list__item"><a class="toc-list__link" href="#${heading.id}">${heading.text}</a></li>
+                <li class="jump-menu-list__item"><a class="jump-menu-list__link" href="#${heading.id}">${heading.text}</a></li>
               `).join('')
     }
         </ul>

@@ -26,9 +26,9 @@ function navHighlighter() {
       (scrollY > sectionTop || i === 0)
         && (next === undefined || scrollY <= next.offsetTop - 50)
     ) {
-      document.querySelector(`.toc-list__link[href*=${sectionId}]`)?.parentElement.classList.add('toc-list__item--selected');
+      document.querySelector(`.jump-menu-list__link[href*=${sectionId}]`)?.parentElement.classList.add('jump-menu-list__item--selected');
     } else {
-      document.querySelector(`.toc-list__link[href*=${sectionId}]`)?.parentElement.classList.remove('toc-list__item--selected');
+      document.querySelector(`.jump-menu-list__link[href*=${sectionId}]`)?.parentElement.classList.remove('jump-menu-list__item--selected');
     }
   }
 }

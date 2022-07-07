@@ -5,8 +5,8 @@
 
 @mixin _right-column-section() {
   border-bottom: settings.$border;
-  margin-top: 36px;
-  padding-bottom: 36px;
+  margin-top: 24px;
+  padding-bottom: 24px;
 
   @media only all and (min-width: settings.$breakpoint-medium) {
     margin-left: auto;
@@ -15,7 +15,7 @@
   }
 }
 
-.article-furniture {
+.article-details {
   @include grid.sticky-grid-item();
 }
 
@@ -45,14 +45,21 @@
 }
 
 .article-actions {
-  padding-top: 36px;
+  margin: 0;
+  padding-left: 0;
+  padding-top: 24px;
+}
+
+.article-actions__list-item {
+  display: inline-block;
+  list-style: none;
 }
 
 .article-actions__button {
   @include buttons.action-button();
+  display: inline-block;
   margin-bottom: 12px;
   margin-right: 6px;
-  display: inline-block;
 
   &:nth-child(even) {
     margin-right: 0;
@@ -70,22 +77,36 @@
 .review-timeline__list {
   list-style: none;
   padding-left: 0;
-}
 
-.review-timeline__list_item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  @media only all and (min-width: settings.$breakpoint-extra-large) {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
 }
 
 .review-timeline__event {
   @include typography.right-bar-text();
+  flex-basis: 100%;
   font-weight: 600;
+  margin: 0;
+
+  @media only all and (min-width: settings.$breakpoint-extra-large) {
+    flex-basis: 50%;
+  }
 }
 
 .review-timeline__date {
   @include typography.right-bar-text();
   color: settings.$color-text-inactive;
+  flex-basis: 100%;
+  margin: 0;
+
+  @media only all and (min-width: settings.$breakpoint-extra-large) {
+    flex-basis: 35%;
+    flex-grow: 1;
+    text-align: right;
+  }
 }
 
 .review-timeline__reviews_link {
@@ -118,27 +139,4 @@
   &:last-child::after {
     content: "";
   }
-}
-
-.article-subject-areas {
-  list-style: none;
-  padding-left: 0;
-  padding-top: 36px;
-  margin-top: 0;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.article-subject-areas__item {
-  @include buttons.subject-area-button();
-  margin-right: 12px;
-  margin-bottom: 12px;
-
-  &:last-child {
-    margin-right: 0;
-  }
-}
-
-.article-metadata__similar_research_link {
-  @include typography.link-text();
 }
