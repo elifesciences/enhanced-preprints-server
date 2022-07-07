@@ -10,7 +10,7 @@ export const header = (article: ProcessedArticle): string => `<div class="conten
     ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
   </ol>
   <ol class="content-header__affiliations">
-    ${article.authors.flatMap((author) => author.affiliations).map((organisation: Organisation) => formatOrganisation(organisation)).join('')}
+    ${article.authors.flatMap((author) => author.affiliations).map((organisation: Organisation) => `<li class="organisation">${formatOrganisation(organisation)}</li>`).join('')}
   </ol>
   <div class="content-header__footer">
     <ul class="content-header__identifiers">
