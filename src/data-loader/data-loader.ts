@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import { ArticleHTML, ArticleRepository, Doi, ProcessedArticle, Heading } from '../model/model';
-import { Content, normaliseContentToMarkdown } from '../model/utils';
+import { Content, HeadingContent, normaliseContentToMarkdown } from '../model/utils';
 import { JSDOM } from 'jsdom';
 
 export type ArticleXML = string;
@@ -79,9 +79,39 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   };
 };
 
-const extractHeadings = (articleStruct: ArticleStruct): Heading[] => [
-  {id: 's1', text: 'test'},
-];
+const extractHeadings = (articleStruct: ArticleStruct): Heading[] => {
+  if (typeof articleStruct.content === 'string') {
+    return [];
+  }
+
+  const headingContentParts = articleStruct.content.filter((contentPart) => {
+    if (typeof contentPart === 'string') {
+      return false;
+    }
+
+    if (contentPart.type !== 'Heading') {
+      return false;
+    }
+
+    const heading = contentPart as HeadingContent;
+
+    if (heading.depth > 1) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const headings = headingContentParts.map((contentPart) => {
+    const heading = contentPart as HeadingContent;
+    return {
+      id: heading.id,
+      text: normaliseContentToMarkdown(heading.content),
+    };
+  });
+
+  return headings;
+};
 
 const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
   const articleElement = articleDom.children[0];

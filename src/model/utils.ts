@@ -21,7 +21,7 @@ export const normaliseContentToMarkdown = (content: Content): MarkdownText => {
       return contentPart;
     }
 
-    if (contentPart?.type === 'Emphasis') {
+    if (contentPart.type === 'Emphasis') {
       return `**${normaliseContentToMarkdown(contentPart.content)}**`;
     }
 
@@ -36,5 +36,16 @@ type DecoratedContent = {
   type: string,
 };
 
-type ContentPart = string | DecoratedContent;
+export type HeadingContent = DecoratedContent & {
+  type: 'Heading',
+  id: string,
+  depth: number,
+};
+
+export type EmphasisContent = DecoratedContent & {
+  type: 'Emphasis',
+  depth: number,
+};
+
+type ContentPart = string | DecoratedContent | HeadingContent | EmphasisContent;
 export type Content = string | ContentPart[];
