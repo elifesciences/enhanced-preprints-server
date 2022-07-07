@@ -48,16 +48,19 @@ class CouchDBArticleRepository implements ArticleRepository {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
 
+    const html = Buffer.from(article._attachments.html.data, 'base64').toString('utf-8');
+
     return {
       title: normaliseContentToMarkdown(article.json.title),
       date: new Date(article.json.datePublished.value),
       doi: article.doi,
       xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
       json: Buffer.from(article._attachments.json.data, 'base64').toString('utf-8'),
-      html: Buffer.from(article._attachments.html.data, 'base64').toString('utf-8'),
+      html,
       authors: article.json.authors,
       abstract: normaliseContentToMarkdown(article.json.description),
       licenses: article.json.licenses,
+      content: html,
     };
   }
 

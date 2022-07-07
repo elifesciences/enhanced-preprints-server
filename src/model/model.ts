@@ -38,6 +38,7 @@ export type ProcessedArticle = ArticleContent & {
   authors: Author[],
   abstract: ArticleAbstract,
   licenses: License[],
+  content: ArticleHTML,
 };
 
 export type ArticleSummary = {

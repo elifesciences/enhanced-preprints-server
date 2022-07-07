@@ -23,7 +23,8 @@ const sqlStatements = {
       articles.html as "html",
       articles.authors as "authors",
       articles.abstract as "abstract",
-      articles.licenses as "licenses"
+      articles.licenses as "licenses",
+      articles.content as "content"
     FROM
       articles
     WHERE doi = ?
@@ -74,6 +75,7 @@ class SqliteArticleRepository implements ArticleRepository {
       authors: JSON.parse(article.authors) as Author[],
       abstract: normaliseContentToMarkdown(article.abstract),
       licenses: JSON.parse(article.licenses) as License[],
+      content: article.content,
     };
   }
 
