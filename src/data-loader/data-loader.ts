@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'fs';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import { ArticleHTML, ArticleRepository, Doi, ProcessedArticle, Heading } from '../model/model';
 import { Content, normaliseContentToMarkdown } from '../model/utils';
+import { JSDOM } from 'jsdom';
 
 export type ArticleXML = string;
 export type ArticleJSON = string;
@@ -82,6 +83,14 @@ const extractHeadings = (articleStruct: ArticleStruct): Heading[] => [
   {id: 's1', text: 'test'},
 ];
 
+const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
+  const articleElement = articleDom.children[0];
+  const articleHtml = Array.from(articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
+    .reduce((prev, current) => prev.concat(current.outerHTML), '');
+
+  return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
+};
+
 const processArticle = (article: ArticleContent): ProcessedArticle => {
   const articleStruct = JSON.parse(article.json) as ArticleStruct;
 
@@ -98,7 +107,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     authors: articleStruct.authors,
     abstract: normaliseContentToMarkdown(articleStruct.description),
     licenses: articleStruct.licenses,
-    content: article.html,
+    content: extractArticleHtmlWithoutHeader(JSDOM.fragment(article.html)),
     headings: extractHeadings(articleStruct),
   };
 };
