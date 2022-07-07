@@ -6,7 +6,7 @@ export const basePage = (pageContent: string, noHeader: boolean = false): string
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&family=Noto+Serif" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="/styles.css"/>
+        <link rel="stylesheet" href="/styles/styles.css"/>
       </head>
       <body>
         <div class="grid-container">

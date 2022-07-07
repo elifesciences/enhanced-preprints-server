@@ -114,4 +114,7 @@ dist
 
 # generated CSS
 public/styles.css
+public/styles/
+
+# local database
 data.db
