@@ -9,7 +9,7 @@ import {
   License,
   Author,
 } from '../model';
-import { normaliseContentToMarkdown } from '../utils';
+import { Content, normaliseContentToMarkdown } from '../utils';
 
 const sqlStatements = {
   insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, json) VALUES (?, ?, ?, ?)',
@@ -29,6 +29,17 @@ const sqlStatements = {
       articles
     WHERE doi = ?
   `,
+  getArticleHeadings: `
+    SELECT
+      json_extract(json_each.value, '$.type') as "type",
+      json_extract(json_each.value, '$.id') as "id",
+      json_extract(json_each.value, '$.depth') as "depth",
+      json_extract(json_each.value, '$.content') as "content"
+    FROM articles, json_each(articles.content)
+    WHERE doi = ?
+    AND json_extract(json_each.value, '$.type') = 'Heading'
+    AND json_extract(json_each.value, '$.depth') < 2
+  `,
   getArticleSummary: `
     SELECT
     articles.doi as "doi",
@@ -37,6 +48,13 @@ const sqlStatements = {
     FROM
       articles
   `,
+};
+
+type ArticleHeading = {
+  type: 'Heading'
+  id: string,
+  depth: number
+  content: Content,
 };
 
 class SqliteArticleRepository implements ArticleRepository {
@@ -65,6 +83,9 @@ class SqliteArticleRepository implements ArticleRepository {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
 
+    const headingsResults = await this.connection
+      .all<ArticleHeading[]>(sqlStatements.getArticleHeadings, [doi]);
+
     return {
       doi: article.doi,
       date: new Date(article.date),
@@ -76,7 +97,10 @@ class SqliteArticleRepository implements ArticleRepository {
       abstract: normaliseContentToMarkdown(article.abstract),
       licenses: JSON.parse(article.licenses) as License[],
       content: normaliseContentToMarkdown(article.content),
-      headings: [],
+      headings: headingsResults.map((heading) => ({
+        id: heading.id,
+        text: normaliseContentToMarkdown(heading.content),
+      })),
     };
   }
 
