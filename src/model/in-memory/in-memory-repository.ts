@@ -38,19 +38,13 @@ class InMemoryArticleRepository implements ArticleRepository {
 
     const articleStruct = JSON.parse(article.json) as ArticleStruct;
 
-    // extract title
-    const { title } = articleStruct;
-
-    // extract publish date
-    const date = new Date(articleStruct.datePublished.value);
-
     return {
       doi: article.doi,
       xml: article.xml,
       html: article.html,
       json: article.json,
-      title: normaliseContentToMarkdown(title),
-      date,
+      title: normaliseContentToMarkdown(articleStruct.title),
+      date: new Date(articleStruct.datePublished.value),
       authors: articleStruct.authors,
       abstract: normaliseContentToMarkdown(articleStruct.description),
       licenses: articleStruct.licenses,
