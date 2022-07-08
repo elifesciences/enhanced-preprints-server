@@ -10,9 +10,17 @@ export type ArticleContent = {
   json: ArticleJSON,
 };
 
-export type MarkdownText = string;
-export type ArticleTitle = MarkdownText;
-export type ArticleAbstract = MarkdownText;
+// encoda's output requires this very strange combination of content, where it can be "a string", ["a", "string"], or
+// [{"type":"emphasis", "content":["a"]}, "string"] - and all combinations of the above
+type DecoratedContent = {
+  content: string | string[],
+  type: string,
+};
+type ContentPart = string | DecoratedContent;
+export type Content = string | ContentPart[];
+
+export type ArticleTitle = Content;
+export type ArticleAbstract = Content;
 export type Address = {
   addressCountry: string,
 };
@@ -34,7 +42,7 @@ export type License = {
 
 export type Heading = {
   id: string,
-  text: string,
+  text: Content,
 };
 
 export type ProcessedArticle = ArticleContent & {
@@ -43,7 +51,7 @@ export type ProcessedArticle = ArticleContent & {
   authors: Author[],
   abstract: ArticleAbstract,
   licenses: License[],
-  content: ArticleHTML,
+  content: Content,
   headings: Heading[],
 };
 

@@ -8,8 +8,8 @@ import {
   ArticleContent,
   License,
   Author,
+  Content,
 } from '../model';
-import { Content, normaliseContentToMarkdown } from '../utils';
 
 const sqlStatements = {
   insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, json) VALUES (?, ?, ?, ?)',
@@ -89,17 +89,17 @@ class SqliteArticleRepository implements ArticleRepository {
     return {
       doi: article.doi,
       date: new Date(article.date),
-      title: normaliseContentToMarkdown(article.title),
+      title: article.title,
       xml: article.xml,
       json: article.json,
       html: article.html,
       authors: JSON.parse(article.authors) as Author[],
-      abstract: normaliseContentToMarkdown(article.abstract),
+      abstract: article.abstract,
       licenses: JSON.parse(article.licenses) as License[],
-      content: normaliseContentToMarkdown(article.content),
+      content: article.content,
       headings: headingsResults.map((heading) => ({
         id: heading.id,
-        text: normaliseContentToMarkdown(heading.content),
+        text: heading.content,
       })),
     };
   }
@@ -109,7 +109,7 @@ class SqliteArticleRepository implements ArticleRepository {
     return summaries.map((articleSummary) => ({
       doi: articleSummary.doi,
       date: new Date(articleSummary.date),
-      title: normaliseContentToMarkdown(articleSummary.title),
+      title: articleSummary.title,
     }));
   }
 }

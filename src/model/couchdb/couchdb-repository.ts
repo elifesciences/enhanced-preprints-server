@@ -7,7 +7,7 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseContentToMarkdown } from '../utils';
+import { normaliseContentToHtml } from '../utils';
 import { ArticleStruct } from '../../data-loader/data-loader';
 
 type ArticleDocument = {
@@ -51,14 +51,14 @@ class CouchDBArticleRepository implements ArticleRepository {
     const html = Buffer.from(article._attachments.html.data, 'base64').toString('utf-8');
 
     return {
-      title: normaliseContentToMarkdown(article.json.title),
+      title: normaliseContentToHtml(article.json.title),
       date: new Date(article.json.datePublished.value),
       doi: article.doi,
       xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
       json: Buffer.from(article._attachments.json.data, 'base64').toString('utf-8'),
       html,
       authors: article.json.authors,
-      abstract: normaliseContentToMarkdown(article.json.description),
+      abstract: normaliseContentToHtml(article.json.description),
       licenses: article.json.licenses,
       content: html,
       headings: [],
@@ -73,7 +73,7 @@ class CouchDBArticleRepository implements ArticleRepository {
     return docs.map((doc) => ({
       doi: doc.doi,
       date: new Date(doc.json.datePublished.value),
-      title: normaliseContentToMarkdown(doc.json.title),
+      title: normaliseContentToHtml(doc.json.title),
     }));
   }
 }

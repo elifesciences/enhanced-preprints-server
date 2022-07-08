@@ -6,7 +6,7 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseContentToMarkdown } from '../utils';
+import { normaliseContentToHtml } from '../utils';
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ArticleContent>;
@@ -43,12 +43,12 @@ class InMemoryArticleRepository implements ArticleRepository {
       xml: article.xml,
       html: article.html,
       json: article.json,
-      title: normaliseContentToMarkdown(articleStruct.title),
+      title: articleStruct.title,
       date: new Date(articleStruct.datePublished.value),
       authors: articleStruct.authors,
-      abstract: normaliseContentToMarkdown(articleStruct.description),
+      abstract: articleStruct.description,
       licenses: articleStruct.licenses,
-      content: normaliseContentToMarkdown(articleStruct.content),
+      content: articleStruct.content,
       headings: [],
     };
   }
@@ -64,7 +64,7 @@ class InMemoryArticleRepository implements ArticleRepository {
       const date = new Date(articleStruct.datePublished.value);
       return {
         doi: article.doi,
-        title: normaliseContentToMarkdown(title),
+        title: normaliseContentToHtml(title),
         date,
       };
     });

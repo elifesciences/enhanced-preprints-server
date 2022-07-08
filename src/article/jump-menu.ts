@@ -1,4 +1,4 @@
-type Heading = { id: string, text: string };
+import { Heading } from '../model/model';
 
 export const jumpToMenu = (headings: Heading[]): string => (headings.length ? `
     <nav class="jump-menu-container">

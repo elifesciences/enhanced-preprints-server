@@ -1,4 +1,4 @@
-import { normaliseContentToMarkdown } from './utils';
+import { normaliseContentToHtml } from './utils';
 
 describe('utils', () => {
   const complicatedTitle: string | (string | {
@@ -10,11 +10,11 @@ describe('utils', () => {
   ];
 
   it.each([
-    [complicatedTitle, '**emphasised** normal text'],
-    [JSON.stringify(complicatedTitle), '**emphasised** normal text'],
+    [complicatedTitle, '<em>emphasised</em> normal text'],
+    [JSON.stringify(complicatedTitle), '<em>emphasised</em> normal text'],
     ['This is a title', 'This is a title'],
   ])('process %o to equal "%s"', (input, expected) => {
-    const title = normaliseContentToMarkdown(input);
+    const title = normaliseContentToHtml(input);
 
     expect(title).toStrictEqual(expected);
   });

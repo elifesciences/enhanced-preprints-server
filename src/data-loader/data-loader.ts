@@ -1,8 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
-import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleContent, ArticleRepository, Doi } from '../model/model';
-import { Content } from '../model/utils';
 import { JSDOM } from 'jsdom';
+import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
+import { ArticleContent, ArticleRepository, Content } from '../model/model';
 
 // type related to the JSON output of encoda
 type Address = {
