@@ -1,17 +1,13 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
-import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleHTML, ArticleRepository, Doi, ProcessedArticle, Heading } from '../model/model';
-import { Content, HeadingContent, normaliseContentToMarkdown } from '../model/utils';
 import { JSDOM } from 'jsdom';
-
-export type ArticleXML = string;
-export type ArticleJSON = string;
-export type ArticleContent = {
-  doi: Doi
-  xml: ArticleXML,
-  html: ArticleHTML,
-  json: ArticleJSON,
-};
+import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
+import {
+  ArticleRepository,
+  ProcessedArticle,
+  Heading,
+  ArticleContent,
+} from '../model/model';
+import { Content, HeadingContent } from '../model/content';
 
 // type related to the JSON output of encoda
 type Address = {
@@ -61,6 +57,20 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
+const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
+  const articleElement = articleDom.children[0];
+
+  // label the abstract with an id
+  const abstractHeading = articleDom.querySelector('article > [data-itemprop="description"] > h2[data-itemtype="http://schema.stenci.la/Heading"]');
+  abstractHeading?.setAttribute('id', 'abstract');
+
+  // extract all HTML elements after [data-itemprop="identifiers"] (the last of the "header" elements)
+  const articleHtml = Array.from(articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
+    .reduce((prev, current) => prev.concat(current.outerHTML), '');
+
+  return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
+}
+
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const xml = readFileSync(file).toString();
   const html = await convertJatsToHtml(file);
@@ -71,20 +81,27 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
   const doi = dois[0].value;
 
+  // extract HTML content without header
+  const content = extractArticleHtmlWithoutHeader(JSDOM.fragment(html));
+
   return {
     doi,
     xml,
-    html,
-    json,
+    html: content,
+    document: json,
   };
 };
 
-const extractHeadings = (articleStruct: ArticleStruct): Heading[] => {
-  if (typeof articleStruct.content === 'string') {
+const extractHeadings = (content: Content): Heading[] => {
+  if (typeof content === 'string') {
     return [];
   }
 
-  const headingContentParts = articleStruct.content.filter((contentPart) => {
+  if (!Array.isArray(content)) {
+    return extractHeadings([content]);
+  }
+
+  const headingContentParts = content.filter((contentPart) => {
     if (typeof contentPart === 'string') {
       return false;
     }
@@ -106,23 +123,15 @@ const extractHeadings = (articleStruct: ArticleStruct): Heading[] => {
     const heading = contentPart as HeadingContent;
     return {
       id: heading.id,
-      text: normaliseContentToMarkdown(heading.content),
+      text: heading.content,
     };
   });
 
   return headings;
 };
 
-const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
-  const articleElement = articleDom.children[0];
-  const articleHtml = Array.from(articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
-    .reduce((prev, current) => prev.concat(current.outerHTML), '');
-
-  return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
-};
-
 const processArticle = (article: ArticleContent): ProcessedArticle => {
-  const articleStruct = JSON.parse(article.json) as ArticleStruct;
+  const articleStruct = JSON.parse(article.document) as ArticleStruct;
 
   // extract title
   const { title } = articleStruct;
@@ -131,14 +140,14 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
   const date = new Date(articleStruct.datePublished.value);
 
   return {
-    doi: article.doi,
-    title: normaliseContentToMarkdown(title),
+    ...article,
+    title,
     date,
     authors: articleStruct.authors,
-    abstract: normaliseContentToMarkdown(articleStruct.description),
+    abstract: articleStruct.description,
     licenses: articleStruct.licenses,
     content: extractArticleHtmlWithoutHeader(JSDOM.fragment(article.html)),
-    headings: extractHeadings(articleStruct),
+    headings: extractHeadings(articleStruct.content),
   };
 };
 

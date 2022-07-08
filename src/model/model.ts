@@ -1,10 +1,19 @@
+import { Content } from './content';
+
 export type Doi = string;
 
+export type ArticleXML = string;
+export type ArticleDocument = string;
 export type ArticleHTML = string;
+export type ArticleContent = {
+  doi: Doi
+  xml: ArticleXML,
+  document: ArticleDocument,
+  html: ArticleHTML,
+};
 
-export type MarkdownText = string;
-export type ArticleTitle = MarkdownText;
-export type ArticleAbstract = MarkdownText;
+export type ArticleTitle = Content;
+export type ArticleAbstract = Content;
 export type Address = {
   addressCountry: string,
 };
@@ -26,17 +35,16 @@ export type License = {
 
 export type Heading = {
   id: string,
-  text: string,
+  text: Content,
 };
 
-export type ProcessedArticle = {
-  doi: Doi,
+export type ProcessedArticle = ArticleContent & {
   title: ArticleTitle,
   date: Date,
   authors: Author[],
   abstract: ArticleAbstract,
   licenses: License[],
-  content: ArticleHTML,
+  content: Content,
   headings: Heading[],
 };
 

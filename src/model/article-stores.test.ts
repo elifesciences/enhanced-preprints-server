@@ -17,7 +17,7 @@ const exampleAuthors = [
           type: 'PostalAddress',
           addressCountry: 'Belgium',
         },
-        name: 'GIGA-Cyclotron Research Centre-In Vivo Imaging, University of Liège'
+        name: 'GIGA-Cyclotron Research Centre-In Vivo Imaging, University of Liège',
       },
     ],
     familyNames: [
@@ -43,6 +43,16 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const stored = await articleStore.storeArticle({
         doi: 'test/article.1',
+        xml: '<article></article>',
+        html: '<article></article>',
+        document: `{
+          "title":"Test Article 1",
+          "datePublished":{"value": "2008-01-03"},
+          "description": "Test article 1 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
+          "content":[]
+        }`,
         title: 'Test Article 1',
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
@@ -59,6 +69,16 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const article = {
         doi: 'test/article.1',
+        xml: '<article></article>',
+        html: '<article></article>',
+        document: `{
+          "title":"Test Article 1",
+          "datePublished":{"value": "2008-01-03"},
+          "description": "Test article 1 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
+          "content":[]
+        }`,
         title: 'Test Article 1',
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
@@ -78,6 +98,16 @@ describe('article-stores', () => {
 
       const exampleArticle = {
         doi: 'test/article.2',
+        xml: '<article></article>',
+        html: '<article></article>',
+        document: `{
+          "title":"Test Article 2",
+          "datePublished":{"value": "2008-02-03"},
+          "description": "Test article 2 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
+          "content":[]
+        }`,
         title: 'Test Article 2',
         abstract: 'Test article 2 abstract',
         date: new Date('2008-02-03'),
@@ -110,6 +140,16 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const exampleArticle1 = {
         doi: 'test/article.4',
+        xml: '<article></article>',
+        html: '<article></article>',
+        document: `{
+          "title":"Test Article 4",
+          "datePublished":{"value": "2008-04-03"},
+          "description": "Test article 4 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
+          "content":[]
+        }`,
         title: 'Test Article 4',
         abstract: 'Test article 4 abstract',
         date: new Date('2008-04-03'),
@@ -120,6 +160,16 @@ describe('article-stores', () => {
       };
       const exampleArticle2 = {
         doi: 'test/article.5',
+        xml: '<article></article>',
+        html: '<article></article>',
+        document: `{
+          "title":"Test Article 5",
+          "datePublished":{"value": "2008-05-03"},
+          "description": "Test article 5 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
+          "content":[]
+        }`,
         title: 'Test Article 5',
         abstract: 'Test article 5 abstract',
         date: new Date('2008-05-03'),
@@ -130,6 +180,16 @@ describe('article-stores', () => {
       };
       const exampleArticle3 = {
         doi: 'test/article.6',
+        xml: '<article></article>',
+        html: '<article></article>',
+        document: `{
+          "title":"Test Article 6",
+          "datePublished":{"value": "2008-06-03"},
+          "description": "Test article 6 abstract",
+          "authors": ${JSON.stringify(exampleAuthors)},
+          "licenses": ${JSON.stringify(exampleLicenses)},
+          "content":[]
+        }`,
         title: 'Test Article 6',
         abstract: 'Test article 6 abstract',
         date: new Date('2008-06-03'),

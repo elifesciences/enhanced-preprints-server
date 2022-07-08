@@ -21,14 +21,7 @@ class CouchDBArticleRepository implements ArticleRepository {
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
     const response = await this.documentScope.insert({
       _id: article.doi,
-      doi: article.doi,
-      abstract: article.abstract,
-      authors: article.authors,
-      date: article.date,
-      content: article.content,
-      licenses: article.licenses,
-      title: article.title,
-      headings: article.headings,
+      ...article,
     });
 
     return response.ok;
@@ -41,14 +34,8 @@ class CouchDBArticleRepository implements ArticleRepository {
     }
 
     return {
-      title: article.title,
+      ...article,
       date: new Date(article.date),
-      doi: article.doi,
-      authors: article.authors,
-      abstract: article.abstract,
-      licenses: article.licenses,
-      content: article.content,
-      headings: article.headings,
     };
   }
 

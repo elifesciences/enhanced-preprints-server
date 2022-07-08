@@ -12,7 +12,7 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
   <div class="main-content-area">
     <div class="article-body">
       ${evaluationSummary(article.doi)}
-      ${article.content}
+      ${article.html}
     </div>
   </div>
 </main>
