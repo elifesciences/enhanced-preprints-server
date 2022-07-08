@@ -35,4 +35,4 @@ export const header = (article: ProcessedArticle): string => {
       </ul>
     </div>
   </div>`;
-}
+};

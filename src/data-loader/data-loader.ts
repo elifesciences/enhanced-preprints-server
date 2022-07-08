@@ -69,7 +69,7 @@ const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string =
     .reduce((prev, current) => prev.concat(current.outerHTML), '');
 
   return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
-}
+};
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const xml = readFileSync(file).toString();
