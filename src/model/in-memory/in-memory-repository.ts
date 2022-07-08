@@ -6,7 +6,7 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseContentToHtml } from '../utils';
+import { normaliseContentToHtml } from '../content';
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ArticleContent>;
@@ -24,7 +24,7 @@ class InMemoryArticleRepository implements ArticleRepository {
       doi: article.doi,
       xml: article.xml,
       html: article.html,
-      json: article.json,
+      document: article.document,
     });
 
     return true;
@@ -36,13 +36,13 @@ class InMemoryArticleRepository implements ArticleRepository {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
 
-    const articleStruct = JSON.parse(article.json) as ArticleStruct;
+    const articleStruct = JSON.parse(article.document) as ArticleStruct;
 
     return {
       doi: article.doi,
       xml: article.xml,
       html: article.html,
-      json: article.json,
+      document: article.document,
       title: articleStruct.title,
       date: new Date(articleStruct.datePublished.value),
       authors: articleStruct.authors,
@@ -55,7 +55,7 @@ class InMemoryArticleRepository implements ArticleRepository {
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
     return Array.from(this.store.values()).map((article) => {
-      const articleStruct = JSON.parse(article.json) as ArticleStruct;
+      const articleStruct = JSON.parse(article.document) as ArticleStruct;
 
       // extract title
       const { title } = articleStruct;

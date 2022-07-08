@@ -1,5 +1,5 @@
 import { ArticleSummary } from '../model/model';
-import { normaliseContentToHtml } from '../model/utils';
+import { normaliseContentToHtml } from '../model/content';
 
 const dateSort = (a: ArticleSummary, b: ArticleSummary) => {
   if (a.date.getTime() === b.date.getTime()) {

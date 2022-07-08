@@ -1,5 +1,5 @@
 import { Author, Organisation, ProcessedArticle } from '../model/model';
-import { normaliseContentToHtml } from '../model/utils';
+import { normaliseContentToHtml } from '../model/content';
 
 const formatAuthorName = (author: Author) => `${author.givenNames.join(' ')} ${author.familyNames.join('')}`;
 

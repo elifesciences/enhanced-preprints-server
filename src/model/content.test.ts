@@ -1,4 +1,4 @@
-import { normaliseContentToHtml } from './utils';
+import { normaliseContentToHtml } from './content';
 
 describe('utils', () => {
   const complicatedTitle: string | (string | {

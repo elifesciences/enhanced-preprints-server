@@ -1,13 +1,13 @@
 export type Doi = string;
 
 export type ArticleXML = string;
+export type ArticleDocument = string;
 export type ArticleHTML = string;
-export type ArticleJSON = string;
 export type ArticleContent = {
   doi: Doi
   xml: ArticleXML,
+  document: ArticleDocument,
   html: ArticleHTML,
-  json: ArticleJSON,
 };
 
 // encoda's output requires this very strange combination of content, where it can be "a string", ["a", "string"], or

@@ -82,7 +82,7 @@ const processArticle = async (file: PreprintXmlFile): Promise<ArticleContent> =>
     doi,
     xml,
     html: content,
-    json,
+    document: json,
   };
 };
 

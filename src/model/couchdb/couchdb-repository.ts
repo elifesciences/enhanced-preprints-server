@@ -7,13 +7,13 @@ import {
   ArticleSummary,
   ArticleContent,
 } from '../model';
-import { normaliseContentToHtml } from '../utils';
+import { normaliseContentToHtml } from '../content';
 import { ArticleStruct } from '../../data-loader/data-loader';
 
 type ArticleDocument = {
   _id: string,
   doi: string,
-  json: ArticleStruct
+  document: ArticleStruct
 } & MaybeDocument;
 
 class CouchDBArticleRepository implements ArticleRepository {
@@ -24,17 +24,17 @@ class CouchDBArticleRepository implements ArticleRepository {
   }
 
   async storeArticle(article: ArticleContent): Promise<boolean> {
-    const articleStruct = JSON.parse(article.json) as ArticleStruct;
+    const articleStruct = JSON.parse(article.document) as ArticleStruct;
 
     const response = await this.documentScope.insert({
       _id: article.doi,
       doi: article.doi,
-      json: articleStruct,
+      document: articleStruct,
     });
 
     if (response.ok) {
       const xmlResponse = await this.documentScope.attachment.insert(article.doi, 'xml', article.xml, 'application/xml', { rev: response.rev });
-      const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.json, 'application/json', { rev: xmlResponse.rev });
+      const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: xmlResponse.rev });
       const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
       return xmlResponse.ok && jsonResponse.ok && htmlResponse.ok;
     }
@@ -51,15 +51,15 @@ class CouchDBArticleRepository implements ArticleRepository {
     const html = Buffer.from(article._attachments.html.data, 'base64').toString('utf-8');
 
     return {
-      title: normaliseContentToHtml(article.json.title),
-      date: new Date(article.json.datePublished.value),
+      title: normaliseContentToHtml(article.document.title),
+      date: new Date(article.document.datePublished.value),
       doi: article.doi,
       xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
-      json: Buffer.from(article._attachments.json.data, 'base64').toString('utf-8'),
+      document: Buffer.from(article._attachments.document.data, 'base64').toString('utf-8'),
       html,
-      authors: article.json.authors,
-      abstract: normaliseContentToHtml(article.json.description),
-      licenses: article.json.licenses,
+      authors: article.document.authors,
+      abstract: normaliseContentToHtml(article.document.description),
+      licenses: article.document.licenses,
       content: html,
       headings: [],
     };
@@ -72,8 +72,8 @@ class CouchDBArticleRepository implements ArticleRepository {
     });
     return docs.map((doc) => ({
       doi: doc.doi,
-      date: new Date(doc.json.datePublished.value),
-      title: normaliseContentToHtml(doc.json.title),
+      date: new Date(doc.document.datePublished.value),
+      title: normaliseContentToHtml(doc.document.title),
     }));
   }
 }

@@ -71,7 +71,7 @@ class SqliteArticleRepository implements ArticleRepository {
         article.doi,
         article.xml,
         article.html,
-        article.json,
+        article.document,
       ],
     );
     return result.changes === 1;
@@ -91,7 +91,7 @@ class SqliteArticleRepository implements ArticleRepository {
       date: new Date(article.date),
       title: article.title,
       xml: article.xml,
-      json: article.json,
+      document: article.document,
       html: article.html,
       authors: JSON.parse(article.authors) as Author[],
       abstract: article.abstract,
