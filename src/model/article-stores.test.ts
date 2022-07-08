@@ -43,8 +43,8 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const stored = await articleStore.storeArticle({
         doi: 'test/article.1',
-        xml: '<article></article>',
-        html: '<article></article>',
+        xml: '<article><article-title>Test article 1</article-title></article>',
+        html: '<article><h1 itemprop="headline">Test article 1</h1></article>',
         document: `{
           "title":"Test Article 1",
           "datePublished":{"value": "2008-01-03"},
@@ -96,18 +96,19 @@ describe('article-stores', () => {
     it('stores article content and retrieves a specific processed article by ID', async () => {
       const articleStore = await createArticleRepo(store);
 
+      const exampleArticleJson = `{
+        "title":"Test Article 2",
+        "datePublished":{"value": "2008-02-03"},
+        "description": "Test article 2 abstract",
+        "authors": ${JSON.stringify(exampleAuthors)},
+        "licenses": ${JSON.stringify(exampleLicenses)},
+        "content":[]
+      }`;
       const exampleArticle = {
         doi: 'test/article.2',
-        xml: '<article></article>',
-        html: '<article></article>',
-        document: `{
-          "title":"Test Article 2",
-          "datePublished":{"value": "2008-02-03"},
-          "description": "Test article 2 abstract",
-          "authors": ${JSON.stringify(exampleAuthors)},
-          "licenses": ${JSON.stringify(exampleLicenses)},
-          "content":[]
-        }`,
+        xml: '<article><article-title>Test article 2</article-title></article>',
+        html: '<article><h1 itemprop="headline">Test article 2</h1></article>',
+        document: exampleArticleJson,
         title: 'Test Article 2',
         abstract: 'Test article 2 abstract',
         date: new Date('2008-02-03'),
@@ -129,6 +130,9 @@ describe('article-stores', () => {
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
       expect(article.content).toStrictEqual('<article></article>');
+      expect(article.xml).toStrictEqual('<article><article-title>Test article 2</article-title></article>');
+      expect(article.html).toStrictEqual('<article><h1 itemprop="headline">Test article 2</h1></article>');
+      expect(article.document).toStrictEqual(exampleArticleJson);
     });
 
     it('errors when retrieving unknown article', async () => {
@@ -140,8 +144,8 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const exampleArticle1 = {
         doi: 'test/article.4',
-        xml: '<article></article>',
-        html: '<article></article>',
+        xml: '<article><article-title>Test article 4</article-title></article>',
+        html: '<article><h1 itemprop="headline">Test article 4</h1></article>',
         document: `{
           "title":"Test Article 4",
           "datePublished":{"value": "2008-04-03"},
@@ -160,8 +164,8 @@ describe('article-stores', () => {
       };
       const exampleArticle2 = {
         doi: 'test/article.5',
-        xml: '<article></article>',
-        html: '<article></article>',
+        xml: '<article><article-title>Test article 5</article-title></article>',
+        html: '<article><h1 itemprop="headline">Test article 5</h1></article>',
         document: `{
           "title":"Test Article 5",
           "datePublished":{"value": "2008-05-03"},
@@ -180,8 +184,8 @@ describe('article-stores', () => {
       };
       const exampleArticle3 = {
         doi: 'test/article.6',
-        xml: '<article></article>',
-        html: '<article></article>',
+        xml: '<article><article-title>Test article 6</article-title></article>',
+        html: '<article><h1 itemprop="headline">Test article 6</h1></article>',
         document: `{
           "title":"Test Article 6",
           "datePublished":{"value": "2008-06-03"},

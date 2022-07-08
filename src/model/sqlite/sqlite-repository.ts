@@ -81,11 +81,11 @@ class SqliteArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    const summaries = await this.connection.all<ArticleSummary[]>(sqlStatements.getArticleSummary);
+    const summaries = await this.connection.all(sqlStatements.getArticleSummary);
     return summaries.map((articleSummary) => ({
       doi: articleSummary.doi,
       date: new Date(articleSummary.date),
-      title: articleSummary.title,
+      title: JSON.parse(articleSummary.title) as Content,
     }));
   }
 }
