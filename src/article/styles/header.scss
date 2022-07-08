@@ -53,8 +53,12 @@
   display: inline;
   font-style: normal;
 
-  &::before {
+  &:after {
     content: ', ';
+  }
+
+  &:last-child:after {
+    content: "";
   }
 }
 
