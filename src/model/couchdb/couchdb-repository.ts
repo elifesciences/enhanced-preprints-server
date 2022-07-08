@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import nano, { DocumentScope, MaybeDocument } from 'nano';
-import { ArticleStruct } from '../../data-loader/data-loader';
 import { Content } from '../content';
 import {
   Doi,
@@ -9,6 +8,7 @@ import {
   ArticleSummary,
   ArticleTitle,
   ArticleAbstract,
+  ArticleDocument as ArticleJSON,
   License,
   Heading,
   Author,
@@ -17,7 +17,7 @@ import {
 type ArticleDocument = {
   _id: string,
   doi: string,
-  document: ArticleStruct,
+  document: ArticleJSON,
   title: ArticleTitle,
   date: Date,
   authors: Author[],
@@ -35,12 +35,10 @@ class CouchDBArticleRepository implements ArticleRepository {
   }
 
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
-    const articleStruct = JSON.parse(article.document) as ArticleStruct;
-
     const response = await this.documentScope.insert({
       _id: article.doi,
       doi: article.doi,
-      document: articleStruct,
+      document: article.document,
       title: article.title,
       date: article.date,
       authors: article.authors,
@@ -73,7 +71,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       date: new Date(article.date),
       doi: article.doi,
       xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
-      document: Buffer.from(article._attachments.data, 'base64').toString('utf-8'),
+      document: article.document,
       html,
       authors: article.authors,
       abstract: article.abstract,
