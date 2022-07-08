@@ -48,7 +48,7 @@ class InMemoryArticleRepository implements ArticleRepository {
       authors: articleStruct.authors,
       abstract: articleStruct.description,
       licenses: articleStruct.licenses,
-      content: articleStruct.content,
+      content: JSON.stringify(articleStruct.content),
       headings: [],
     };
   }

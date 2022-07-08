@@ -45,7 +45,7 @@ describe('article-stores', () => {
         doi: 'test/article.1',
         xml: '<article></article>',
         html: '<article></article>',
-        json: `{
+        document: `{
           "title":"Test Article 1",
           "datePublished":{"value": "2008-01-03"},
           "description": "Test article 1 abstract",
@@ -64,7 +64,7 @@ describe('article-stores', () => {
         doi: 'test/article.1',
         xml: '<article></article>',
         html: '<article></article>',
-        json: `{
+        document: `{
           "title":"Test Article 1",
           "datePublished":{"value": "2008-01-03"},
           "description": "Test article 1 abstract",
@@ -94,7 +94,7 @@ describe('article-stores', () => {
         doi: 'test/article.2',
         xml: '<article><article-title>Test article 2</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 2</h1></article>',
-        json: exampleArticleJson,
+        document: exampleArticleJson,
       };
       const result = await articleStore.storeArticle(exampleArticle);
       expect(result).toStrictEqual(true);
@@ -108,10 +108,10 @@ describe('article-stores', () => {
       expect(article.date).toStrictEqual(new Date('2008-02-03'));
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
-      expect(article.content).toStrictEqual('');
+      expect(article.content).toStrictEqual('[]');
       expect(article.xml).toStrictEqual('<article><article-title>Test article 2</article-title></article>');
       expect(article.html).toStrictEqual('<article><h1 itemprop="headline">Test article 2</h1></article>');
-      expect(article.json).toStrictEqual(exampleArticleJson);
+      expect(article.document).toStrictEqual(exampleArticleJson);
     });
 
     it('errors when retrieving unknown article', async () => {
@@ -125,7 +125,7 @@ describe('article-stores', () => {
         doi: 'test/article.4',
         xml: '<article><article-title>Test article 4</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 4</h1></article>',
-        json: `{
+        document: `{
           "title":"Test Article 4",
           "datePublished":{"value": "2008-04-03"},
           "description": "Test article 4 abstract",
@@ -138,7 +138,7 @@ describe('article-stores', () => {
         doi: 'test/article.5',
         xml: '<article><article-title>Test article 5</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 5</h1></article>',
-        json: `{
+        document: `{
           "title":"Test Article 5",
           "datePublished":{"value": "2008-05-03"},
           "description": "Test article 5 abstract",
@@ -151,7 +151,7 @@ describe('article-stores', () => {
         doi: 'test/article.6',
         xml: '<article><article-title>Test article 6</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 6</h1></article>',
-        json: `{
+        document: `{
           "title":"Test Article 6",
           "datePublished":{"value": "2008-06-03"},
           "description": "Test article 6 abstract",

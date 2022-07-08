@@ -8,18 +8,18 @@ import {
   ArticleContent,
   License,
   Author,
-  Content,
 } from '../model';
+import { Content } from '../content';
 
 const sqlStatements = {
-  insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, json) VALUES (?, ?, ?, ?)',
+  insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, document) VALUES (?, ?, ?, ?)',
   getArticle: `
     SELECT
       articles.doi as "doi",
       articles.date as "date",
       articles.title as "title",
       articles.xml as "xml",
-      articles.json as "json",
+      articles.document as "document",
       articles.html as "html",
       articles.authors as "authors",
       articles.abstract as "abstract",

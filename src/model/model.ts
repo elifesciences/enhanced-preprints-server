@@ -1,3 +1,5 @@
+import { Content } from './content';
+
 export type Doi = string;
 
 export type ArticleXML = string;
@@ -9,15 +11,6 @@ export type ArticleContent = {
   document: ArticleDocument,
   html: ArticleHTML,
 };
-
-// encoda's output requires this very strange combination of content, where it can be "a string", ["a", "string"], or
-// [{"type":"emphasis", "content":["a"]}, "string"] - and all combinations of the above
-type DecoratedContent = {
-  content: string | string[],
-  type: string,
-};
-type ContentPart = string | DecoratedContent;
-export type Content = string | ContentPart[];
 
 export type ArticleTitle = Content;
 export type ArticleAbstract = Content;

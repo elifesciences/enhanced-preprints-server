@@ -5,7 +5,7 @@ const exampleArticle = {
   doi: '12.345/67890213445',
   xml: '',
   html: '',
-  json: '',
+  document: '',
   title: 'Article',
   abstract: '',
   date: new Date('2022-06-05'),
