@@ -43,8 +43,8 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const stored = await articleStore.storeArticle({
         doi: 'test/article.1',
-        xml: '<article></article>',
-        html: '<article></article>',
+        xml: '<article><article-title>Test article 1</article-title></article>',
+        html: '<article><h1 itemprop="headline">Test article 1</h1></article>',
         document: `{
           "title":"Test Article 1",
           "datePublished":{"value": "2008-01-03"},
