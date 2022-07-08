@@ -98,6 +98,7 @@ export const contentToHtml = (content: Content): string => {
     case 'ImageObject':
     case 'VideoObject':
     default:
+      // eslint-disable-next-line no-console
       console.log(`Unimplemented code block: ${content.type}`);
       return contentToHtml(content.content);
   }
