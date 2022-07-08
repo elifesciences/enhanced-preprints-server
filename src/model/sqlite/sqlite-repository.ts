@@ -12,7 +12,12 @@ import {
 import { Content } from '../content';
 
 const sqlStatements = {
-  insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, document) VALUES (?, ?, ?, ?)',
+  insertArticle: `INSERT OR IGNORE INTO articles (
+    doi,
+    xml,
+    html,
+    document
+  ) VALUES (?, ?, ?, ?)`,
   getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleHeadings: `
     SELECT
@@ -27,7 +32,7 @@ const sqlStatements = {
   `,
   getArticleSummary: `
     SELECT
-    articles.doi as "doi",
+      articles.doi as "doi",
       articles.date as "date",
       articles.title as "title"
     FROM
