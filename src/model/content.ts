@@ -21,7 +21,6 @@ type DecoratedContent = {
 type ContentPart = string | DecoratedContent;
 export type Content = ContentPart | ContentPart[];
 
-
 export const contentToHtml = (content: Content): string => {
   if (typeof content === 'undefined') {
     return '';
