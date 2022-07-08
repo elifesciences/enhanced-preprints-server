@@ -113,7 +113,7 @@ describe('article-stores', () => {
         abstract: 'Test article 2 abstract',
         date: new Date('2008-02-03'),
         authors: exampleAuthors,
-        content: '<article></article>',
+        content: '[]',
         licenses: exampleLicenses,
         headings: [],
       };
@@ -129,7 +129,7 @@ describe('article-stores', () => {
       expect(article.date).toStrictEqual(new Date('2008-02-03'));
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
-      expect(article.content).toStrictEqual('<article></article>');
+      expect(article.content).toStrictEqual('[]');
       expect(article.xml).toStrictEqual('<article><article-title>Test article 2</article-title></article>');
       expect(article.html).toStrictEqual('<article><h1 itemprop="headline">Test article 2</h1></article>');
       expect(article.document).toStrictEqual(exampleArticleJson);
