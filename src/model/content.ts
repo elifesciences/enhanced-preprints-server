@@ -18,7 +18,19 @@ type DecoratedContent = {
   content: string | string[],
   type: string,
 };
-type ContentPart = string | DecoratedContent;
+
+export type HeadingContent = DecoratedContent & {
+  type: 'Heading',
+  id: string,
+  depth: number,
+};
+
+export type EmphasisContent = DecoratedContent & {
+  type: 'Emphasis',
+  depth: number,
+};
+
+type ContentPart = string | DecoratedContent | HeadingContent | EmphasisContent;
 export type Content = ContentPart | ContentPart[];
 
 export const contentToHtml = (content: Content): string => {
