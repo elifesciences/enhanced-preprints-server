@@ -1,15 +1,31 @@
 /* eslint-disable no-underscore-dangle */
 import nano, { DocumentScope, MaybeDocument } from 'nano';
+import { ArticleStruct } from '../../data-loader/data-loader';
+import { Content } from '../content';
 import {
   Doi,
   ArticleRepository,
   ProcessedArticle,
   ArticleSummary,
+  ArticleTitle,
+  ArticleAbstract,
+  License,
+  Heading,
+  Author,
 } from '../model';
 
 type ArticleDocument = {
   _id: string,
-} & ProcessedArticle & MaybeDocument;
+  doi: string,
+  document: ArticleStruct,
+  title: ArticleTitle,
+  date: Date,
+  authors: Author[],
+  abstract: ArticleAbstract,
+  licenses: License[],
+  content: Content,
+  headings: Heading[],
+} & MaybeDocument;
 
 class CouchDBArticleRepository implements ArticleRepository {
   documentScope: DocumentScope<ArticleDocument>;
@@ -19,10 +35,27 @@ class CouchDBArticleRepository implements ArticleRepository {
   }
 
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
+    const articleStruct = JSON.parse(article.document) as ArticleStruct;
+
     const response = await this.documentScope.insert({
       _id: article.doi,
-      ...article,
+      doi: article.doi,
+      document: articleStruct,
+      title: article.title,
+      date: article.date,
+      authors: article.authors,
+      abstract: article.abstract,
+      licenses: article.licenses,
+      content: article.content,
+      headings: article.headings,
     });
+
+    if (response.ok) {
+      const xmlResponse = await this.documentScope.attachment.insert(article.doi, 'xml', article.xml, 'application/xml', { rev: response.rev });
+      const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: xmlResponse.rev });
+      const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
+      return xmlResponse.ok && jsonResponse.ok && htmlResponse.ok;
+    }
 
     return response.ok;
   }
@@ -33,9 +66,20 @@ class CouchDBArticleRepository implements ArticleRepository {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
 
+    const html = Buffer.from(article._attachments.html.data, 'base64').toString('utf-8');
+
     return {
-      ...article,
+      title: article.title,
       date: new Date(article.date),
+      doi: article.doi,
+      xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
+      document: Buffer.from(article._attachments.data, 'base64').toString('utf-8'),
+      html,
+      authors: article.authors,
+      abstract: article.abstract,
+      licenses: article.licenses,
+      content: html,
+      headings: [],
     };
   }
 
