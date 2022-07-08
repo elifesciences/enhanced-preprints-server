@@ -13,22 +13,7 @@ import { Content } from '../content';
 
 const sqlStatements = {
   insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, document) VALUES (?, ?, ?, ?)',
-  getArticle: `
-    SELECT
-      articles.doi as "doi",
-      articles.date as "date",
-      articles.title as "title",
-      articles.xml as "xml",
-      articles.document as "document",
-      articles.html as "html",
-      articles.authors as "authors",
-      articles.abstract as "abstract",
-      articles.licenses as "licenses",
-      articles.content as "content"
-    FROM
-      articles
-    WHERE doi = ?
-  `,
+  getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleHeadings: `
     SELECT
       json_extract(json_each.value, '$.type') as "type",
