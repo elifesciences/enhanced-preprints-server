@@ -1,5 +1,5 @@
 import { ArticleSummary } from '../model/model';
-import { normaliseContentToHtml } from '../model/content';
+import { contentToHtml } from '../model/content';
 
 const dateSort = (a: ArticleSummary, b: ArticleSummary) => {
   if (a.date.getTime() === b.date.getTime()) {
@@ -23,7 +23,7 @@ export const generateArticleList = (journalName: string, articleSummaries: Artic
   }
 
   const articleList = articleSummaries.sort(dateSort).map((articleSummary) => `
-    <li><a class="article-list__link" href="/article/${articleSummary.doi}">${articleSummary.date.toLocaleDateString('en-GB')} - ${normaliseContentToHtml(articleSummary.title)}</a></li>
+    <li><a class="article-list__link" href="/article/${articleSummary.doi}">${articleSummary.date.toLocaleDateString('en-GB')} - ${contentToHtml(articleSummary.title)}</a></li>
     `).join('');
   return wrapInPageHtml(journalName, wrapInArticleListHtml(articleList));
 };

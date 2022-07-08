@@ -1,4 +1,4 @@
-import { Content, normaliseContentToHtml } from './content';
+import { Content, contentToHtml } from './content';
 
 const examples:Array<Array<Content>> = [
   ['This is a string', 'This is a string'],
@@ -11,7 +11,7 @@ const examples:Array<Array<Content>> = [
 
 describe('utils', () => {
   it.each(examples)('process %o to equal "%s"', (input, expected) => {
-    const title = normaliseContentToHtml(input);
+    const title = contentToHtml(input);
 
     expect(title).toStrictEqual(expected);
   });

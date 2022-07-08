@@ -22,14 +22,14 @@ type ContentPart = string | DecoratedContent;
 export type Content = ContentPart | ContentPart[];
 
 
-export const normaliseContentToHtml = (content: Content): string => {
+export const contentToHtml = (content: Content): string => {
   if (typeof content === 'undefined') {
     return '';
   }
   if (typeof content === 'string') {
     try {
       const decodedContent = JSON.parse(content);
-      return normaliseContentToHtml(decodedContent);
+      return contentToHtml(decodedContent);
     } catch (error) {
       // just an ordinary string
       return content;
@@ -38,14 +38,14 @@ export const normaliseContentToHtml = (content: Content): string => {
 
   // array of string or DecoratedContent, so just map back to this function
   if (Array.isArray(content)) {
-    const contentParts = content.map(normaliseContentToHtml);
+    const contentParts = content.map(contentToHtml);
     return contentParts.join('');
   }
   switch (content.type) {
     case 'Emphasis':
-      return `<em>${normaliseContentToHtml(content.content)}</em>`;
+      return `<em>${contentToHtml(content.content)}</em>`;
     case 'Strong':
-      return `<strong>${normaliseContentToHtml(content.content)}</strong>`;
+      return `<strong>${contentToHtml(content.content)}</strong>`;
     case 'Article':
     case 'Include':
     case 'Heading':
@@ -88,6 +88,6 @@ export const normaliseContentToHtml = (content: Content): string => {
     case 'VideoObject':
     default:
       console.log(`Unimplemented code block: ${content.type}`);
-      return normaliseContentToHtml(content.content);
+      return contentToHtml(content.content);
   }
 };

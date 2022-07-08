@@ -1,5 +1,5 @@
 import { Author, Organisation, ProcessedArticle } from '../model/model';
-import { normaliseContentToHtml } from '../model/content';
+import { contentToHtml } from '../model/content';
 
 const formatAuthorName = (author: Author) => `${author.givenNames.join(' ')} ${author.familyNames.join('')}`;
 
@@ -10,7 +10,7 @@ export const header = (article: ProcessedArticle): string => {
   const uniqueOrganisationListItems = [...new Set(organisationListItems)];
 
   return `<div class="content-header">
-    <h1 class="content-header__title">${normaliseContentToHtml(article.title)}</h1>
+    <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
     <ol class="content-header__authors">
       ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
     </ol>
