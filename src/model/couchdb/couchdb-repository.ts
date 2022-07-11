@@ -55,7 +55,7 @@ class CouchDBArticleRepository implements ArticleRepository {
       date: new Date(article.document.datePublished.value),
       doi: article.doi,
       xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
-      document: Buffer.from(article._attachments.document.data, 'base64').toString('utf-8'),
+      document: Buffer.from(article._attachments.json.data, 'base64').toString('utf-8'),
       html,
       authors: article.document.authors,
       abstract: contentToHtml(article.document.description),
@@ -66,14 +66,11 @@ class CouchDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    const { docs } = await this.documentScope.find({
-      selector: {},
-      fields: ['doi', 'json.datePublished.value', 'json.title'],
-    });
-    return docs.map((doc) => ({
-      doi: doc.doi,
-      date: new Date(doc.document.datePublished.value),
-      title: contentToHtml(doc.document.title),
+    const { rows } = await this.documentScope.view<ArticleSummary>('article-summaries', 'article-summaries');
+    return rows.map((row) => ({
+      doi: row.value.doi,
+      date: new Date(row.value.date),
+      title: contentToHtml(row.value.title),
     }));
   }
 }
@@ -95,7 +92,7 @@ export const createCouchDBArticleRepository = async (connectionString: string, u
           _id: '_design/article-summaries',
           views: {
             'article-summaries': {
-              map: 'function (doc) {\n  emit(doc._id, { doi: doc.doi, title: doc.title, date: doc.date});\n}',
+              map: 'function (doc) {\n  emit(doc._id, { doi: doc.doi, title: doc.document.title, date: doc.document.datePublished.value});\n}',
             },
           },
         },
