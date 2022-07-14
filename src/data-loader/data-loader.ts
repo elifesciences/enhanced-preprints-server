@@ -134,7 +134,9 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
   const articleStruct = JSON.parse(article.document) as ArticleStruct;
 
   // extract title
-  const { title } = articleStruct;
+  const {
+    title, authors, description: abstract, licenses,
+  } = articleStruct;
 
   // extract publish date
   const date = new Date(articleStruct.datePublished.value);
@@ -143,9 +145,9 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     ...article,
     title,
     date,
-    authors: articleStruct.authors,
-    abstract: articleStruct.description,
-    licenses: articleStruct.licenses,
+    authors,
+    abstract,
+    licenses,
     content: extractArticleHtmlWithoutHeader(JSDOM.fragment(article.html)),
     headings: extractHeadings(articleStruct.content),
   };

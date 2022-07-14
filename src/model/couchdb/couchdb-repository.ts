@@ -8,16 +8,16 @@ import {
   ArticleSummary,
   ArticleTitle,
   ArticleAbstract,
-  ArticleDocument as ArticleJSON,
+  ArticleDocument,
   License,
   Heading,
   Author,
 } from '../model';
 
-type ArticleDocument = {
+type StoredArticle = {
   _id: string,
   doi: string,
-  document: ArticleJSON,
+  document: ArticleDocument,
   title: ArticleTitle,
   date: Date,
   authors: Author[],
@@ -28,34 +28,27 @@ type ArticleDocument = {
 } & MaybeDocument;
 
 class CouchDBArticleRepository implements ArticleRepository {
-  documentScope: DocumentScope<ArticleDocument>;
+  documentScope: DocumentScope<StoredArticle>;
 
-  constructor(documentScope: DocumentScope<ArticleDocument>) {
+  constructor(documentScope: DocumentScope<StoredArticle>) {
     this.documentScope = documentScope;
   }
 
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
     const response = await this.documentScope.insert({
       _id: article.doi,
-      doi: article.doi,
-      document: article.document,
-      title: article.title,
-      date: article.date,
-      authors: article.authors,
-      abstract: article.abstract,
-      licenses: article.licenses,
-      content: article.content,
-      headings: article.headings,
+      ...article,
     });
 
-    if (response.ok) {
-      const xmlResponse = await this.documentScope.attachment.insert(article.doi, 'xml', article.xml, 'application/xml', { rev: response.rev });
-      const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: xmlResponse.rev });
-      const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
-      return xmlResponse.ok && jsonResponse.ok && htmlResponse.ok;
+    if (!response.ok) {
+      return false;
     }
 
-    return response.ok;
+    const xmlResponse = await this.documentScope.attachment.insert(article.doi, 'xml', article.xml, 'application/xml', { rev: response.rev });
+    const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: xmlResponse.rev });
+    const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
+
+    return xmlResponse.ok && jsonResponse.ok && htmlResponse.ok;
   }
 
   async getArticle(doi: Doi): Promise<ProcessedArticle> {
@@ -65,19 +58,13 @@ class CouchDBArticleRepository implements ArticleRepository {
     }
 
     const html = Buffer.from(article._attachments.html.data, 'base64').toString('utf-8');
+    const xml = Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8');
 
     return {
-      title: article.title,
+      ...article,
       date: new Date(article.date),
-      doi: article.doi,
-      xml: Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8'),
-      document: article.document,
+      xml,
       html,
-      authors: article.authors,
-      abstract: article.abstract,
-      licenses: article.licenses,
-      content: html,
-      headings: [],
     };
   }
 
@@ -115,6 +102,6 @@ export const createCouchDBArticleRepository = async (connectionString: string, u
       );
     }
   });
-  const connection = couchServer.use<ArticleDocument>('epp');
+  const connection = couchServer.use<StoredArticle>('epp');
   return new CouchDBArticleRepository(connection);
 };
