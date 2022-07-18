@@ -1,229 +1,112 @@
-export const docmapMock = [
-  {
-    "@context": "https://w3id.org/docmaps/context.jsonld",
-    "id": "https://sciety.org/docmaps/v1/articles/10.1101/2021.07.05.451181/biophysics-colab.docmap.json",
-    "type": "docmap",
-    "created": "2021-09-08T15:06:52.000Z",
-    "updated": "2021-09-08T15:06:52.000Z",
-    "publisher": {
-      "id": "https://biophysics.sciencecolab.org",
-      "name": "Biophysics Colab",
-      "logo": "https://sciety.org/static/groups/biophysics-colab--4bbf0c12-629b-4bb8-91d6-974f4df8efb2.png",
-      "homepage": "https://biophysics.sciencecolab.org",
-      "account": {
-        "id": "https://sciety.org/groups/biophysics-colab",
-        "service": "https://sciety.org"
-      }
+export const docmapMock = {
+  publisher: {
+    id: 'https://elifesciences.org/',
+    logo: 'https://sciety.org/static/groups/elife--b560187e-f2fb-4ff9-a861-a204f3fc0fb0.png',
+  },
+  steps: {
+    '_:b0': {
+      assertions: [],
+      inputs: [{ doi: '10.1101/2021.06.02.446694', url: 'https://doi.org/10.1101/2021.06.02.446694' }],
+      actions: [{
+        participants: [{ actor: { name: 'anonymous', type: 'person' }, role: 'peer-reviewer' }],
+        outputs: [{
+          type: 'review-article',
+          published: '2022-02-15T09:43:12.593Z',
+          content: [{
+            type: 'web-page',
+            url: 'https://hypothes.is/a/sQ7jVo5DEeyQwX8SmvZEzw',
+          }, {
+            type: 'web-page',
+            url: 'https://sciety.org/articles/activity/10.1101/2021.06.02.446694#hypothesis:sQ7jVo5DEeyQwX8SmvZEzw',
+          }, {
+            type: 'web-content',
+            url: 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-three.html',
+          }],
+        }],
+      }, {
+        participants: [{ actor: { name: 'anonymous', type: 'person' }, role: 'peer-reviewer' }],
+        outputs: [{
+          type: 'review-article',
+          published: '2022-02-15T09:43:13.592Z',
+          content: [{
+            type: 'web-page',
+            url: 'https://hypothes.is/a/saaeso5DEeyNd5_qxlJjXQ',
+          }, {
+            type: 'web-page',
+            url: 'https://sciety.org/articles/activity/10.1101/2021.06.02.446694#hypothesis:saaeso5DEeyNd5_qxlJjXQ',
+          }, {
+            type: 'web-content',
+            url: 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-two.html',
+          }],
+        }],
+      }, {
+        participants: [{ actor: { name: 'anonymous', type: 'person' }, role: 'peer-reviewer' }],
+        outputs: [{
+          type: 'review-article',
+          published: '2022-02-15T09:43:14.350Z',
+          content: [{
+            type: 'web-page',
+            url: 'https://hypothes.is/a/shmDUI5DEey0T6t05fjycg',
+          }, {
+            type: 'web-page',
+            url: 'https://sciety.org/articles/activity/10.1101/2021.06.02.446694#hypothesis:shmDUI5DEey0T6t05fjycg',
+          }, {
+            type: 'web-content',
+            url: 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html',
+          }],
+        }],
+      }, {
+        participants: [{
+          actor: {
+            name: 'Ronald L Calabrese',
+            type: 'person',
+            _relatesToOrganization: 'Emory University, United States',
+          },
+          role: 'senior-editor',
+        }, {
+          actor: {
+            name: 'Noah J Cowan',
+            type: 'person',
+            _relatesToOrganization: 'Johns Hopkins University, United States',
+          },
+          role: 'editor',
+        }],
+        outputs: [{
+          type: 'evaluation-summary',
+          published: '2022-02-15T09:43:15.348Z',
+          content: [{
+            type: 'web-page',
+            url: 'https://hypothes.is/a/srHqyI5DEeyY91tQ-MUVKA',
+          }, {
+            type: 'web-page',
+            url: 'https://sciety.org/articles/activity/10.1101/2021.06.02.446694#hypothesis:srHqyI5DEeyY91tQ-MUVKA',
+          }, {
+            type: 'web-content',
+            url: 'https://sciety.org/static/docmaps/hardcoded-elife-article-evaluation-summary.html',
+          }],
+        }],
+      }, {
+        participants: [{ actor: { name: 'anonymous', type: 'person' }, role: 'peer-reviewer' }],
+        outputs: [{
+          type: 'reply',
+          published: '2022-02-15T11:24:05.730Z',
+          content: [{
+            type: 'web-page',
+            url: 'https://hypothes.is/a/ySfx9I5REeyOiqtIYslcxA',
+          }, {
+            type: 'web-page',
+            url: 'https://sciety.org/articles/activity/10.1101/2021.06.02.446694#hypothesis:ySfx9I5REeyOiqtIYslcxA',
+          }, { type: 'web-content', url: 'https://sciety.org/static/docmaps/hardcoded-elife-article-reply.html' }],
+        }],
+      }],
     },
-    "first-step": "_:b0",
-    "steps": {
-      "_:b0": {
-        "assertions": [],
-        "inputs": [
-          {
-            "doi": "10.1101/2021.07.05.451181",
-            "url": "https://doi.org/10.1101/2021.07.05.451181"
-          }
-        ],
-        "actions": [
-          {
-            "participants": [
-              {
-                "actor": {
-                  "name": "anonymous",
-                  "type": "person"
-                },
-                "role": "peer-reviewer"
-              }
-            ],
-            "outputs": [
-              {
-                "type": "review-article",
-                "published": "2021-09-08T14:51:35.722Z",
-                "content": [
-                  {
-                    "type": "web-page",
-                    "url": "https://hypothes.is/a/Q9GJ9BC0EeyPVBtgAn5Yjw"
-                  },
-                  {
-                    "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:Q9GJ9BC0EeyPVBtgAn5Yjw"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "participants": [
-              {
-                "actor": {
-                  "name": "anonymous",
-                  "type": "person"
-                },
-                "role": "peer-reviewer"
-              }
-            ],
-            "outputs": [
-              {
-                "type": "review-article",
-                "published": "2021-09-08T14:28:19.243Z",
-                "content": [
-                  {
-                    "type": "web-page",
-                    "url": "https://hypothes.is/a/A2ZbGBCxEeyu-CsIpygfMQ"
-                  },
-                  {
-                    "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:A2ZbGBCxEeyu-CsIpygfMQ"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "participants": [
-              {
-                "actor": {
-                  "name": "anonymous",
-                  "type": "person"
-                },
-                "role": "peer-reviewer"
-              }
-            ],
-            "outputs": [
-              {
-                "type": "review-article",
-                "published": "2021-09-08T14:57:57.652Z",
-                "content": [
-                  {
-                    "type": "web-page",
-                    "url": "https://hypothes.is/a/J2qSChC1EeyvHS8fi9T9oQ"
-                  },
-                  {
-                    "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:J2qSChC1EeyvHS8fi9T9oQ"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    }
-  }
-];
+  },
+};
 
-export const docmapNoHypothesisMock = [
-  {
-    "@context": "https://w3id.org/docmaps/context.jsonld",
-    "id": "https://sciety.org/docmaps/v1/articles/10.1101/2021.07.05.451181/biophysics-colab.docmap.json",
-    "type": "docmap",
-    "created": "2021-09-08T15:06:52.000Z",
-    "updated": "2021-09-08T15:06:52.000Z",
-    "publisher": {
-      "id": "https://biophysics.sciencecolab.org",
-      "name": "Biophysics Colab",
-      "logo": "https://sciety.org/static/groups/biophysics-colab--4bbf0c12-629b-4bb8-91d6-974f4df8efb2.png",
-      "homepage": "https://biophysics.sciencecolab.org",
-      "account": {
-        "id": "https://sciety.org/groups/biophysics-colab",
-        "service": "https://sciety.org"
-      }
-    },
-    "first-step": "_:b0",
-    "steps": {
-      "_:b0": {
-        "assertions": [],
-        "inputs": [
-          {
-            "doi": "10.1101/2021.07.05.451181",
-            "url": "https://doi.org/10.1101/2021.07.05.451181"
-          }
-        ],
-        "actions": [
-          {
-            "participants": [
-              {
-                "actor": {
-                  "name": "anonymous",
-                  "type": "person"
-                },
-                "role": "peer-reviewer"
-              }
-            ],
-            "outputs": [
-              {
-                "type": "review-article",
-                "published": "2021-09-08T14:51:35.722Z",
-                "content": [
-                  {
-                    "type": "web-page",
-                    "url": "https://www.elifesciences.org"
-                  },
-                  {
-                    "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:Q9GJ9BC0EeyPVBtgAn5Yjw"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "participants": [
-              {
-                "actor": {
-                  "name": "anonymous",
-                  "type": "person"
-                },
-                "role": "peer-reviewer"
-              }
-            ],
-            "outputs": [
-              {
-                "type": "review-article",
-                "published": "2021-09-08T14:28:19.243Z",
-                "content": [
-                  {
-                    "type": "web-page",
-                    "url": "https://www.elifesciences.org"
-                  },
-                  {
-                    "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:A2ZbGBCxEeyu-CsIpygfMQ"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "participants": [
-              {
-                "actor": {
-                  "name": "anonymous",
-                  "type": "person"
-                },
-                "role": "peer-reviewer"
-              }
-            ],
-            "outputs": [
-              {
-                "type": "review-article",
-                "published": "2021-09-08T14:57:57.652Z",
-                "content": [
-                  {
-                    "type": "web-page",
-                    "url": "https://www.elifesciences.org"
-                  },
-                  {
-                    "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2021.07.05.451181#hypothesis:J2qSChC1EeyvHS8fi9T9oQ"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    }
-  }
-];
+export const reviewMocks: Record<string, string> = {
+  'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html': 'one',
+  'https://sciety.org/static/docmaps/hardcoded-elife-article-review-two.html': 'two',
+  'https://sciety.org/static/docmaps/hardcoded-elife-article-review-three.html': 'three',
+  'https://sciety.org/static/docmaps/hardcoded-elife-article-reply.html': 'reply',
+  'https://sciety.org/static/docmaps/hardcoded-elife-article-evaluation-summary.html': 'summary',
+};
