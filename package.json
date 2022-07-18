@@ -47,7 +47,7 @@
     "start:dev": "nodemon src/server.ts",
     "test": "jest",
     "lint": "eslint --ext .ts src/",
-    "sass": "sass --no-source-map src/sass/style.scss:public/styles.css",
+    "sass": "sass --no-source-map src/sass/style.scss:public/styles/styles.css",
     "sass:dev": "nodemon -e scss -x \"yarn sass\"",
     "docker-build": "docker build . -t epp-node",
     "docker-start": "docker run --rm -p 3000:3000 epp-node:latest"

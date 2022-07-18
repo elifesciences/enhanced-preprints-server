@@ -1,4 +1,16 @@
 services:
+  sass-watch:
+    profiles:
+    - couchdb
+    - sqlite
+    build:
+      context: .
+      target: prod
+    command: yarn sass:dev
+    volumes:
+    - ./src:/opt/epp/src
+    - styles:/opt/epp/public/styles
+
   # SQLite profile
   app-sqlite:
     profiles:
@@ -14,6 +26,7 @@ services:
     volumes:
     - ./src:/opt/epp/src
     - epp-data:/opt/epp-data
+    - styles:/opt/epp/public/styles
 
   # couchdb profile
   app-couchdb:
@@ -36,6 +49,7 @@ services:
     volumes:
     - ./src:/opt/epp/src
     - epp-data:/opt/epp-data
+    - styles:/opt/epp/public/styles
   couchdb:
     profiles:
     - couchdb
@@ -65,3 +79,4 @@ services:
 volumes:
   epp-data:
   couchdb:
+  styles:
