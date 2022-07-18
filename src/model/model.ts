@@ -28,10 +28,17 @@ export enum ReviewType {
   Review = 'review-article',
   AuthorResponse = 'reply',
 }
+
+export type Participant = {
+  name: string,
+  role: string,
+};
+
 export type Evaluation = {
   date: Date,
   reviewType: ReviewType,
   text: ReviewText,
+  participants: Participant[],
 };
 
 export type PeerReview = {
