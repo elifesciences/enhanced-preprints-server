@@ -3,6 +3,36 @@
 @use '../sass/typography';
 
 
+.review-of {
+  background-color: settings.$color-light-grey;
+  padding: 24px;
+}
+
+.review-of__heading {
+  @include typography.review-of-article-heading();
+}
+
+.review-of__article_link {
+  @include typography.review-of-article-link();
+}
+
+.review-of__authors {
+  list-style: none;
+  padding: 0;
+}
+
+.review-of__author {
+  @include typography.body-small();
+  display: inline;
+
+  &:after {
+    content: ', ';
+  }
+  &:last-child:after {
+    content: '';
+  }
+}
+
 .article-review-status {
   border-bottom: settings.$border;
   margin-top:24px;
