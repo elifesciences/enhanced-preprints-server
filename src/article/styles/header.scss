@@ -23,27 +23,13 @@
   @include typography.author-list-text();
   display: inline;
 
-  &:last-child .person__family_name:last-child:after {
-    content: "";
-  }
-}
-
-.person__family_name {
   &:after {
-    content: " ";
+    content: ", ";
   }
 
   &:last-child:after {
-    content: ", ";
+    content: "";
   }
-}
-
-.person__given_name:after {
-  content: " ";
-}
-
-.person__affiliations {
-  display: none;
 }
 
 .content-header__affiliations {
@@ -67,8 +53,12 @@
   display: inline;
   font-style: normal;
 
-  &::before {
+  &:after {
     content: ', ';
+  }
+
+  &:last-child:after {
+    content: "";
   }
 }
 

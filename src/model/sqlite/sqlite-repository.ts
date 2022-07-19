@@ -5,29 +5,32 @@ import {
   ArticleRepository,
   ProcessedArticle,
   ArticleSummary,
-  ArticleContent,
+  License,
+  Author,
+  Heading,
 } from '../model';
-import { normaliseTitleJson } from '../utils';
+import { Content } from '../content';
 
 const sqlStatements = {
-  insertArticle: 'INSERT OR IGNORE INTO articles (doi, xml, html, json) VALUES (?, ?, ?, ?)',
-  getArticle: `
-    SELECT
-      articles.doi as "doi",
-      articles.date as "date",
-      articles.title as "title",
-      articles.xml as "xml",
-      articles.json as "json",
-      articles.html as "html"
-    FROM
-      articles
-    WHERE doi = ?
-  `,
+  insertArticle: `INSERT OR IGNORE INTO articles (
+    doi,
+    xml,
+    html,
+    document,
+    title,
+    abstract,
+    date,
+    authors,
+    licenses,
+    headings,
+    content
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleSummary: `
     SELECT
-    articles.doi as "doi",
-      articles.date as "date",
-      articles.title as "title"
+      doi,
+      date,
+      title
     FROM
       articles
   `,
@@ -40,37 +43,49 @@ class SqliteArticleRepository implements ArticleRepository {
     this.connection = connection;
   }
 
-  async storeArticle(article: ArticleContent): Promise<boolean> {
+  async storeArticle(article: ProcessedArticle): Promise<boolean> {
     const result = await this.connection.run(
       sqlStatements.insertArticle,
       [
         article.doi,
         article.xml,
         article.html,
-        article.json,
+        article.document,
+        JSON.stringify(article.title),
+        JSON.stringify(article.abstract),
+        article.date.toUTCString(),
+        JSON.stringify(article.authors),
+        JSON.stringify(article.licenses),
+        JSON.stringify(article.headings),
+        article.content,
       ],
     );
     return result.changes === 1;
   }
 
   async getArticle(doi: Doi): Promise<ProcessedArticle> {
-    const article = await this.connection.get<ProcessedArticle>(sqlStatements.getArticle, [doi]);
+    const article = await this.connection.get(sqlStatements.getArticle, [doi]);
     if (article === undefined) {
       throw new Error(`Article with DOI "${doi}" was not found`);
     }
     // remap date to a Date object
     article.date = new Date(article.date);
-    article.title = normaliseTitleJson(article.title);
 
+    // decode various JSON back to structures
+    article.title = JSON.parse(article.title) as Content;
+    article.abstract = JSON.parse(article.abstract) as Content;
+    article.licenses = JSON.parse(article.licenses) as License[];
+    article.authors = JSON.parse(article.authors) as Author[];
+    article.headings = JSON.parse(article.headings) as Heading[];
     return article;
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    const summaries = await this.connection.all<ArticleSummary[]>(sqlStatements.getArticleSummary);
+    const summaries = await this.connection.all(sqlStatements.getArticleSummary);
     return summaries.map((articleSummary) => ({
       doi: articleSummary.doi,
       date: new Date(articleSummary.date),
-      title: normaliseTitleJson(articleSummary.title),
+      title: JSON.parse(articleSummary.title) as Content,
     }));
   }
 }

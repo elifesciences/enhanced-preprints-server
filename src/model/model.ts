@@ -1,19 +1,51 @@
-export type Doi = string;
-export type ArticleXML = string;
-export type ArticleTitle = string;
-export type ArticleHTML = string;
-export type ArticleJSON = string;
+import { Content } from './content';
 
+export type Doi = string;
+
+export type ArticleXML = string;
+export type ArticleDocument = string;
+export type ArticleHTML = string;
 export type ArticleContent = {
   doi: Doi
   xml: ArticleXML,
+  document: ArticleDocument,
   html: ArticleHTML,
-  json: ArticleJSON,
+};
+
+export type ArticleTitle = Content;
+export type ArticleAbstract = Content;
+export type Address = {
+  addressCountry: string,
+};
+export type Organisation = {
+  name: string,
+  address?: Address,
+};
+
+export type Author = {
+  familyNames: string[],
+  givenNames: string[],
+  affiliations: Organisation[],
+};
+
+export type License = {
+  type: string,
+  url: string,
+};
+
+export type Heading = {
+  id: string,
+  text: Content,
 };
 
 export type ProcessedArticle = ArticleContent & {
   title: ArticleTitle,
   date: Date,
+  authors: Author[],
+  abstract: ArticleAbstract,
+  licenses: License[],
+  content: Content,
+  headings: Heading[],
 };
 
 export type ArticleSummary = {
@@ -52,7 +84,7 @@ export type EnhancedArticle = ProcessedArticle & {
 };
 
 export interface ArticleRepository {
-  storeArticle(article: ArticleContent): Promise<boolean>;
+  storeArticle(article: ProcessedArticle): Promise<boolean>;
   getArticle(doi: Doi): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
 }
