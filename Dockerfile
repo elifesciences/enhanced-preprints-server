@@ -8,8 +8,13 @@ WORKDIR /opt/epp
 
 FROM base as build
 
+# install latest yarn
+RUN apk add git python3 make gcc musl-dev g++
+
 COPY package.json package.json
 COPY yarn.lock yarn.lock
+COPY .yarnrc.yml .yarnrc.yml
+COPY .yarn .yarn
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN yarn
