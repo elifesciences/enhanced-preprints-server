@@ -1,18 +1,13 @@
 import axios from 'axios';
 import { mocked } from 'jest-mock';
-import { fetchReviews, HypothesisResponse } from './fetch-reviews';
-import { docmapMock, docmapNoHypothesisMock } from '../../test-utils/docmap-mock';
+import { fetchReviews } from './fetch-reviews';
+import { docmapMock, reviewMocks } from '../../test-utils/docmap-mock';
+import { PeerReview } from '../model/model';
 
 jest.mock('axios');
 
-const mockedReviews: Record<string, HypothesisResponse> = {
-  Q9GJ9BC0EeyPVBtgAn5Yjw: { text: 'review1' },
-  'A2ZbGBCxEeyu-CsIpygfMQ': { text: 'review2' },
-  J2qSChC1EeyvHS8fi9T9oQ: { text: 'review3' },
-};
-
 describe('fetch-reviews', () => {
-  it('fetches docmap from Sciety for a specific reviewing group', async () => {
+  describe('parse docmap', () => {
     const mockedGet = mocked(axios.get, true);
 
     // @ts-ignore
@@ -21,47 +16,74 @@ describe('fetch-reviews', () => {
         data: {},
         status: 200,
       };
-      if (url.includes('docmap')) {
+      if (url.includes('.json')) {
         response.data = docmapMock;
       } else {
-        const id = url.split('/').pop() || '';
-        response.data = mockedReviews[id];
+        response.data = reviewMocks[url];
       }
       return Promise.resolve(response);
     });
 
-    const reviews = await fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org');
+    let peerReview: PeerReview;
+    beforeAll(async () => {
+      peerReview = await fetchReviews('10.1101/2021.07.05.451181', 'test');
+    });
 
-    expect(reviews).toHaveLength(3);
-    expect(reviews).toStrictEqual(expect.arrayContaining(['review1', 'review2', 'review3']));
-    expect(mockedGet).toHaveBeenNthCalledWith(2, expect.stringContaining('Q9GJ9BC0EeyPVBtgAn5Yjw'));
-    expect(mockedGet).toHaveBeenNthCalledWith(3, expect.stringContaining('A2ZbGBCxEeyu-CsIpygfMQ'));
-    expect(mockedGet).toHaveBeenNthCalledWith(4, expect.stringContaining('J2qSChC1EeyvHS8fi9T9oQ'));
+    it('extracts the correct participants for each action', () => {
+      expect(peerReview.evaluationSummary.participants).toStrictEqual(expect.arrayContaining([
+        { name: 'Ronald L Calabrese', role: 'senior-editor' },
+        { name: 'Noah J Cowan', role: 'editor' },
+      ]));
+      expect(peerReview.authorResponse?.participants).toStrictEqual(expect.arrayContaining([
+        { name: 'anonymous', role: 'peer-reviewer' },
+      ]));
+      expect(peerReview.reviews.flatMap((review) => review.participants)).toStrictEqual(expect.arrayContaining([
+        { name: 'anonymous', role: 'peer-reviewer' },
+        { name: 'anonymous', role: 'peer-reviewer' },
+        { name: 'anonymous', role: 'peer-reviewer' },
+      ]));
+    });
+    it('extracts the correct dates for each action', () => {
+      expect(peerReview.evaluationSummary.date.getTime()).toStrictEqual(new Date('2022-02-15T09:43:15.348Z').getTime());
+      expect(peerReview.authorResponse?.date.getTime()).toStrictEqual(new Date('2022-02-15T11:24:05.730Z').getTime());
+      expect(peerReview.reviews.map((review) => review.date.getTime())).toStrictEqual(expect.arrayContaining([
+        new Date('2022-02-15T09:43:12.593Z').getTime(),
+        new Date('2022-02-15T09:43:13.592Z').getTime(),
+        new Date('2022-02-15T09:43:14.350Z').getTime(),
+      ]));
+    });
+    it('fetches the evaluation text for each action with a "web-content" type', () => {
+      expect(peerReview.evaluationSummary.text).toStrictEqual('summary');
+      expect(peerReview.authorResponse?.text).toStrictEqual('reply');
+      expect(peerReview.reviews.map((review) => review.text)).toStrictEqual(expect.arrayContaining([
+        'one',
+        'two',
+        'three',
+      ]));
+    });
   });
 
-  describe('when unable to retrieve the docmap', () => {
-    it('returns empty array on http errors', async () => {
+  describe('error handling', () => {
+    it('throws an exception on http errors', async () => {
       const mockedGet = mocked(axios.get, true);
       // eslint-disable-next-line prefer-promise-reject-errors
       mockedGet.mockImplementation(() => Promise.reject({
         data: {},
         status: 404,
       }));
-      const reviews = await fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org');
 
-      expect(reviews).toStrictEqual([]);
+      await expect(fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org')).rejects.toThrow();
     });
 
     it('returns empty array if there are no hypothesis link in the docmap', async () => {
       const mockedGet = mocked(axios.get, true);
       // @ts-ignore
       mockedGet.mockImplementation(() => Promise.resolve({
-        data: docmapNoHypothesisMock,
+        data: { steps: [] },
         status: 200,
       }));
-      const reviews = await fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org');
 
-      expect(reviews).toStrictEqual([]);
+      await expect(fetchReviews('10.1101/2021.07.05.451181', 'https://biophysics.sciencecolab.org')).rejects.toThrow();
     });
   });
 });

@@ -56,17 +56,31 @@ export type ArticleSummary = {
 
 export type ReviewText = string;
 export enum ReviewType {
-  EvaluationSummary = 'evaluation_summary',
+  EvaluationSummary = 'evaluation-summary',
+  Review = 'review-article',
+  AuthorResponse = 'reply',
 }
-export type Review = {
+
+export type Participant = {
+  name: string,
+  role: string,
+};
+
+export type Evaluation = {
   date: Date,
   reviewType: ReviewType,
   text: ReviewText,
-  reviewOf: ProcessedArticle
+  participants: Participant[],
+};
+
+export type PeerReview = {
+  evaluationSummary: Evaluation,
+  reviews: Evaluation[],
+  authorResponse?: Evaluation,
 };
 
 export type EnhancedArticle = ProcessedArticle & {
-  reviews: Review[]
+  peerReview: PeerReview | string,
 };
 
 export interface ArticleRepository {
