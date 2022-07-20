@@ -75,7 +75,7 @@ services:
         condition: service_healthy
     image: curlimages/curl
     entrypoint: sh
-    command: -c 'sleep 5; curl -X PUT -u admin:testtest http://couchdb:5984/epp'
+    command: -c 'sleep 5; curl -X PUT -u admin:testtest http://couchdb:5984/epp; curl -X PUT -u admin:testtest http://couchdb:5984/_users'
 volumes:
   epp-data:
   couchdb:
