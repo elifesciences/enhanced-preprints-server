@@ -25,7 +25,9 @@ services:
     - "8080:3000"
     volumes:
     - ./src:/opt/epp/src
-    - epp-data:/opt/epp-data
+    - ./data:/opt/epp/data
+    - ./migrations:/opt/epp/migrations
+    - sqlite-data:/opt/epp-data
     - styles:/opt/epp/public/styles
 
   # couchdb profile
@@ -48,7 +50,7 @@ services:
     - "8080:3000"
     volumes:
     - ./src:/opt/epp/src
-    - epp-data:/opt/epp-data
+    - ./data:/opt/epp/data
     - styles:/opt/epp/public/styles
   couchdb:
     profiles:
@@ -66,7 +68,8 @@ services:
     ports:
     - "5984:5984"
     volumes:
-    - couchdb:/home/couchdb/data
+    - couchdb-data:/home/couchdb/data
+    - ./.docker/couchdb/doc_size.ini:/opt/couchdb/etc/local.d/doc_size.ini
   create-database:
     profiles:
     - couchdb
@@ -77,6 +80,6 @@ services:
     entrypoint: sh
     command: -c 'sleep 5; curl -X PUT -u admin:testtest http://couchdb:5984/epp; curl -X PUT -u admin:testtest http://couchdb:5984/_users'
 volumes:
-  epp-data:
-  couchdb:
+  sqlite-data:
+  couchdb-data:
   styles:
