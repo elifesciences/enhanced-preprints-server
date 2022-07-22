@@ -1,15 +1,34 @@
 import { marked } from 'marked';
-import { EnhancedArticle, Evaluation } from '../model/model';
+import { jumpToMenu } from '../article/jump-menu';
+import { EnhancedArticle, Evaluation, Heading } from '../model/model';
 import { editorsAndReviewers } from './reviews-editors-and-reviewers';
 import { reviewsOf } from './reviews-peer-review-of';
 
-const wrapWithHtml = (editorsAndReviewersSection: string, reviews: string, article: EnhancedArticle, noHeader: boolean): string => `
+const wrapWithHtml = (editorsAndReviewersSection: string, reviews: string, article: EnhancedArticle, noHeader: boolean): string => {
+  const headings: Heading[] = [
+    { id: 'evaluation-summary', text: 'Evaluation summary' },
+    { id: 'editors-and-reviewers', text: 'Editors and reviewers' },
+  ];
+  headings.push(...Array.from({ length: article.peerReview.reviews.length }, (value, key) => key).map<Heading>((review, index) => ({
+    id: `review-${index + 1}`,
+    text: `Review ${index + 1}`,
+  })));
+
+  if (article.peerReview.authorResponse) {
+    headings.push({
+      id: 'author-response',
+      text: 'Author response',
+    });
+  }
+
+  return `
   <div class="secondary-column">
     ${reviewsOf(article, noHeader)}
   </div>
   <main class="primary-column">
     <div class="table-contents">
       <a class="return-button" href="/article/${article.doi}${noHeader ? '?noHeader=true' : ''}"><span class="material-icons return-button__icon">chevron_left</span>Back to article</a>
+      ${jumpToMenu(headings)}
     </div>
     <div class="main-content-area">
       <div class="article-review-status">
@@ -32,7 +51,7 @@ const wrapWithHtml = (editorsAndReviewersSection: string, reviews: string, artic
         </a>
       </div>
       <div>
-        <h2 class="summary-title">Summary</h2>
+        <h2 class="summary-title" id="evaluation-summary">Evaluation summary</h2>
         <p class="summary-text">
           This is a <span class="summary-text__highlight">landmark</span> paper and a <span class="summary-text__highlight">tour-de-force</span> that ties together decades of advances in electron microscopy
           to produce a dataset of both breadth and extreme technical quality whose very existence will have profound
@@ -73,6 +92,7 @@ const wrapWithHtml = (editorsAndReviewersSection: string, reviews: string, artic
       </ul>
     </div>
   </main>`;
+};
 
 export const generateReviewPage = (article: EnhancedArticle, noHeader: boolean): string => {
   if (typeof article.peerReview === 'string' || article.peerReview.reviews.length === 0) {
@@ -80,11 +100,12 @@ export const generateReviewPage = (article: EnhancedArticle, noHeader: boolean):
   }
 
   const reviewList: Evaluation[] = [];
-  reviewList.concat(article.peerReview.reviews);
+  reviewList.push(...article.peerReview.reviews);
+
+  const reviewListItems = reviewList.map((review, index) => `<li class="review-list__item"><article class="review-list-content" id="review-${index + 1}">${marked.parse(review.text)}</article></li>`);
   if (article.peerReview.authorResponse) {
-    reviewList.push(article.peerReview.authorResponse);
+    reviewListItems.push(`<li class="review-list__item"><article class="review-list-content" id="author-response">${marked.parse(article.peerReview.authorResponse.text)}</article></li>`);
   }
-  const reviewListItems = reviewList.map((review) => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review.text)}</article></li>`);
 
   return wrapWithHtml(editorsAndReviewers(), reviewListItems.join(''), article, noHeader);
 };

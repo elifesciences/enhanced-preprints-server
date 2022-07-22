@@ -80,7 +80,7 @@ export type PeerReview = {
 };
 
 export type EnhancedArticle = ProcessedArticle & {
-  peerReview: PeerReview | string,
+  peerReview: PeerReview,
 };
 
 export interface ArticleRepository {
