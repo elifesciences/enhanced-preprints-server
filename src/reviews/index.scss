@@ -6,6 +6,8 @@
 .review-of {
   background-color: settings.$color-light-grey;
   padding: 24px;
+  position: sticky;
+  top: 35px;
 }
 
 .review-of__heading {
@@ -130,6 +132,8 @@
 .return-button {
   @include buttons.action-button();
   margin-bottom: 36px;
+  position: sticky;
+  top: 35px;
 }
 
 .return-button__icon {
