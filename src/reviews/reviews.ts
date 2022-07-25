@@ -1,5 +1,5 @@
 import { marked } from 'marked';
-import { EnhancedArticle } from '../model/model';
+import { EnhancedArticle, Evaluation } from '../model/model';
 import { editorsAndReviewers } from './reviews-editors-and-reviewers';
 import { reviewsOf } from './reviews-peer-review-of';
 
@@ -78,7 +78,13 @@ export const generateReviewPage = (article: EnhancedArticle, noHeader: boolean):
   if (typeof article.peerReview === 'string' || article.peerReview.reviews.length === 0) {
     return wrapWithHtml(editorsAndReviewers(), '<li class="review-list__item"><article class="review-list-content">No reviews found</article></li>', article, noHeader);
   }
-  const reviewListItems = article.peerReview.reviews.map((review) => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review.text)}</article></li>`);
+
+  const reviewList: Evaluation[] = [];
+  reviewList.concat(article.peerReview.reviews);
+  if (article.peerReview.authorResponse) {
+    reviewList.push(article.peerReview.authorResponse);
+  }
+  const reviewListItems = reviewList.map((review) => `<li class="review-list__item"><article class="review-list-content">${marked.parse(review.text)}</article></li>`);
 
   return wrapWithHtml(editorsAndReviewers(), reviewListItems.join(''), article, noHeader);
 };
