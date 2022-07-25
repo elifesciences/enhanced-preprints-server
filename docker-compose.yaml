@@ -4,12 +4,12 @@ services:
     - couchdb
     - sqlite
     build:
-      context: .
-      dockerfile: Dockerfile.imageserver
+      context: image-server
     ports:
     - "8182:8182"
     volumes:
-    - ./.cantaloupe/cantaloupe.properties:/opt/cantaloupe/cantaloupe.properties
+    - ./image-server/dev-cantaloupe.properties:/opt/cantaloupe/cantaloupe.properties
+    - ./data:/opt/epp/data
 
   sass-watch:
     profiles:
