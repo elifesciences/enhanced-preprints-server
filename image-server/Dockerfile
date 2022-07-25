@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04@sha256:fd92c36d3cb9b1d027c4d2a72c6bf0125da82425fc2ca37c414d4f010180dc19
 
 ENV CANTALOUPE_VERSION=5.0.5
 
@@ -23,7 +23,7 @@ RUN cd /opt \
     && mkdir -p /var/log/cantaloupe /var/cache/cantaloupe \
     && cp -rs /opt/cantaloupe/deps/Linux-x86-64/* /usr/
 
-COPY .cantaloupe/cantaloupe.properties /opt/cantaloupe/
+COPY cantaloupe.properties /opt/cantaloupe/
 
 RUN chown -R cantaloupe /opt/cantaloupe-$CANTALOUPE_VERSION /var/log/cantaloupe /var/cache/cantaloupe
 
