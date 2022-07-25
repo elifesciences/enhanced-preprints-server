@@ -44,10 +44,6 @@ app.get('/article/:publisherId/:articleId/reviews', async (req, res) => {
   res.send(basePage(pageContent, noHeader));
 });
 
-app.get('/images/:imageId', async (req, res) => {
-  res.download('/opt/epp/data/10.1101/2021.11.17.469032/469032v1_fig1', req.params.imageId);
-});
-
 app.get('/import', async (req, res) => {
   res.send(basePage(`<form method="POST">
     <input type="submit" value="import">
