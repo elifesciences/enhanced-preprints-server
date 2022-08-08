@@ -1,5 +1,6 @@
 import { Author, Organisation, ProcessedArticle } from '../model/model';
 import { contentToHtml } from '../model/content';
+import { generateFlags } from './article-flags';
 
 const formatAuthorName = (author: Author) => `${author.givenNames.join(' ')} ${author.familyNames.join('')}`;
 
@@ -12,6 +13,7 @@ export const header = (article: ProcessedArticle): string => {
   const uniqueOrganisationListItems = [...new Set(organisationListItems)];
 
   return `<div class="content-header">
+    ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
     <ol class="content-header__authors">
       ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
