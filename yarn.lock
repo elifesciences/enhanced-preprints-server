@@ -5585,7 +5585,7 @@ __metadata:
     nano: ^10.0.0
     nodemon: ^2.0.15
     sass: ^1.50.0
-    sqlite: ^4.1.1
+    sqlite: 4.1.2
     sqlite3: ^5.0.6
     ts-jest: ^27.1.3
     ts-node: ^10.5.0
@@ -12478,10 +12478,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sqlite@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "sqlite@npm:4.1.1"
-  checksum: f2f6ef04ac24928cf0ade08e99d439bd785dafca8c2127ceee5c3f57a78c7781cafd682d96468066862213b2a0e4ffaa36472345d88cc1a8d8f5e894344e31c1
+"sqlite@npm:4.1.2":
+  version: 4.1.2
+  resolution: "sqlite@npm:4.1.2"
+  checksum: 3e8af1e36ac9978e6bdb2fd250a75e46f08e8361d2f7516c1a2061e1eefc810c3ea3d8c9f860a29cde95dea58ed7f3c1d994b3841428f9a57a9711dcdc7dd662
   languageName: node
   linkType: hard
 
