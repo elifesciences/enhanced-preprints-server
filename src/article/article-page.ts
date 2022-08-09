@@ -9,6 +9,7 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
   headings.push(...article.headings);
 
   return `${header(article)}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/3.1.0/openseadragon.min.js"></script>
   <main class="primary-column">
     <div class="table-contents">
       ${jumpToMenu(headings)}
@@ -20,6 +21,29 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
       </div>
     </div>
   </main>
+
+  <script>
+    const images = document.querySelectorAll('.article-body img');
+    images.forEach((image) => {
+      var imageUrl = image.src.replace('/attachment/', '/iiif/');
+      var openseadragonElement = document.createElement('div');
+      openseadragonElement.style.width = '100%';
+      openseadragonElement.style.height = '600px';
+
+
+      var openseadragonViewer = OpenSeadragon({
+        element: openseadragonElement,
+        prefixUrl: '//openseadragon.github.io/openseadragon/images/',
+        tileSources: imageUrl,
+      });
+
+      openseadragonViewer.innerTracker.scrollHandler=false;
+
+      image.parentElement.replaceChild(openseadragonElement, image);
+
+
+    });
+  </script>
 
   <div class="secondary-column">
     ${articleDetails(article.doi, noHeader)}

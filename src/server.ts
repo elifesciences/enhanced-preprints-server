@@ -54,6 +54,16 @@ app.get('/article/:publisherId/:articleId/attachment/:attachmentId', async (req,
   res.redirect(`${config.iiifServer}/iiif/2/${iiifId}/full/720,/0/default.jpg`);
 });
 
+app.get('/article/:publisherId/:articleId/iiif/:attachmentId', async (req, res) => {
+  const { publisherId, articleId } = req.params;
+  const doi = `${publisherId}/${articleId}`;
+  const { attachmentId } = req.params;
+
+  const iiifId = encodeURIComponent(`${doi}/${attachmentId}`);
+
+  res.redirect(`${config.iiifServer}/iiif/2/${iiifId}`);
+});
+
 app.get('/import', async (req, res) => {
   res.send(basePage(`<form method="POST">
     <input type="submit" value="import">
