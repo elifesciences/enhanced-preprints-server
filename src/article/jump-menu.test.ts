@@ -1,6 +1,7 @@
-import { JSDOM } from 'jsdom';
+import { screen } from '@testing-library/dom';
 import { Heading } from '../model/model';
 import { jumpToMenu } from './jump-menu';
+import '@testing-library/jest-dom';
 
 const emptyHeadings: Heading[] = [];
 
@@ -12,19 +13,16 @@ const articleFragmentWithHeadings: Heading[] = [
 
 describe('jump-menu', () => {
   it('returns empty string if no headings', () => {
-    const result = JSDOM.fragment(jumpToMenu(emptyHeadings));
+    document.body.append(jumpToMenu(emptyHeadings));
 
-    expect(result.querySelector('.jump-menu-container')).toBeNull();
+    expect(document.body.innerHTML).toStrictEqual('');
   });
 
   it('returns a list of headings', () => {
-    const result = JSDOM.fragment(jumpToMenu(articleFragmentWithHeadings));
+    document.body.append(jumpToMenu(articleFragmentWithHeadings));
 
-    const headingsNode = result.querySelectorAll('.jump-menu-list__item > .jump-menu-list__link');
-    const headings = Array.from(headingsNode)
-      .map((element) => element.textContent)
-      .filter((heading) => heading !== null);
-
-    expect(headings).toStrictEqual(expect.arrayContaining(['heading 1', 'heading 2', 'heading 3']));
+    expect(screen.getByText('heading 1', { exact: false })).toBeInTheDocument();
+    expect(screen.getByText('heading 2', { exact: false })).toBeInTheDocument();
+    expect(screen.getByText('heading 3', { exact: false })).toBeInTheDocument();
   });
 });
