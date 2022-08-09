@@ -49,9 +49,14 @@ app.get('/article/:publisherId/:articleId/attachment/:attachmentId', async (req,
   const doi = `${publisherId}/${articleId}`;
   const { attachmentId } = req.params;
 
-  const iiifId = encodeURIComponent(`${doi}/${attachmentId}`);
+  if (req.accepts('image/jpeg')) {
+    const iiifId = encodeURIComponent(`${doi}/${attachmentId}`);
 
-  res.redirect(`${config.iiifServer}/iiif/2/${iiifId}/full/720,/0/default.jpg`);
+    res.redirect(`${config.iiifServer}/iiif/2/${iiifId}/full/720,/0/default.jpg`);
+    return;
+  }
+
+  res.sendStatus(404);
 });
 
 app.get('/article/:publisherId/:articleId/iiif/:attachmentId', async (req, res) => {
