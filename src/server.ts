@@ -57,7 +57,7 @@ app.get('/article/:publisherId/:articleId/attachment/:attachmentId', async (req,
   }
 
   logger.error('Something requested an attachment, but it didnt accept jpegs. Send 404 as we currently cant find it');
-  res.sendStatus(404);
+  res.sendStatus(415);
 });
 
 app.get('/article/:publisherId/:articleId/iiif/:attachmentId', async (req, res) => {
