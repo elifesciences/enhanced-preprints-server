@@ -1,4 +1,5 @@
-import { JSDOM } from 'jsdom';
+import { within } from '@testing-library/dom';
+import '@testing-library/jest-dom';
 import { header } from './header';
 
 const exampleArticle = {
@@ -19,22 +20,42 @@ const exampleArticle = {
 
 describe('header', () => {
   describe('text extraction', () => {
-    const result = JSDOM.fragment(header(exampleArticle));
+    document.body.innerHTML = header(exampleArticle);
 
     it('returns a title', () => {
-      expect(result.querySelector('.content-header__title')?.textContent).toBe('Article');
+      const title = document.querySelector<HTMLHeadingElement>('h1');
+      if (!title) {
+        fail('no title present');
+      }
+
+      expect(within(title).getByText('Article')).toBeInTheDocument();
     });
 
     it('returns the authors', () => {
-      expect(result.querySelector('.content-header__authors')?.textContent?.replaceAll(/[\s]{2,}/g, ' ').trim()).toBe('Reece Urcher 1');
+      const authors = document.querySelector<HTMLOListElement>('.content-header__authors');
+      if (!authors) {
+        fail('no authors present');
+      }
+
+      expect(within(authors).getByText('Reece Urcher 1', { exact: false })).toBeInTheDocument();
     });
 
     it('returns the affiliations', () => {
-      expect(result.querySelector('.content-header__affiliations')?.textContent?.replaceAll(/[\s]{2,}/g, ' ').trim()).toBe('Department of Neuroscience, The University of Texas at Austin');
+      const affiliations = document.querySelector<HTMLOListElement>('.content-header__affiliations');
+      if (!affiliations) {
+        fail('no affiliations present');
+      }
+
+      expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin', { exact: false })).toBeInTheDocument();
     });
 
     it('returns the identifiers', () => {
-      expect(result.querySelector('.content-header__identifiers')?.textContent?.replaceAll(/[\s]{2,}/g, ' ').trim()).toBe('https://doi.org/12.345/67890213445');
+      const identifiers = document.querySelector<HTMLUListElement>('.content-header__identifiers');
+      if (!identifiers) {
+        fail('no identifiers present');
+      }
+
+      expect(within(identifiers).getByText('https://doi.org/12.345/67890213445', { exact: false })).toBeInTheDocument();
     });
   });
 });
