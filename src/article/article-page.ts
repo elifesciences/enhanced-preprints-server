@@ -37,6 +37,7 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
         tileSources: imageUrl,
       });
 
+      // allow the seadragon client to be scrolled past, but does disable scrolling to navigate
       openseadragonViewer.innerTracker.scrollHandler=false;
 
       image.parentElement.replaceChild(openseadragonElement, image);
