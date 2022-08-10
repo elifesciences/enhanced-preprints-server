@@ -104,7 +104,6 @@ describe('article-stores', () => {
       }`;
       const exampleArticle = {
         doi: 'test/article.2',
-        xml: '<article><article-title>Test article 2</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 2</h1></article>',
         document: exampleArticleJson,
         title: 'Test Article 2',
@@ -141,7 +140,6 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const exampleArticle1 = {
         doi: 'test/article.4',
-        xml: '<article><article-title>Test article 4</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 4</h1></article>',
         document: `{
           "title":"Test Article 4",
@@ -161,7 +159,6 @@ describe('article-stores', () => {
       };
       const exampleArticle2 = {
         doi: 'test/article.5',
-        xml: '<article><article-title>Test article 5</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 5</h1></article>',
         document: `{
           "title":"Test Article 5",
@@ -181,7 +178,6 @@ describe('article-stores', () => {
       };
       const exampleArticle3 = {
         doi: 'test/article.6',
-        xml: '<article><article-title>Test article 6</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 6</h1></article>',
         document: `{
           "title":"Test Article 6",
