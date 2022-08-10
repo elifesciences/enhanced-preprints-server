@@ -36,7 +36,7 @@ export type Heading = {
   text: Content,
 };
 
-export type ProcessedArticle = ArticleContent & {
+export type ProcessedArticle = Omit<ArticleContent, 'document'> & {
   title: ArticleTitle,
   date: Date,
   authors: Author[],

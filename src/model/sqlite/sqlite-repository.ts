@@ -15,7 +15,6 @@ const sqlStatements = {
   insertArticle: `INSERT OR IGNORE INTO articles (
     doi,
     html,
-    document,
     title,
     abstract,
     date,
@@ -23,7 +22,7 @@ const sqlStatements = {
     licenses,
     headings,
     content
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleSummary: `
     SELECT
@@ -48,7 +47,6 @@ class SqliteArticleRepository implements ArticleRepository {
       [
         article.doi,
         article.html,
-        article.document,
         JSON.stringify(article.title),
         JSON.stringify(article.abstract),
         article.date.toUTCString(),
