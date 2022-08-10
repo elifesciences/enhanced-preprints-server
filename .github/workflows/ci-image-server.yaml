@@ -23,7 +23,7 @@ jobs:
         id: commit_sha
         run: echo "::set-output name=commit_sha::${GITHUB_SHA:0:8}"
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to GHCR
