@@ -35,7 +35,14 @@ class CouchDBArticleRepository implements ArticleRepository {
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
     const response = await this.documentScope.insert({
       _id: article.doi,
-      ...article,
+      title: article.title,
+      abstract: article.abstract,
+      authors: article.authors,
+      content: article.content,
+      date: article.date,
+      doi: article.doi,
+      headings: article.headings,
+      licenses: article.licenses,
     });
 
     if (!response.ok) {
