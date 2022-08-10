@@ -8,7 +8,6 @@ import {
   ArticleSummary,
   ArticleTitle,
   ArticleAbstract,
-  ArticleDocument,
   License,
   Heading,
   Author,
@@ -17,7 +16,6 @@ import {
 type StoredArticle = {
   _id: string,
   doi: string,
-  document: ArticleDocument,
   title: ArticleTitle,
   date: Date,
   authors: Author[],
@@ -44,10 +42,9 @@ class CouchDBArticleRepository implements ArticleRepository {
       return false;
     }
 
-    const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: response.rev });
-    const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
+    const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: response.rev });
 
-    return jsonResponse.ok && htmlResponse.ok;
+    return htmlResponse.ok;
   }
 
   async getArticle(doi: Doi): Promise<ProcessedArticle> {
