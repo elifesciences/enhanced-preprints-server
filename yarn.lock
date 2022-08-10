@@ -2342,7 +2342,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stencila/encoda@npm:^0.119.2":
+"@stencila/encoda@npm:0.119.2":
   version: 0.119.2
   resolution: "@stencila/encoda@npm:0.119.2"
   dependencies:
@@ -2557,7 +2557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.16.1":
+"@testing-library/dom@npm:8.16.1":
   version: 8.16.1
   resolution: "@testing-library/dom@npm:8.16.1"
   dependencies:
@@ -2573,7 +2573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.16.5":
+"@testing-library/jest-dom@npm:5.16.5":
   version: 5.16.5
   resolution: "@testing-library/jest-dom@npm:5.16.5"
   dependencies:
@@ -2625,7 +2625,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/node16@npm:^1.0.2":
+"@tsconfig/node16@npm:1.0.2, @tsconfig/node16@npm:^1.0.2":
   version: 1.0.2
   resolution: "@tsconfig/node16@npm:1.0.2"
   checksum: ca94d3639714672bbfd55f03521d3f56bb6a25479bd425da81faf21f13e1e9d15f40f97377dedbbf477a5841c5b0c8f4cd1b391f33553d750b9202c54c2c07aa
@@ -2639,7 +2639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/axios@npm:^0.14.0":
+"@types/axios@npm:0.14.0":
   version: 0.14.0
   resolution: "@types/axios@npm:0.14.0"
   dependencies:
@@ -2771,7 +2771,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:4":
+"@types/express@npm:4.17.13":
   version: 4.17.13
   resolution: "@types/express@npm:4.17.13"
   dependencies:
@@ -2834,7 +2834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.4.1":
+"@types/jest@npm:27.5.2":
   version: 27.5.2
   resolution: "@types/jest@npm:27.5.2"
   dependencies:
@@ -2844,7 +2844,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsdom@npm:^16.2.14":
+"@types/jsdom@npm:16.2.14":
   version: 16.2.14
   resolution: "@types/jsdom@npm:16.2.14"
   dependencies:
@@ -2905,7 +2905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked@npm:^4.0.3":
+"@types/marked@npm:4.0.3":
   version: 4.0.3
   resolution: "@types/marked@npm:4.0.3"
   checksum: 2fc409a6291cb770688731a444f54e7eab6257c9b565dea4e9d2f3b6654b606e9dd8ea4a924e306b2d2f581dedcb7a27f10f2ca7aed828b11642ab85955341f1
@@ -2935,7 +2935,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16":
+"@types/node@npm:16.11.39":
   version: 16.11.39
   resolution: "@types/node@npm:16.11.39"
   checksum: bc97b9773ac6b3194800f990b349fad7f66c6126dacef59291b10a2c8b6813d6f67f947b7e12a6c9952790f7065d576fe38355b8fe034a6af60f317cfc570f69
@@ -3003,7 +3003,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sqlite3@npm:^3.1.8":
+"@types/sqlite3@npm:3.1.8":
   version: 3.1.8
   resolution: "@types/sqlite3@npm:3.1.8"
   dependencies:
@@ -3076,7 +3076,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.13.0":
+"@typescript-eslint/eslint-plugin@npm:5.27.1":
   version: 5.27.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.27.1"
   dependencies:
@@ -3099,7 +3099,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.0.0":
+"@typescript-eslint/parser@npm:5.27.1":
   version: 5.27.1
   resolution: "@typescript-eslint/parser@npm:5.27.1"
   dependencies:
@@ -3774,21 +3774,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:0.26.1, axios@npm:^0.26.1":
+  version: 0.26.1
+  resolution: "axios@npm:0.26.1"
+  dependencies:
+    follow-redirects: ^1.14.8
+  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
+  languageName: node
+  linkType: hard
+
 "axios@npm:^0.21.1":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
   dependencies:
     follow-redirects: ^1.14.0
   checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
-  dependencies:
-    follow-redirects: ^1.14.8
-  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
   languageName: node
   linkType: hard
 
@@ -5950,43 +5950,43 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "enhanced-preprints@workspace:."
   dependencies:
-    "@stencila/encoda": ^0.119.2
+    "@stencila/encoda": 0.119.2
     "@stencila/schema": 1.16.1
-    "@testing-library/dom": ^8.16.1
-    "@testing-library/jest-dom": ^5.16.5
-    "@tsconfig/node16": ^1.0.2
-    "@types/axios": ^0.14.0
+    "@testing-library/dom": 8.16.1
+    "@testing-library/jest-dom": 5.16.5
+    "@tsconfig/node16": 1.0.2
+    "@types/axios": 0.14.0
     "@types/eslint": 8.4.5
-    "@types/express": 4
-    "@types/jest": ^27.4.1
-    "@types/jsdom": ^16.2.14
-    "@types/marked": ^4.0.3
-    "@types/node": 16
-    "@types/sqlite3": ^3.1.8
-    "@typescript-eslint/eslint-plugin": ^5.13.0
-    "@typescript-eslint/parser": ^5.0.0
-    axios: ^0.26.1
+    "@types/express": 4.17.13
+    "@types/jest": 27.5.2
+    "@types/jsdom": 16.2.14
+    "@types/marked": 4.0.3
+    "@types/node": 16.11.39
+    "@types/sqlite3": 3.1.8
+    "@typescript-eslint/eslint-plugin": 5.27.1
+    "@typescript-eslint/parser": 5.27.1
+    axios: 0.26.1
     eslint: 8.21.0
-    eslint-config-airbnb: ^19.0.4
-    eslint-config-airbnb-typescript: ^17.0.0
-    eslint-config-prettier: ^8.5.0
-    eslint-plugin-import: ^2.26.0
+    eslint-config-airbnb: 19.0.4
+    eslint-config-airbnb-typescript: 17.0.0
+    eslint-config-prettier: 8.5.0
+    eslint-plugin-import: 2.26.0
     eslint-plugin-prettier: 4.2.1
-    express: ^4.17.2
-    jest: ^28.1.3
-    jest-environment-jsdom: ^28.1.3
-    jest-mock: ^28.1.1
-    jsdom: ^19.0.0
-    marked: ^4.0.12
-    nano: ^10.0.0
-    nodemon: ^2.0.15
-    sass: ^1.50.0
+    express: 4.18.1
+    jest: 28.1.3
+    jest-environment-jsdom: 28.1.3
+    jest-mock: 28.1.1
+    jsdom: 19.0.0
+    marked: 4.0.16
+    nano: 10.0.0
+    nodemon: 2.0.16
+    sass: 1.52.3
     sqlite: 4.1.2
     sqlite3: 5.0.11
-    ts-jest: ^28.0.7
-    ts-node: ^10.5.0
-    typescript: ^4.5.5
-    winston: ^3.8.1
+    ts-jest: 28.0.7
+    ts-node: 10.8.1
+    typescript: 4.7.3
+    winston: 3.8.1
   languageName: unknown
   linkType: soft
 
@@ -6166,7 +6166,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-airbnb-typescript@npm:^17.0.0":
+"eslint-config-airbnb-typescript@npm:17.0.0":
   version: 17.0.0
   resolution: "eslint-config-airbnb-typescript@npm:17.0.0"
   dependencies:
@@ -6180,7 +6180,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-airbnb@npm:^19.0.4":
+"eslint-config-airbnb@npm:19.0.4":
   version: 19.0.4
   resolution: "eslint-config-airbnb@npm:19.0.4"
   dependencies:
@@ -6197,7 +6197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.5.0":
+"eslint-config-prettier@npm:8.5.0":
   version: 8.5.0
   resolution: "eslint-config-prettier@npm:8.5.0"
   peerDependencies:
@@ -6228,7 +6228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.26.0":
+"eslint-plugin-import@npm:2.26.0":
   version: 2.26.0
   resolution: "eslint-plugin-import@npm:2.26.0"
   dependencies:
@@ -6559,7 +6559,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:^4.17.2":
+"express@npm:4.18.1":
   version: 4.18.1
   resolution: "express@npm:4.18.1"
   dependencies:
@@ -8841,7 +8841,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-environment-jsdom@npm:^28.1.3":
+"jest-environment-jsdom@npm:28.1.3":
   version: 28.1.3
   resolution: "jest-environment-jsdom@npm:28.1.3"
   dependencies:
@@ -8959,7 +8959,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-mock@npm:^28.1.1":
+"jest-mock@npm:28.1.1":
   version: 28.1.1
   resolution: "jest-mock@npm:28.1.1"
   dependencies:
@@ -9170,7 +9170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^28.1.3":
+"jest@npm:28.1.3":
   version: 28.1.3
   resolution: "jest@npm:28.1.3"
   dependencies:
@@ -9294,6 +9294,46 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsdom@npm:19.0.0, jsdom@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "jsdom@npm:19.0.0"
+  dependencies:
+    abab: ^2.0.5
+    acorn: ^8.5.0
+    acorn-globals: ^6.0.0
+    cssom: ^0.5.0
+    cssstyle: ^2.3.0
+    data-urls: ^3.0.1
+    decimal.js: ^10.3.1
+    domexception: ^4.0.0
+    escodegen: ^2.0.0
+    form-data: ^4.0.0
+    html-encoding-sniffer: ^3.0.0
+    http-proxy-agent: ^5.0.0
+    https-proxy-agent: ^5.0.0
+    is-potential-custom-element-name: ^1.0.1
+    nwsapi: ^2.2.0
+    parse5: 6.0.1
+    saxes: ^5.0.1
+    symbol-tree: ^3.2.4
+    tough-cookie: ^4.0.0
+    w3c-hr-time: ^1.0.2
+    w3c-xmlserializer: ^3.0.0
+    webidl-conversions: ^7.0.0
+    whatwg-encoding: ^2.0.0
+    whatwg-mimetype: ^3.0.0
+    whatwg-url: ^10.0.0
+    ws: ^8.2.3
+    xml-name-validator: ^4.0.0
+  peerDependencies:
+    canvas: ^2.5.0
+  peerDependenciesMeta:
+    canvas:
+      optional: true
+  checksum: 94b693bf4a394097dd96705550bb7b6cd3c8db3c5414e6e9c92a0995ed8b61067597da2f37fca6bed4b5a2f1ef33960ee759522156dccd0b306311988ea87cfb
+  languageName: node
+  linkType: hard
+
 "jsdom@npm:^11.0.0":
   version: 11.12.0
   resolution: "jsdom@npm:11.12.0"
@@ -9365,46 +9405,6 @@ __metadata:
     canvas:
       optional: true
   checksum: 3273861aac93cb92499f58400a32ad95c07dc86c9e127c230e7ea7466fbb0d6a7185e1dbd525897527385f8c6f8f23c49b72f8d954878e4356bc7547433656fd
-  languageName: node
-  linkType: hard
-
-"jsdom@npm:^19.0.0":
-  version: 19.0.0
-  resolution: "jsdom@npm:19.0.0"
-  dependencies:
-    abab: ^2.0.5
-    acorn: ^8.5.0
-    acorn-globals: ^6.0.0
-    cssom: ^0.5.0
-    cssstyle: ^2.3.0
-    data-urls: ^3.0.1
-    decimal.js: ^10.3.1
-    domexception: ^4.0.0
-    escodegen: ^2.0.0
-    form-data: ^4.0.0
-    html-encoding-sniffer: ^3.0.0
-    http-proxy-agent: ^5.0.0
-    https-proxy-agent: ^5.0.0
-    is-potential-custom-element-name: ^1.0.1
-    nwsapi: ^2.2.0
-    parse5: 6.0.1
-    saxes: ^5.0.1
-    symbol-tree: ^3.2.4
-    tough-cookie: ^4.0.0
-    w3c-hr-time: ^1.0.2
-    w3c-xmlserializer: ^3.0.0
-    webidl-conversions: ^7.0.0
-    whatwg-encoding: ^2.0.0
-    whatwg-mimetype: ^3.0.0
-    whatwg-url: ^10.0.0
-    ws: ^8.2.3
-    xml-name-validator: ^4.0.0
-  peerDependencies:
-    canvas: ^2.5.0
-  peerDependenciesMeta:
-    canvas:
-      optional: true
-  checksum: 94b693bf4a394097dd96705550bb7b6cd3c8db3c5414e6e9c92a0995ed8b61067597da2f37fca6bed4b5a2f1ef33960ee759522156dccd0b306311988ea87cfb
   languageName: node
   linkType: hard
 
@@ -10118,7 +10118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.0.12":
+"marked@npm:4.0.16":
   version: 4.0.16
   resolution: "marked@npm:4.0.16"
   bin:
@@ -10513,7 +10513,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nano@npm:^10.0.0":
+"nano@npm:10.0.0":
   version: 10.0.0
   resolution: "nano@npm:10.0.0"
   dependencies:
@@ -10666,7 +10666,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemon@npm:^2.0.15":
+"nodemon@npm:2.0.16":
   version: 2.0.16
   resolution: "nodemon@npm:2.0.16"
   dependencies:
@@ -12440,7 +12440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.50.0":
+"sass@npm:1.52.3":
   version: 1.52.3
   resolution: "sass@npm:1.52.3"
   dependencies:
@@ -13647,7 +13647,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.7":
+"ts-jest@npm:28.0.7":
   version: 28.0.7
   resolution: "ts-jest@npm:28.0.7"
   dependencies:
@@ -13680,7 +13680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.5.0":
+"ts-node@npm:10.8.1":
   version: 10.8.1
   resolution: "ts-node@npm:10.8.1"
   dependencies:
@@ -13888,7 +13888,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.5.5":
+"typescript@npm:4.7.3":
   version: 4.7.3
   resolution: "typescript@npm:4.7.3"
   bin:
@@ -13898,7 +13898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.5.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.7.3#~builtin<compat/typescript>":
   version: 4.7.3
   resolution: "typescript@patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=bda367"
   bin:
@@ -14987,7 +14987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"winston@npm:^3.8.1":
+"winston@npm:3.8.1":
   version: 3.8.1
   resolution: "winston@npm:3.8.1"
   dependencies:
