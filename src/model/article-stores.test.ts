@@ -43,7 +43,6 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const stored = await articleStore.storeArticle({
         doi: 'test/article.1',
-        xml: '<article><article-title>Test article 1</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 1</h1></article>',
         document: `{
           "title":"Test Article 1",
@@ -130,7 +129,6 @@ describe('article-stores', () => {
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
       expect(article.content).toStrictEqual('[]');
-      expect(article.xml).toStrictEqual('<article><article-title>Test article 2</article-title></article>');
       expect(article.html).toStrictEqual('<article><h1 itemprop="headline">Test article 2</h1></article>');
       expect(article.document).toStrictEqual(exampleArticleJson);
     });

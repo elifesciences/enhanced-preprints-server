@@ -1,6 +1,5 @@
 CREATE TABLE articles (
     doi TEXT NOT NULL PRIMARY KEY,
-    xml TEXT NOT NULL,
     html TEXT NOT NULL,
     document TEXT NOT NULL,
     title TEXT NOT NULL,

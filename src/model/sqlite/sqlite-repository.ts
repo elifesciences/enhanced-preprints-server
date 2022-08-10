@@ -14,7 +14,6 @@ import { Content } from '../content';
 const sqlStatements = {
   insertArticle: `INSERT OR IGNORE INTO articles (
     doi,
-    xml,
     html,
     document,
     title,
@@ -24,7 +23,7 @@ const sqlStatements = {
     licenses,
     headings,
     content
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   getArticle: 'SELECT * FROM articles WHERE doi = ?',
   getArticleSummary: `
     SELECT
@@ -48,7 +47,6 @@ class SqliteArticleRepository implements ArticleRepository {
       sqlStatements.insertArticle,
       [
         article.doi,
-        article.xml,
         article.html,
         article.document,
         JSON.stringify(article.title),

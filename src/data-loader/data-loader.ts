@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 import { JSDOM } from 'jsdom';
 import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
@@ -72,7 +72,6 @@ const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string =
 };
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
-  const xml = readFileSync(file).toString();
   const html = await convertJatsToHtml(file);
   const json = await convertJatsToJson(file);
   const articleStruct = JSON.parse(json) as ArticleStruct;
@@ -86,7 +85,6 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
 
   return {
     doi,
-    xml,
     html: content,
     document: json,
   };
