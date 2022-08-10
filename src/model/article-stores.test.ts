@@ -61,14 +61,6 @@ describe('article-stores', () => {
       const article = {
         doi: 'test/article.1',
         html: '<article></article>',
-        document: `{
-          "title":"Test Article 1",
-          "datePublished":{"value": "2008-01-03"},
-          "description": "Test article 1 abstract",
-          "authors": ${JSON.stringify(exampleAuthors)},
-          "licenses": ${JSON.stringify(exampleLicenses)},
-          "content":[]
-        }`,
         title: 'Test Article 1',
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
