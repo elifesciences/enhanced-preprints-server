@@ -56,7 +56,7 @@ describe('article-stores', () => {
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
         date: new Date('2008-01-03'),
-        content: '<article></article>',
+        content: [],
         licenses: exampleLicenses,
         headings: [],
       });
@@ -68,7 +68,6 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const article = {
         doi: 'test/article.1',
-        xml: '<article></article>',
         html: '<article></article>',
         document: `{
           "title":"Test Article 1",
@@ -112,7 +111,7 @@ describe('article-stores', () => {
         abstract: 'Test article 2 abstract',
         date: new Date('2008-02-03'),
         authors: exampleAuthors,
-        content: '[]',
+        content: [],
         licenses: exampleLicenses,
         headings: [],
       };
@@ -128,7 +127,7 @@ describe('article-stores', () => {
       expect(article.date).toStrictEqual(new Date('2008-02-03'));
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
-      expect(article.content).toStrictEqual('[]');
+      expect(article.content).toStrictEqual([]);
       expect(article.html).toStrictEqual('<article><h1 itemprop="headline">Test article 2</h1></article>');
       expect(article.document).toStrictEqual(exampleArticleJson);
     });
