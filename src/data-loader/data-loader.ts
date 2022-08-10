@@ -146,7 +146,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     authors,
     abstract,
     licenses,
-    content: extractArticleHtmlWithoutHeader(JSDOM.fragment(article.html)),
+    content: articleStruct.content,
     headings: extractHeadings(articleStruct.content),
   };
 };

@@ -56,7 +56,7 @@ describe('article-stores', () => {
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
         date: new Date('2008-01-03'),
-        content: '<article></article>',
+        content: [],
         licenses: exampleLicenses,
         headings: [],
       });
@@ -68,7 +68,6 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const article = {
         doi: 'test/article.1',
-        xml: '<article></article>',
         html: '<article></article>',
         document: `{
           "title":"Test Article 1",
@@ -105,14 +104,13 @@ describe('article-stores', () => {
       }`;
       const exampleArticle = {
         doi: 'test/article.2',
-        xml: '<article><article-title>Test article 2</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 2</h1></article>',
         document: exampleArticleJson,
         title: 'Test Article 2',
         abstract: 'Test article 2 abstract',
         date: new Date('2008-02-03'),
         authors: exampleAuthors,
-        content: '[]',
+        content: [],
         licenses: exampleLicenses,
         headings: [],
       };
@@ -128,7 +126,7 @@ describe('article-stores', () => {
       expect(article.date).toStrictEqual(new Date('2008-02-03'));
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
-      expect(article.content).toStrictEqual('[]');
+      expect(article.content).toStrictEqual([]);
       expect(article.html).toStrictEqual('<article><h1 itemprop="headline">Test article 2</h1></article>');
       expect(article.document).toStrictEqual(exampleArticleJson);
     });
@@ -142,7 +140,6 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const exampleArticle1 = {
         doi: 'test/article.4',
-        xml: '<article><article-title>Test article 4</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 4</h1></article>',
         document: `{
           "title":"Test Article 4",
@@ -162,7 +159,6 @@ describe('article-stores', () => {
       };
       const exampleArticle2 = {
         doi: 'test/article.5',
-        xml: '<article><article-title>Test article 5</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 5</h1></article>',
         document: `{
           "title":"Test Article 5",
@@ -182,7 +178,6 @@ describe('article-stores', () => {
       };
       const exampleArticle3 = {
         doi: 'test/article.6',
-        xml: '<article><article-title>Test article 6</article-title></article>',
         html: '<article><h1 itemprop="headline">Test article 6</h1></article>',
         document: `{
           "title":"Test Article 6",

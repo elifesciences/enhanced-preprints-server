@@ -55,7 +55,7 @@ class SqliteArticleRepository implements ArticleRepository {
         JSON.stringify(article.authors),
         JSON.stringify(article.licenses),
         JSON.stringify(article.headings),
-        article.content,
+        JSON.stringify(article.content),
       ],
     );
     return result.changes === 1;
@@ -75,6 +75,7 @@ class SqliteArticleRepository implements ArticleRepository {
     article.licenses = JSON.parse(article.licenses) as License[];
     article.authors = JSON.parse(article.authors) as Author[];
     article.headings = JSON.parse(article.headings) as Heading[];
+    article.content = JSON.parse(article.content) as Content;
     return article;
   }
 
