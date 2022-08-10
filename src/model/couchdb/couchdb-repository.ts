@@ -44,11 +44,10 @@ class CouchDBArticleRepository implements ArticleRepository {
       return false;
     }
 
-    const xmlResponse = await this.documentScope.attachment.insert(article.doi, 'xml', article.xml, 'application/xml', { rev: response.rev });
-    const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: xmlResponse.rev });
+    const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: response.rev });
     const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
 
-    return xmlResponse.ok && jsonResponse.ok && htmlResponse.ok;
+    return jsonResponse.ok && htmlResponse.ok;
   }
 
   async getArticle(doi: Doi): Promise<ProcessedArticle> {
@@ -58,12 +57,10 @@ class CouchDBArticleRepository implements ArticleRepository {
     }
 
     const html = Buffer.from(article._attachments.html.data, 'base64').toString('utf-8');
-    const xml = Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8');
 
     return {
       ...article,
       date: new Date(article.date),
-      xml,
       html,
     };
   }

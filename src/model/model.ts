@@ -2,12 +2,10 @@ import { Content } from './content';
 
 export type Doi = string;
 
-export type ArticleXML = string;
 export type ArticleDocument = string;
 export type ArticleHTML = string;
 export type ArticleContent = {
   doi: Doi
-  xml: ArticleXML,
   document: ArticleDocument,
   html: ArticleHTML,
 };
