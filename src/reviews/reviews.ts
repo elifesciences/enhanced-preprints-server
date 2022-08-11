@@ -48,9 +48,9 @@ export const generateReviewPage = (article: EnhancedArticle, noHeader: boolean):
     return wrapWithHtml(editorsAndReviewers(), '<li class="review-list__item"><article class="review-list-content">No reviews found</article></li>', article, noHeader);
   }
 
-  const reviewListItems = article.peerReview.reviews.map((review, index) => `<li class="review-list__item"><article class="review-list-content" id="review-${index + 1}">${marked.parse(review.text)}</article></li>`);
+  const reviewListItems = article.peerReview.reviews.map((review, index) => `<li class="review-list__item"><article class="review-list-content" id="review-${index + 1}" data-jump-menu-target>${marked.parse(review.text)}</article></li>`);
   if (article.peerReview.authorResponse) {
-    reviewListItems.push(`<li class="review-list__item"><article class="review-list-content" id="author-response">${marked.parse(article.peerReview.authorResponse.text)}</article></li>`);
+    reviewListItems.push(`<li class="review-list__item"><article class="review-list-content" id="author-response" data-jump-menu-target>${marked.parse(article.peerReview.authorResponse.text)}</article></li>`);
   }
 
   return wrapWithHtml(editorsAndReviewers(), reviewListItems.join(''), article, noHeader);

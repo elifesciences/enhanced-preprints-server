@@ -1,6 +1,6 @@
 export const reviewSummary = `
 <div class="summary">
-  <h2 class="summary-title" id="evaluation-summary">Evaluation summary</h2>
+  <h2 class="summary-title" id="evaluation-summary" data-jump-menu-target>Evaluation summary</h2>
   <p class="summary-text">
     This is a <span class="summary-text__highlight">landmark</span> paper and a <span class="summary-text__highlight">tour-de-force</span> that ties together decades of advances in electron microscopy
     to produce a dataset of both breadth and extreme technical quality whose very existence will have profound
