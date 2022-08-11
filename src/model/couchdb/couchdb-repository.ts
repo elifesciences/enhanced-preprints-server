@@ -8,7 +8,6 @@ import {
   ArticleSummary,
   ArticleTitle,
   ArticleAbstract,
-  ArticleDocument,
   License,
   Heading,
   Author,
@@ -17,7 +16,6 @@ import {
 type StoredArticle = {
   _id: string,
   doi: string,
-  document: ArticleDocument,
   title: ArticleTitle,
   date: Date,
   authors: Author[],
@@ -37,18 +35,23 @@ class CouchDBArticleRepository implements ArticleRepository {
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
     const response = await this.documentScope.insert({
       _id: article.doi,
-      ...article,
+      title: article.title,
+      abstract: article.abstract,
+      authors: article.authors,
+      content: article.content,
+      date: article.date,
+      doi: article.doi,
+      headings: article.headings,
+      licenses: article.licenses,
     });
 
     if (!response.ok) {
       return false;
     }
 
-    const xmlResponse = await this.documentScope.attachment.insert(article.doi, 'xml', article.xml, 'application/xml', { rev: response.rev });
-    const jsonResponse = await this.documentScope.attachment.insert(article.doi, 'json', article.document, 'application/json', { rev: xmlResponse.rev });
-    const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: jsonResponse.rev });
+    const htmlResponse = await this.documentScope.attachment.insert(article.doi, 'html', article.html, 'text/html', { rev: response.rev });
 
-    return xmlResponse.ok && jsonResponse.ok && htmlResponse.ok;
+    return htmlResponse.ok;
   }
 
   async getArticle(doi: Doi): Promise<ProcessedArticle> {
@@ -58,12 +61,10 @@ class CouchDBArticleRepository implements ArticleRepository {
     }
 
     const html = Buffer.from(article._attachments.html.data, 'base64').toString('utf-8');
-    const xml = Buffer.from(article._attachments.xml.data, 'base64').toString('utf-8');
 
     return {
       ...article,
       date: new Date(article.date),
-      xml,
       html,
     };
   }

@@ -1,7 +1,6 @@
 import {
   existsSync,
   readdirSync,
-  readFileSync,
   realpathSync,
 } from 'fs';
 import { JSDOM } from 'jsdom';
@@ -78,7 +77,6 @@ const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string =
 };
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
-  const xml = readFileSync(file).toString();
   const html = await convertJatsToHtml(file);
   const json = await convertJatsToJson(file);
   const articleStruct = JSON.parse(json) as ArticleStruct;
@@ -96,7 +94,6 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
 
   return {
     doi,
-    xml,
     html: content,
     document: correctedJson,
   };
@@ -158,7 +155,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     authors,
     abstract,
     licenses,
-    content: extractArticleHtmlWithoutHeader(JSDOM.fragment(article.html)),
+    content: articleStruct.content,
     headings: extractHeadings(articleStruct.content),
   };
 };
