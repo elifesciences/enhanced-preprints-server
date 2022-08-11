@@ -61,14 +61,14 @@ const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string =
   const articleElement = articleDom.children[0];
 
   // label the abstract with an id
-  const abstractHeading = articleDom.querySelector('article > [data-itemprop="description"] > h2[data-itemtype="http://schema.stenci.la/Heading"]');
+  const abstractHeading = articleDom.querySelector('article > [data-itemprop="description"] > h2[data-itemtype="https://schema.stenci.la/Heading"]');
   abstractHeading?.setAttribute('id', 'abstract');
 
   // extract all HTML elements after [data-itemprop="identifiers"] (the last of the "header" elements)
-  const articleHtml = Array.from(articleElement.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
+  const articleHtml = Array.from(articleElement.querySelectorAll('[data-prop="identifiers"] ~ *'))
     .reduce((prev, current) => prev.concat(current.outerHTML), '');
 
-  return `<article itemtype="http://schema.org/Article">${articleHtml}</article>`;
+  return `<article itemtype="https://schema.org/Article">${articleHtml}</article>`;
 };
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {

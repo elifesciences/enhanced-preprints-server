@@ -25,7 +25,7 @@ describe('encode', () => {
     it('converts JATS to HTML that contains an Abstract heading', async () => {
       const html = await convertJatsToHtml('test-utils/jats-examples/example.xml');
       const articleDom = JSDOM.fragment(html);
-      const abstractHeading = articleDom.querySelector('article > [data-itemprop="description"] > h2[data-itemtype="http://schema.stenci.la/Heading"]');
+      const abstractHeading = articleDom.querySelector('article > [data-itemprop="description"] > h2[data-itemtype="https://schema.stenci.la/Heading"]');
       expect(abstractHeading).not.toBeNull();
       expect(abstractHeading?.textContent).toBe('Abstract');
     });
@@ -33,7 +33,7 @@ describe('encode', () => {
     it('converts JATS to HTML with article body after the identifiers HTML', async () => {
       const html = await convertJatsToHtml('test-utils/jats-examples/example.xml');
       const articleDom = JSDOM.fragment(html);
-      const articleText = Array.from(articleDom.querySelectorAll('[data-itemprop="identifiers"] ~ *'))
+      const articleText = Array.from(articleDom.querySelectorAll('[data-prop="identifiers"] ~ *'))
         .map((element) => element?.textContent ?? '')
         .filter((line) => line.trim());
 
@@ -44,7 +44,7 @@ describe('encode', () => {
     it('converts JATS to HTML and expects headers to have a itemtype attribute', async () => {
       const html = await convertJatsToHtml('test-utils/jats-examples/example.xml');
       const articleDom = JSDOM.fragment(html);
-      const articleText = articleDom.querySelector('[itemtype="http://schema.stenci.la/Heading"]');
+      const articleText = articleDom.querySelector('[itemtype="https://schema.stenci.la/Heading"]');
 
       expect(articleText?.textContent).toBe('Introduction');
     });
