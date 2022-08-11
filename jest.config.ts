@@ -6,7 +6,7 @@
 export default {
 
   preset: 'ts-jest',
-  testEnvironment: 'jsdom',
+  testEnvironment: 'node',
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
