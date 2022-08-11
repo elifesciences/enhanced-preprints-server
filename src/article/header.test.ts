@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { within } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import { header } from './header';

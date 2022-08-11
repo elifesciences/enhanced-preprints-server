@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { screen } from '@testing-library/dom';
 import { Heading } from '../model/model';
 import { jumpToMenu } from './jump-menu';
