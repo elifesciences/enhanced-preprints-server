@@ -13,6 +13,8 @@ import {
   ArticleContent,
 } from '../model/model';
 import { Content, HeadingContent } from '../model/content';
+import { logger } from '../utils/logger';
+import { config } from '../config';
 
 // type related to the JSON output of encoda
 type Address = {
@@ -77,25 +79,30 @@ const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string =
 };
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
-  const html = await convertJatsToHtml(file);
-  const json = await convertJatsToJson(file);
+  let html = await convertJatsToHtml(file, !config.iiifServer);
+  let json = await convertJatsToJson(file);
   const articleStruct = JSON.parse(json) as ArticleStruct;
 
   // extract DOI
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
   const doi = dois[0].value;
 
-  // HACK: replace all locally referenced files with a relative URL path
-  const correctedJson = json.replaceAll(dirname(realpathSync(file)), `/article/${doi}/attachment`);
-  const correctedHtml = html.replaceAll(dirname(realpathSync(file)), `/article/${doi}/attachment`);
+  // HACK: if we have a configured IIIF server, replace all locally referenced files with a relative URL path to the
+  // IIIF-redirect endpoint
+  if (config.iiifServer) {
+    const articleDir = dirname(realpathSync(file));
+    logger.debug(`replacing ${articleDir} in JSON and HTML with /article/${doi}/attachment for IIIF server`);
+    json = json.replaceAll(articleDir, `/article/${doi}/attachment`);
+    html = html.replaceAll(articleDir, `/article/${doi}/attachment`);
+  }
 
   // extract HTML content without header
-  const content = extractArticleHtmlWithoutHeader(JSDOM.fragment(correctedHtml));
+  const content = extractArticleHtmlWithoutHeader(JSDOM.fragment(html));
 
   return {
     doi,
     html: content,
-    document: correctedJson,
+    document: json,
   };
 };
 

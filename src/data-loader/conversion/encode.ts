@@ -2,7 +2,7 @@ import { convert } from '@stencila/encoda';
 
 export type PreprintXmlFile = string;
 
-export const convertJatsToHtml = async (file: PreprintXmlFile): Promise<string> => {
+export const convertJatsToHtml = async (file: PreprintXmlFile, bundleResources: boolean): Promise<string> => {
   const converted = await convert(
     file,
     undefined, // require undefined to return html, causes console output
@@ -11,7 +11,7 @@ export const convertJatsToHtml = async (file: PreprintXmlFile): Promise<string> 
       to: 'html',
       encodeOptions: {
         isStandalone: false,
-        isBundle: false,
+        isBundle: bundleResources,
       },
     },
   );
