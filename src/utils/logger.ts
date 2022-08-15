@@ -1,6 +1,8 @@
 import winston from 'winston';
 
-winston.add(new winston.transports.Console());
+const transport = new winston.transports.Console();
+transport.level = 'debug';
+winston.add(transport);
 winston.format.combine(
   winston.format.json(),
   winston.format.colorize(),
