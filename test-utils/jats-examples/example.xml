@@ -119,6 +119,12 @@
         <sec id="s1" sec-type="intro">
             <title>Introduction</title>
             <p>This is a simple article body</p>
+            <fig id="fig1" fig-type="figure">
+                <object-id pub-id-type="publisher-id">fig1</object-id>
+                <label>Figure 1.</label>
+                <caption hwp:id="caption-1"><p>This is an image</p></caption>
+                <graphic xlink:href="fig1" hwp:id="graphic-1"/>
+            </fig>
         </sec>
     </body>
 </article>
