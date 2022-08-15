@@ -2,11 +2,13 @@ import { createInMemoryArticleRepository } from './in-memory/in-memory-repositor
 import { ArticleRepository } from './model';
 import { createSqliteArticleRepository } from './sqlite/sqlite-repository';
 import { createCouchDBArticleRepository } from './couchdb/couchdb-repository';
+import { createMongoDBArticleRepository } from './mongodb/mongodb-repository';
 
 export enum StoreType {
   InMemory = 'InMemory',
   Sqlite = 'Sqlite',
   CouchDB = 'CouchDB',
+  MongoDB = 'MongoDB',
 }
 
 export const createArticleRepository = async (kind: StoreType, connectionString = '', username = '', password = ''): Promise<ArticleRepository> => {
@@ -15,6 +17,8 @@ export const createArticleRepository = async (kind: StoreType, connectionString 
       return createSqliteArticleRepository(connectionString);
     case StoreType.CouchDB:
       return createCouchDBArticleRepository(connectionString, username, password);
+    case StoreType.MongoDB:
+      return createMongoDBArticleRepository(connectionString);
     case StoreType.InMemory:
     default:
       return createInMemoryArticleRepository();

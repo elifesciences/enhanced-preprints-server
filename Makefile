@@ -19,5 +19,8 @@ watch-couchdb: node_modules public/styles.css
 watch-sqlite: node_modules public/styles.css
 	@docker-compose --profile sqlite up
 
+watch-mongodb: node_modules public/styles.css
+	@docker-compose --profile mongodb up
+
 stop:
 	@-docker stop epp-watch
