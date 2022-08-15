@@ -15,7 +15,7 @@
     "@types/jest": "27.5.2",
     "@types/jsdom": "16.2.15",
     "@types/marked": "4.0.3",
-    "@types/node": "16.11.48",
+    "@types/node": "16.11.49",
     "@types/sqlite3": "3.1.8",
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
