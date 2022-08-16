@@ -79,8 +79,10 @@ const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string =
 };
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
-  let html = await convertJatsToHtml(file, !config.iiifServer);
-  let json = await convertJatsToJson(file);
+  // resolve path so that we can search for filenames reliable once encoda has converted the source
+  const realFile = realpathSync(file);
+  let html = await convertJatsToHtml(realFile, !config.iiifServer);
+  let json = await convertJatsToJson(realFile);
   const articleStruct = JSON.parse(json) as ArticleStruct;
 
   // extract DOI
@@ -90,7 +92,7 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   // HACK: if we have a configured IIIF server, replace all locally referenced files with a relative URL path to the
   // IIIF-redirect endpoint
   if (config.iiifServer) {
-    const articleDir = dirname(realpathSync(file));
+    const articleDir = dirname(realFile);
     logger.debug(`replacing ${articleDir} in JSON and HTML with /article/${doi}/attachment for IIIF server`);
     json = json.replaceAll(articleDir, `/article/${doi}/attachment`);
     html = html.replaceAll(articleDir, `/article/${doi}/attachment`);
