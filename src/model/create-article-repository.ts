@@ -18,7 +18,7 @@ export const createArticleRepository = async (kind: StoreType, connectionString 
     case StoreType.CouchDB:
       return createCouchDBArticleRepository(connectionString, username, password);
     case StoreType.MongoDB:
-      return createMongoDBArticleRepository(connectionString);
+      return createMongoDBArticleRepository(connectionString, username, password);
     case StoreType.InMemory:
     default:
       return createInMemoryArticleRepository();
