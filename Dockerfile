@@ -15,6 +15,7 @@ COPY package.json package.json
 COPY yarn.lock yarn.lock
 COPY .yarnrc.yml .yarnrc.yml
 COPY .yarn/releases .yarn/releases
+COPY .yarn/patches .yarn/patches
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN yarn

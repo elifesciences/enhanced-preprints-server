@@ -15,10 +15,10 @@
     "@types/jest": "27.5.2",
     "@types/jsdom": "16.2.15",
     "@types/marked": "4.0.3",
-    "@types/node": "16.11.48",
+    "@types/node": "16.11.49",
     "@types/sqlite3": "3.1.8",
-    "@typescript-eslint/eslint-plugin": "5.33.0",
-    "@typescript-eslint/parser": "5.33.0",
+    "@typescript-eslint/eslint-plugin": "5.33.1",
+    "@typescript-eslint/parser": "5.33.1",
     "eslint": "8.22.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.0.0",
@@ -41,7 +41,7 @@
     "express": "4.18.1",
     "jsdom": "19.0.0",
     "marked": "4.0.18",
-    "mongodb": "^4.8.1",
+    "mongodb": "4.8.1",
     "nano": "10.0.0",
     "sqlite": "4.1.2",
     "sqlite3": "5.0.11",
@@ -57,5 +57,8 @@
     "docker-build": "docker build . -t epp-node",
     "docker-start": "docker run --rm -p 3000:3000 epp-node:latest"
   },
-  "packageManager": "yarn@3.2.2"
+  "packageManager": "yarn@3.2.2",
+  "resolutions": {
+    "@stencila/encoda@0.119.2": "patch:@stencila/encoda@npm:0.119.2#.yarn/patches/@stencila-encoda-npm-0.119.2-aa9b3f50d7.patch"
+  }
 }
