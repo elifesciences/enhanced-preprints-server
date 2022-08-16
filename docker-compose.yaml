@@ -121,6 +121,21 @@ services:
     volumes:
       - mongodb-data:/home/couchdb/data
 
+  mongo-express:
+    profiles:
+      - mongodb
+    image: mongo-express
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=dracula
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=testtest
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+
 volumes:
   sqlite-data:
   couchdb-data:
