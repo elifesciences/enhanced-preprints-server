@@ -75,8 +75,9 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 }
 
-export const createMongoDBArticleRepository = async (connectionString: string) => {
-  const client = new MongoClient(connectionString);
+export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => {
+  const connectionUrl = `mongodb://${username}:${password}@${host}`;
+  const client = new MongoClient(connectionUrl);
 
   const collection = client.db('epp').collection<StoredArticle>('articles');
 
