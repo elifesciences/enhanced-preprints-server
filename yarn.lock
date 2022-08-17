@@ -2918,10 +2918,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked@npm:4.0.3":
-  version: 4.0.3
-  resolution: "@types/marked@npm:4.0.3"
-  checksum: 2fc409a6291cb770688731a444f54e7eab6257c9b565dea4e9d2f3b6654b606e9dd8ea4a924e306b2d2f581dedcb7a27f10f2ca7aed828b11642ab85955341f1
+"@types/marked@npm:4.0.4":
+  version: 4.0.4
+  resolution: "@types/marked@npm:4.0.4"
+  checksum: ebb08956679ad18077d37e039648ba7966faf6b6d067b06e5262ce58b5b628f7b2a60761c359400091b638b8e0d1223b7033f83dd697ba335768d9e393bced4a
   languageName: node
   linkType: hard
 
@@ -5929,7 +5929,7 @@ __metadata:
     "@types/express": 4.17.13
     "@types/jest": 27.5.2
     "@types/jsdom": 16.2.15
-    "@types/marked": 4.0.3
+    "@types/marked": 4.0.4
     "@types/node": 16.11.49
     "@types/sqlite3": 3.1.8
     "@typescript-eslint/eslint-plugin": 5.33.1
