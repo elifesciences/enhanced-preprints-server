@@ -74,6 +74,36 @@
   content: " … ";
 }
 
+
+#content-header__authors__showall {
+  display: none;
+}
+#content-header__authors__showall:not(:checked) ~ label .content-header__authors .person:not(:nth-child(1)):not(:nth-child(2)):not(:last-child) {
+  position: absolute;
+  left: -9999px;
+  max-height: 0px;
+  overflow: hidden;
+  opacity: 0;
+  counter-increment: hidden-authors;
+}
+#content-header__authors__showall:not(:checked) ~ label .content-header__authors .person:nth-child(2) {
+  &:after {
+    content: " … ";
+  }
+}
+.content-header__authors {
+  @include typography.author-list-more-text();
+  cursor: pointer;
+}
+
+#content-header__authors__showall:checked ~ label .content-header__authors:after {
+  content: " show less";
+}
+
+#content-header__authors__showall:not(:checked) ~ label .content-header__authors:after {
+  content: " + " counter(hidden-authors) " more";
+}
+
 .content-header__affiliations {
   margin: 16px 0;
 }
