@@ -16,11 +16,11 @@ export const header = (article: ProcessedArticle): string => {
     ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
     <input type="checkbox" id="content-header__authors__showall">
-    <label for="content-header__authors__showall">
     <ol class="content-header__authors">
       ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
+      <li class="content-header__authors__showall-label"><label for="content-header__authors__showall"></label></li>
     </ol>
-    </label>
+
 
     <ol class="content-header__affiliations">
       ${uniqueOrganisationListItems.join('')}

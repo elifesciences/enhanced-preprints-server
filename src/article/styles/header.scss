@@ -66,7 +66,7 @@
     content: ", ";
   }
 
-  &:last-child:after {
+  &:nth-last-child(2):after {
     content: "";
   }
 }
@@ -78,7 +78,7 @@
 #content-header__authors__showall {
   display: none;
 }
-#content-header__authors__showall:not(:checked) ~ label .content-header__authors .person:not(:nth-child(1)):not(:nth-child(2)):not(:last-child) {
+#content-header__authors__showall:not(:checked) ~ .content-header__authors .person:not(:nth-child(1)):not(:nth-child(2)):not(:nth-last-child(2)) {
   position: absolute;
   left: -9999px;
   max-height: 0px;
@@ -86,21 +86,24 @@
   opacity: 0;
   counter-increment: hidden-authors;
 }
-#content-header__authors__showall:not(:checked) ~ label .content-header__authors .person:nth-child(2) {
+#content-header__authors__showall:not(:checked) ~ .content-header__authors .person:nth-child(2) {
   &:after {
     content: " … ";
   }
 }
-.content-header__authors {
+.content-header__authors__showall-label {
+  display: inline;
+}
+label[for=content-header__authors__showall]  {
   @include typography.author-list-more-text();
   cursor: pointer;
 }
 
-#content-header__authors__showall:checked ~ label .content-header__authors:after {
+#content-header__authors__showall:checked ~ .content-header__authors label[for=content-header__authors__showall]:after {
   content: " show less";
 }
 
-#content-header__authors__showall:not(:checked) ~ label .content-header__authors:after {
+#content-header__authors__showall:not(:checked) ~ .content-header__authors label[for=content-header__authors__showall]:after {
   content: " + " counter(hidden-authors) " more";
 }
 
