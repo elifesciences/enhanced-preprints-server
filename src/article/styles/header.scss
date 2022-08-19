@@ -38,21 +38,17 @@
   margin-top: 0;
 }
 
+.content-header-authors {
+  margin: 16 0;
+}
 .content-header-authors--list {
+  counter-reset: hidden-authors 0;
+  display: inline;
   list-style: none;
   padding: 0;
 }
 
-.content-header__authors[open] .content-header__authors--summary {
-  display: none;
-}
-.content-header__authors--list {
-  display: inline;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.person {
+.content-header-authors--author {
   @include typography.author-list-text();
   display: inline;
 
@@ -64,15 +60,11 @@
     content: "";
   }
 }
-.content-header__authors--summary .person:nth-child(9):after {
-  content: " … ";
-}
-
 
 .content-header-authors--showall-control {
   display: none;
 }
-.content-header-authors--showall-control:not(:checked) ~ .content-header-authors--list .person:not(:nth-child(1)):not(:nth-child(2)):not(:last-child) {
+.content-header-authors--showall-control:not(:checked) ~ .content-header-authors--list .content-header-authors--author:not(:nth-child(1)):not(:nth-child(2)):not(:last-child) {
   position: absolute;
   left: -9999px;
   max-height: 0px;
@@ -80,7 +72,7 @@
   opacity: 0;
   counter-increment: hidden-authors;
 }
-.content-header-authors--showall-control:not(:checked) ~ .content-header-authors--list .person:nth-child(2):after {
+.content-header-authors--showall-control:not(:checked) ~ .content-header-authors--list .content-header-authors--author:nth-child(2):after {
   content: " … ";
 }
 .content-header-authors--showall-label  {
@@ -88,15 +80,14 @@
   cursor: pointer;
   display: inline;
 }
-
 .content-header-authors--showall-control:checked ~ .content-header-authors--showall-label:after {
-  content: " show less ";
+  content: "";
 }
-
 .content-header-authors--showall-control:not(:checked) ~ .content-header-authors--showall-label:after {
-  content: " + " counter(hidden-authors) " more";
+  content: " + " counter(hidden-authors) " more.";
 }
 
+<<<<<<< HEAD
 .content-header__affiliations {
   margin: 16px 0;
 }
@@ -112,13 +103,20 @@
   display: none;
 }
 .content-header__affiliations--list {
+=======
+
+.content-header-affiliations {
+  margin: 16 0;
+}
+.content-header-affiliations--list {
+  counter-reset: hidden-affiliations 0;
+>>>>>>> 4380cad (fix remaining bugs with content header author and affiliation hiding)
   display: inline;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
-.organisation {
+.content-header-affiliations--affiliation {
   @include typography.affiliations-list-text();
   display: inline;
 
@@ -130,7 +128,7 @@
     content: "";
   }
 }
-.organisation__address {
+.content-header-affiliations--affiliation-address {
   display: inline;
   font-style: normal;
 
@@ -142,11 +140,10 @@
     content: "";
   }
 }
-
-#content-header__affiliations__showall {
+.content-header-affiliations--showall-control {
   display: none;
 }
-#content-header__affiliations__showall:not(:checked) ~ .content-header__affiliations .organisation:not(:nth-child(1)):not(:nth-child(2)) {
+.content-header-affiliations--showall-control:not(:checked) ~ .content-header-affiliations--list .content-header-affiliations--affiliation:not(:nth-child(1)):not(:nth-child(2)) {
   position: absolute;
   left: -9999px;
   max-height: 0px;
@@ -154,25 +151,24 @@
   opacity: 0;
   counter-increment: hidden-affiliations;
 }
-#content-header__affiliations__showall:not(:checked) ~ .content-header__affiliations .organisation:nth-child(2) {
+.content-header-affiliations--showall-control:not(:checked) ~ .content-header-affiliations--list .content-header-affiliations--affiliation:nth-child(2) {
   &:after {
     content: " … ";
   }
 }
-.content-header__affiliations__showall-label {
+.content-header-affiliations--showall-label {
   display: inline;
 }
-label[for=content-header__affiliations__showall]  {
-  @include typography.author-list-more-text();
+.content-header-affiliations--showall-label  {
+  @include typography.affiliations-list-more-text();
   cursor: pointer;
+  display: inline;
 }
-
-#content-header__affiliations__showall:checked ~ label[for=content-header__affiliations__showall]:after {
-  content: " show less";
+.content-header-affiliations--showall-control:checked ~ .content-header-affiliations--showall-label:after {
+  content: "";
 }
-
-#content-header__affiliations__showall:not(:checked) ~ label[for=content-header__affiliations__showall]:after {
-  content: " + " counter(hidden-affiliations) " more";
+.content-header-affiliations--showall-control:not(:checked) ~ .content-header-affiliations--showall-label:after {
+  content: " + " counter(hidden-affiliations) " more.";
 }
 
 .content-header__footer {
