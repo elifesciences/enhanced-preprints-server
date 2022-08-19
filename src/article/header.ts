@@ -14,16 +14,20 @@ export const header = (article: ProcessedArticle): string => {
 
   // get summary lists
   const summaryAuthors: Array<Author> = [];
-  if (article.authors.length >= 3) {
+  let summaryAuthorsHtml = '';
+  if (article.authors.length > 3) {
     summaryAuthors.push(...article.authors.slice(0, 2));
     summaryAuthors.push(...article.authors.slice(-1));
+    summaryAuthorsHtml += `<span class="content-header__authors--summary-count">+ ${Math.max(article.authors.length - 3, 0)} more</span>`;
   } else {
     summaryAuthors.push(...article.authors);
   }
 
   const summaryOrganisations: Array<string> = [];
-  if (article.authors.length > 2) {
+  let summaryOrganisationsHtml = '';
+  if (uniqueOrganisationListItems.length > 2) {
     summaryOrganisations.push(...uniqueOrganisationListItems.slice(0, 2));
+    summaryOrganisationsHtml += `<span class="content-header__affiliations--summary-count">+ ${Math.max(uniqueOrganisationListItems.length - 2, 0)} more</span>`;
   } else {
     summaryOrganisations.push(...uniqueOrganisationListItems);
   }
@@ -34,7 +38,7 @@ export const header = (article: ProcessedArticle): string => {
     <details class="content-header__authors"${article.authors.length <= 3 ? 'open' : ''}>
       <summary class="content-header__authors--summary">
         <ol class="content-header__authors--list">${summaryAuthors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')} </ol>
-        <span class="content-header__authors--summary-count">+ ${article.authors.length - 3} more</span>
+        ${summaryAuthorsHtml}
       </summary>
       <ol class="content-header__authors--list">
         ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
@@ -43,7 +47,7 @@ export const header = (article: ProcessedArticle): string => {
     <details class="content-header__affiliations"${uniqueOrganisationListItems.length <= 3 ? 'open' : ''}>
       <summary class="content-header__affiliations--summary">
         <ol class="content-header__affiliations--list">${summaryOrganisations.join('')} </ol>
-        <span class="content-header__affiliations--summary-count">+ ${uniqueOrganisationListItems.length - 2} more</span>
+        ${summaryOrganisationsHtml}
       </summary>
       <ol class="content-header__affiliations--list">
         ${uniqueOrganisationListItems.join('')}

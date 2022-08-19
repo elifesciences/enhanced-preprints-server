@@ -142,6 +142,7 @@ describe('header', () => {
       expect(within(authors).getByText('Reece Urcher 1', { exact: false })).toBeInTheDocument();
       expect(within(authors).getByText('Reece Urcher 2', { exact: false })).toBeInTheDocument();
       expect(within(authors).getByText('Reece Urcher 4', { exact: false })).toBeInTheDocument();
+      expect(within(authors).getByText('+ 1 more', { exact: false })).toBeInTheDocument();
       expect(within(authors).getAllByText('Reece Urcher', { exact: false })).toHaveLength(3);
     });
 
@@ -155,6 +156,7 @@ describe('header', () => {
       expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin 1', { exact: false })).toBeInTheDocument();
       expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin 2', { exact: false })).toBeInTheDocument();
       expect(within(affiliations).getAllByText('Department of Neuroscience, The University of Texas at Austin', { exact: false })).toHaveLength(2);
+      expect(within(affiliations).getByText('+ 1 more', { exact: false })).toBeInTheDocument();
     });
   });
 });
