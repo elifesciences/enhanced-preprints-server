@@ -12,15 +12,33 @@ export const header = (article: ProcessedArticle): string => {
   // unique org list
   const uniqueOrganisationListItems = [...new Set(organisationListItems)];
 
+  // get summary lists
+  const summaryAuthors = article.authors.slice(0, 2);
+  summaryAuthors.push(...article.authors.slice(-1));
+
+  const summaryOrganisations = uniqueOrganisationListItems.slice(0, 2);
+
   return `<div class="content-header">
     ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
-    <ol class="content-header__authors">
-      ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
-    </ol>
-    <ol class="content-header__affiliations">
-      ${uniqueOrganisationListItems.join('')}
-    </ol>
+    <details class="content-header__authors"${article.authors.length <= 3 ? 'open' : ''}>
+      <summary class="content-header__authors--summary">
+        <ul class="content-header__authors--list">${summaryAuthors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')} </ul>
+        <span class="content-header__authors--summary-count">+ ${article.authors.length - 3} more</span>
+      </summary>
+      <ol class="content-header__authors--list">
+        ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
+      </ol>
+    </details>
+    <details class="content-header__affiliations"${uniqueOrganisationListItems.length <= 3 ? 'open' : ''}>
+      <summary class="content-header__affiliations--summary">
+        <ul class="content-header__affiliations--list">${summaryOrganisations.join('')} </ul>
+        <span class="content-header__affiliations--summary-count">+ ${uniqueOrganisationListItems.length - 2} more</span>
+      </summary>
+      <ol class="content-header__affiliations--list">
+        ${uniqueOrganisationListItems.join('')}
+      </ol>
+    </details>
     <div class="content-header__footer">
       <ul class="content-header__identifiers">
         <li class="content-header__identifier"><a href="https://doi.org/${article.doi}">https://doi.org/${article.doi}</a></li>
