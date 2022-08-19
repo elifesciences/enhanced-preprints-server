@@ -15,16 +15,19 @@ export const header = (article: ProcessedArticle): string => {
   return `<div class="content-header">
     ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
-    <input type="checkbox" id="content-header__authors__showall">
-    <ol class="content-header__authors">
-      ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
-      <li class="content-header__authors__showall-label"><label for="content-header__authors__showall"></label></li>
-    </ol>
+    <div class="content-header-authors">
+      <input type="checkbox" class="content-header-authors--showall-control" id="content-header-authors--showall-control">
+      <ol class="content-header-authors--list">
+        ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
+      </ol>
+      <label class="content-header-authors--showall-label" for="content-header-authors--showall-control"></label>
+    </div>
 
-
+    <input type="checkbox" id="content-header__affiliations__showall">
     <ol class="content-header__affiliations">
       ${uniqueOrganisationListItems.join('')}
     </ol>
+    <label for="content-header__affiliations__showall"></label>
     <div class="content-header__footer">
       <ul class="content-header__identifiers">
         <li class="content-header__identifier"><a href="https://doi.org/${article.doi}">https://doi.org/${article.doi}</a></li>
