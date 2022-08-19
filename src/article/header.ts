@@ -13,17 +13,27 @@ export const header = (article: ProcessedArticle): string => {
   const uniqueOrganisationListItems = [...new Set(organisationListItems)];
 
   // get summary lists
-  const summaryAuthors = article.authors.slice(0, 2);
-  summaryAuthors.push(...article.authors.slice(-1));
+  const summaryAuthors: Array<Author> = [];
+  if (article.authors.length >= 3) {
+    summaryAuthors.push(...article.authors.slice(0, 2));
+    summaryAuthors.push(...article.authors.slice(-1));
+  } else {
+    summaryAuthors.push(...article.authors);
+  }
 
-  const summaryOrganisations = uniqueOrganisationListItems.slice(0, 2);
+  const summaryOrganisations: Array<string> = [];
+  if (article.authors.length > 2) {
+    summaryOrganisations.push(...uniqueOrganisationListItems.slice(0, 2));
+  } else {
+    summaryOrganisations.push(...uniqueOrganisationListItems);
+  }
 
   return `<div class="content-header">
     ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
     <details class="content-header__authors"${article.authors.length <= 3 ? 'open' : ''}>
       <summary class="content-header__authors--summary">
-        <ul class="content-header__authors--list">${summaryAuthors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')} </ul>
+        <ol class="content-header__authors--list">${summaryAuthors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')} </ol>
         <span class="content-header__authors--summary-count">+ ${article.authors.length - 3} more</span>
       </summary>
       <ol class="content-header__authors--list">
@@ -32,7 +42,7 @@ export const header = (article: ProcessedArticle): string => {
     </details>
     <details class="content-header__affiliations"${uniqueOrganisationListItems.length <= 3 ? 'open' : ''}>
       <summary class="content-header__affiliations--summary">
-        <ul class="content-header__affiliations--list">${summaryOrganisations.join('')} </ul>
+        <ol class="content-header__affiliations--list">${summaryOrganisations.join('')} </ol>
         <span class="content-header__affiliations--summary-count">+ ${uniqueOrganisationListItems.length - 2} more</span>
       </summary>
       <ol class="content-header__affiliations--list">
