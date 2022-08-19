@@ -35,7 +35,7 @@ describe('header', () => {
     });
 
     it('returns the authors', () => {
-      const authors = document.querySelector<HTMLOListElement>('.content-header__authors');
+      const authors = document.querySelector<HTMLOListElement>('.content-header__authors > ol');
       if (!authors) {
         fail('no authors present');
       }
@@ -44,7 +44,7 @@ describe('header', () => {
     });
 
     it('returns the affiliations', () => {
-      const affiliations = document.querySelector<HTMLOListElement>('.content-header__affiliations');
+      const affiliations = document.querySelector<HTMLOListElement>('.content-header__affiliations > ol');
       if (!affiliations) {
         fail('no affiliations present');
       }
