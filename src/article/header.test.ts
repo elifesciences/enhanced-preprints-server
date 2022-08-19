@@ -6,7 +6,9 @@ import '@testing-library/jest-dom';
 import { Author } from '../model/model';
 import { header } from './header';
 
-const generateAuthor = (surnameSuffix: string, affiliationSuffix: string): Author => ({ givenNames: ['Reece'], familyNames: [`Urcher ${surnameSuffix}`], affiliations: [{ name: `Department of Neuroscience, The University of Texas at Austin ${affiliationSuffix}` }] });
+const generateAuthor = (surnameSuffix: string, affiliationSuffix: string): Author => (
+  { givenNames: ['Reece'], familyNames: [`Urcher ${surnameSuffix}`], affiliations: [{ name: `Department of Neuroscience, The University of Texas at Austin ${affiliationSuffix}` }] }
+);
 
 const exampleArticle = {
   doi: '12.345/67890213445',
