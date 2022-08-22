@@ -13,21 +13,23 @@ export const header = (article: ProcessedArticle): string => {
   const uniqueOrganisationListItems = [...new Set(organisationListItems)];
 
   // get summary lists
+  const summaryAuthorCount = 10;
+  const summaryInstitutionCount = 3;
   const summaryAuthors: Array<Author> = [];
   let summaryAuthorsHtml = '';
-  if (article.authors.length > 3) {
-    summaryAuthors.push(...article.authors.slice(0, 2));
+  if (article.authors.length > summaryAuthorCount) {
+    summaryAuthors.push(...article.authors.slice(0, summaryAuthorCount - 1));
     summaryAuthors.push(...article.authors.slice(-1));
-    summaryAuthorsHtml += `<span class="content-header__authors--summary-count">+ ${Math.max(article.authors.length - 3, 0)} more</span>`;
+    summaryAuthorsHtml += `<span class="content-header__authors--summary-count">show ${Math.max(article.authors.length - summaryAuthorCount, 0)} more</span>`;
   } else {
     summaryAuthors.push(...article.authors);
   }
 
   const summaryOrganisations: Array<string> = [];
   let summaryOrganisationsHtml = '';
-  if (uniqueOrganisationListItems.length > 2) {
-    summaryOrganisations.push(...uniqueOrganisationListItems.slice(0, 2));
-    summaryOrganisationsHtml += `<span class="content-header__affiliations--summary-count">+ ${Math.max(uniqueOrganisationListItems.length - 2, 0)} more</span>`;
+  if (uniqueOrganisationListItems.length > summaryInstitutionCount) {
+    summaryOrganisations.push(...uniqueOrganisationListItems.slice(0, summaryInstitutionCount));
+    summaryOrganisationsHtml += `<span class="content-header__affiliations--summary-count">show ${Math.max(uniqueOrganisationListItems.length - summaryInstitutionCount, 0)} more</span>`;
   } else {
     summaryOrganisations.push(...uniqueOrganisationListItems);
   }
@@ -35,7 +37,7 @@ export const header = (article: ProcessedArticle): string => {
   return `<div class="content-header">
     ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
-    <details class="content-header__authors"${article.authors.length <= 3 ? 'open' : ''}>
+    <details class="content-header__authors"${article.authors.length <= summaryAuthorCount ? 'open' : ''}>
       <summary class="content-header__authors--summary">
         <ol class="content-header__authors--list">${summaryAuthors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')} </ol>
         ${summaryAuthorsHtml}
@@ -44,7 +46,7 @@ export const header = (article: ProcessedArticle): string => {
         ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
       </ol>
     </details>
-    <details class="content-header__affiliations"${uniqueOrganisationListItems.length <= 3 ? 'open' : ''}>
+    <details class="content-header__affiliations"${uniqueOrganisationListItems.length <= summaryInstitutionCount ? 'open' : ''}>
       <summary class="content-header__affiliations--summary">
         <ol class="content-header__affiliations--list">${summaryOrganisations.join('')} </ol>
         ${summaryOrganisationsHtml}
