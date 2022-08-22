@@ -37,12 +37,27 @@
   margin-bottom: 36px;
   margin-top: 0;
 }
-
 .content-header__authors {
-  list-style: none;
-  padding: 0;
+  margin: 16px 0;
+}
+.content-header__authors--summary {
+  @include typography.author-list-text();
+  display: block;
+}
+.content-header__authors--summary-count {
+  @include typography.author-summary-count-text();
+  cursor: pointer;
 }
 
+.content-header__authors[open] .content-header__authors--summary {
+  display: none;
+}
+.content-header__authors--list {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .person {
   @include typography.author-list-text();
   display: inline;
@@ -55,9 +70,28 @@
     content: "";
   }
 }
+.content-header__authors--summary .person:nth-child(2):after {
+  content: " … ";
+}
 
 .content-header__affiliations {
+  margin: 16px 0;
+}
+.content-header__affiliations--summary {
+  @include typography.affiliations-list-text();
+  display: block;
+}
+.content-header__affiliations--summary-count {
+  @include typography.affiliations-summary-count-text();
+  cursor: pointer;
+}
+.content-header__affiliations[open] .content-header__affiliations--summary {
+  display: none;
+}
+.content-header__affiliations--list {
+  display: inline;
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 

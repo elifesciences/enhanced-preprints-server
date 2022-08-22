@@ -91,9 +91,22 @@
   font-weight: 600;
   line-height: 24px;
 }
+@mixin author-summary-count-text() {
+  color: settings.$color-emphasis;
+  font-family: settings.$font-family-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
 
 @mixin affiliations-list-text() {
   color: settings.$color-text;
+  font-family: settings.$font-family-primary;
+  font-size: 14px;
+  line-height: 24px;
+}
+@mixin affiliations-summary-count-text() {
+  color: settings.$color-emphasis;
   font-family: settings.$font-family-primary;
   font-size: 14px;
   line-height: 24px;
