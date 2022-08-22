@@ -39,7 +39,6 @@
 }
 .content-header__authors {
   margin: 16px 0;
-  counter-reset: authors 0;
 }
 .content-header__authors--summary {
   @include typography.author-list-text();
@@ -54,10 +53,10 @@
   display: none;
 }
 .content-header__authors--list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .person {
   @include typography.author-list-text();
@@ -90,10 +89,10 @@
   display: none;
 }
 .content-header__affiliations--list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .organisation {
