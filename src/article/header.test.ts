@@ -43,7 +43,7 @@ const exampleArticleWith2AuthorsAnd2Affiliations = {
   headings: [],
 };
 
-const exampleArticleWith4Authors3Affiliations = {
+const exampleArticleWith11Authors11Affiliations = {
   doi: '12.345/67890213445',
   xml: '',
   html: '',
@@ -54,8 +54,15 @@ const exampleArticleWith4Authors3Affiliations = {
   authors: [
     generateAuthor('1', '1'),
     generateAuthor('2', '2'),
-    generateAuthor('3', '1'),
-    generateAuthor('4', '3'),
+    generateAuthor('3', '3'),
+    generateAuthor('4', '4'),
+    generateAuthor('5', '5'),
+    generateAuthor('6', '6'),
+    generateAuthor('7', '7'),
+    generateAuthor('8', '8'),
+    generateAuthor('9', '9'),
+    generateAuthor('10', '10'),
+    generateAuthor('11', '11'),
   ],
   licenses: [],
   content: '',
@@ -134,31 +141,39 @@ describe('header', () => {
       expect(within(authors).getAllByText('Reece Urcher', { exact: false })).toHaveLength(2);
     });
 
-    it('returns a summary with first 2 and last authors when there are 4 authors', () => {
-      document.body.innerHTML = header(exampleArticleWith4Authors3Affiliations);
+    it('returns a summary with first 9 and last authors when there are 11 authors', () => {
+      document.body.innerHTML = header(exampleArticleWith11Authors11Affiliations);
       const authors = document.querySelector<HTMLOListElement>('.content-header__authors > summary');
       if (!authors) {
         fail('no authors present');
       }
 
-      expect(within(authors).getByText('Reece Urcher 1', { exact: false })).toBeInTheDocument();
-      expect(within(authors).getByText('Reece Urcher 2', { exact: false })).toBeInTheDocument();
-      expect(within(authors).getByText('Reece Urcher 4', { exact: false })).toBeInTheDocument();
-      expect(within(authors).getByText('+ 1 more', { exact: false })).toBeInTheDocument();
-      expect(within(authors).getAllByText('Reece Urcher', { exact: false })).toHaveLength(3);
+      expect(within(authors).getByText('Reece Urcher 1', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 2', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 3', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 4', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 5', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 6', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 7', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 8', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 9', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('Reece Urcher 11', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getByText('show 1 more', { exact: true })).toBeInTheDocument();
+      expect(within(authors).getAllByText('Reece Urcher', { exact: false })).toHaveLength(10);
     });
 
     it('returns the affiliations summary with first 2 when there are 4 affiliations', () => {
-      document.body.innerHTML = header(exampleArticleWith4Authors3Affiliations);
+      document.body.innerHTML = header(exampleArticleWith11Authors11Affiliations);
       const affiliations = document.querySelector<HTMLOListElement>('.content-header__affiliations > summary');
       if (!affiliations) {
         fail('no affiliations present');
       }
 
-      expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin 1', { exact: false })).toBeInTheDocument();
-      expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin 2', { exact: false })).toBeInTheDocument();
-      expect(within(affiliations).getAllByText('Department of Neuroscience, The University of Texas at Austin', { exact: false })).toHaveLength(2);
-      expect(within(affiliations).getByText('+ 1 more', { exact: false })).toBeInTheDocument();
+      expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin 1', { exact: true })).toBeInTheDocument();
+      expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin 2', { exact: true })).toBeInTheDocument();
+      expect(within(affiliations).getByText('Department of Neuroscience, The University of Texas at Austin 3', { exact: true })).toBeInTheDocument();
+      expect(within(affiliations).getAllByText('Department of Neuroscience, The University of Texas at Austin', { exact: false })).toHaveLength(3);
+      expect(within(affiliations).getByText('show 8 more', { exact: true })).toBeInTheDocument();
     });
   });
 });
