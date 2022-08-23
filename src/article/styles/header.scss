@@ -38,17 +38,18 @@
   margin-top: 0;
 }
 
-.content-header-authors {
+.content-header__authors {
   margin: 16 0;
 }
-.content-header-authors--list {
+.content-header__authors--list {
   counter-reset: hidden-authors 0;
   display: inline;
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-.content-header-authors--author {
+.person {
   @include typography.author-list-text();
   display: inline;
 
@@ -64,7 +65,7 @@
   display: none;
 }
 @media only all and (min-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-extra-large-max - 1}) ~ .content-header-authors--author:not(:last-child) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-extra-large-max - 1}) ~ .person:not(:last-child) {
     position: absolute;
     left: -9999px;
     max-height: 0px;
@@ -72,12 +73,12 @@
     opacity: 0;
     counter-increment: hidden-authors;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-extra-large-max - 1}):after {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-extra-large-max - 1}):after {
     content: " … ";
   }
 }
 @media only all and (max-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-large-max - 1}) ~ .content-header-authors--author:not(:last-child) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-large-max - 1}) ~ .person:not(:last-child) {
     position: absolute;
     left: -9999px;
     max-height: 0px;
@@ -85,12 +86,12 @@
     opacity: 0;
     counter-increment: hidden-authors;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-large-max - 1}):after {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-large-max - 1}):after {
     content: " … ";
   }
 }
 @media only all and (max-width: settings.$breakpoint-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-medium-max - 1}) ~ .content-header-authors--author:not(:last-child) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-medium-max - 1}) ~ .person:not(:last-child) {
     position: absolute;
     left: -9999px;
     max-height: 0px;
@@ -98,12 +99,12 @@
     opacity: 0;
     counter-increment: hidden-authors;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-medium-max - 1}):after {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-medium-max - 1}):after {
     content: " … ";
   }
 }
 @media only all and (max-width: settings.$breakpoint-medium) {
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-small-max - 1}) ~ .content-header-authors--author:not(:last-child) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-small-max - 1}) ~ .person:not(:last-child) {
     position: absolute;
     left: -9999px;
     max-height: 0px;
@@ -111,33 +112,33 @@
     opacity: 0;
     counter-increment: hidden-authors;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--author:nth-child(#{settings.$author-list-small-max - 1}):after {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-small-max - 1}):after {
     content: " … ";
   }
 }
-.content-header-authors--showall-label  {
+.content-header__authors--showall-label  {
   @include typography.author-list-more-text();
   cursor: pointer;
   display: inline;
 }
-.content-header--showall-control:checked ~ .content-header-authors .content-header-authors--showall-label:after {
+.content-header--showall-control:checked ~ .content-header__authors .content-header__authors--showall-label:after {
   content: "show less";
 }
-.content-header--showall-control:not(:checked) ~ .content-header-authors .content-header-authors--showall-label:after {
+.content-header--showall-control:not(:checked) ~ .content-header__authors .content-header__authors--showall-label:after {
   content: " show " counter(hidden-authors) " more.";
 }
 
-.content-header-affiliations {
+.content-header__affiliations {
   margin: 16 0;
 }
-.content-header-affiliations--list {
+.content-header__affiliations--list {
   counter-reset: hidden-affiliations 0;
   display: inline;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.content-header-affiliations--affiliation {
+.organisation {
   @include typography.affiliations-list-text();
   display: inline;
 
@@ -149,7 +150,7 @@
     content: "";
   }
 }
-.content-header-affiliations--affiliation-address {
+.organisation__address {
   display: inline;
   font-style: normal;
 
@@ -163,7 +164,7 @@
 }
 
 @media only all and (min-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-extra-large-max}) ~ .content-header-affiliations--affiliation {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-extra-large-max}) ~ .organisation {
       position: absolute;
       left: -9999px;
       max-height: 0px;
@@ -171,14 +172,14 @@
       opacity: 0;
       counter-increment: hidden-affiliations;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-extra-large-max}) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-extra-large-max}) {
     &:after {
       content: " … ";
     }
   }
 }
 @media only all and (max-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-large-max}) ~ .content-header-affiliations--affiliation {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-large-max}) ~ .organisation {
       position: absolute;
       left: -9999px;
       max-height: 0px;
@@ -186,14 +187,14 @@
       opacity: 0;
       counter-increment: hidden-affiliations;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-large-max}) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-large-max}) {
     &:after {
       content: " … ";
     }
   }
 }
 @media only all and (max-width: settings.$breakpoint-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-medium-max}) ~ .content-header-affiliations--affiliation {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-medium-max}) ~ .organisation {
       position: absolute;
       left: -9999px;
       max-height: 0px;
@@ -201,14 +202,14 @@
       opacity: 0;
       counter-increment: hidden-affiliations;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-medium-max}) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-medium-max}) {
     &:after {
       content: " … ";
     }
   }
 }
 @media only all and (max-width: settings.$breakpoint-medium) {
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-small-max}) ~ .content-header-affiliations--affiliation {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-small-max}) ~ .organisation {
       position: absolute;
       left: -9999px;
       max-height: 0px;
@@ -216,24 +217,24 @@
       opacity: 0;
       counter-increment: hidden-affiliations;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--affiliation:nth-child(#{settings.$institution-list-small-max}) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-small-max}) {
     &:after {
       content: " … ";
     }
   }
 }
-.content-header-affiliations--showall-label {
+.content-header__affiliations--showall-label {
   display: inline;
 }
-.content-header-affiliations--showall-label  {
+.content-header__affiliations--showall-label  {
   @include typography.affiliations-list-more-text();
   cursor: pointer;
   display: inline;
 }
-.content-header--showall-control:checked ~ .content-header-affiliations .content-header-affiliations--showall-label:after {
+.content-header--showall-control:checked ~ .content-header__affiliations .content-header__affiliations--showall-label:after {
   content: " show less";
 }
-.content-header--showall-control:not(:checked) ~ .content-header-affiliations .content-header-affiliations--showall-label:after {
+.content-header--showall-control:not(:checked) ~ .content-header__affiliations .content-header__affiliations--showall-label:after {
   content: " show " counter(hidden-affiliations) " more.";
 }
 

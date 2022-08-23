@@ -4,11 +4,11 @@ import { generateFlags } from './article-flags';
 
 const formatAuthorName = (author: Author) => `${author.givenNames.join(' ')} ${author.familyNames.join('')}`;
 
-const formatOrganisation = (organisation: Organisation) => `${organisation.name}<address class="content-header-affiliations--affiliation-address">${organisation.address?.addressCountry ?? ''}</address>`;
+const formatOrganisation = (organisation: Organisation) => `${organisation.name}<address class="organisation__address">${organisation.address?.addressCountry ?? ''}</address>`;
 
 export const header = (article: ProcessedArticle): string => {
   const organisationList = article.authors.flatMap((author) => author.affiliations).filter((organisation) => !!organisation);
-  const organisationListItems = organisationList.map((organisation: Organisation) => `<li class="content-header-affiliations--affiliation">${formatOrganisation(organisation)}</li>`);
+  const organisationListItems = organisationList.map((organisation: Organisation) => `<li class="organisation">${formatOrganisation(organisation)}</li>`);
   // unique org list
   const uniqueOrganisationListItems = [...new Set(organisationListItems)];
 
@@ -16,18 +16,18 @@ export const header = (article: ProcessedArticle): string => {
     ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
     <input type="checkbox" class="content-header--showall-control" id="content-header--showall-control">
-    <div class="content-header-authors">
-      <ol class="content-header-authors--list">
-        ${article.authors.map((author) => `<li class="content-header-authors--author">${formatAuthorName(author)}</li>`).join('')}
+    <div class="content-header__authors">
+      <ol class="content-header__authors--list">
+        ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
       </ol>
-      <label class="content-header-authors--showall-label" for="content-header--showall-control"></label>
+      <label class="content-header__authors--showall-label" for="content-header--showall-control"></label>
     </div>
 
-    <div class="content-header-affiliations">
-      <ol class="content-header-affiliations--list">
+    <div class="content-header__affiliations">
+      <ol class="content-header__affiliations--list">
         ${uniqueOrganisationListItems.join('')}
       </ol>
-      <label class="content-header-affiliations--showall-label" for="content-header--showall-control"></label>
+      <label class="content-header__affiliations--showall-label" for="content-header--showall-control"></label>
     </div>
     <div class="content-header__footer">
       <ul class="content-header__identifiers">
