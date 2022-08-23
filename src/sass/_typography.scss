@@ -100,7 +100,7 @@
 }
 
 @mixin author-list-more-text() {
-  color: settings.$color-emphasis-2;
+  color: settings.$color-emphasis;
   font-family: settings.$font-family-primary;
   font-size: 16px;
   font-weight: 600;
@@ -115,7 +115,7 @@
 }
 
 @mixin affiliations-list-more-text() {
-  color: settings.$color-emphasis-2;
+  color: settings.$color-emphasis;
   font-family: settings.$font-family-primary;
   font-size: 16px;
   font-weight: 600;
