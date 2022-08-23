@@ -15,20 +15,19 @@ export const header = (article: ProcessedArticle): string => {
   return `<div class="content-header">
     ${generateFlags(['Medicine', 'Neuroscience', 'Cell Biology'], 'Landmark', 'Tour-de-force')}
     <h1 class="content-header__title">${contentToHtml(article.title)}</h1>
+    <input type="checkbox" class="content-header--showall-control" id="content-header--showall-control">
     <div class="content-header-authors">
-      <input type="checkbox" class="content-header-authors--showall-control" id="content-header-authors--showall-control">
       <ol class="content-header-authors--list">
         ${article.authors.map((author) => `<li class="content-header-authors--author">${formatAuthorName(author)}</li>`).join('')}
       </ol>
-      <label class="content-header-authors--showall-label" for="content-header-authors--showall-control"></label>
+      <label class="content-header-authors--showall-label" for="content-header--showall-control"></label>
     </div>
 
     <div class="content-header-affiliations">
-      <input type="checkbox" class="content-header-affiliations--showall-control" id="content-header-affiliations--showall-control">
       <ol class="content-header-affiliations--list">
         ${uniqueOrganisationListItems.join('')}
       </ol>
-      <label class="content-header-affiliations--showall-label" for="content-header-affiliations--showall-control"></label>
+      <label class="content-header-affiliations--showall-label" for="content-header--showall-control"></label>
     </div>
     <div class="content-header__footer">
       <ul class="content-header__identifiers">
