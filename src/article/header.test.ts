@@ -26,49 +26,6 @@ const exampleArticle = {
   headings: [],
 };
 
-const exampleArticleWith2AuthorsAnd2Affiliations = {
-  doi: '12.345/67890213445',
-  xml: '',
-  html: '',
-  document: '',
-  title: 'Article',
-  abstract: '',
-  date: new Date('2022-06-05'),
-  authors: [
-    generateAuthor('1', '1'),
-    generateAuthor('2', '2'),
-  ],
-  licenses: [],
-  content: '',
-  headings: [],
-};
-
-const exampleArticleWith11Authors11Affiliations = {
-  doi: '12.345/67890213445',
-  xml: '',
-  html: '',
-  document: '',
-  title: 'Article',
-  abstract: '',
-  date: new Date('2022-06-05'),
-  authors: [
-    generateAuthor('1', '1'),
-    generateAuthor('2', '2'),
-    generateAuthor('3', '3'),
-    generateAuthor('4', '4'),
-    generateAuthor('5', '5'),
-    generateAuthor('6', '6'),
-    generateAuthor('7', '7'),
-    generateAuthor('8', '8'),
-    generateAuthor('9', '9'),
-    generateAuthor('10', '10'),
-    generateAuthor('11', '11'),
-  ],
-  licenses: [],
-  content: '',
-  headings: [],
-};
-
 describe('header', () => {
   describe('text extraction', () => {
     document.body.innerHTML = header(exampleArticle);
