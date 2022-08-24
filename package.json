@@ -57,7 +57,7 @@
     "docker-build": "docker build . -t epp-node",
     "docker-start": "docker run --rm -p 3000:3000 epp-node:latest"
   },
-  "packageManager": "yarn@3.2.2",
+  "packageManager": "yarn@3.2.3",
   "resolutions": {
     "@stencila/encoda@0.119.2": "patch:@stencila/encoda@npm:0.119.2#.yarn/patches/@stencila-encoda-npm-0.119.2-aa9b3f50d7.patch"
   }
