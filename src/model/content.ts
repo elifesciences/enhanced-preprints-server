@@ -41,7 +41,7 @@ export type SubscriptContent = DecoratedContent & {
 };
 
 type ContentPart = string | DecoratedContent | HeadingContent | EmphasisContent;
-export type Content = string | ContentPart | Array<Content>;
+export type Content = string | ContentPart | Array<ContentPart>;
 
 export const contentToHtml = (content: Content): string => {
   if (typeof content === 'undefined') {
