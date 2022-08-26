@@ -8,7 +8,6 @@ jobs:
   build-preview-image:
     runs-on: ubuntu-20.04
     if: ${{ contains(github.event.pull_request.labels.*.name, 'preview') }}
-    needs: [test]
     steps:
       - uses: actions/checkout@v3
       - name: Get sha with 8 chars long
