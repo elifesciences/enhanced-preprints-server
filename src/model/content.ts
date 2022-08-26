@@ -17,7 +17,7 @@
 import { logger } from '../utils/logger';
 
 type DecoratedContent = {
-  content: string | string[],
+  content: string | DecoratedContent | Array<DecoratedContent | string>,
   type: string,
 };
 
@@ -33,7 +33,7 @@ export type EmphasisContent = DecoratedContent & {
 };
 
 type ContentPart = string | DecoratedContent | HeadingContent | EmphasisContent;
-export type Content = ContentPart | ContentPart[];
+export type Content = string | ContentPart | Array<Content>;
 
 export const contentToHtml = (content: Content): string => {
   if (typeof content === 'undefined') {
