@@ -48,7 +48,6 @@
   margin: 0;
   padding: 0;
 }
-
 .person {
   @include typography.author-list-text();
   display: inline;
