@@ -17,7 +17,7 @@
 import { logger } from '../utils/logger';
 
 type DecoratedContent = {
-  content: string | string[],
+  content: string | DecoratedContent | Array<DecoratedContent | string>,
   type: string,
 };
 
@@ -32,8 +32,16 @@ export type EmphasisContent = DecoratedContent & {
   depth: number,
 };
 
+export type SuperscriptContent = DecoratedContent & {
+  type: 'Superscript',
+};
+
+export type SubscriptContent = DecoratedContent & {
+  type: 'Subscript',
+};
+
 type ContentPart = string | DecoratedContent | HeadingContent | EmphasisContent;
-export type Content = ContentPart | ContentPart[];
+export type Content = string | ContentPart | Array<ContentPart>;
 
 export const contentToHtml = (content: Content): string => {
   if (typeof content === 'undefined') {
@@ -59,6 +67,10 @@ export const contentToHtml = (content: Content): string => {
       return `<em>${contentToHtml(content.content)}</em>`;
     case 'Strong':
       return `<strong>${contentToHtml(content.content)}</strong>`;
+    case 'Superscript':
+      return `<sup>${contentToHtml(content.content)}</sup>`;
+    case 'Subscript':
+      return `<sub>${contentToHtml(content.content)}</sub>`;
     case 'Article':
     case 'Include':
     case 'Heading':
@@ -90,8 +102,6 @@ export const contentToHtml = (content: Content): string => {
     case 'Organization':
     case 'Mark':
     case 'Delete':
-    case 'Superscript':
-    case 'Subscript':
     case 'Link':
     case 'Quote':
     case 'MathBlock':
