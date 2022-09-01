@@ -41,7 +41,7 @@
     "express": "4.18.1",
     "jsdom": "20.0.0",
     "marked": "4.1.0",
-    "mongodb": "4.9.0",
+    "mongodb": "4.9.1",
     "nano": "10.0.0",
     "sqlite": "4.1.2",
     "sqlite3": "5.0.11",
