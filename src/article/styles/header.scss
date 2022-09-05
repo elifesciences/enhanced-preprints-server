@@ -37,22 +37,12 @@
   margin-bottom: 36px;
   margin-top: 0;
 }
+
 .content-header__authors {
   margin: 16px 0;
 }
-.content-header__authors--summary {
-  @include typography.author-list-text();
-  display: block;
-}
-.content-header__authors--summary-count {
-  @include typography.author-summary-count-text();
-  cursor: pointer;
-}
-
-.content-header__authors[open] .content-header__authors--summary {
-  display: none;
-}
 .content-header__authors--list {
+  counter-reset: hidden-authors 0;
   display: inline;
   list-style: none;
   margin: 0;
@@ -70,31 +60,83 @@
     content: "";
   }
 }
-.content-header__authors--summary .person:nth-child(9):after {
-  content: " … ";
+.content-header--showall-control {
+  display: none;
+}
+@media only all and (min-width: settings.$breakpoint-extra-large) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-extra-large-max - 1}) ~ .person:not(:last-child) {
+    position: absolute;
+    left: -9999px;
+    max-height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    counter-increment: hidden-authors;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-extra-large-max - 1}):after {
+    content: " … ";
+  }
+}
+@media only all and (max-width: settings.$breakpoint-extra-large) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-large-max - 1}) ~ .person:not(:last-child) {
+    position: absolute;
+    left: -9999px;
+    max-height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    counter-increment: hidden-authors;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-large-max - 1}):after {
+    content: " … ";
+  }
+}
+@media only all and (max-width: settings.$breakpoint-large) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-medium-max - 1}) ~ .person:not(:last-child) {
+    position: absolute;
+    left: -9999px;
+    max-height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    counter-increment: hidden-authors;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-medium-max - 1}):after {
+    content: " … ";
+  }
+}
+@media only all and (max-width: settings.$breakpoint-medium) {
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-small-max - 1}) ~ .person:not(:last-child) {
+    position: absolute;
+    left: -9999px;
+    max-height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    counter-increment: hidden-authors;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-small-max - 1}):after {
+    content: " … ";
+  }
+}
+.content-header__authors--showall-label  {
+  @include typography.author-list-more-text();
+  cursor: pointer;
+  display: inline;
+}
+.content-header--showall-control:checked ~ .content-header__authors .content-header__authors--showall-label:after {
+  content: "show less";
+}
+.content-header--showall-control:not(:checked) ~ .content-header__authors .content-header__authors--showall-label:after {
+  content: " show " counter(hidden-authors) " more.";
 }
 
 .content-header__affiliations {
   margin: 16px 0;
 }
-.content-header__affiliations--summary {
-  @include typography.affiliations-list-text();
-  display: block;
-}
-.content-header__affiliations--summary-count {
-  @include typography.affiliations-summary-count-text();
-  cursor: pointer;
-}
-.content-header__affiliations[open] .content-header__affiliations--summary {
-  display: none;
-}
 .content-header__affiliations--list {
+  counter-reset: hidden-affiliations 0;
   display: inline;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
 .organisation {
   @include typography.affiliations-list-text();
   display: inline;
@@ -118,6 +160,81 @@
   &:last-child:after {
     content: "";
   }
+}
+
+@media only all and (min-width: settings.$breakpoint-extra-large) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-extra-large-max}) ~ .organisation {
+      position: absolute;
+      left: -9999px;
+      max-height: 0px;
+      overflow: hidden;
+      opacity: 0;
+      counter-increment: hidden-affiliations;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-extra-large-max}) {
+    &:after {
+      content: " … ";
+    }
+  }
+}
+@media only all and (max-width: settings.$breakpoint-extra-large) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-large-max}) ~ .organisation {
+      position: absolute;
+      left: -9999px;
+      max-height: 0px;
+      overflow: hidden;
+      opacity: 0;
+      counter-increment: hidden-affiliations;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-large-max}) {
+    &:after {
+      content: " … ";
+    }
+  }
+}
+@media only all and (max-width: settings.$breakpoint-large) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-medium-max}) ~ .organisation {
+      position: absolute;
+      left: -9999px;
+      max-height: 0px;
+      overflow: hidden;
+      opacity: 0;
+      counter-increment: hidden-affiliations;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-medium-max}) {
+    &:after {
+      content: " … ";
+    }
+  }
+}
+@media only all and (max-width: settings.$breakpoint-medium) {
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-small-max}) ~ .organisation {
+      position: absolute;
+      left: -9999px;
+      max-height: 0px;
+      overflow: hidden;
+      opacity: 0;
+      counter-increment: hidden-affiliations;
+  }
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-small-max}) {
+    &:after {
+      content: " … ";
+    }
+  }
+}
+.content-header__affiliations--showall-label {
+  display: inline;
+}
+.content-header__affiliations--showall-label  {
+  @include typography.affiliations-list-more-text();
+  cursor: pointer;
+  display: inline;
+}
+.content-header--showall-control:checked ~ .content-header__affiliations .content-header__affiliations--showall-label:after {
+  content: " show less";
+}
+.content-header--showall-control:not(:checked) ~ .content-header__affiliations .content-header__affiliations--showall-label:after {
+  content: " show " counter(hidden-affiliations) " more.";
 }
 
 .content-header__footer {
