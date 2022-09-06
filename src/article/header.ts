@@ -19,15 +19,15 @@ export const header = (article: ProcessedArticle): string => {
     <div class="content-header__authors">
       <ol class="content-header__authors--list">
         ${article.authors.map((author) => `<li class="person">${formatAuthorName(author)}</li>`).join('')}
+        <li class="content-header__authors--showall"><label class="content-header__authors--showall-label" for="content-header--showall-control"></label></li>
       </ol>
-      <label class="content-header__authors--showall-label" for="content-header--showall-control"></label>
     </div>
 
     <div class="content-header__affiliations">
       <ol class="content-header__affiliations--list">
         ${uniqueOrganisationListItems.join('')}
+        <li class="content-header__affiliations--showall"><label class="content-header__affiliations--showall-label" for="content-header--showall-control"></label></li>
       </ol>
-      <label class="content-header__affiliations--showall-label" for="content-header--showall-control"></label>
     </div>
     <div class="content-header__footer">
       <ul class="content-header__identifiers">

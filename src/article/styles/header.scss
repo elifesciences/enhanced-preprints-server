@@ -56,7 +56,7 @@
     content: ", ";
   }
 
-  &:last-child:after {
+  &:nth-last-child(2):after {
     content: "";
   }
 }
@@ -115,10 +115,12 @@
     content: " … ";
   }
 }
+.content-header__authors--showall {
+  display: inline;
+}
 .content-header__authors--showall-label  {
   @include typography.author-list-more-text();
   cursor: pointer;
-  display: inline;
 }
 .content-header--showall-control:checked ~ .content-header__authors .content-header__authors--showall-label:after {
   content: "show less";
@@ -145,7 +147,7 @@
     content: " • ";
   }
 
-  &:last-child:after {
+  &:nth-last-child(2):after {
     content: "";
   }
 }
@@ -157,7 +159,7 @@
     content: ', ';
   }
 
-  &:last-child:after {
+  &:nth-last-child(2):after {
     content: "";
   }
 }
@@ -171,10 +173,12 @@
       opacity: 0;
       counter-increment: hidden-affiliations;
   }
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-extra-large-max}) {
-    &:after {
-      content: " … ";
-    }
+
+  .content-header__affiliations--showall:not(:nth-child(n+#{settings.$institution-list-extra-large-max + 2})) {
+    display: none;
+  }
+  .content-header__affiliations--showall:nth-child(n+#{settings.$institution-list-extra-large-max + 2}):before {
+    content: " … ";
   }
 }
 @media only all and (max-width: settings.$breakpoint-extra-large) {
@@ -222,20 +226,29 @@
     }
   }
 }
-.content-header__affiliations--showall-label {
+.content-header__affiliations--showall {
   display: inline;
 }
 .content-header__affiliations--showall-label  {
   @include typography.affiliations-list-more-text();
   cursor: pointer;
-  display: inline;
 }
-.content-header--showall-control:checked ~ .content-header__affiliations .content-header__affiliations--showall-label:after {
-  content: " show less";
+
+.content-header--showall-control:checked {
+  &~ .content-header__affiliations .content-header__affiliations--showall:before {
+    content: "  ";
+  }
+
+  &~ .content-header__affiliations .content-header__affiliations--showall-label:after {
+    content: " show less";
+  }
 }
-.content-header--showall-control:not(:checked) ~ .content-header__affiliations .content-header__affiliations--showall-label:after {
-  content: " show " counter(hidden-affiliations) " more.";
+.content-header--showall-control:not(:checked) {
+  &~ .content-header__affiliations .content-header__affiliations--showall-label:after {
+    content: " show " counter(hidden-affiliations) " more.";
+  }
 }
+
 
 .content-header__footer {
   display: flex;
