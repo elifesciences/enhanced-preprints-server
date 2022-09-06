@@ -7,6 +7,7 @@ const examples:Array<Array<Content>> = [
   [[{ type: 'Emphasis', content: 'emphasised' }, ' normal text'], '<em>emphasised</em> normal text'],
   [[{ type: 'Emphasis', content: ['emphasised'] }, ' normal text'], '<em>emphasised</em> normal text'],
   [{ type: 'Strong', content: 'text' }, '<strong>text</strong>'],
+  [['This is an array with ', { type: 'Emphasis', content: ['emphasised and ', { type: 'Strong', content: 'strong' }] }, ' text'], 'This is an array with <em>emphasised and <strong>strong</strong></em> text'],
 ];
 
 describe('utils', () => {
