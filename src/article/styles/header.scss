@@ -38,6 +38,11 @@
   margin-top: 0;
 }
 
+// Controls state of showing or not the expanded author/institution lists
+.content-header--showall-control {
+  display: none;
+}
+
 .content-header__authors {
   margin: 16px 0;
 }
@@ -60,59 +65,36 @@
     content: "";
   }
 }
-.content-header--showall-control {
-  display: none;
-}
 @media only all and (min-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-extra-large-max - 1}) ~ .person:not(:last-child) {
-    position: absolute;
-    left: -9999px;
-    max-height: 0px;
-    overflow: hidden;
-    opacity: 0;
-    counter-increment: hidden-authors;
+  .content-header--showall-control:checked ~ .content-header__authors {
+    .content-header__authors--showall:nth-child(n+#{settings.$author-list-extra-large-max + 2}) .content-header__authors--showall-label:after {
+      content: "show less";
+    }
   }
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-extra-large-max - 1}):after {
-    content: " … ";
-  }
-}
-@media only all and (max-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-large-max - 1}) ~ .person:not(:last-child) {
-    position: absolute;
-    left: -9999px;
-    max-height: 0px;
-    overflow: hidden;
-    opacity: 0;
-    counter-increment: hidden-authors;
-  }
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-large-max - 1}):after {
-    content: " … ";
-  }
-}
-@media only all and (max-width: settings.$breakpoint-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-medium-max - 1}) ~ .person:not(:last-child) {
-    position: absolute;
-    left: -9999px;
-    max-height: 0px;
-    overflow: hidden;
-    opacity: 0;
-    counter-increment: hidden-authors;
-  }
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-medium-max - 1}):after {
-    content: " … ";
-  }
-}
-@media only all and (max-width: settings.$breakpoint-medium) {
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-small-max - 1}) ~ .person:not(:last-child) {
-    position: absolute;
-    left: -9999px;
-    max-height: 0px;
-    overflow: hidden;
-    opacity: 0;
-    counter-increment: hidden-authors;
-  }
-  .content-header--showall-control:not(:checked) ~ .content-header__authors .person:nth-child(#{settings.$author-list-small-max - 1}):after {
-    content: " … ";
+  .content-header--showall-control:not(:checked) ~ .content-header__authors {
+    // show/hide logic for the show/hide label. Only show the label on
+    // => "show all" element that is after the max hide number + 1 (11th of 10)
+    .content-header__authors--showall:nth-child(n+#{settings.$author-list-extra-large-max + 2}) .content-header__authors--showall-label:after {
+      content: " show " counter(hidden-authors) " more.";
+    }
+
+    // hiding selector logic
+    // => .person element that is 1 less than the max hide number (9th if 10)
+    // => siblings after
+    // => .person elements that aren't the second to last child (last child is the label, second to last is the last author)
+    .person:nth-of-type(n+#{settings.$author-list-extra-large-max - 1}) ~ .person:not(:nth-last-child(2)) {
+      position: absolute;
+      left: -9999px;
+      max-height: 0px;
+      overflow: hidden;
+      opacity: 0;
+      counter-increment: hidden-authors;
+    }
+
+    // append ellipsis to the last, unhidden author
+    .person:nth-child(#{settings.$author-list-extra-large-max - 1}):not(:nth-last-child(3)):after {
+      content: " … ";
+    }
   }
 }
 .content-header__authors--showall {
@@ -121,12 +103,6 @@
 .content-header__authors--showall-label  {
   @include typography.author-list-more-text();
   cursor: pointer;
-}
-.content-header--showall-control:checked ~ .content-header__authors .content-header__authors--showall-label:after {
-  content: "show less";
-}
-.content-header--showall-control:not(:checked) ~ .content-header__authors .content-header__authors--showall-label:after {
-  content: " show " counter(hidden-authors) " more.";
 }
 
 .content-header__affiliations {
@@ -150,6 +126,9 @@
   &:nth-last-child(2):after {
     content: "";
   }
+  &:nth-last-child(2) .organisation__address:after {
+    content: "";
+  }
 }
 .organisation__address {
   display: inline;
@@ -158,71 +137,44 @@
   &:after {
     content: ', ';
   }
-
-  &:nth-last-child(2):after {
-    content: "";
-  }
 }
 
 @media only all and (min-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-extra-large-max}) ~ .organisation {
-      position: absolute;
-      left: -9999px;
-      max-height: 0px;
-      overflow: hidden;
-      opacity: 0;
-      counter-increment: hidden-affiliations;
+  .content-header--showall-control:checked ~ .content-header__affiliations {
+    .content-header__affiliations--showall:nth-child(n+#{settings.$affiliation-list-extra-large-max + 2}) .content-header__affiliations--showall-label:after {
+      content: "show less";
+    }
   }
+  .content-header--showall-control:not(:checked) ~ .content-header__affiliations {
+    // show/hide logic for the show/hide label. Only show the label on
+    // => "show all" element that is after the max hide number + 2 (12th of 10, means there were 11 non-label elements)
+    .content-header__affiliations--showall:nth-child(n+#{settings.$affiliation-list-extra-large-max + 2}) .content-header__affiliations--showall-label:after {
+      content: " show " counter(hidden-affiliations) " more.";
+    }
 
-  .content-header__affiliations--showall:not(:nth-child(n+#{settings.$institution-list-extra-large-max + 2})) {
-    display: none;
-  }
-  .content-header__affiliations--showall:nth-child(n+#{settings.$institution-list-extra-large-max + 2}):before {
-    content: " … ";
-  }
-}
-@media only all and (max-width: settings.$breakpoint-extra-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-large-max}) ~ .organisation {
+    // hiding selector logic
+    // => .organisation element that is the max hide number in the list (10th if 10)
+    // => siblings after
+    // => .organisation elements that aren't the second to last child (last child is the label, second to last is the last author)
+    .organisation:nth-of-type(n+#{settings.$affiliation-list-extra-large-max}) ~ .organisation {
       position: absolute;
       left: -9999px;
       max-height: 0px;
       overflow: hidden;
       opacity: 0;
       counter-increment: hidden-affiliations;
-  }
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-large-max}) {
-    &:after {
-      content: " … ";
     }
-  }
-}
-@media only all and (max-width: settings.$breakpoint-large) {
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-medium-max}) ~ .organisation {
-      position: absolute;
-      left: -9999px;
-      max-height: 0px;
-      overflow: hidden;
-      opacity: 0;
-      counter-increment: hidden-affiliations;
-  }
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-medium-max}) {
-    &:after {
-      content: " … ";
-    }
-  }
-}
-@media only all and (max-width: settings.$breakpoint-medium) {
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-small-max}) ~ .organisation {
-      position: absolute;
-      left: -9999px;
-      max-height: 0px;
-      overflow: hidden;
-      opacity: 0;
-      counter-increment: hidden-affiliations;
-  }
-  .content-header--showall-control:not(:checked) ~ .content-header__affiliations .organisation:nth-child(#{settings.$institution-list-small-max}) {
-    &:after {
-      content: " … ";
+
+    // append ellipsis to the last, unhidden affiliation, that isn't the last non-list-child
+    .organisation:nth-child(#{settings.$affiliation-list-extra-large-max}):not(:nth-last-child(2)) {
+      &:after {
+        content: " … ";
+      }
+
+      // remove the comma after the address too
+      .organisation__address:after {
+        content: "";
+      }
     }
   }
 }
@@ -232,21 +184,6 @@
 .content-header__affiliations--showall-label  {
   @include typography.affiliations-list-more-text();
   cursor: pointer;
-}
-
-.content-header--showall-control:checked {
-  &~ .content-header__affiliations .content-header__affiliations--showall:before {
-    content: "  ";
-  }
-
-  &~ .content-header__affiliations .content-header__affiliations--showall-label:after {
-    content: " show less";
-  }
-}
-.content-header--showall-control:not(:checked) {
-  &~ .content-header__affiliations .content-header__affiliations--showall-label:after {
-    content: " show " counter(hidden-affiliations) " more.";
-  }
 }
 
 
