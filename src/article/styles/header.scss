@@ -20,6 +20,7 @@
 
 .article-flags__link {
   @include typography.summary-badge();
+
   background-color: settings.$color-less-light-grey;
   border-radius: 3px;
   cursor: pointer;
@@ -34,6 +35,7 @@
 
 .content-header__title {
   @include typography.heading-1();
+
   margin-bottom: 36px;
   margin-top: 0;
 }
@@ -84,12 +86,12 @@
     // => siblings after
     // => .person elements that aren't the second to last child (last child is the label, second to last is the last author)
     .person:nth-of-type(n+#{$list-length - 1}) ~ .person:not(:nth-last-child(2)) {
-      position: absolute;
+      counter-increment: hidden-authors;
       left: -9999px;
       max-height: 0px;
       overflow: hidden;
       opacity: 0;
-      counter-increment: hidden-authors;
+      position: absolute;
     }
 
     // append ellipsis to the last, unhidden author
@@ -116,12 +118,12 @@
     // => siblings after
     // => .organisation elements that aren't the second to last child (last child is the label, second to last is the last author)
     .organisation:nth-of-type(n+#{$list-length}) ~ .organisation {
-      position: absolute;
+      counter-increment: hidden-affiliations;
       left: -9999px;
       max-height: 0px;
       overflow: hidden;
       opacity: 0;
-      counter-increment: hidden-affiliations;
+      position: absolute;
     }
 
     // append ellipsis to the last, unhidden affiliation, that isn't the last non-list-child
@@ -138,20 +140,20 @@
   }
 }
 @media only all and (min-width: settings.$breakpoint-extra-large) {
-  @include collapsing-author-list(settings.$author-list-extra-large-max);
   @include collapsing-affiliation-list(settings.$affiliation-list-extra-large-max);
+  @include collapsing-author-list(settings.$author-list-extra-large-max);
 }
 @media only all and (max-width: settings.$breakpoint-extra-large) {
-  @include collapsing-author-list(settings.$author-list-large-max);
   @include collapsing-affiliation-list(settings.$affiliation-list-large-max);
+  @include collapsing-author-list(settings.$author-list-large-max);
 }
 @media only all and (max-width: settings.$breakpoint-large) {
-  @include collapsing-author-list(settings.$author-list-medium-max);
   @include collapsing-affiliation-list(settings.$affiliation-list-medium-max);
+  @include collapsing-author-list(settings.$author-list-medium-max);
 }
 @media only all and (max-width: settings.$breakpoint-medium) {
-  @include collapsing-author-list(settings.$author-list-small-max);
   @include collapsing-affiliation-list(settings.$affiliation-list-small-max);
+  @include collapsing-author-list(settings.$author-list-small-max);
 }
 .content-header__authors--showall {
   display: inline;
