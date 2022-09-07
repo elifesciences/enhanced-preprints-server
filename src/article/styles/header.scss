@@ -184,15 +184,12 @@
   &:nth-last-child(2):after {
     content: "";
   }
-  &:nth-last-child(2) .organisation__address:after {
-    content: "";
-  }
 }
 .organisation__address {
   display: inline;
   font-style: normal;
 
-  &:after {
+  &:not(:empty):before {
     content: ', ';
   }
 }
