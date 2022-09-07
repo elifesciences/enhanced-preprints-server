@@ -45,7 +45,7 @@
     "nano": "10.0.0",
     "sqlite": "4.1.2",
     "sqlite3": "5.0.11",
-    "winston": "3.8.1"
+    "winston": "3.8.2"
   },
   "scripts": {
     "start": "ts-node src/server.ts",
