@@ -1,9 +1,5 @@
 services:
   image-server:
-    profiles:
-    - couchdb
-    - sqlite
-    - mongodb
     build:
       context: image-server
     ports:
@@ -13,10 +9,6 @@ services:
     - ./data:/opt/epp/data
 
   sass-watch:
-    profiles:
-    - couchdb
-    - sqlite
-    - mongodb
     build:
       context: .
       target: prod
@@ -25,80 +17,8 @@ services:
     - ./src:/opt/epp/src
     - styles:/opt/epp/public/styles
 
-  # SQLite profile
-  app-sqlite:
-    profiles:
-    - sqlite
-    build:
-      context: .
-      target: prod
-    command: yarn start:dev
-    environment:
-      REPO_CONNECTION: /opt/epp-data/data.db
-      IIIF_SERVER: http://localhost:8182
-    ports:
-    - "8080:3000"
-    volumes:
-    - ./src:/opt/epp/src
-    - ./data:/opt/epp/data
-    - ./migrations:/opt/epp/migrations
-    - sqlite-data:/opt/epp-data
-    - styles:/opt/epp/public/styles
-
-  # couchdb profile
-  app-couchdb:
-    profiles:
-    - couchdb
-    depends_on:
-      create-database:
-        condition: service_completed_successfully
-    build:
-      context: .
-      target: prod
-    command: yarn start:dev
-    environment:
-      REPO_TYPE: CouchDB
-      REPO_CONNECTION: http://couchdb:5984/
-      REPO_USERNAME: admin
-      REPO_PASSWORD: testtest
-    ports:
-    - "8080:3000"
-    volumes:
-    - ./src:/opt/epp/src
-    - ./data:/opt/epp/data
-    - styles:/opt/epp/public/styles
-  couchdb:
-    profiles:
-    - couchdb
-    image: couchdb
-    environment:
-      COUCHDB_USER: admin
-      COUCHDB_PASSWORD: testtest
-    healthcheck:
-      test: ["CMD-SHELL", "curl http://127.0.0.1:5984"]
-      interval: 10s
-      timeout: 30s
-      retries: 3
-      start_period: 10s
-    ports:
-    - "5984:5984"
-    volumes:
-    - couchdb-data:/home/couchdb/data
-    - ./.docker/couchdb/doc_size.ini:/opt/couchdb/etc/local.d/doc_size.ini
-  create-database:
-    profiles:
-    - couchdb
-    depends_on:
-      couchdb:
-        condition: service_healthy
-    image: curlimages/curl
-    entrypoint: sh
-    command: -c 'sleep 5; curl -X PUT -u admin:testtest http://couchdb:5984/epp; curl -X PUT -u admin:testtest http://couchdb:5984/_users'
-
   # mongodb profile
   app-mongodb:
-    profiles:
-      - mongodb
     build:
       context: .
       target: prod
@@ -114,18 +34,14 @@ services:
       - ./src:/opt/epp/src
       - styles:/opt/epp/public/styles
   mongodb:
-    profiles:
-      - mongodb
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
     volumes:
-      - mongodb-data:/home/couchdb/data
+      data:/home/couchdb/data
 
   mongo-express:
-    profiles:
-      - mongodb
     image: mongo-express
     environment:
       - ME_CONFIG_OPTIONS_EDITORTHEME=dracula
@@ -139,7 +55,5 @@ services:
       - "8081:8081"
 
 volumes:
-  sqlite-data:
-  couchdb-data:
-  mongodb-data:
+  data:
   styles:
