@@ -39,7 +39,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
     volumes:
-      data:/home/couchdb/data
+      - data:/home/couchdb/data
 
   mongo-express:
     image: mongo-express
