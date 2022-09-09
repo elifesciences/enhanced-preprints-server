@@ -172,9 +172,12 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
 export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
   const existingDocuments = (await articleRepository.getArticleSummaries()).map(({ doi }) => doi);
   const xmlFiles = getDirectories(dataDir)
-    .filter((articleId) => !existingDocuments.includes(`${dataDir.substring(dataDir.lastIndexOf('/') + 1)}/${articleId}`))
     .map((articleId) => `${dataDir}/${articleId}/${articleId}.xml`)
     .filter((xmlFilePath) => existsSync(xmlFilePath));
 
-  return Promise.all(xmlFiles.map((xmlFile) => processXml(xmlFile).then((articleContent) => articleRepository.storeArticle(processArticle(articleContent)))));
+  const articlesToLoad = (await Promise.all(xmlFiles.map((xmlFile) => processXml(xmlFile))))
+    .filter((article) => !existingDocuments.includes(article.doi))
+    .map(processArticle);
+
+  return Promise.all(articlesToLoad.map(articleRepository.storeArticle));
 };
