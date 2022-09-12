@@ -52,7 +52,7 @@ app.get('/article/:publisherId/:articleId/attachment/:attachmentId', async (req,
   if (req.accepts('image/jpeg')) {
     const iiifId = encodeURIComponent(`${doi}/${attachmentId}`);
 
-    res.redirect(`${config.iiifServer}/iiif/2/${iiifId}/full/720,/0/default.jpg`);
+    res.redirect(`${config.iiifServer}/iiif/2/${iiifId}/full/max/0/default.jpg`);
     return;
   }
 

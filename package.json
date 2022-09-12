@@ -16,10 +16,9 @@
     "@types/jsdom": "20.0.0",
     "@types/marked": "4.0.7",
     "@types/node": "16.11.58",
-    "@types/sqlite3": "3.1.8",
     "@typescript-eslint/eslint-plugin": "5.36.2",
     "@typescript-eslint/parser": "5.36.2",
-    "eslint": "8.23.0",
+    "eslint": "8.23.1",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.0.0",
     "eslint-config-prettier": "8.5.0",
@@ -42,9 +41,6 @@
     "jsdom": "20.0.0",
     "marked": "4.1.0",
     "mongodb": "4.9.1",
-    "nano": "10.0.0",
-    "sqlite": "4.1.2",
-    "sqlite3": "5.0.11",
     "winston": "3.8.2"
   },
   "scripts": {
