@@ -4,7 +4,7 @@ const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
     return createArticleRepository(StoreType.InMemory);
   }
-  return createArticleRepository(StoreType.Sqlite, ':memory:');
+  throw Error('Article store not supported on test suite');
 };
 
 const exampleAuthors = [
@@ -38,7 +38,7 @@ const exampleLicenses = [
 ];
 
 describe('article-stores', () => {
-  describe.each([StoreType.InMemory, StoreType.Sqlite])('Test article store backed by %s', (store) => {
+  describe.each([StoreType.InMemory])('Test article store backed by %s', (store) => {
     it('stores article', async () => {
       const articleStore = await createArticleRepo(store);
       const stored = await articleStore.storeArticle({
