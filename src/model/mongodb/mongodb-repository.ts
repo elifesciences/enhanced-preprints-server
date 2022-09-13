@@ -80,6 +80,5 @@ export const createMongoDBArticleRepository = async (host: string, username: str
   const client = new MongoClient(connectionUrl);
 
   const collection = client.db('epp').collection<StoredArticle>('articles');
-
   return new MongoDBArticleRepository(collection);
 };
