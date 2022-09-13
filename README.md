@@ -9,9 +9,11 @@ make watch
 
 This will build and run the application on port `8080` and will rebuild any `ts` and `scss` files when they change.
 
-## Import example articles
+## Import articles
 
-You will need to import some test articles from the repo into your instance. Visit http://localhost:8080/import and click import.
+Data is imported from either the `$projectroot/data/10.1101` or alternatively you can specify a directory by setting the `IMPORT_DIR_PATH` environment variable. This directory should contain one directory for each article XML, and the name of the xml file should match the directory name (with `.xml` appended).
+
+Once you have your xml files in place, you can import them into your instance by running the app and visiting `/import` endpoint (e.g. http://localhost:8080/import) and click the import button. A JSON summary of the import process will be displayed.
 
 ## Running with databases
 
