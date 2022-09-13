@@ -14,24 +14,36 @@ export const articlePage = (article: ProcessedArticle, noHeader: boolean): strin
   <script>
     const images = document.querySelectorAll('.article-body img');
     images.forEach((image) => {
-      var imageUrl = image.src.replace('/attachment/', '/iiif/');
-      var openseadragonElement = document.createElement('div');
-      openseadragonElement.style.width = '100%';
-      openseadragonElement.style.height = '600px';
+      image.addEventListener('click', function(event) {
+        var imageUrl = image.src.replace('/attachment/', '/iiif/');
+        var openseadragonElement = document.createElement('div');
+        openseadragonElement.classList.add('image-viewer');
 
+        var openseadragonViewer = OpenSeadragon({
+          element: openseadragonElement,
+          prefixUrl: '//openseadragon.github.io/openseadragon/images/',
+          tileSources: imageUrl,
+        });
 
-      var openseadragonViewer = OpenSeadragon({
-        element: openseadragonElement,
-        prefixUrl: '//openseadragon.github.io/openseadragon/images/',
-        tileSources: imageUrl,
+        // allow the seadragon client to be scrolled past, but does disable scrolling to navigate
+        openseadragonViewer.innerTracker.scrollHandler=false;
+
+        //this will replace the element with the openseadragon viewer
+        // image.parentElement.replaceChild(openseadragonElement, image);
+
+        //this appends and makes a fullscreen overlay
+        document.body.appendChild(openseadragonElement);
+        openseadragonViewer.setFullPage(true);
+        openseadragonViewer.addHandler('full-page', () => {
+          openseadragonViewer.close()
+          openseadragonElement.remove();
+        });
       });
 
-      // allow the seadragon client to be scrolled past, but does disable scrolling to navigate
-      openseadragonViewer.innerTracker.scrollHandler=false;
-
-      image.parentElement.replaceChild(openseadragonElement, image);
+      image.style.cursor = 'pointer';
     });
-  </script>`;
+  </script>
+  `;
 
   return `${header(article)}
   <main class="primary-column">
