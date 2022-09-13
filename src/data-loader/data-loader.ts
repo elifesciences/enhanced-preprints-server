@@ -179,5 +179,5 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
     .filter((article) => !existingDocuments.includes(article.doi))
     .map(processArticle);
 
-  return Promise.all(articlesToLoad.map(articleRepository.storeArticle));
+  return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
 };
