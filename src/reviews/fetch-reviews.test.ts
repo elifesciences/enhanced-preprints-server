@@ -8,7 +8,7 @@ jest.mock('axios');
 
 describe('fetch-reviews', () => {
   describe('parse docmap', () => {
-    const mockedGet = mocked(axios.get, true);
+    const mockedGet = mocked(axios.get);
 
     // @ts-ignore
     mockedGet.mockImplementation((url) => {
@@ -65,7 +65,7 @@ describe('fetch-reviews', () => {
 
   describe('error handling', () => {
     it('throws an exception on http errors', async () => {
-      const mockedGet = mocked(axios.get, true);
+      const mockedGet = mocked(axios.get);
       // eslint-disable-next-line prefer-promise-reject-errors
       mockedGet.mockImplementation(() => Promise.reject({
         data: {},
@@ -76,7 +76,7 @@ describe('fetch-reviews', () => {
     });
 
     it('returns empty array if there are no hypothesis link in the docmap', async () => {
-      const mockedGet = mocked(axios.get, true);
+      const mockedGet = mocked(axios.get);
       // @ts-ignore
       mockedGet.mockImplementation(() => Promise.resolve({
         data: { steps: [] },
