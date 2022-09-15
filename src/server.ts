@@ -32,7 +32,7 @@ app.get('/api/content/:publisherId/:articleId', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
 
-  const { content } = await articleRepository.getArticle(doi)
+  const { content } = await articleRepository.getArticle(doi);
   res.send(content);
 });
 
