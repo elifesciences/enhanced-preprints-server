@@ -28,6 +28,14 @@ app.get('/', async (req, res) => {
   res.send(basePage(generateArticleList(config.name, await articleRepository.getArticleSummaries())));
 });
 
+app.get('/api/content/:publisherId/:articleId', async (req, res) => {
+  const { publisherId, articleId } = req.params;
+  const doi = `${publisherId}/${articleId}`;
+
+  const { content } = await articleRepository.getArticle(doi)
+  res.send(content);
+});
+
 app.get('/article/:publisherId/:articleId', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
