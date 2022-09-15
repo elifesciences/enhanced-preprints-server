@@ -28,12 +28,31 @@ app.get('/', async (req, res) => {
   res.send(basePage(generateArticleList(config.name, await articleRepository.getArticleSummaries())));
 });
 
-app.get('/api/content/:publisherId/:articleId', async (req, res) => {
+app.get('/api/article/:publisherId/:articleId/content', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
 
   const { content } = await articleRepository.getArticle(doi);
   res.send(content);
+});
+
+app.get('/api/article/:publisherId/:articleId/metadata', async (req, res) => {
+  const { publisherId, articleId } = req.params;
+  const doi = `${publisherId}/${articleId}`;
+
+  const article = await articleRepository.getArticle(doi);
+  res.send({
+    authors: article.authors,
+    doi,
+    title: article.title,
+    msas: [],
+    importance: '',
+    strengthOfEvidence: '',
+    views: 1,
+    citations: 2,
+    tweets: 3,
+    headings: article.headings,
+  });
 });
 
 app.get('/article/:publisherId/:articleId', async (req, res) => {
