@@ -9,6 +9,7 @@ import { createEnhancedArticleGetter, GetEnhancedArticle } from './reviews/get-e
 import { createArticleRepository } from './model/create-article-repository';
 import { config } from './config';
 import { logger } from './utils/logger';
+import { fetchReviews } from './reviews/fetch-reviews';
 
 const app = express();
 
@@ -17,6 +18,7 @@ let getEnhancedArticle: GetEnhancedArticle;
 createArticleRepository(config.repoType, config.repoConnection, config.repoUserName, config.repoPassword).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
+  await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
   app.listen(3000, () => {
     logger.info('Example app listening on port 3000');
   });
@@ -28,15 +30,23 @@ app.get('/', async (req, res) => {
   res.send(basePage(generateArticleList(config.name, await articleRepository.getArticleSummaries())));
 });
 
-app.get('/api/article/:publisherId/:articleId/content', async (req, res) => {
+app.get('/api/reviewed-preprints/', async (req, res) => {
+  const summaries = await articleRepository.getArticleSummaries();
+
+  res.send({
+    items: summaries,
+    total: summaries.length,
+  });
+});
+
+app.get('/api/reviewed-preprints/:publisherId/:articleId/', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
 
-  const { content } = await articleRepository.getArticle(doi);
-  res.send(content);
+  res.send(await articleRepository.getArticle(doi));
 });
 
-app.get('/api/article/:publisherId/:articleId/metadata', async (req, res) => {
+app.get('/api/reviewed-preprints/:publisherId/:articleId/metadata', async (req, res) => {
   const { publisherId, articleId } = req.params;
   const doi = `${publisherId}/${articleId}`;
 
@@ -53,6 +63,20 @@ app.get('/api/article/:publisherId/:articleId/metadata', async (req, res) => {
     tweets: 3,
     headings: article.headings,
   });
+});
+
+app.get('/api/reviewed-preprints/:publisherId/:articleId/content', async (req, res) => {
+  const { publisherId, articleId } = req.params;
+  const doi = `${publisherId}/${articleId}`;
+
+  const { content } = await articleRepository.getArticle(doi);
+  res.send(content);
+});
+
+app.get('/api/reviewed-preprints/:publisherId/:articleId/reviews', async (req, res) => {
+  const { publisherId, articleId } = req.params;
+  const doi = `${publisherId}/${articleId}`;
+  res.send(await fetchReviews(doi, config.id));
 });
 
 app.get('/article/:publisherId/:articleId', async (req, res) => {
