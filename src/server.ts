@@ -6,7 +6,7 @@ import { basePage } from './base-page/base-page';
 import { ArticleRepository } from './model/model';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
 import { createEnhancedArticleGetter, GetEnhancedArticle } from './reviews/get-enhanced-article';
-import { createArticleRepository } from './model/create-article-repository';
+import { createArticleRepository, StoreType } from './model/create-article-repository';
 import { config } from './config';
 import { logger } from './utils/logger';
 import { fetchReviews } from './reviews/fetch-reviews';
@@ -18,7 +18,10 @@ let getEnhancedArticle: GetEnhancedArticle;
 createArticleRepository(config.repoType, config.repoConnection, config.repoUserName, config.repoPassword).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
-  await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
+  if (config.repoType === StoreType.InMemory) {
+    // auto import on startup when InMemory, so that dev changes are reflected quickly
+    await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
+  }
   app.listen(3000, () => {
     logger.info('Example app listening on port 3000');
   });
