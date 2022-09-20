@@ -184,8 +184,7 @@ app.post('/import', async (req, res, next) => {
 const errorHandler: express.ErrorRequestHandler = (error, req, res) => {
   const status = error.status || 500;
   const message = error.message || 'Something went wrong';
-  res.sendStatus(status);
-  res.send({
+  res.status(status).send({
     status,
     message,
   });
