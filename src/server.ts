@@ -18,10 +18,6 @@ let getEnhancedArticle: GetEnhancedArticle;
 createArticleRepository(config.repoType, config.repoConnection, config.repoUserName, config.repoPassword).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
   getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
-  if (config.repoType === StoreType.InMemory) {
-    // auto import on startup when InMemory, so that dev changes are reflected quickly
-    await loadXmlArticlesFromDirIntoStores(config.dataDir, articleRepository);
-  }
   app.listen(3000, () => {
     logger.info('Example app listening on port 3000');
   });
