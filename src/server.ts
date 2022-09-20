@@ -6,7 +6,7 @@ import { basePage } from './base-page/base-page';
 import { ArticleRepository } from './model/model';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
 import { createEnhancedArticleGetter, GetEnhancedArticle } from './reviews/get-enhanced-article';
-import { createArticleRepository, StoreType } from './model/create-article-repository';
+import { createArticleRepository } from './model/create-article-repository';
 import { config } from './config';
 import { logger } from './utils/logger';
 import { fetchReviews } from './reviews/fetch-reviews';
@@ -181,10 +181,9 @@ app.post('/import', async (req, res, next) => {
 });
 
 // error handler
-const errorHandler: express.ErrorRequestHandler = (error, req, res, _: express.NextFunction) => {
+const errorHandler: express.ErrorRequestHandler = (error, req, res) => {
   const status = error.status || 500;
   const message = error.message || 'Something went wrong';
-  console.log(res);
   res.sendStatus(status);
   res.send({
     status,
