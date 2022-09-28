@@ -181,7 +181,8 @@ app.post('/import', async (req, res, next) => {
 });
 
 // error handler
-const errorHandler: express.ErrorRequestHandler = (error, req, res) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const errorHandler: express.ErrorRequestHandler = (error, req, res, next) => {
   const status = error.status || 500;
   const message = error.message || 'Something went wrong';
   res.status(status).send({
