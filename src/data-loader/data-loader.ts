@@ -106,7 +106,6 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   let html = await convertJatsToHtml(realFile, !config.iiifServer);
   let json = await convertJatsToJson(realFile);
   const articleStruct = JSON.parse(json) as ArticleStruct;
-  console.log(articleStruct.references[0]?.isPartOf ?? '');
 
   // extract DOI
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
