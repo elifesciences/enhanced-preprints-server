@@ -103,7 +103,7 @@ const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string =
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
   const realFile = realpathSync(file);
-  let html = await convertJatsToHtml(realFile, !config.iiifServer);
+  const html = await convertJatsToHtml(realFile, !config.iiifServer);
   let json = await convertJatsToJson(realFile);
   const articleStruct = JSON.parse(json) as ArticleStruct;
 
@@ -116,8 +116,7 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   if (config.iiifServer) {
     const articleDir = dirname(realFile);
     logger.debug(`replacing ${articleDir} in JSON and HTML with /article/${doi}/attachment for IIIF server`);
-    json = json.replaceAll(articleDir, `/article/${doi}/attachment`);
-    html = html.replaceAll(articleDir, `/article/${doi}/attachment`);
+    json = json.replaceAll(articleDir, doi);
   }
 
   // extract HTML content without header
