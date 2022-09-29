@@ -28,13 +28,34 @@ type Organisation = {
 };
 type Person = {
   type: 'Person',
-  affiliations: Array<Organisation>,
+  affiliations?: Array<Organisation>,
   familyNames: Array<string>,
   givenNames: Array<string>,
 };
 type License = {
   type: 'CreativeWork',
   url: string,
+};
+type PublicationType = 'PublicationVolume' | 'Periodical';
+type Publication = {
+  type: PublicationType,
+  name: string,
+  volumeNumber?: number,
+  isPartOf?: Publication,
+};
+type Reference = {
+  type: 'Article',
+  id: string,
+  title: string,
+  url: string,
+  pageEnd: number,
+  pageStart: number,
+  authors: Array<Person>,
+  datePublished: {
+    type: string,
+    value: string
+  },
+  isPartOf?: Publication,
 };
 
 export type ArticleStruct = {
@@ -49,6 +70,7 @@ export type ArticleStruct = {
   description: Content,
   licenses: Array<License>,
   content: Content,
+  references: Reference[],
 };
 type ArticleIdentifier = {
   name: string,
@@ -84,6 +106,7 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   let html = await convertJatsToHtml(realFile, !config.iiifServer);
   let json = await convertJatsToJson(realFile);
   const articleStruct = JSON.parse(json) as ArticleStruct;
+  console.log(articleStruct.references[0]?.isPartOf ?? '');
 
   // extract DOI
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
@@ -151,7 +174,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
 
   // extract title
   const {
-    title, authors, description: abstract, licenses,
+    title, authors, description: abstract, licenses, references,
   } = articleStruct;
 
   // extract publish date
@@ -166,6 +189,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     licenses,
     content: articleStruct.content,
     headings: extractHeadings(articleStruct.content),
+    references
   };
 };
 

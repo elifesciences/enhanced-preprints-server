@@ -23,7 +23,7 @@ export type Organisation = {
 export type Author = {
   familyNames: string[],
   givenNames: string[],
-  affiliations: Organisation[],
+  affiliations?: Organisation[],
 };
 
 export type License = {
@@ -35,6 +35,27 @@ export type Heading = {
   id: string,
   text: Content,
 };
+export type PublicationType = 'PublicationVolume' | 'Periodical';
+export type Publication = {
+  type: PublicationType,
+  name: string,
+  volumeNumber?: number,
+  isPartOf?: Publication,
+};
+export type Reference = {
+  type: 'Article',
+  id: string,
+  title: string,
+  url: string,
+  pageEnd: number,
+  pageStart: number,
+  authors: Array<Author>,
+  datePublished: {
+    type: string,
+    value: string
+  },
+  isPartOf?: Publication,
+};
 
 export type ProcessedArticle = Omit<ArticleContent, 'document'> & {
   title: ArticleTitle,
@@ -44,6 +65,7 @@ export type ProcessedArticle = Omit<ArticleContent, 'document'> & {
   licenses: License[],
   content: Content,
   headings: Heading[],
+  references: Reference[],
 };
 
 export type ArticleSummary = {

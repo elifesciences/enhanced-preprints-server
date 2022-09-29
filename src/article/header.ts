@@ -7,7 +7,7 @@ const formatAuthorName = (author: Author) => `${author.givenNames.join(' ')} ${a
 const formatOrganisation = (organisation: Organisation) => `${organisation.name}<address class="organisation__address">${organisation.address?.addressCountry ?? ''}</address>`;
 
 export const header = (article: ProcessedArticle): string => {
-  const organisationList = article.authors.flatMap((author) => author.affiliations).filter((organisation) => !!organisation);
+  const organisationList = article.authors.flatMap((author) => author?.affiliations ?? []).filter((organisation) => !!organisation);
   const organisationListItems = organisationList.map((organisation: Organisation) => `<li class="organisation">${formatOrganisation(organisation)}</li>`);
   // unique org list
   const uniqueOrganisationListItems = [...new Set(organisationListItems)];
