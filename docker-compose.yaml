@@ -83,7 +83,7 @@ services:
   # used to auto-import data
   import-data:
     image: alpine:latest
-    command: sh -c "apk add curl; curl -X POST http://api:3000/import"
+    command: sh -c "apk add curl; curl -X POST http://app:3000/import"
     depends_on:
       app:
         condition: service_healthy
