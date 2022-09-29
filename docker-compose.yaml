@@ -1,4 +1,5 @@
 services:
+  # Dependant services
   image-server:
     build:
       context: image-server
@@ -7,7 +8,40 @@ services:
     volumes:
     - ./image-server/dev-cantaloupe.properties:/opt/cantaloupe/cantaloupe.properties
     - ./data:/opt/epp/data
+    healthcheck:
+      test: curl http://image-server:8182/
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: testtest
+    volumes:
+      - data:/home/couchdb/data
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/test --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
+  mongo-express:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=dracula
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=testtest
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
 
+  # build styles
   sass-watch:
     build:
       context: .
@@ -17,8 +51,8 @@ services:
     - ./src:/opt/epp/src
     - styles:/opt/epp/public/styles
 
-  # mongodb profile
-  app-mongodb:
+  # main app
+  app:
     build:
       context: .
       target: prod
@@ -34,26 +68,25 @@ services:
     volumes:
       - ./src:/opt/epp/src
       - styles:/opt/epp/public/styles
-  mongodb:
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: testtest
-    volumes:
-      - data:/home/couchdb/data
-
-  mongo-express:
-    image: mongo-express
-    environment:
-      - ME_CONFIG_OPTIONS_EDITORTHEME=dracula
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-      - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
-      - ME_CONFIG_MONGODB_AUTH_PASSWORD=testtest
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'apk add curl; curl http://app:3000/'"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
     depends_on:
-      - mongodb
-    ports:
-      - "8081:8081"
+      mongodb:
+        condition: service_healthy
+      image-server:
+        condition: service_healthy
+
+  # used to auto-import data
+  import-data:
+    image: alpine:latest
+    command: sh -c "apk add curl; curl -X POST http://api:3000/import"
+    depends_on:
+      app:
+        condition: service_healthy
 
 volumes:
   data:
