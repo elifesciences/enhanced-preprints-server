@@ -1,4 +1,5 @@
 import { createArticleRepository, StoreType } from './create-article-repository';
+import { Reference } from './model';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
@@ -30,6 +31,27 @@ const exampleAuthors = [
   },
 ];
 
+const exampleReference: Reference = {
+  id: 'test-ref',
+  type: 'Article',
+  authors: [
+    {
+      familyNames: [
+        'Van',
+        'Egroo',
+      ],
+      givenNames: [
+        'Maxime',
+      ],
+    },
+  ],
+  datePublished: new Date('2022-06-04'),
+  pageStart: 1,
+  pageEnd: 2,
+  title: 'Another article',
+  url: 'https://bbc.co.uk',
+};
+
 const exampleLicenses = [
   {
     type: 'CreativeWork',
@@ -51,7 +73,7 @@ describe('article-stores', () => {
         content: [],
         licenses: exampleLicenses,
         headings: [],
-        references: [],
+        references: [exampleReference],
       });
 
       expect(stored).toStrictEqual(true);
@@ -69,7 +91,7 @@ describe('article-stores', () => {
         content: '<article></article>',
         licenses: exampleLicenses,
         headings: [],
-        references: [],
+        references: [exampleReference],
       };
       await articleStore.storeArticle(article);
       const stored = await articleStore.storeArticle(article);
@@ -90,7 +112,7 @@ describe('article-stores', () => {
         content: [],
         licenses: exampleLicenses,
         headings: [],
-        references: [],
+        references: [exampleReference],
       };
       const result = await articleStore.storeArticle(exampleArticle);
       expect(result).toStrictEqual(true);
@@ -125,7 +147,7 @@ describe('article-stores', () => {
         content: '<article></article>',
         licenses: exampleLicenses,
         headings: [],
-        references: [],
+        references: [exampleReference],
       };
       const exampleArticle2 = {
         doi: 'test/article.5',
@@ -137,7 +159,7 @@ describe('article-stores', () => {
         content: '<article></article>',
         licenses: exampleLicenses,
         headings: [],
-        references: [],
+        references: [exampleReference],
       };
       const exampleArticle3 = {
         doi: 'test/article.6',
@@ -149,7 +171,7 @@ describe('article-stores', () => {
         content: '<article></article>',
         licenses: exampleLicenses,
         headings: [],
-        references: [],
+        references: [exampleReference],
       };
       await articleStore.storeArticle(exampleArticle1);
       await articleStore.storeArticle(exampleArticle2);

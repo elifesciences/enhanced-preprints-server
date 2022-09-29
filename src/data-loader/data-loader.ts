@@ -173,11 +173,17 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
 
   // extract title
   const {
-    title, authors, description: abstract, licenses, references,
+    title, authors, description: abstract, licenses,
   } = articleStruct;
 
   // extract publish date
   const date = new Date(articleStruct.datePublished.value);
+
+  // map datePublished in references to a date
+  const references = articleStruct.references.map((reference) => ({
+    ...reference,
+    datePublished: new Date(reference.datePublished.value),
+  }));
 
   return {
     ...article,
