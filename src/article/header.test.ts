@@ -24,6 +24,7 @@ const exampleArticle = {
   licenses: [],
   content: '',
   headings: [],
+  references: [],
 };
 
 describe('header', () => {

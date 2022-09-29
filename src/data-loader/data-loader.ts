@@ -28,13 +28,34 @@ type Organisation = {
 };
 type Person = {
   type: 'Person',
-  affiliations: Array<Organisation>,
+  affiliations?: Array<Organisation>,
   familyNames: Array<string>,
   givenNames: Array<string>,
 };
 type License = {
   type: 'CreativeWork',
   url: string,
+};
+type PublicationType = 'PublicationVolume' | 'Periodical';
+type Publication = {
+  type: PublicationType,
+  name: string,
+  volumeNumber?: number,
+  isPartOf?: Publication,
+};
+type Reference = {
+  type: 'Article',
+  id: string,
+  title: string,
+  url: string,
+  pageEnd: number,
+  pageStart: number,
+  authors: Array<Person>,
+  datePublished: {
+    type: string,
+    value: string
+  },
+  isPartOf?: Publication,
 };
 
 export type ArticleStruct = {
@@ -49,6 +70,7 @@ export type ArticleStruct = {
   description: Content,
   licenses: Array<License>,
   content: Content,
+  references: Reference[],
 };
 type ArticleIdentifier = {
   name: string,
@@ -157,6 +179,12 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
   // extract publish date
   const date = new Date(articleStruct.datePublished.value);
 
+  // map datePublished in references to a date
+  const references = articleStruct.references.map((reference) => ({
+    ...reference,
+    datePublished: new Date(reference.datePublished.value),
+  }));
+
   return {
     ...article,
     title,
@@ -166,6 +194,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     licenses,
     content: articleStruct.content,
     headings: extractHeadings(articleStruct.content),
+    references,
   };
 };
 

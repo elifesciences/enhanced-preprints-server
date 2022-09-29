@@ -8,6 +8,7 @@ import {
   Heading,
   License,
   ProcessedArticle,
+  Reference,
 } from '../model';
 import { Content } from '../content';
 
@@ -22,6 +23,7 @@ type StoredArticle = {
   content: Content,
   headings: Heading[],
   html: string,
+  references: Reference[],
 };
 
 class MongoDBArticleRepository implements ArticleRepository {
@@ -43,6 +45,7 @@ class MongoDBArticleRepository implements ArticleRepository {
       headings: article.headings,
       licenses: article.licenses,
       html: article.html,
+      references: article.references,
     });
 
     return response.acknowledged;
