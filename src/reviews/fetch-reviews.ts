@@ -4,7 +4,7 @@ import { Participant, PeerReview, ReviewType } from '../model/model';
 type FetchReviews = (doi: string, reviewingGroup: string) => Promise<PeerReview>;
 
 type FetchDocmap = (doi: string) => Promise<Docmap>;
-const fetchDocmaps: FetchDocmap = async () => axios.get<Docmap>('https://staging.sciety.org/docmaps/v1/evaluations-by/elife/10.1101/2021.06.02.446694.docmap.json').then(async (response) => response.data);
+const fetchDocmaps: FetchDocmap = async (doi) => axios.get<Docmap>(`https://staging.sciety.org/docmaps/v1/evaluations-by/elife/${doi}.docmap.json`).then(async (response) => response.data);
 
 export const fetchReviews: FetchReviews = async (doi) => {
   let docmap;
