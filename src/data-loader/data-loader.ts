@@ -189,7 +189,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     licenses,
     content: articleStruct.content,
     headings: extractHeadings(articleStruct.content),
-    references
+    references,
   };
 };
 
