@@ -31,8 +31,8 @@ describe('fetch-reviews', () => {
 
     it('extracts the correct participants for each action', () => {
       expect(peerReview.evaluationSummary.participants).toStrictEqual(expect.arrayContaining([
-        { name: 'Ronald L Calabrese', role: 'senior-editor' },
-        { name: 'Noah J Cowan', role: 'editor' },
+        { name: 'Ronald L Calabrese', role: 'senior-editor', institution: 'Emory University, United States' },
+        { name: 'Noah J Cowan', role: 'editor', institution: 'Johns Hopkins University, United States' },
       ]));
       expect(peerReview.authorResponse?.participants).toStrictEqual(expect.arrayContaining([
         { name: 'anonymous', role: 'peer-reviewer' },
