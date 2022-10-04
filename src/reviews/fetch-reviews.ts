@@ -19,7 +19,8 @@ export const fetchReviews: FetchReviews = async (doi) => {
     .flatMap(({ participants, outputs }) => outputs.map((output) => ({ ...output, participants })))
     .reduce((previousValue, currentValue) => {
       const webContent = currentValue.content.find((content) => content.type === 'web-content');
-      const participants = currentValue.participants.map((participant) => ({ name: participant.actor.name, role: participant.role }));
+      // eslint-disable-next-line no-underscore-dangle
+      const participants = currentValue.participants.map((participant) => ({ name: participant.actor.name, role: participant.role, institution: participant.actor._relatesToOrganization }));
       if (webContent) {
         previousValue.push({
           date: new Date(currentValue.published),
@@ -66,6 +67,7 @@ type DocmapStep = {
       actor: {
         name: string,
         type: string,
+        '_relatesToOrganization': string,
       },
       role: string,
     }[];
