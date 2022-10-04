@@ -81,6 +81,7 @@ export enum ReviewType {
 export type Participant = {
   name: string,
   role: string,
+  institution: string,
 };
 
 export type Evaluation = {
