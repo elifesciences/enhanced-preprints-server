@@ -74,6 +74,7 @@ app.get('/api/reviewed-preprints/:publisherId/:articleId/metadata', async (req, 
       citations: 2,
       tweets: 3,
       headings: article.headings,
+      abstract: article.abstract,
     });
   } catch (err) {
     next(err);
