@@ -52,6 +52,12 @@ export type Reference = {
   authors: Array<Author>,
   datePublished: Date,
   isPartOf?: Publication,
+  identifiers?: {
+    type: string,
+    name: string,
+    propertyID: string,
+    value: string,
+  }[],
 };
 
 export type ProcessedArticle = Omit<ArticleContent, 'document'> & {

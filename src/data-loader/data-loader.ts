@@ -52,7 +52,7 @@ type Reference = {
   pageEnd: number,
   pageStart: number,
   authors: Array<Person>,
-  identifiers: {
+  identifiers?: {
     type: string,
     name: string,
     propertyID: string,
