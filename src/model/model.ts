@@ -52,7 +52,7 @@ export type Reference = {
   authors: Array<Author>,
   datePublished: Date,
   isPartOf?: Publication,
-  identifiers: {
+  identifiers?: {
     type: string,
     name: string,
     propertyID: string,
