@@ -43,6 +43,7 @@ type Publication = {
   volumeNumber?: number,
   isPartOf?: Publication,
 };
+
 type Reference = {
   type: 'Article',
   id: string,
@@ -51,6 +52,12 @@ type Reference = {
   pageEnd: number,
   pageStart: number,
   authors: Array<Person>,
+  identifiers: {
+    type: string,
+    name: string,
+    propertyID: string,
+    value: string,
+  }[],
   datePublished: {
     type: string,
     value: string
