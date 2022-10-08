@@ -37,7 +37,7 @@
     "@stencila/encoda": "0.119.2",
     "@stencila/schema": "1.18.0",
     "axios": "0.27.2",
-    "express": "4.18.1",
+    "express": "4.18.2",
     "jsdom": "20.0.1",
     "marked": "4.1.1",
     "mongodb": "4.10.0",
