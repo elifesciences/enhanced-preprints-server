@@ -190,7 +190,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
   // map datePublished in references to a date
   const references = articleStruct.references.map((reference) => ({
     ...reference,
-    datePublished: date,
+    datePublished: reference?.datePublished?.value ? new Date(reference.datePublished.value) : undefined,
   }));
 
   return {
