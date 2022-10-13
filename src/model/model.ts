@@ -50,7 +50,7 @@ export type Reference = {
   pageEnd: number,
   pageStart: number,
   authors: Array<Author>,
-  datePublished: Date,
+  datePublished?: Date,
   isPartOf?: Publication,
   identifiers?: {
     type: string,
