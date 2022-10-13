@@ -45,7 +45,8 @@ export const fetchReviews: FetchReviews = async (doi) => {
   }
 
   return {
-    reviews: evaluations.filter((evaluation) => evaluation.reviewType === ReviewType.Review),
+    reviews: evaluations.filter((evaluation) => evaluation.reviewType === ReviewType.Review)
+      .reverse(), // .reverse, because chronology is important to display, but sciety docmaps have reviews and dates ascending in opposite directions
     evaluationSummary,
     authorResponse: evaluations.find((evaluation) => evaluation.reviewType === ReviewType.AuthorResponse),
   };
