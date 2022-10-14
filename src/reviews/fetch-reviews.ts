@@ -6,6 +6,8 @@ type FetchReviews = (doi: string, reviewingGroup: string) => Promise<PeerReview>
 type FetchDocmap = (doi: string) => Promise<Docmap>;
 const fetchDocmaps: FetchDocmap = async (doi) => axios.get<Docmap>(`https://staging.sciety.org/docmaps/v1/evaluations-by/elife/${doi}.docmap.json`).then(async (response) => response.data);
 
+const hypothesisCache:Map<string, string> = new Map();
+
 export const fetchReviews: FetchReviews = async (doi) => {
   let docmap;
   try {
@@ -33,8 +35,12 @@ export const fetchReviews: FetchReviews = async (doi) => {
       return previousValue;
     }, new Array<{ date: Date, reviewType: ReviewType, url: string, participants: Participant[] }>())
     .map(async ({ url, ...rest }) => {
+      if (hypothesisCache.has(url)) {
+        return { text: hypothesisCache.get(url), ...rest };
+      }
       const response = await axios.get(url);
       const text = await response.data;
+      hypothesisCache.set(url, text);
 
       return { text, ...rest };
     }));
