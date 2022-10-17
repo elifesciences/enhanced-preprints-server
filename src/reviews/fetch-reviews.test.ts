@@ -29,20 +29,15 @@ describe('fetch-reviews', () => {
       peerReview = await fetchReviews('10.1101/2021.07.05.451181', 'test');
     });
 
-    it('extracts the correct participants for each action', () => {
+    it('extracts the correct participants for each action, maps roles to friendly and strips peer-reviewers', () => {
       expect(peerReview.evaluationSummary.participants).toStrictEqual(expect.arrayContaining([
-        { name: 'Ronald L Calabrese', role: 'senior-editor', institution: 'Emory University, United States' },
-        { name: 'Noah J Cowan', role: 'editor', institution: 'Johns Hopkins University, United States' },
+        { name: 'Ronald L Calabrese', role: 'Senior Editor', institution: 'Emory University, United States' },
+        { name: 'Noah J Cowan', role: 'Reviewing Editor', institution: 'Johns Hopkins University, United States' },
       ]));
-      expect(peerReview.authorResponse?.participants).toStrictEqual(expect.arrayContaining([
-        { name: 'anonymous', role: 'peer-reviewer' },
-      ]));
-      expect(peerReview.reviews.flatMap((review) => review.participants)).toStrictEqual(expect.arrayContaining([
-        { name: 'anonymous', role: 'peer-reviewer' },
-        { name: 'anonymous', role: 'peer-reviewer' },
-        { name: 'anonymous', role: 'peer-reviewer' },
-      ]));
+      expect(peerReview.authorResponse?.participants).toStrictEqual([]);
+      expect(peerReview.reviews.flatMap((review) => review.participants)).toStrictEqual([]);
     });
+
     it('extracts the correct dates for each action', () => {
       expect(peerReview.evaluationSummary.date.getTime()).toStrictEqual(new Date('2022-02-15T09:43:15.348Z').getTime());
       expect(peerReview.authorResponse?.date.getTime()).toStrictEqual(new Date('2022-02-15T11:24:05.730Z').getTime());
@@ -52,6 +47,7 @@ describe('fetch-reviews', () => {
         new Date('2022-02-15T09:43:14.350Z').getTime(),
       ]));
     });
+
     it('fetches the evaluation text for each action with a "web-content" type', () => {
       expect(peerReview.evaluationSummary.text).toStrictEqual('summary');
       expect(peerReview.authorResponse?.text).toStrictEqual('reply');
