@@ -8,6 +8,17 @@ const fetchDocmaps: FetchDocmap = async (doi) => axios.get<Docmap>(`https://scie
 
 const hypothesisCache:Map<string, string> = new Map();
 
+const roleToFriendlyRole = (role: string) => {
+  if (role === 'senior-editor') {
+    return 'Senior Editor';
+  }
+  if (role === 'editor') {
+    return 'Reviewing Editor';
+  }
+
+  return role;
+};
+
 export const fetchReviews: FetchReviews = async (doi) => {
   let docmap;
   try {
@@ -21,8 +32,10 @@ export const fetchReviews: FetchReviews = async (doi) => {
     .flatMap(({ participants, outputs }) => outputs.map((output) => ({ ...output, participants })))
     .reduce((previousValue, currentValue) => {
       const webContent = currentValue.content.find((content) => content.type === 'web-content');
-      // eslint-disable-next-line no-underscore-dangle
-      const participants = currentValue.participants.map((participant) => ({ name: participant.actor.name, role: participant.role, institution: participant.actor._relatesToOrganization }));
+      const participants = currentValue.participants
+        // eslint-disable-next-line no-underscore-dangle
+        .map((participant) => ({ name: participant.actor.name, role: roleToFriendlyRole(participant.role), institution: participant.actor._relatesToOrganization }))
+        .filter((participant) => participant.role !== 'peer-reviewer');
       if (webContent) {
         previousValue.push({
           date: new Date(currentValue.published),
