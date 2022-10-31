@@ -13,7 +13,6 @@ import {
 } from '../model/model';
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
-import { config } from '../config';
 
 // type related to the JSON output of encoda
 type Address = {
