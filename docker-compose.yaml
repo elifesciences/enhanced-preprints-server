@@ -47,7 +47,7 @@ services:
     ports:
       - "8081:8081"
 
-  ## EPP API
+  # EPP API
   api:
     build:
       context: .
@@ -70,32 +70,14 @@ services:
       REPO_USERNAME: admin
       REPO_PASSWORD: testtest
       IIIF_SERVER: http://localhost:8182
-      IMPORT_DIR_PATH: /opt/epp-data/data/enhanced-preprints-data/data/10.1101/
     ports:
       - 3000:3000
     volumes:
-      - import_data:/opt/epp-data
+      - ./data:/opt/epp/data
       - ./src:/opt/epp/src
       - styles:/opt/epp/public/styles
-  ## EPP API data fetch
-  api-fetch-data:
-    image: k8s.gcr.io/git-sync/git-sync:v3.5.0
-    environment:
-      GIT_SYNC_HTTP_BIND: localhost:8080
-      GIT_SYNC_ROOT: "/tmp/git/data"
-      GIT_SYNC_REPO: https://github.com/elifesciences/enhanced-preprints-data
-      GIT_SYNC_BRANCH: master
-      GIT_SYNC_DEPTH: "0"
-      GIT_SYNC_WEBHOOK_URL: http://api:3000/import
-      GIT_SYNC_WEBHOOK_TIMEOUT: "10s"
-      GIT_SYNC_WEBHOOK_BACKOFF: "10s"
-    depends_on:
-      api:
-        condition: service_healthy
-    volumes:
-      - import_data:/tmp/git
 
-  ## auto building styles
+  # auto building styles
   sass-watch:
     build:
       context: .
@@ -117,5 +99,4 @@ services:
     - ./.docker/nginx.conf:/etc/nginx/conf.d/default.conf
 volumes:
   data:
-  import_data:
   styles:
