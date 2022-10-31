@@ -14,8 +14,6 @@
  * See tests for more examples
  */
 
-import { logger } from '../utils/logger';
-
 type DecoratedContent = {
   content: string | DecoratedContent | Array<DecoratedContent | string>,
   type: string,
@@ -42,75 +40,3 @@ export type SubscriptContent = DecoratedContent & {
 
 type ContentPart = string | DecoratedContent | HeadingContent | EmphasisContent;
 export type Content = string | ContentPart | Array<ContentPart>;
-
-export const contentToHtml = (content: Content): string => {
-  if (typeof content === 'undefined') {
-    return '';
-  }
-  if (typeof content === 'string') {
-    try {
-      const decodedContent = JSON.parse(content);
-      return contentToHtml(decodedContent);
-    } catch (error) {
-      // just an ordinary string
-      return content;
-    }
-  }
-
-  // array of string or DecoratedContent, so just map back to this function
-  if (Array.isArray(content)) {
-    const contentParts = content.map(contentToHtml);
-    return contentParts.join('');
-  }
-  switch (content.type) {
-    case 'Emphasis':
-      return `<em>${contentToHtml(content.content)}</em>`;
-    case 'Strong':
-      return `<strong>${contentToHtml(content.content)}</strong>`;
-    case 'Superscript':
-      return `<sup>${contentToHtml(content.content)}</sup>`;
-    case 'Subscript':
-      return `<sub>${contentToHtml(content.content)}</sub>`;
-    case 'Article':
-    case 'Include':
-    case 'Heading':
-    case 'Paragraph':
-    case 'QuoteBlock':
-    case 'Cite':
-    case 'CiteGroup':
-    case 'CodeBlock':
-    case 'CodeChunk':
-    case 'CodeExpression':
-    case 'CodeFragment':
-    case 'Person':
-    case 'CreativeWork':
-    case 'Periodical':
-    case 'PublicationIssue':
-    case 'PublicationVolume':
-    case 'SoftwareSourceCode':
-    case 'MediaObject':
-    case 'Collection':
-    case 'Figure':
-    case 'List':
-    case 'ListItem':
-    case 'Table':
-    case 'TableRow':
-    case 'TableCell':
-    case 'Datatable':
-    case 'Date':
-    case 'ThematicBreak':
-    case 'Organization':
-    case 'Mark':
-    case 'Delete':
-    case 'Link':
-    case 'Quote':
-    case 'MathBlock':
-    case 'MathFragment':
-    case 'AudioObject':
-    case 'ImageObject':
-    case 'VideoObject':
-    default:
-      logger.warn(`Unimplemented code block: ${content.type}`);
-      return contentToHtml(content.content);
-  }
-};

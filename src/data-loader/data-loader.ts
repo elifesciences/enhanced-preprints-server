@@ -3,9 +3,8 @@ import {
   readdirSync,
   realpathSync,
 } from 'fs';
-import { JSDOM } from 'jsdom';
 import { dirname } from 'path';
-import { convertJatsToHtml, convertJatsToJson, PreprintXmlFile } from './conversion/encode';
+import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleRepository,
   ProcessedArticle,
@@ -93,24 +92,9 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
-const extractArticleHtmlWithoutHeader = (articleDom: DocumentFragment): string => {
-  const articleElement = articleDom.children[0];
-
-  // label the abstract with an id
-  const abstractHeading = articleDom.querySelector('article > [data-itemprop="description"] > h2[data-itemtype="https://schema.stenci.la/Heading"]');
-  abstractHeading?.setAttribute('id', 'abstract');
-
-  // extract all HTML elements after [data-itemprop="identifiers"] (the last of the "header" elements)
-  const articleHtml = Array.from(articleElement.querySelectorAll('[data-prop="identifiers"] ~ *'))
-    .reduce((prev, current) => prev.concat(current.outerHTML), '');
-
-  return `<article itemtype="https://schema.org/Article">${articleHtml}</article>`;
-};
-
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
   const realFile = realpathSync(file);
-  let html = await convertJatsToHtml(realFile, !config.iiifServer);
   let json = await convertJatsToJson(realFile);
   const articleStruct = JSON.parse(json) as ArticleStruct;
 
@@ -122,18 +106,12 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   // IIIF-redirect endpoint
   if (config.iiifServer) {
     const articleDir = dirname(realFile);
-    logger.debug(`replacing ${articleDir} in HTML with /article/${doi}/attachment for statis HTML to find static IIIF image`);
-    html = html.replaceAll(articleDir, `/article/${doi}/attachment`);
     logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find IIIF id`);
     json = json.replaceAll(articleDir, doi);
   }
 
-  // extract HTML content without header
-  const content = extractArticleHtmlWithoutHeader(JSDOM.fragment(html));
-
   return {
     doi,
-    html: content,
     document: json,
   };
 };
