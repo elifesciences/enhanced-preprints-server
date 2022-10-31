@@ -3722,13 +3722,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/marked@npm:4.0.7":
-  version: 4.0.7
-  resolution: "@types/marked@npm:4.0.7"
-  checksum: 4907b6a606578cd864bad429aca3c234591e6ed56bd141c575140487269b825a480ace9a85e4d003d1de1f007004c9d9b2fe600038ded5bba75aef59118e58d5
-  languageName: node
-  linkType: hard
-
 "@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
@@ -5184,7 +5177,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.2":
+"chokidar@npm:^3.5.2":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -6691,7 +6684,6 @@ __metadata:
     "@types/express": 4.17.14
     "@types/jest": 29.2.0
     "@types/jsdom": 20.0.0
-    "@types/marked": 4.0.7
     "@types/node": 16.18.3
     "@typescript-eslint/eslint-plugin": 5.41.0
     "@typescript-eslint/parser": 5.41.0
@@ -6707,10 +6699,8 @@ __metadata:
     jest-environment-jsdom: 29.2.2
     jest-mock: 29.2.2
     jsdom: 20.0.2
-    marked: 4.1.1
     mongodb: 4.11.0
     nodemon: 2.0.20
-    sass: 1.55.0
     ts-jest: 29.0.3
     ts-node: 10.9.1
     typescript: 4.8.4
@@ -8702,13 +8692,6 @@ __metadata:
   version: 3.0.6
   resolution: "immediate@npm:3.0.6"
   checksum: f9b3486477555997657f70318cc8d3416159f208bec4cca3ff3442fd266bc23f50f0c9bd8547e1371a6b5e82b821ec9a7044a4f7b944798b25aa3cc6d5e63e62
-  languageName: node
-  linkType: hard
-
-"immutable@npm:^4.0.0":
-  version: 4.1.0
-  resolution: "immutable@npm:4.1.0"
-  checksum: b9bc1f14fb18eb382d48339c064b24a1f97ae4cf43102e0906c0a6e186a27afcd18b55ca4a0b63c98eefb58143e2b5ebc7755a5fb4da4a7ad84b7a6096ac5b13
   languageName: node
   linkType: hard
 
@@ -10812,15 +10795,6 @@ __metadata:
   bin:
     marked: bin/marked
   checksum: 27a3a0c48a80f5491a54eef22d56afac87193a04a611636f8cb8e70d2dabdf9c09ccccec50210a14b0c6c0fe786c5393fea1db904dd5d9f80cd9c7d304a8edf7
-  languageName: node
-  linkType: hard
-
-"marked@npm:4.1.1":
-  version: 4.1.1
-  resolution: "marked@npm:4.1.1"
-  bin:
-    marked: bin/marked.js
-  checksum: 717e3357952ee53de831bf0eb110ed075bebca2376c58bcdf7ee523ef540d45308ad6d51b2c933da0968832ea4386f31c142ca65443e77c098e84f6cce73e418
   languageName: node
   linkType: hard
 
@@ -13105,19 +13079,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.55.0":
-  version: 1.55.0
-  resolution: "sass@npm:1.55.0"
-  dependencies:
-    chokidar: ">=3.0.0 <4.0.0"
-    immutable: ^4.0.0
-    source-map-js: ">=0.6.2 <2.0.0"
-  bin:
-    sass: sass.js
-  checksum: 7d769ed08efce4e6134e0f3dc11c4f07e32c413ac8eb43c5855f2686890fdcbd80da34165c91fb4ba407f478ca108e171574b5a60cb9814a5ed09d80f6014f96
-  languageName: node
-  linkType: hard
-
 "sax@npm:>=0.6.0, sax@npm:^1.2.4":
   version: 1.2.4
   resolution: "sax@npm:1.2.4"
@@ -13528,13 +13489,6 @@ __metadata:
   dependencies:
     is-plain-obj: ^1.0.0
   checksum: f0fd827fa9f8f866e98588d2a38c35209afbf1e9a05bb0e4ceeeb8bbf31d923c8902b0a7e0f561590ddb65e58eba6a74f74b991c85360bcc52e83a3f0d1cffd7
-  languageName: node
-  linkType: hard
-
-"source-map-js@npm:>=0.6.2 <2.0.0":
-  version: 1.0.2
-  resolution: "source-map-js@npm:1.0.2"
-  checksum: c049a7fc4deb9a7e9b481ae3d424cc793cb4845daa690bc5a05d428bf41bf231ced49b4cf0c9e77f9d42fdb3d20d6187619fc586605f5eabe995a316da8d377c
   languageName: node
   linkType: hard
 

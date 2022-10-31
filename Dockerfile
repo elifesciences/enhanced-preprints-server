@@ -22,14 +22,10 @@ RUN yarn
 
 FROM base as prod
 
-COPY data data
 COPY src/ src/
 COPY public/ public/
 COPY package.json package.json
-COPY scripts/watch.sh scripts/watch.sh
-COPY migrations migrations
 COPY --from=build /opt/epp/node_modules node_modules
-RUN yarn sass
 
 EXPOSE 3000
 CMD [ "yarn", "start" ]
