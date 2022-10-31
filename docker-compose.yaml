@@ -1,22 +1,6 @@
 version: '3.4'
 services:
   # Dependant services
-  ## Image Server
-  image-server:
-    build:
-      context: image-server
-    ports:
-    - "8182:8182"
-    volumes:
-    - ./image-server/dev-cantaloupe.properties:/opt/cantaloupe/cantaloupe.properties
-    - ./data:/opt/epp/data
-    healthcheck:
-      test: curl http://image-server:8182/
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 2s
-
   ## Database (MongoDB) server
   mongodb:
     image: mongo
@@ -62,14 +46,11 @@ services:
     depends_on:
       mongodb:
         condition: service_healthy
-      image-server:
-        condition: service_healthy
     environment:
       REPO_TYPE: MongoDB
       REPO_CONNECTION: mongodb:27017
       REPO_USERNAME: admin
       REPO_PASSWORD: testtest
-      IIIF_SERVER: http://localhost:8182
     ports:
       - 3000:3000
     volumes:

@@ -102,13 +102,10 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
   const doi = dois[0].value;
 
-  // HACK: if we have a configured IIIF server, replace all locally referenced files with a relative URL path to the
-  // IIIF-redirect endpoint
-  if (config.iiifServer) {
-    const articleDir = dirname(realFile);
-    logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find IIIF id`);
-    json = json.replaceAll(articleDir, doi);
-  }
+  // HACK: replace all locally referenced files with a id referencing the asset path
+  const articleDir = dirname(realFile);
+  logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find asset path`);
+  json = json.replaceAll(articleDir, doi);
 
   return {
     doi,
