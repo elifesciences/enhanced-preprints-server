@@ -6,8 +6,6 @@
   "author": "Will Byrne <will.alex.byrne@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@testing-library/dom": "8.19.0",
-    "@testing-library/jest-dom": "5.16.5",
     "@tsconfig/node16": "1.0.3",
     "@types/axios": "0.14.0",
     "@types/eslint": "8.4.9",
