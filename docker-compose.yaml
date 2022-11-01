@@ -1,5 +1,7 @@
+version: '3.4'
 services:
   # Dependant services
+  ## Image Server
   image-server:
     build:
       context: image-server
@@ -14,19 +16,23 @@ services:
       timeout: 5s
       retries: 10
       start_period: 2s
+
+  ## Database (MongoDB) server
   mongodb:
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
     volumes:
-      - data:/home/couchdb/data
+      - data:/data/db
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/test -u admin -p testtest --authenticationDatabase admin --quiet
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 2s
+
+  ## Database (MongoDB) GUI
   mongo-express:
     image: mongo-express
     environment:
@@ -41,35 +47,14 @@ services:
     ports:
       - "8081:8081"
 
-  # build styles
-  sass-watch:
-    build:
-      context: .
-      target: prod
-    command: yarn sass:dev
-    volumes:
-    - ./src:/opt/epp/src
-    - styles:/opt/epp/public/styles
-
-  # main app
-  app:
+  # EPP API
+  api:
     build:
       context: .
       target: prod
     command: yarn start:dev
-    environment:
-      REPO_TYPE: MongoDB
-      REPO_CONNECTION: mongodb:27017
-      REPO_USERNAME: admin
-      REPO_PASSWORD: testtest
-      IIIF_SERVER: http://localhost:8182
-    ports:
-      - "8080:3000"
-    volumes:
-      - ./src:/opt/epp/src
-      - styles:/opt/epp/public/styles
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'apk add curl; curl http://app:3000/'"]
+      test: ["CMD-SHELL", "sh -c 'apk add curl; curl http://api:3000/'"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -79,15 +64,39 @@ services:
         condition: service_healthy
       image-server:
         condition: service_healthy
+    environment:
+      REPO_TYPE: MongoDB
+      REPO_CONNECTION: mongodb:27017
+      REPO_USERNAME: admin
+      REPO_PASSWORD: testtest
+      IIIF_SERVER: http://localhost:8182
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data:/opt/epp/data
+      - ./src:/opt/epp/src
+      - styles:/opt/epp/public/styles
 
-  # used to auto-import data
-  import-data:
-    image: alpine:latest
-    command: sh -c "apk add curl; curl -X POST http://app:3000/import"
+  # auto building styles
+  sass-watch:
+    build:
+      context: .
+      target: prod
+    command: yarn sass:dev
+    volumes:
+    - ./src:/opt/epp/src
+    - styles:/opt/epp/public/styles
+
+  # expose API and client via proxy
+  nginx:
+    image: nginx:latest
     depends_on:
-      app:
+      api:
         condition: service_healthy
-
+    ports:
+    - 8080:80
+    volumes:
+    - ./.docker/nginx.conf:/etc/nginx/conf.d/default.conf
 volumes:
   data:
   styles:
