@@ -6708,7 +6708,7 @@ __metadata:
     jest-environment-jsdom: 29.2.2
     jest-mock: 29.2.2
     jsdom: 20.0.2
-    marked: 4.1.1
+    marked: 4.2.0
     mongodb: 4.11.0
     nodemon: 2.0.20
     sass: 1.55.0
@@ -10816,12 +10816,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:4.1.1":
-  version: 4.1.1
-  resolution: "marked@npm:4.1.1"
+"marked@npm:4.2.0":
+  version: 4.2.0
+  resolution: "marked@npm:4.2.0"
   bin:
     marked: bin/marked.js
-  checksum: 717e3357952ee53de831bf0eb110ed075bebca2376c58bcdf7ee523ef540d45308ad6d51b2c933da0968832ea4386f31c142ca65443e77c098e84f6cce73e418
+  checksum: d3e3c2d2e192a518060ed6d4a6a78c467d705361ee03f5b3c0ddcf28f530335632340e222662f963935b60f72e40feca992352241bb94c5681106af989337600
   languageName: node
   linkType: hard
 
