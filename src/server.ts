@@ -16,8 +16,6 @@ createArticleRepository(config.repoType, config.repoConnection, config.repoUserN
   });
 });
 
-app.use(express.static('public'));
-
 app.get('/', async (req, res, next) => {
   try {
     res.redirect('/api/reviewed-preprints/');
