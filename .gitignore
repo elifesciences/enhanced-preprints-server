@@ -111,10 +111,3 @@ dist
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-
-# generated CSS
-public/styles.css
-public/styles/
-
-# local database
-data.db

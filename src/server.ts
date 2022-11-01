@@ -1,11 +1,6 @@
 import express from 'express';
-import { generateArticleList } from './article-list/article-list';
-import { articlePage } from './article/article-page';
-import { generateReviewPage } from './reviews/reviews';
-import { basePage } from './base-page/base-page';
 import { ArticleRepository } from './model/model';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
-import { createEnhancedArticleGetter, GetEnhancedArticle } from './reviews/get-enhanced-article';
 import { createArticleRepository } from './model/create-article-repository';
 import { config } from './config';
 import { logger } from './utils/logger';
@@ -14,10 +9,8 @@ import { fetchReviews } from './reviews/fetch-reviews';
 const app = express();
 
 let articleRepository: ArticleRepository;
-let getEnhancedArticle: GetEnhancedArticle;
 createArticleRepository(config.repoType, config.repoConnection, config.repoUserName, config.repoPassword).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
-  getEnhancedArticle = createEnhancedArticleGetter(articleRepository, config.id);
   app.listen(3000, () => {
     logger.info('Example app listening on port 3000');
   });
@@ -27,7 +20,7 @@ app.use(express.static('public'));
 
 app.get('/', async (req, res, next) => {
   try {
-    res.send(basePage(generateArticleList(config.name, await articleRepository.getArticleSummaries())));
+    res.redirect('/api/reviewed-preprints/');
   } catch (err) {
     next(err);
   }
@@ -104,68 +97,10 @@ app.get('/api/reviewed-preprints/:publisherId/:articleId/reviews', async (req, r
   }
 });
 
-app.get('/article/:publisherId/:articleId', async (req, res, next) => {
-  try {
-    const { publisherId, articleId } = req.params;
-    const doi = `${publisherId}/${articleId}`;
-    const noHeader = req.query.noHeader !== undefined && req.query.noHeader === 'true';
-    const pageContent = articlePage(await articleRepository.getArticle(doi), noHeader);
-    res.send(basePage(pageContent, noHeader));
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.get('/article/:publisherId/:articleId/reviews', async (req, res, next) => {
-  try {
-    const { publisherId, articleId } = req.params;
-    const doi = `${publisherId}/${articleId}`;
-    const noHeader = req.query.noHeader !== undefined && req.query.noHeader === 'true';
-    const pageContent = generateReviewPage(await getEnhancedArticle(doi), noHeader);
-    res.send(basePage(pageContent, noHeader));
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.get('/article/:publisherId/:articleId/attachment/:attachmentId', async (req, res, next) => {
-  try {
-    const { publisherId, articleId } = req.params;
-    const doi = `${publisherId}/${articleId}`;
-    const { attachmentId } = req.params;
-
-    if (req.accepts('image/jpeg')) {
-      const iiifId = encodeURIComponent(`${doi}/${attachmentId}`);
-
-      res.redirect(`${config.iiifServer}/iiif/2/${iiifId}/full/max/0/default.jpg`);
-      return;
-    }
-
-    logger.error('Something requested an attachment, but it didnt accept jpegs. Send 404 as we currently cant find it');
-    res.sendStatus(415);
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.get('/article/:publisherId/:articleId/iiif/:attachmentId', async (req, res, next) => {
-  try {
-    const { publisherId, articleId } = req.params;
-    const doi = `${publisherId}/${articleId}`;
-    const { attachmentId } = req.params;
-
-    const iiifId = encodeURIComponent(`${doi}/${attachmentId}`);
-
-    res.redirect(`${config.iiifServer}/iiif/2/${iiifId}`);
-  } catch (err) {
-    next(err);
-  }
-});
-
 app.get('/import', async (req, res) => {
-  res.send(basePage(`<form method="POST">
+  res.send(`<form method="POST">
     <input type="submit" value="import">
-  </form>`));
+  </form>`);
 });
 app.post('/import', async (req, res, next) => {
   try {

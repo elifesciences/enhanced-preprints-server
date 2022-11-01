@@ -22,7 +22,6 @@ type StoredArticle = {
   licenses: License[],
   content: Content,
   headings: Heading[],
-  html: string,
   references: Reference[],
 };
 
@@ -44,7 +43,6 @@ class MongoDBArticleRepository implements ArticleRepository {
       doi: article.doi,
       headings: article.headings,
       licenses: article.licenses,
-      html: article.html,
       references: article.references,
     });
 

@@ -3,11 +3,9 @@ import { Content } from './content';
 export type Doi = string;
 
 export type ArticleDocument = string;
-export type ArticleHTML = string;
 export type ArticleContent = {
   doi: Doi
   document: ArticleDocument,
-  html: ArticleHTML,
 };
 
 export type ArticleTitle = Content;
