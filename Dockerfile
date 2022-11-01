@@ -23,7 +23,6 @@ RUN yarn
 FROM base as prod
 
 COPY src/ src/
-COPY public/ public/
 COPY package.json package.json
 COPY --from=build /opt/epp/node_modules node_modules
 
