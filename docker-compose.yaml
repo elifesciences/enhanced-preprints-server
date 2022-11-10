@@ -47,10 +47,7 @@ services:
       mongodb:
         condition: service_healthy
     environment:
-      REPO_TYPE: MongoDB
-      REPO_CONNECTION: mongodb:27017
-      REPO_USERNAME: admin
-      REPO_PASSWORD: testtest
+      REPO_TYPE: InMemory
     ports:
       - 3000:3000
     volumes:
