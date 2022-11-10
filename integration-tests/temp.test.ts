@@ -30,7 +30,7 @@ describe('server tests', () => {
       let app: Express;
       beforeAll(async () => {
         const repo = await createArticleRepository(StoreType.InMemory);
-        app = await createApp(repo, { dataDir: './integration-tests/data/10.1101'});
+        app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
 
         return request(app)
           .post('/import')
@@ -57,6 +57,17 @@ describe('server tests', () => {
             total: 2,
           });
       });
+    });
+  });
+
+  describe('/import', () => {
+    describe('GET', () => {
+      it.todo('return a form to start import');
+    });
+    describe('POST', () => {
+      it.todo('import the articles');
+      it.todo('import missing articles');
+      it.todo('return success and message when nothing new to import');
     });
   });
 });
