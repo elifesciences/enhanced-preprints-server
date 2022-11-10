@@ -61,13 +61,61 @@ describe('server tests', () => {
   });
 
   describe('/import', () => {
-    describe('GET', () => {
-      it.todo('return a form to start import');
+    it('import the articles', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+
+      return request(app)
+        .post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
     });
-    describe('POST', () => {
-      it.todo('import the articles');
-      it.todo('import missing articles');
-      it.todo('return success and message when nothing new to import');
+
+    it.failing('import missing articles', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+
+      await request(app)
+        .post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      // TODO: how to only import one then another?
+
+      return request(app)
+        .post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Some new items imported',
+        });
+    });
+
+    it('return success and message when nothing new to import', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+
+      const agent = request(app);
+
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: false,
+          message: 'No new files were imported',
+        });
     });
   });
 });
