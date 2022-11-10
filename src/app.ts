@@ -105,15 +105,15 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
   app.post('/import', async (req, res, next) => {
     try {
       const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, repo);
-      if (results.every((value) => value)) {
-        res.send({
-          status: true,
-          message: 'Import completed',
-        });
-      } else if (results.every((value) => !value)) {
+      if (results.length === 0) {
         res.send({
           status: false,
           message: 'No new files were imported',
+        });
+      } else if (results.every((value) => value)) {
+        res.send({
+          status: true,
+          message: 'Import completed',
         });
       } else {
         res.send({
