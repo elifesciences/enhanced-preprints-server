@@ -1,10 +1,9 @@
 import express from 'express';
 import { fetchReviews } from './reviews/fetch-reviews';
-import { config } from './config';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
 import { ArticleRepository } from './model/model';
 
-export const createApp = (repo: ArticleRepository) => {
+export const createApp = (repo: ArticleRepository, config: Record<string, string>) => {
   const app = express();
 
   app.get('/', async (req, res, next) => {
