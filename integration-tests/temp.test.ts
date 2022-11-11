@@ -268,4 +268,12 @@ describe('server tests', () => {
         ]);
     });
   });
+
+  describe('/api/reviewed-preprints/:publisherId/:articleId/reviews', () => {
+    it.todo('returns a 500 when an incorrect doi is provided');
+    it.todo('returns a 500 when it cant get a docmap');
+    it.todo('returns a 500 when it cant fetch the html');
+    it.todo('returns a 500 when it cant find an evaluation-summary');
+    it.todo('returns a 200 with a peer review object for each article');
+  });
 });
