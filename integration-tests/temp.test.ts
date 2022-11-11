@@ -229,4 +229,15 @@ describe('server tests', () => {
         });
     });
   });
+
+  describe('/api/reviewed-preprints/:publisherId/:articleId/content', () => {
+    it('returns a 500 when an incorrect doi is provided', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .get('/api/reviewed-preprints/1/2/content')
+        .expect(500);
+    });
+
+    it.todo('returns a 200 with the article content for the two test articles');
+  });
 });

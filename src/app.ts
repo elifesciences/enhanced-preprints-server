@@ -27,20 +27,6 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
     }
   });
 
-  app.get('/api/reviewed-preprints/:publisherId/:articleId/', async (req, res, next) => {
-    try {
-      const {
-        publisherId,
-        articleId,
-      } = req.params;
-      const doi = `${publisherId}/${articleId}`;
-
-      res.send(await repo.getArticle(doi));
-    } catch (err) {
-      next(err);
-    }
-  });
-
   app.get('/api/reviewed-preprints/:publisherId/:articleId/metadata', async (req, res, next) => {
     try {
       const {
