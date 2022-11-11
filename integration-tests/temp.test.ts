@@ -185,7 +185,48 @@ describe('server tests', () => {
 
       await agent.get('/api/reviewed-preprints/10.1101/654321/metadata')
         .expect(200)
-        .expect('Content-Type', 'application/json; charset=utf-8');
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect({
+          authors: [
+            {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'New Zealand',
+                  },
+                  name: 'ACME Demolitions',
+                }],
+              familyNames: ['Coyote'],
+              givenNames: ['Wile', 'E'],
+            }, {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'New Zealand',
+                  },
+                  name: 'ACME Demolitions',
+                }],
+              familyNames: ['Devil'],
+              givenNames: ['Taz'],
+            }],
+          doi: '10.1101/654321',
+          title: 'Dangers of roadrunners with reality warping powers.',
+          msas: [],
+          importance: '',
+          strengthOfEvidence: '',
+          views: 1,
+          citations: 2,
+          tweets: 3,
+          headings: [{ id: 's1', text: ['Section'] }],
+          abstract: 'Why not to mess with an agent of chaos.\n                ',
+          references: [],
+        });
     });
   });
 });

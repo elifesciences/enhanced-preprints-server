@@ -122,7 +122,6 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
         });
       }
     } catch (err) {
-      // console.log(err);
       next(err);
     }
   });
