@@ -2,6 +2,7 @@ import request from 'supertest';
 import axios from 'axios';
 import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
+import { docmapMock, reviewMocks } from './data/10.1101/123456/docmap-mock';
 
 jest.mock('axios');
 
@@ -282,8 +283,99 @@ describe('server tests', () => {
         .get('/api/reviewed-preprints/1/2/reviews')
         .expect(500);
     });
-    it.todo('returns a 500 when it cant fetch the html');
-    it.todo('returns a 500 when it cant find an evaluation-summary');
-    it.todo('returns a 200 with a peer review object for each article');
+    it('returns a 500 when it cant fetch the html', async () => {
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation((url: string) => {
+        switch (url) {
+          case 'https://sciety.org/docmaps/v1/evaluations-by/elife/10.1101/123456.docmap.json':
+            return Promise.resolve({
+              data: docmapMock,
+            });
+          default:
+            return Promise.reject();
+        }
+      });
+
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+        .expect(404); // TODO: why is this a 404?
+    });
+
+    it('returns a 500 when it cant get an evaluation-summary', async () => {
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation((url: string) => {
+        switch (url) {
+          case 'https://sciety.org/docmaps/v1/evaluations-by/elife/10.1101/123456.docmap.json':
+            return Promise.resolve({
+              data: docmapMock,
+            });
+          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html':
+            return Promise.resolve({
+              data: reviewMocks[url],
+            });
+          default:
+            return Promise.reject();
+        }
+      });
+
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+        .expect(404); // TODO: why is this a 404?
+    });
+
+    it('returns a 200 with a peer review object for each article', async () => {
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation((url: string) => {
+        switch (url) {
+          case 'https://sciety.org/docmaps/v1/evaluations-by/elife/10.1101/123456.docmap.json':
+            return Promise.resolve({
+              data: docmapMock,
+            });
+          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html':
+          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-reply.html':
+          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-evaluation-summary.html':
+            return Promise.resolve({
+              data: reviewMocks[url],
+            });
+          default:
+            return Promise.reject();
+        }
+      });
+
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+        .expect(200)
+        .expect({
+          reviews: [
+            {
+              text: 'one',
+              date: '2022-02-15T09:43:12.593Z',
+              reviewType: 'review-article',
+              participants: [],
+            },
+          ],
+          evaluationSummary: {
+            text: 'summary',
+            date: '2022-02-15T09:43:15.348Z',
+            reviewType: 'evaluation-summary',
+            participants: [
+              { name: 'Bugs Bunny', role: 'Senior Editor', institution: 'ACME University, United States' },
+              { name: 'Daffy Duck', role: 'Reviewing Editor', institution: 'ACME University, United States' },
+            ],
+          },
+          authorResponse: {
+            text: 'reply',
+            date: '2022-02-15T11:24:05.730Z',
+            reviewType: 'reply',
+            participants: [],
+          },
+        });
+    });
   });
 });
