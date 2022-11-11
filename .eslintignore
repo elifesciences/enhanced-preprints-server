@@ -1,7 +1,7 @@
 # don't ever lint node_modules
 node_modules
 .github
-data
+/data
 .yarn
 .eslintignore
 .eslintrc.js
