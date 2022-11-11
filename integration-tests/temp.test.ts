@@ -3,6 +3,13 @@ import request from 'supertest';
 import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
 
+const generateAgent = async () => {
+  const repo = await createArticleRepository(StoreType.InMemory);
+  const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+
+  return request(app);
+};
+
 describe('server tests', () => {
   describe('/api/reviewed-preprints', () => {
     describe('empty database', () => {
@@ -27,19 +34,17 @@ describe('server tests', () => {
     });
 
     describe('after import', () => {
-      let app: Express;
-      beforeAll(async () => {
-        const repo = await createArticleRepository(StoreType.InMemory);
-        app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
-
-        return request(app)
-          .post('/import')
-          .expect(200);
-      }, 30000);
-
       it('should return a json array with the correct summaries', async () => {
-        await request(app)
-          .get('/api/reviewed-preprints')
+        const agent = await generateAgent();
+
+        await agent.post('/import')
+          .expect(200)
+          .expect({
+            status: true,
+            message: 'Import completed',
+          });
+
+        await agent.get('/api/reviewed-preprints')
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect({
             items: [
@@ -98,10 +103,7 @@ describe('server tests', () => {
     });
 
     it('return success and message when nothing new to import', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
-
-      const agent = request(app);
+      const agent = await generateAgent();
 
       await agent.post('/import')
         .expect(200)
@@ -128,10 +130,7 @@ describe('server tests', () => {
     });
 
     it('returns the correct metadata for the test articles', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
-
-      const agent = request(app);
+      const agent = await generateAgent();
 
       await agent.post('/import')
         .expect(200)
@@ -179,7 +178,7 @@ describe('server tests', () => {
           citations: 2,
           tweets: 3,
           headings: [{ id: 's1', text: ['Section'] }],
-          abstract: 'An abstract.\n                ',
+          abstract: 'An abstract.',
           references: [],
         });
 
@@ -224,7 +223,7 @@ describe('server tests', () => {
           citations: 2,
           tweets: 3,
           headings: [{ id: 's1', text: ['Section'] }],
-          abstract: 'Why not to mess with an agent of chaos.\n                ',
+          abstract: 'Why not to mess with an agent of chaos.',
           references: [],
         });
     });
@@ -238,6 +237,35 @@ describe('server tests', () => {
         .expect(500);
     });
 
-    it.todo('returns a 200 with the article content for the two test articles');
+    it('returns a 200 with the article content for the two test articles', async () => {
+      const agent = await generateAgent();
+
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      await agent.get('/api/reviewed-preprints/10.1101/123456/content')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect([
+          {
+            type: 'Heading', id: 's1', depth: 1, content: ['Section'],
+          },
+          { type: 'Paragraph', content: ['I am an article.'] },
+        ]);
+
+      await agent.get('/api/reviewed-preprints/10.1101/654321/content')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect([
+          {
+            type: 'Heading', id: 's1', depth: 1, content: ['Section'],
+          },
+          { type: 'Paragraph', content: ['Run..... just run!'] },
+        ]);
+    });
   });
 });

@@ -109,8 +109,7 @@
             </permissions>
             <abstract hwp:id="abstract-1">
                 <title hwp:id="title-1">Abstract</title>
-                <p hwp:id="p-2">An abstract.
-                </p>
+                <p hwp:id="p-2">An abstract.</p>
             </abstract>
             <kwd-group kwd-group-type="author" hwp:id="kwd-group-1">
                 <title hwp:id="title-2">Keywords</title>
@@ -132,9 +131,7 @@
     <body>
         <sec id="s1" hwp:id="sec-1">
             <title hwp:id="title-4">Section</title>
-            <p hwp:id="p-4">I am an article.
-            </p>
-
+            <p hwp:id="p-4">I am an article.</p>
         </sec>
     </body>
     <back>

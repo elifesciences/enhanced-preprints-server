@@ -111,8 +111,7 @@
             </permissions>
             <abstract hwp:id="abstract-1">
                 <title hwp:id="title-1">Abstract</title>
-                <p hwp:id="p-2">Why not to mess with an agent of chaos.
-                </p>
+                <p hwp:id="p-2">Why not to mess with an agent of chaos.</p>
             </abstract>
             <kwd-group kwd-group-type="author" hwp:id="kwd-group-1">
                 <title hwp:id="title-2">Keywords</title>
@@ -135,7 +134,6 @@
         <sec id="s1" hwp:id="sec-1">
             <title hwp:id="title-4">Section</title>
             <p hwp:id="p-4">Run..... just run!</p>
-
         </sec>
     </body>
     <back>
