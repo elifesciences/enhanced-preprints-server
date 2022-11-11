@@ -23,6 +23,8 @@ jobs:
         run: yarn lint
       - name: Unit Test
         run: yarn test
+      - name: Integration Test
+        run: yarn test:integration
   build-and-push:
     needs: [test]
     runs-on: ubuntu-18.04
