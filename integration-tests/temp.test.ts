@@ -1,7 +1,9 @@
-import { Express } from 'express-serve-static-core';
 import request from 'supertest';
+import axios from 'axios';
 import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
+
+jest.mock('axios');
 
 const generateAgent = async () => {
   const repo = await createArticleRepository(StoreType.InMemory);
@@ -270,8 +272,16 @@ describe('server tests', () => {
   });
 
   describe('/api/reviewed-preprints/:publisherId/:articleId/reviews', () => {
-    it.todo('returns a 500 when an incorrect doi is provided');
-    it.todo('returns a 500 when it cant get a docmap');
+    it('returns a 500 when it cant get a docmap', async () => {
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockRejectedValue({});
+
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .get('/api/reviewed-preprints/1/2/reviews')
+        .expect(500);
+    });
     it.todo('returns a 500 when it cant fetch the html');
     it.todo('returns a 500 when it cant find an evaluation-summary');
     it.todo('returns a 200 with a peer review object for each article');
