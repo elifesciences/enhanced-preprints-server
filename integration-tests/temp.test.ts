@@ -118,4 +118,74 @@ describe('server tests', () => {
         });
     });
   });
+
+  describe('/api/reviewed-preprints/:publisherId/:articleId/metadata', () => {
+    it('returns a 500 when an incorrect doi is provided', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .get('/api/reviewed-preprints/1/2/metadata')
+        .expect(500);
+    });
+
+    it('returns the correct metadata for the test articles', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+
+      const agent = request(app);
+
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      await agent.get('/api/reviewed-preprints/10.1101/123456/metadata')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect({
+          authors: [
+            {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'USA',
+                  },
+                  name: 'ACME Labs',
+                }],
+              familyNames: ['Brain'],
+            }, {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'USA',
+                  },
+                  name: 'ACME Labs',
+                }],
+              familyNames: ['Pinky'],
+            }],
+          doi: '10.1101/123456',
+          title: 'Our Pondering of World Domination!',
+          msas: [],
+          importance: '',
+          strengthOfEvidence: '',
+          views: 1,
+          citations: 2,
+          tweets: 3,
+          headings: [{ id: 's1', text: ['Section'] }],
+          abstract: 'An abstract.\n                ',
+          references: [],
+        });
+
+      await agent.get('/api/reviewed-preprints/10.1101/654321/metadata')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8');
+    });
+  });
 });
