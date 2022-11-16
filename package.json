@@ -45,7 +45,7 @@
     "lint": "eslint --ext .ts src/ integration-tests/ test-utils/",
     "lint:fix": "eslint --fix --ext .ts src/ integration-tests/ test-utils/"
   },
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@3.3.0",
   "resolutions": {
     "@stencila/encoda@0.119.2": "patch:@stencila/encoda@npm:0.119.2#.yarn/patches/@stencila-encoda-npm-0.119.2-aa9b3f50d7.patch"
   }
