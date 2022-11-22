@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@stencila/encoda": "0.119.6",
-    "@stencila/schema": "1.18.0",
     "axios": "0.27.2",
     "express": "4.18.2",
     "mongodb": "4.12.0",
@@ -45,8 +44,5 @@
     "lint": "eslint --ext .ts src/ integration-tests/ test-utils/",
     "lint:fix": "eslint --fix --ext .ts src/ integration-tests/ test-utils/"
   },
-  "packageManager": "yarn@3.3.0",
-  "resolutions": {
-    "@stencila/encoda@0.119.2": "patch:@stencila/encoda@npm:0.119.2#.yarn/patches/@stencila-encoda-npm-0.119.2-aa9b3f50d7.patch"
-  }
+  "packageManager": "yarn@3.3.0"
 }
