@@ -18,11 +18,19 @@ export type Organisation = {
   address?: Address,
 };
 
+export type OrcidIdentifier = {
+  type: 'orcid',
+  value: string,
+};
+
+export type Identifier = OrcidIdentifier;
+
 export type Author = {
   familyNames: string[],
   givenNames: string[],
   affiliations?: Organisation[],
   emails?: string[],
+  identifiers?: Identifier[],
 };
 
 export type License = {
