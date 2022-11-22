@@ -139,17 +139,7 @@
     <back>
         <ack hwp:id="ack-1">
             <title hwp:id="title-38">Acknowledgments</title>
-            <p hwp:id="p-60">Data were provided by the Human Connectome Project, WU-Minn Consortium (Principal
-                Investigators: David Van Essen and Kamil Ugurbil; 1U54MH091657) funded by the 16 NIH Institutes and
-                Centers that support the NIH Blueprint for Neuroscience Research; and by the McDonnell Center for
-                Systems Neuroscience at Washington University, St. Louis, MO.
-            </p>
-            <p hwp:id="p-61">We are grateful for the support of the National Health and Medical Research Council of
-                Australia (grant numbers APP1091593 and APP1117724), and the Australian Research Council (grant number
-                DP170101815).
-            </p>
-            <p hwp:id="p-62">The authors acknowledge the technical assistance provided by the Sydney Informatics Hub and
-                Sydney Imaging, two Core Research Facilities of the University of Sydney, Australia.
+            <p hwp:id="p-60">The authors acknowledge the wide catalog of ACME products used for the experiments in this paper.
             </p>
         </ack>
         <ref-list hwp:id="ref-list-1">

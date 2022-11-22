@@ -160,6 +160,7 @@ describe('server tests', () => {
                   name: 'ACME Labs',
                 }],
               familyNames: ['Brain'],
+              emails: ['brain@acmelabs.edu.au'],
             }, {
               type: 'Person',
               affiliations: [
@@ -181,7 +182,7 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }],
+          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
           abstract: 'An abstract.',
           references: [],
         });
@@ -204,6 +205,7 @@ describe('server tests', () => {
                 }],
               familyNames: ['Coyote'],
               givenNames: ['Wile', 'E'],
+              emails: ['w.coyote@acme.demolitions.au'],
             }, {
               type: 'Person',
               affiliations: [
@@ -226,7 +228,7 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }],
+          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
           abstract: 'Why not to mess with an agent of chaos.',
           references: [],
         });
@@ -259,6 +261,13 @@ describe('server tests', () => {
             type: 'Heading', id: 's1', depth: 1, content: ['Section'],
           },
           { type: 'Paragraph', content: ['I am an article.'] },
+          { type: 'Heading', depth: 1, content: ['Acknowledgements'] },
+          {
+            type: 'Paragraph',
+            content: [
+              'The authors acknowledge the Gene alterations done by ACME Labs give rise to their own genius\n            '
+            ],
+          },
         ]);
 
       await agent.get('/api/reviewed-preprints/10.1101/654321/content')
@@ -269,6 +278,13 @@ describe('server tests', () => {
             type: 'Heading', id: 's1', depth: 1, content: ['Section'],
           },
           { type: 'Paragraph', content: ['Run..... just run!'] },
+          { type: 'Heading', depth: 1, content: ['Acknowledgements'] },
+          {
+            type: 'Paragraph',
+            content: [
+              'The authors acknowledge the wide catalog of ACME products used for the experiments in this paper.\n            '
+            ],
+          },
         ]);
     });
   });

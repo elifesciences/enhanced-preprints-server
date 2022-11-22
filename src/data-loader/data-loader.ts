@@ -29,6 +29,7 @@ type Person = {
   affiliations?: Array<Organisation>,
   familyNames: Array<string>,
   givenNames: Array<string>,
+  emails?: Array<string>,
 };
 type License = {
   type: 'CreativeWork',
