@@ -265,7 +265,7 @@ describe('server tests', () => {
           {
             type: 'Paragraph',
             content: [
-              'The authors acknowledge the Gene alterations done by ACME Labs give rise to their own genius\n            '
+              'The authors acknowledge the Gene alterations done by ACME Labs give rise to their own genius\n            ',
             ],
           },
         ]);
@@ -282,7 +282,7 @@ describe('server tests', () => {
           {
             type: 'Paragraph',
             content: [
-              'The authors acknowledge the wide catalog of ACME products used for the experiments in this paper.\n            '
+              'The authors acknowledge the wide catalog of ACME products used for the experiments in this paper.\n            ',
             ],
           },
         ]);
