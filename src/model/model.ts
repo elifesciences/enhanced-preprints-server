@@ -22,6 +22,7 @@ export type Author = {
   familyNames: string[],
   givenNames: string[],
   affiliations?: Organisation[],
+  emails?: string[],
 };
 
 export type License = {
