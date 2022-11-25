@@ -10,6 +10,7 @@ import {
   ProcessedArticle,
   Heading,
   ArticleContent,
+  OrcidIdentifier as OrcidModel,
 } from '../model/model';
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
@@ -24,12 +25,24 @@ type Organisation = {
   name: string,
   address: Address,
 };
+type Identifier = {
+  type?: string,
+  propertyID?: string,
+  name?: string
+  value: string
+};
+type OrcidIdentifier = {
+  type: 'PropertyValue',
+  propertyID: 'https://registry.identifiers.org/registry/orcid',
+  value: string
+};
 type Person = {
   type: 'Person',
   affiliations?: Array<Organisation>,
   familyNames: Array<string>,
   givenNames: Array<string>,
   emails?: Array<string>,
+  identifiers?: Array<Identifier>,
 };
 type License = {
   type: 'CreativeWork',
@@ -156,17 +169,39 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
 
   // extract title
   const {
-    title, authors, description: abstract, licenses,
+    title, description: abstract, licenses,
   } = articleStruct;
 
   // extract publish date
   const date = new Date(articleStruct.datePublished.value);
 
-  // map datePublished in references to a date
+  // map datePublished in references to a date, and author references to orcids
   const references = articleStruct.references.map((reference) => ({
     ...reference,
-    datePublished: reference?.datePublished?.value ? new Date(reference.datePublished.value) : undefined,
+    datePublished: reference.datePublished?.value ? new Date(reference.datePublished.value) : undefined,
+    authors: reference.authors.map((author) => ({
+      ...author,
+      identifiers: author.identifiers
+        ?.filter<OrcidIdentifier>((identifier): identifier is OrcidIdentifier => identifier.propertyID === 'https://registry.identifiers.org/registry/orcid')
+        .map<OrcidModel>((identifier) => ({ type: 'orcid', value: identifier.value })),
+    })),
   }));
+
+  // map author OrcIds
+  const authors = articleStruct.authors.map((author) => {
+    // map identifiers
+    const identifiers = author.identifiers
+      ?.filter<OrcidIdentifier>((identifier): identifier is OrcidIdentifier => identifier.propertyID === 'https://registry.identifiers.org/registry/orcid')
+      .map<OrcidModel>((identifier) => ({
+      type: 'orcid',
+      value: identifier.value.trim(),
+    })) ?? undefined;
+
+    return {
+      ...author,
+      identifiers,
+    };
+  });
 
   return {
     ...article,

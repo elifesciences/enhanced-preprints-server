@@ -206,6 +206,9 @@ describe('server tests', () => {
               familyNames: ['Coyote'],
               givenNames: ['Wile', 'E'],
               emails: ['w.coyote@acme.demolitions.au'],
+              identifiers: [
+                { type: 'orcid', value: 'http://orcid.org/0000-0002-1234-5678' },
+              ],
             }, {
               type: 'Person',
               affiliations: [
@@ -219,6 +222,9 @@ describe('server tests', () => {
                 }],
               familyNames: ['Devil'],
               givenNames: ['Taz'],
+              identifiers: [
+                { type: 'orcid', value: 'http://orcid.org/0000-0002-1234-5679' },
+              ],
             }],
           doi: '10.1101/654321',
           title: 'Dangers of roadrunners with reality warping powers.',
