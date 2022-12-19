@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Get sha with 8 chars long
         id: commit_sha
-        run: echo "::set-output name=commit_sha::${GITHUB_SHA:0:8}"
+        run: echo "commit_sha=${GITHUB_SHA:0:8}" >> $GITHUB_OUTPUT
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
