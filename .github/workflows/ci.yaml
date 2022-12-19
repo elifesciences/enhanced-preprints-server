@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Read .nvmrc
-        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
         id: nvm
       - name: Use Node.js (.nvmrc)
         uses: actions/setup-node@v3
@@ -37,10 +37,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date --utc +%Y%m%d.%H%M)"
+        run: echo "date=$(date --utc +%Y%m%d.%H%M)" >> $GITHUB_OUTPUT
       - name: Get sha with 8 chars long
         id: commit_sha
-        run: echo "::set-output name=commit_sha::${GITHUB_SHA:0:8}"
+        run: echo "commit_sha=${GITHUB_SHA:0:8}" >> $GITHUB_OUTPUT
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
