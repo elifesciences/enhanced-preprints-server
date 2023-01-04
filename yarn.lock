@@ -3091,9 +3091,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stencila/encoda@npm:0.119.6":
-  version: 0.119.6
-  resolution: "@stencila/encoda@npm:0.119.6"
+"@stencila/encoda@npm:0.119.7":
+  version: 0.119.7
+  resolution: "@stencila/encoda@npm:0.119.7"
   dependencies:
     "@stencila/jesta": ^1.10.5
     "@stencila/logga": ^4.0.0
@@ -3119,7 +3119,7 @@ __metadata:
     js-beautify: ^1.14.0
     js-yaml: ^4.1.0
     jsdom: ^18.1.1
-    json5: ^2.2.0
+    json5: ^2.2.3
     jsonld: ^5.2.0
     mathjax-node: ^2.1.1
     mdast-util-compact: ^3.0.0
@@ -3143,7 +3143,7 @@ __metadata:
     remark-stringify: ^8.1.1
     remark-sub-super: ^1.0.20
     sentence-case: ^3.0.4
-    tar: ^6.1.12
+    tar: ^6.1.13
     temp-dir: ^2.0.0
     tempy: ^1.0.1
     to-vfile: ^6.1.0
@@ -3159,7 +3159,7 @@ __metadata:
     "@stencila/schema": ^1.9.0
   bin:
     encoda: dist/index.js
-  checksum: e219c05eb254248c382925f55128e1149327db6c3d001e201c6f3bfcfb08774ead5b0009154cc6fe5e50042844c3fd08683c20ac3f7d26396e819cf8cc158124
+  checksum: e1f9593041a0b52c86fba546137b3674bb4a38dc9f1d02c68cb401ec16eb3440cd1a6f05f8597cf84f82f6b8fed77d84e1e6a30d4dd29784fbd4b5ffe68de8ad
   languageName: node
   linkType: hard
 
@@ -6495,7 +6495,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "enhanced-preprints@workspace:."
   dependencies:
-    "@stencila/encoda": 0.119.6
+    "@stencila/encoda": 0.119.7
     "@tsconfig/node16": 1.0.3
     "@types/axios": 0.14.0
     "@types/eslint": 8.4.10
@@ -9920,12 +9920,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:^2.1.2, json5@npm:^2.2.0, json5@npm:^2.2.1":
+"json5@npm:^2.1.2, json5@npm:^2.2.1":
   version: 2.2.1
   resolution: "json5@npm:2.2.1"
   bin:
     json5: lib/cli.js
   checksum: 74b8a23b102a6f2bf2d224797ae553a75488b5adbaee9c9b6e5ab8b510a2fc6e38f876d4c77dea672d4014a44b2399e15f2051ac2b37b87f74c0c7602003543b
+  languageName: node
+  linkType: hard
+
+"json5@npm:^2.2.3":
+  version: 2.2.3
+  resolution: "json5@npm:2.2.3"
+  bin:
+    json5: lib/cli.js
+  checksum: 2a7436a93393830bce797d4626275152e37e877b265e94ca69c99e3d20c2b9dab021279146a39cdb700e71b2dd32a4cebd1514cd57cee102b1af906ce5040349
   languageName: node
   linkType: hard
 
@@ -10770,6 +10779,15 @@ __metadata:
   dependencies:
     yallist: ^4.0.0
   checksum: acaa1d0d596300187a381d8e28bef2cd465285ff8032032a3da323a4a3c6997a7320d586f96cd42b317c758f48620382693ee76a543d2acb4f8ad549648445be
+  languageName: node
+  linkType: hard
+
+"minipass@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "minipass@npm:4.0.0"
+  dependencies:
+    yallist: ^4.0.0
+  checksum: 7a609afbf394abfcf9c48e6c90226f471676c8f2a67f07f6838871afb03215ede431d1433feffe1b855455bcb13ef0eb89162841b9796109d6fed8d89790f381
   languageName: node
   linkType: hard
 
@@ -13607,17 +13625,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.1.12":
-  version: 6.1.12
-  resolution: "tar@npm:6.1.12"
+"tar@npm:^6.1.13":
+  version: 6.1.13
+  resolution: "tar@npm:6.1.13"
   dependencies:
     chownr: ^2.0.0
     fs-minipass: ^2.0.0
-    minipass: ^3.0.0
+    minipass: ^4.0.0
     minizlib: ^2.1.1
     mkdirp: ^1.0.3
     yallist: ^4.0.0
-  checksum: 49d72e4420944e7ede2782d6b0826a6ede6cdab23c7de63470917e7a78166bc4d5b1a96279d3d79a85f1ba5a17cd37c0acbb3cbff19a07447691445b8b051c55
+  checksum: 8a278bed123aa9f53549b256a36b719e317c8b96fe86a63406f3c62887f78267cea9b22dc6f7007009738509800d4a4dccc444abd71d762287c90f35b002eb1c
   languageName: node
   linkType: hard
 
