@@ -65,7 +65,7 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async getArticleVersion(identifier: string): Promise<VersionedArticlesWithVersions> {
-    const allVersions = Array.from(this.versionedStore.values()).filter((article) => article.msid === identifier).sort(comparePreprintPostedDates);
+    const allVersions = Array.from(this.versionedStore.values()).filter((article) => article.id === identifier || article.msid === identifier).sort(comparePreprintPostedDates);
 
     if (allVersions.length === 0) {
       throw Error('Cannot find a matching article Version');

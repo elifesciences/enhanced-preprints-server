@@ -115,13 +115,14 @@ export type EnhancedArticle = ProcessedArticle & {
   peerReview: PeerReview,
 };
 
-export type VersionedArticle = EnhancedArticle & {
+export type VersionedArticle = ProcessedArticle & {
   id: string,
   msid: string,
   preprintDoi: string,
   preprintPosted: Date,
-  sentForReview: Date,
-  published: Date,
+  sentForReview?: Date,
+  peerReview?: PeerReview,
+  published?: Date,
 };
 
 export type VersionedArticlesWithVersions = {

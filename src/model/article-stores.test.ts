@@ -187,8 +187,37 @@ describe('article-stores', () => {
       }]));
     });
 
-    it.todo('throws an error with unknown identifier');
-    it.todo('stores and retrieves a Versioned Article by id');
+    it('throws an error with unknown identifier', async () => {
+      const articleStore = await createArticleRepo(store);
+      expect(async () => articleStore.getArticleVersion('not-an-id')).rejects.toThrow();
+    });
+
+    it('stores and retrieves a Versioned Article by id', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle = {
+        id: 'testid',
+        msid: 'testmsid',
+        preprintDoi: 'preprint/testdoi',
+        preprintPosted: new Date('2008-06-03'),
+        doi: 'test/article.7',
+        title: 'Test Article 7',
+        abstract: 'Test article 7 abstract',
+        date: new Date('2008-07-03'),
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const result = await articleStore.storeVersionedArticle(inputArticle);
+      const article = await articleStore.getArticleVersion('testid');
+
+      expect(result).toStrictEqual(true);
+      expect(article).toMatchObject({
+        current: inputArticle,
+        versions: [inputArticle],
+      });
+    });
     it.todo('stores and retrieves a Versioned Article by msid');
     it.todo('stores two Versioned Articles with the same msid and retreives them by id');
     it.todo('stores two Versioned Articles with the same msid and retreives the latest by msid');
