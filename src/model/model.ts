@@ -118,7 +118,9 @@ export type EnhancedArticle = ProcessedArticle & {
 export type VersionedArticle = ProcessedArticle & {
   id: string,
   msid: string,
+  versionIdentifier: string,
   preprintDoi: string,
+  preprintUrl: string,
   preprintPosted: Date,
   sentForReview?: Date,
   peerReview?: PeerReview,

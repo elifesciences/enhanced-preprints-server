@@ -196,8 +196,10 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle = {
         id: 'testid',
+        versionIdentifier: '1',
         msid: 'testmsid',
         preprintDoi: 'preprint/testdoi',
+        preprintUrl: 'http://preprints.org/preprint/testdoi',
         preprintPosted: new Date('2008-06-03'),
         doi: 'test/article.7',
         title: 'Test Article 7',
@@ -225,8 +227,10 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle = {
         id: 'testid2',
+        versionIdentifier: '1',
         msid: 'testmsid',
         preprintDoi: 'preprint/testdoi2',
+        preprintUrl: 'http://preprints.org/preprint/testdoi2',
         preprintPosted: new Date('2008-06-03'),
         doi: 'test/article.7',
         title: 'Test Article 7',
@@ -254,8 +258,10 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3',
+        versionIdentifier: '1',
         msid: 'testmsid',
         preprintDoi: 'preprint/testdoi3',
+        preprintUrl: 'http://preprints.org/preprint/testdoi3',
         preprintPosted: new Date('2008-06-03'),
         doi: 'test/article.8',
         title: 'Test Article 8',
@@ -270,7 +276,9 @@ describe('article-stores', () => {
       const inputArticle2 = {
         ...inputArticle1,
         id: 'testid4',
+        versionIdentifier: '2',
         preprintDoi: 'preprint/testdoi4',
+        preprintUrl: 'http://preprints.org/preprint/testdoi4',
         preprintPosted: new Date('2008-07-03'),
       };
       const result1 = await articleStore.storeVersionedArticle(inputArticle1);
@@ -292,8 +300,10 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3',
+        versionIdentifier: '1',
         msid: 'testmsid',
         preprintDoi: 'preprint/testdoi3',
+        preprintUrl: 'http://preprints.org/preprint/testdoi3',
         preprintPosted: new Date('2008-06-03'),
         doi: 'test/article.8',
         title: 'Test Article 8',
@@ -308,7 +318,9 @@ describe('article-stores', () => {
       const inputArticle2 = {
         ...inputArticle1,
         id: 'testid4',
+        versionIdentifier: '2',
         preprintDoi: 'preprint/testdoi4',
+        preprintUrl: 'http://preprints.org/preprint/testdoi4',
         preprintPosted: new Date('2008-07-03'),
       };
       const result1 = await articleStore.storeVersionedArticle(inputArticle1);
