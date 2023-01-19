@@ -218,7 +218,34 @@ describe('article-stores', () => {
         versions: [inputArticle],
       });
     });
-    it.todo('stores and retrieves a Versioned Article by msid');
+
+    it('stores and retrieves a Versioned Article by msid', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle = {
+        id: 'testid2',
+        msid: 'testmsid',
+        preprintDoi: 'preprint/testdoi2',
+        preprintPosted: new Date('2008-06-03'),
+        doi: 'test/article.7',
+        title: 'Test Article 7',
+        abstract: 'Test article 7 abstract',
+        date: new Date('2008-07-03'),
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const result = await articleStore.storeVersionedArticle(inputArticle);
+      const article = await articleStore.getArticleVersion('testmsid');
+
+      expect(result).toStrictEqual(true);
+      expect(article).toMatchObject({
+        current: inputArticle,
+        versions: [inputArticle],
+      });
+    });
+
     it.todo('stores two Versioned Articles with the same msid and retreives them by id');
     it.todo('stores two Versioned Articles with the same msid and retreives the latest by msid');
     it.todo('stores two Versioned Articles get receives timeline');
