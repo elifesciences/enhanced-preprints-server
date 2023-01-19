@@ -117,10 +117,16 @@ export type EnhancedArticle = ProcessedArticle & {
 
 export type VersionedArticle = EnhancedArticle & {
   id: string,
+  msid: string,
   preprintDoi: string,
   preprintPosted: Date,
   sentForReview: Date,
   published: Date,
+};
+
+export type VersionedArticlesWithVersions = {
+  current: VersionedArticle,
+  versions: VersionedArticle[],
 };
 
 export interface ArticleRepository {
@@ -128,5 +134,5 @@ export interface ArticleRepository {
   getArticle(doi: Doi): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
   storeVersionedArticle(article: VersionedArticle): Promise<boolean>;
-  getArticleVersion(identifier: string): Promise<VersionedArticle>;
+  getArticleVersion(identifier: string): Promise<VersionedArticlesWithVersions>;
 }

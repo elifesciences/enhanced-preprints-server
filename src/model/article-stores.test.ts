@@ -186,5 +186,12 @@ describe('article-stores', () => {
         date: new Date('2008-06-03'),
       }]));
     });
+
+    it.todo('throws an error with unknown identifier');
+    it.todo('stores and retrieves a Versioned Article by id');
+    it.todo('stores and retrieves a Versioned Article by msid');
+    it.todo('stores two Versioned Articles with the same msid and retreives them by id');
+    it.todo('stores two Versioned Articles with the same msid and retreives the latest by msid');
+    it.todo('stores two Versioned Articles get receives timeline');
   });
 });

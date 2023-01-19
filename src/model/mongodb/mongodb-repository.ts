@@ -9,6 +9,8 @@ import {
   License,
   ProcessedArticle,
   Reference,
+  VersionedArticle,
+  VersionedArticlesWithVersions,
 } from '../model';
 import { Content } from '../content';
 
@@ -25,11 +27,18 @@ type StoredArticle = {
   references: Reference[],
 };
 
+type StoredVersionedArticle = VersionedArticle & {
+  _id: string,
+};
+
 class MongoDBArticleRepository implements ArticleRepository {
   private collection: Collection<StoredArticle>;
 
-  constructor(collection: Collection<StoredArticle>) {
+  private versionedCollection: Collection<StoredVersionedArticle>;
+
+  constructor(collection: Collection<StoredArticle>, versionedCollection: Collection<StoredVersionedArticle>) {
     this.collection = collection;
+    this.versionedCollection = versionedCollection;
   }
 
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
@@ -74,6 +83,37 @@ class MongoDBArticleRepository implements ArticleRepository {
       title: doc.title,
     }));
   }
+
+  async storeVersionedArticle(article: VersionedArticle): Promise<boolean> {
+    const response = await this.collection.insertOne({
+      _id: article.id,
+      ...article,
+    });
+
+    return response.acknowledged;
+  }
+
+  async getArticleVersion(identifier: string): Promise<VersionedArticlesWithVersions> {
+    const allVersions = await this.versionedCollection.find({ $or: [{ _id: identifier }, { msid: identifier }] })
+      .sort({ preprintPosted: -1 }) // sorted descending
+      .toArray();
+
+    if (allVersions.length === 0) {
+      throw Error('Cannot find a matching article Version');
+    }
+
+    const askedForVersion = allVersions.filter((version) => version.id === identifier);
+    if (askedForVersion.length === 1) {
+      return {
+        current: askedForVersion[0],
+        versions: allVersions,
+      };
+    }
+    return {
+      current: allVersions.slice(-1)[0],
+      versions: allVersions,
+    };
+  }
 }
 
 export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => {
@@ -81,5 +121,6 @@ export const createMongoDBArticleRepository = async (host: string, username: str
   const client = new MongoClient(connectionUrl);
 
   const collection = client.db('epp').collection<StoredArticle>('articles');
-  return new MongoDBArticleRepository(collection);
+  const versionedCollection = client.db('epp').collection<StoredVersionedArticle>('versioned_articles');
+  return new MongoDBArticleRepository(collection, versionedCollection);
 };
