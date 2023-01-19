@@ -427,4 +427,73 @@ describe('server tests', () => {
         });
     });
   });
+
+  describe('/import-version', () => {
+    it('imports a valid JSON body', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .post('/import-version')
+        .send({
+          id: 'testid3',
+          versionIdentifier: '1',
+          msid: 'testmsid',
+          preprintDoi: 'preprint/testdoi3',
+          preprintUrl: 'http://preprints.org/preprint/testdoi3',
+          preprintPosted: new Date('2008-06-03'),
+          doi: 'test/article.8',
+          title: 'Test Article 8',
+          abstract: 'Test article 8 abstract',
+          date: new Date('2008-07-03'),
+          authors: [],
+          content: '<article></article>',
+          licenses: [],
+          headings: [],
+          references: [],
+        })
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+        });
+    });
+
+    it('imports a valid JSON body and we are able to retrieve it', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
+
+      const exampleVersion = {
+        id: 'testid3',
+        versionIdentifier: '1',
+        msid: 'testmsid',
+        preprintDoi: 'preprint/testdoi3',
+        preprintUrl: 'http://preprints.org/preprint/testdoi3',
+        preprintPosted: '2008-06-03',
+        doi: 'test/article.8',
+        title: 'Test Article 8',
+        abstract: 'Test article 8 abstract',
+        date: '2008-07-03',
+        authors: [],
+        content: '<article></article>',
+        licenses: [],
+        headings: [],
+        references: [],
+      };
+
+      await request(app)
+        .post('/import-version')
+        .send(exampleVersion)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+        });
+
+      await request(app)
+        .get('/api/preprint/testid3')
+        .expect({
+          current: exampleVersion,
+          versions: {
+            testid3: exampleVersion,
+          },
+        });
+    });
+  });
 });
