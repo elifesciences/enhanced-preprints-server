@@ -246,8 +246,74 @@ describe('article-stores', () => {
       });
     });
 
-    it.todo('stores two Versioned Articles with the same msid and retreives them by id');
-    it.todo('stores two Versioned Articles with the same msid and retreives the latest by msid');
-    it.todo('stores two Versioned Articles get receives timeline');
+    it.failing('stores two Versioned Articles with the same msid and retreives them by id', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle1 = {
+        id: 'testid3',
+        msid: 'testmsid',
+        preprintDoi: 'preprint/testdoi3',
+        preprintPosted: new Date('2008-06-03'),
+        doi: 'test/article.8',
+        title: 'Test Article 8',
+        abstract: 'Test article 8 abstract',
+        date: new Date('2008-07-03'),
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const inputArticle2 = {
+        ...inputArticle1,
+        id: 'testid4',
+        preprintDoi: 'preprint/testdoi4',
+        preprintPosted: new Date('2008-07-03'),
+      };
+      const result1 = await articleStore.storeVersionedArticle(inputArticle1);
+      const result2 = await articleStore.storeVersionedArticle(inputArticle2);
+      const article = await articleStore.getArticleVersion('testid3');
+
+      expect(result1).toStrictEqual(true);
+      expect(result2).toStrictEqual(true);
+      expect(article).toMatchObject({
+        current: inputArticle1,
+        versions: [inputArticle1, inputArticle2],
+      });
+    });
+
+    it('stores two Versioned Articles with the same msid and retreives the latest by msid', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle1 = {
+        id: 'testid3',
+        msid: 'testmsid',
+        preprintDoi: 'preprint/testdoi3',
+        preprintPosted: new Date('2008-06-03'),
+        doi: 'test/article.8',
+        title: 'Test Article 8',
+        abstract: 'Test article 8 abstract',
+        date: new Date('2008-07-03'),
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const inputArticle2 = {
+        ...inputArticle1,
+        id: 'testid4',
+        preprintDoi: 'preprint/testdoi4',
+        preprintPosted: new Date('2008-07-03'),
+      };
+      const result1 = await articleStore.storeVersionedArticle(inputArticle1);
+      const result2 = await articleStore.storeVersionedArticle(inputArticle2);
+      const article = await articleStore.getArticleVersion('testmsid');
+
+      expect(result1).toStrictEqual(true);
+      expect(result2).toStrictEqual(true);
+      expect(article).toMatchObject({
+        current: inputArticle2,
+        versions: [inputArticle1, inputArticle2],
+      });
+    });
   });
 });
