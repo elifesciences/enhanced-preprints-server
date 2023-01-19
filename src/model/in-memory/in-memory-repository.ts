@@ -15,7 +15,7 @@ const comparePreprintPostedDates = (a: VersionedArticle, b: VersionedArticle): n
     return 1;
   }
   return 0;
-}
+};
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ProcessedArticle>;
@@ -47,11 +47,12 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    return Array.from(this.store.values()).map((article) => ({
-      doi: article.doi,
-      title: article.title,
-      date: article.date,
-    }));
+    return Array.from(this.store.values())
+      .map((article) => ({
+        doi: article.doi,
+        title: article.title,
+        date: article.date,
+      }));
   }
 
   async storeVersionedArticle(article: VersionedArticle): Promise<boolean> {
@@ -65,22 +66,35 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async getArticleVersion(identifier: string): Promise<VersionedArticlesWithVersions> {
-    const allVersions = Array.from(this.versionedStore.values()).filter((article) => article.id === identifier || article.msid === identifier).sort(comparePreprintPostedDates);
+    const version = this.versionedStore.get(identifier);
 
-    if (allVersions.length === 0) {
-      throw Error('Cannot find a matching article Version');
-    }
+    if (version) {
+      const allVersions = Array.from(this.versionedStore.values())
+        .filter((article) => article.msid === version.msid)
+        .reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+          const toReturn = record;
+          toReturn[otherVersion.id] = otherVersion;
+          return toReturn;
+        }, {});
 
-    const askedForVersion = allVersions.filter((version) => version.id === identifier);
-    if (askedForVersion.length === 1) {
       return {
-        current: askedForVersion[0],
+        current: version,
         versions: allVersions,
       };
     }
+
+    const versions = Array.from(this.versionedStore.values())
+      .filter((article) => article.msid === identifier)
+      .sort(comparePreprintPostedDates)
+      .reverse();
+    if (!versions.length) throw Error(`Unable to locate versions with id/msid ${identifier}`);
     return {
-      current: allVersions.slice(-1)[0],
-      versions: allVersions,
+      current: versions[0],
+      versions: versions.reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+        const toReturn = record;
+        toReturn[otherVersion.id] = otherVersion;
+        return toReturn;
+      }, {}),
     };
   }
 }

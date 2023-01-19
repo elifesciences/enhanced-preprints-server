@@ -106,12 +106,20 @@ class MongoDBArticleRepository implements ArticleRepository {
     if (askedForVersion.length === 1) {
       return {
         current: askedForVersion[0],
-        versions: allVersions,
+        versions: allVersions.reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+          const toReturn = record;
+          toReturn[otherVersion.id] = otherVersion;
+          return toReturn;
+        }, {}),
       };
     }
     return {
       current: allVersions.slice(-1)[0],
-      versions: allVersions,
+      versions: allVersions.reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+        const toReturn = record;
+        toReturn[otherVersion.id] = otherVersion;
+        return toReturn;
+      }, {}),
     };
   }
 }

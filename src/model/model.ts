@@ -127,7 +127,7 @@ export type VersionedArticle = ProcessedArticle & {
 
 export type VersionedArticlesWithVersions = {
   current: VersionedArticle,
-  versions: VersionedArticle[],
+  versions: Record<string, VersionedArticle>,
 };
 
 export interface ArticleRepository {

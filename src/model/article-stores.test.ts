@@ -215,7 +215,9 @@ describe('article-stores', () => {
       expect(result).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle,
-        versions: [inputArticle],
+        versions: {
+          testid: inputArticle,
+        },
       });
     });
 
@@ -242,11 +244,13 @@ describe('article-stores', () => {
       expect(result).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle,
-        versions: [inputArticle],
+        versions: {
+          testid2: inputArticle,
+        },
       });
     });
 
-    it.failing('stores two Versioned Articles with the same msid and retreives them by id', async () => {
+    it('stores two Versioned Articles with the same msid and retreives them by id', async () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3',
@@ -277,7 +281,10 @@ describe('article-stores', () => {
       expect(result2).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle1,
-        versions: [inputArticle1, inputArticle2],
+        versions: {
+          testid3: inputArticle1,
+          testid4: inputArticle2,
+        },
       });
     });
 
@@ -312,7 +319,10 @@ describe('article-stores', () => {
       expect(result2).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle2,
-        versions: [inputArticle1, inputArticle2],
+        versions: {
+          testid3: inputArticle1,
+          testid4: inputArticle2,
+        },
       });
     });
   });
