@@ -495,5 +495,79 @@ describe('server tests', () => {
           },
         });
     });
+
+    it('imports two content types and we are able to retrieve the earliest by ID, and the latest by msid', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
+
+      const exampleVersion1 = {
+        id: 'testid4',
+        versionIdentifier: '1',
+        msid: 'article.2',
+        preprintDoi: 'preprint/testdoi4',
+        preprintUrl: 'http://preprints.org/preprint/testdoi4',
+        preprintPosted: '2008-06-03',
+        doi: 'test/article.2',
+        title: 'Test Article 8',
+        abstract: 'Test article 8 abstract',
+        date: '2008-08-03',
+        authors: [],
+        content: '<article></article>',
+        licenses: [],
+        headings: [],
+        references: [],
+      };
+      const exampleVersion2 = {
+        id: 'testid5',
+        versionIdentifier: '2',
+        msid: 'article.2',
+        preprintDoi: 'preprint/testdoi5',
+        preprintUrl: 'http://preprints.org/preprint/testdoi5',
+        preprintPosted: '2008-07-03',
+        doi: 'test/article.2',
+        title: 'Test Article 2',
+        abstract: 'Test article 2 abstract',
+        date: '2008-09-03',
+        authors: [],
+        content: '<article></article>',
+        licenses: [],
+        headings: [],
+        references: [],
+      };
+
+      await request(app)
+        .post('/import-version')
+        .send(exampleVersion1)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+        });
+      await request(app)
+        .post('/import-version')
+        .send(exampleVersion2)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+        });
+
+      await request(app)
+        .get('/api/preprint/testid4')
+        .expect({
+          current: exampleVersion1,
+          versions: {
+            testid4: exampleVersion1,
+            testid5: exampleVersion2,
+          },
+        });
+      await request(app)
+        .get('/api/preprint/article.2')
+        .expect({
+          current: exampleVersion2,
+          versions: {
+            testid4: exampleVersion1,
+            testid5: exampleVersion2,
+          },
+        });
+    });
   });
 });
