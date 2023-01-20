@@ -114,9 +114,9 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
     }
   });
 
-  app.post('/import-version', async (req, res, next) => {
+  app.post<{}, { result: boolean }, EnhancedArticle>('/import-version', async (req, res, next) => {
     try {
-      const data = req.body as EnhancedArticle;
+      const data = req.body;
       const result = await repo.storeEnhancedArticle(data);
       res.status(result ? 200 : 500).send({
         result,
