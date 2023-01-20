@@ -1,5 +1,5 @@
 import { createArticleRepository, StoreType } from './create-article-repository';
-import { Reference } from './model';
+import { Reference, EnhancedArticle } from './model';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
@@ -192,9 +192,9 @@ describe('article-stores', () => {
       expect(async () => articleStore.getArticleVersion('not-an-id')).rejects.toThrow();
     });
 
-    it('stores and retrieves a Versioned Article by id', async () => {
+    it('stores and retrieves a Versioned Article by id with all fields', async () => {
       const articleStore = await createArticleRepo(store);
-      const inputArticle = {
+      const inputArticle: EnhancedArticle = {
         id: 'testid1.1',
         msid: 'testid1',
         doi: 'journal/testid1',
@@ -203,6 +203,8 @@ describe('article-stores', () => {
         preprintDoi: 'preprint/article7',
         preprintUrl: 'http://preprints.org/preprint/article7',
         preprintPosted: new Date('2008-07-01'),
+        sentForReview: new Date('2008-07-02'),
+        published: new Date('2008-11-02'),
         article: {
           doi: 'preprint/article7',
           title: 'Test Article 7',
@@ -215,12 +217,12 @@ describe('article-stores', () => {
           references: [exampleReference],
         },
       };
-      const result = await articleStore.storeVersionedArticle(inputArticle);
+      const result = await articleStore.storeEnhancedArticle(inputArticle);
       const article = await articleStore.getArticleVersion('testid1');
 
       expect(result).toStrictEqual(true);
       expect(article).toMatchObject({
-        current: inputArticle,
+        article: inputArticle,
         versions: {
           'testid1.1': inputArticle,
         },
@@ -250,12 +252,12 @@ describe('article-stores', () => {
           references: [exampleReference],
         },
       };
-      const result = await articleStore.storeVersionedArticle(inputArticle);
+      const result = await articleStore.storeEnhancedArticle(inputArticle);
       const article = await articleStore.getArticleVersion('testid2');
 
       expect(result).toStrictEqual(true);
       expect(article).toMatchObject({
-        current: inputArticle,
+        article: inputArticle,
         versions: {
           'testid2.2': inputArticle,
         },
@@ -306,14 +308,14 @@ describe('article-stores', () => {
           references: [exampleReference],
         },
       };
-      const result1 = await articleStore.storeVersionedArticle(inputArticle1);
-      const result2 = await articleStore.storeVersionedArticle(inputArticle2);
+      const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
+      const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
       const article = await articleStore.getArticleVersion('testid3.1');
 
       expect(result1).toStrictEqual(true);
       expect(result2).toStrictEqual(true);
       expect(article).toMatchObject({
-        current: inputArticle1,
+        article: inputArticle1,
         versions: {
           'testid3.1': inputArticle1,
           'testid3.2': inputArticle2,
@@ -365,14 +367,14 @@ describe('article-stores', () => {
           references: [exampleReference],
         },
       };
-      const result1 = await articleStore.storeVersionedArticle(inputArticle1);
-      const result2 = await articleStore.storeVersionedArticle(inputArticle2);
+      const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
+      const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
       const article = await articleStore.getArticleVersion('testid4');
 
       expect(result1).toStrictEqual(true);
       expect(result2).toStrictEqual(true);
       expect(article).toMatchObject({
-        current: inputArticle2,
+        article: inputArticle2,
         versions: {
           'testid4.1': inputArticle1,
           'testid4.2': inputArticle2,

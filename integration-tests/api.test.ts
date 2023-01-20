@@ -489,7 +489,7 @@ describe('server tests', () => {
       await request(app)
         .get('/api/preprint/testid3')
         .expect({
-          current: exampleVersion,
+          article: exampleVersion,
           versions: {
             testid3: exampleVersion,
           },
@@ -553,7 +553,7 @@ describe('server tests', () => {
       await request(app)
         .get('/api/preprint/testid4')
         .expect({
-          current: exampleVersion1,
+          article: exampleVersion1,
           versions: {
             testid4: exampleVersion1,
             testid5: exampleVersion2,
@@ -562,7 +562,7 @@ describe('server tests', () => {
       await request(app)
         .get('/api/preprint/article.2')
         .expect({
-          current: exampleVersion2,
+          article: exampleVersion2,
           versions: {
             testid4: exampleVersion1,
             testid5: exampleVersion2,

@@ -3,11 +3,11 @@ import {
   ArticleRepository,
   ProcessedArticle,
   ArticleSummary,
-  VersionedArticle,
-  VersionedArticlesWithVersions,
+  EnhancedArticle,
+  EnhancedArticleWithVersions,
 } from '../model';
 
-const comparePreprintPostedDates = (a: VersionedArticle, b: VersionedArticle): number => {
+const comparePreprintPostedDates = (a: EnhancedArticle, b: EnhancedArticle): number => {
   if (a.preprintPosted < b.preprintPosted) {
     return -1;
   }
@@ -20,9 +20,9 @@ const comparePreprintPostedDates = (a: VersionedArticle, b: VersionedArticle): n
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ProcessedArticle>;
 
-  versionedStore: Map<string, VersionedArticle>;
+  versionedStore: Map<string, EnhancedArticle>;
 
-  constructor(store: Map<string, ProcessedArticle>, versionedStore: Map<string, VersionedArticle>) {
+  constructor(store: Map<string, ProcessedArticle>, versionedStore: Map<string, EnhancedArticle>) {
     this.store = store;
     this.versionedStore = versionedStore;
   }
@@ -55,7 +55,7 @@ class InMemoryArticleRepository implements ArticleRepository {
       }));
   }
 
-  async storeVersionedArticle(article: VersionedArticle): Promise<boolean> {
+  async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
     if (this.versionedStore.has(article.id)) {
       return false;
     }
@@ -65,20 +65,20 @@ class InMemoryArticleRepository implements ArticleRepository {
     return true;
   }
 
-  async getArticleVersion(identifier: string): Promise<VersionedArticlesWithVersions> {
+  async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
     const version = this.versionedStore.get(identifier);
 
     if (version) {
       const allVersions = Array.from(this.versionedStore.values())
         .filter((article) => article.msid === version.msid)
-        .reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+        .reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
           const toReturn = record;
           toReturn[otherVersion.id] = otherVersion;
           return toReturn;
         }, {});
 
       return {
-        current: version,
+        article: version,
         versions: allVersions,
       };
     }
@@ -89,8 +89,8 @@ class InMemoryArticleRepository implements ArticleRepository {
       .reverse();
     if (!versions.length) throw Error(`Unable to locate versions with id/msid ${identifier}`);
     return {
-      current: versions[0],
-      versions: versions.reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+      article: versions[0],
+      versions: versions.reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
         const toReturn = record;
         toReturn[otherVersion.id] = otherVersion;
         return toReturn;
@@ -99,4 +99,4 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 }
 
-export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => new InMemoryArticleRepository(new Map<string, ProcessedArticle>(), new Map<string, VersionedArticle>());
+export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => new InMemoryArticleRepository(new Map<string, ProcessedArticle>(), new Map<string, EnhancedArticle>());

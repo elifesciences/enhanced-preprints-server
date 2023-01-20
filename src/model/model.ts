@@ -111,11 +111,7 @@ export type PeerReview = {
   authorResponse?: Evaluation,
 };
 
-export type EnhancedArticle = ProcessedArticle & {
-  peerReview: PeerReview,
-};
-
-export type VersionedArticle = {
+export type EnhancedArticle = {
   id: string,
   msid: string,
   doi: string,
@@ -130,15 +126,15 @@ export type VersionedArticle = {
   published?: Date,
 };
 
-export type VersionedArticlesWithVersions = {
-  current: VersionedArticle,
-  versions: Record<string, VersionedArticle>,
+export type EnhancedArticleWithVersions = {
+  article: EnhancedArticle,
+  versions: Record<string, EnhancedArticle>,
 };
 
 export interface ArticleRepository {
   storeArticle(article: ProcessedArticle): Promise<boolean>;
   getArticle(doi: Doi): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
-  storeVersionedArticle(article: VersionedArticle): Promise<boolean>;
-  getArticleVersion(identifier: string): Promise<VersionedArticlesWithVersions>;
+  storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
+  getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions>;
 }

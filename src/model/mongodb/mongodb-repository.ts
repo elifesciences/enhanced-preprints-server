@@ -9,8 +9,8 @@ import {
   License,
   ProcessedArticle,
   Reference,
-  VersionedArticle,
-  VersionedArticlesWithVersions,
+  EnhancedArticle,
+  EnhancedArticleWithVersions,
 } from '../model';
 import { Content } from '../content';
 
@@ -27,16 +27,16 @@ type StoredArticle = {
   references: Reference[],
 };
 
-type StoredVersionedArticle = VersionedArticle & {
+type StoredEnhancedArticle = EnhancedArticle & {
   _id: string,
 };
 
 class MongoDBArticleRepository implements ArticleRepository {
   private collection: Collection<StoredArticle>;
 
-  private versionedCollection: Collection<StoredVersionedArticle>;
+  private versionedCollection: Collection<StoredEnhancedArticle>;
 
-  constructor(collection: Collection<StoredArticle>, versionedCollection: Collection<StoredVersionedArticle>) {
+  constructor(collection: Collection<StoredArticle>, versionedCollection: Collection<StoredEnhancedArticle>) {
     this.collection = collection;
     this.versionedCollection = versionedCollection;
   }
@@ -84,7 +84,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     }));
   }
 
-  async storeVersionedArticle(article: VersionedArticle): Promise<boolean> {
+  async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
     const response = await this.versionedCollection.insertOne({
       _id: article.id,
       ...article,
@@ -93,7 +93,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     return response.acknowledged;
   }
 
-  async getArticleVersion(identifier: string): Promise<VersionedArticlesWithVersions> {
+  async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
     const allVersions = await this.versionedCollection.find({ $or: [{ _id: identifier }, { msid: identifier }] })
       .sort({ preprintPosted: -1 }) // sorted descending
       .toArray();
@@ -105,8 +105,8 @@ class MongoDBArticleRepository implements ArticleRepository {
     const askedForVersion = allVersions.filter((version) => version.id === identifier);
     if (askedForVersion.length === 1) {
       return {
-        current: askedForVersion[0],
-        versions: allVersions.reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+        article: askedForVersion[0],
+        versions: allVersions.reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
           const toReturn = record;
           toReturn[otherVersion.id] = otherVersion;
           return toReturn;
@@ -114,8 +114,8 @@ class MongoDBArticleRepository implements ArticleRepository {
       };
     }
     return {
-      current: allVersions.slice(-1)[0],
-      versions: allVersions.reduce((record: Record<string, VersionedArticle>, otherVersion) => {
+      article: allVersions.slice(-1)[0],
+      versions: allVersions.reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
         const toReturn = record;
         toReturn[otherVersion.id] = otherVersion;
         return toReturn;
@@ -129,6 +129,6 @@ export const createMongoDBArticleRepository = async (host: string, username: str
   const client = new MongoClient(connectionUrl);
 
   const collection = client.db('epp').collection<StoredArticle>('articles');
-  const versionedCollection = client.db('epp').collection<StoredVersionedArticle>('versioned_articles');
+  const versionedCollection = client.db('epp').collection<StoredEnhancedArticle>('versioned_articles');
   return new MongoDBArticleRepository(collection, versionedCollection);
 };

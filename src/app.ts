@@ -1,7 +1,7 @@
 import express from 'express';
 import { fetchReviews } from './reviews/fetch-reviews';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
-import { ArticleRepository, VersionedArticle } from './model/model';
+import { ArticleRepository, EnhancedArticle } from './model/model';
 
 export const createApp = (repo: ArticleRepository, config: Record<string, string>) => {
   const app = express();
@@ -116,8 +116,8 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
 
   app.post('/import-version', async (req, res, next) => {
     try {
-      const data = req.body as VersionedArticle;
-      const result = await repo.storeVersionedArticle(data);
+      const data = req.body as EnhancedArticle;
+      const result = await repo.storeEnhancedArticle(data);
       res.status(result ? 200 : 500).send({
         result,
       });
