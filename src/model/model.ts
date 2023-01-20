@@ -67,7 +67,8 @@ export type Reference = {
   }[],
 };
 
-export type ProcessedArticle = Omit<ArticleContent, 'document'> & {
+export type ProcessedArticle = {
+  doi: string,
   title: ArticleTitle,
   date: Date,
   authors: Author[],
@@ -110,12 +111,30 @@ export type PeerReview = {
   authorResponse?: Evaluation,
 };
 
-export type EnhancedArticle = ProcessedArticle & {
-  peerReview: PeerReview,
+export type EnhancedArticle = {
+  id: string,
+  msid: string,
+  doi: string,
+  versionIdentifier: string,
+  versionDoi?: string,
+  article: ProcessedArticle
+  preprintDoi: string,
+  preprintUrl: string,
+  preprintPosted: Date,
+  sentForReview?: Date,
+  peerReview?: PeerReview,
+  published?: Date,
+};
+
+export type EnhancedArticleWithVersions = {
+  article: EnhancedArticle,
+  versions: Record<string, EnhancedArticle>,
 };
 
 export interface ArticleRepository {
   storeArticle(article: ProcessedArticle): Promise<boolean>;
   getArticle(doi: Doi): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
+  storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
+  getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions>;
 }

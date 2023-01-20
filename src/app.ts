@@ -1,10 +1,12 @@
 import express from 'express';
 import { fetchReviews } from './reviews/fetch-reviews';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
-import { ArticleRepository } from './model/model';
+import { ArticleRepository, EnhancedArticle } from './model/model';
 
 export const createApp = (repo: ArticleRepository, config: Record<string, string>) => {
   const app = express();
+
+  app.use(express.json());
 
   app.get('/', async (req, res, next) => {
     try {
@@ -107,6 +109,27 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
           message: 'Some new items imported',
         });
       }
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post<{}, { result: boolean }, EnhancedArticle>('/import-version', async (req, res, next) => {
+    try {
+      const data = req.body;
+      const result = await repo.storeEnhancedArticle(data);
+      res.status(result ? 200 : 500).send({
+        result,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get('/api/preprint/:identifier', async (req, res, next) => {
+    try {
+      const version = await repo.getArticleVersion(req.params.identifier);
+      res.send(version);
     } catch (err) {
       next(err);
     }
