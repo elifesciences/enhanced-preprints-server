@@ -68,7 +68,7 @@ describe('article-stores', () => {
         title: 'Test Article 1',
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
-        date: new Date('2008-01-03'),
+        date: new Date('2008-01-01'),
         content: [],
         licenses: exampleLicenses,
         headings: [],
@@ -85,7 +85,7 @@ describe('article-stores', () => {
         title: 'Test Article 1',
         abstract: 'Test article 1 abstract',
         authors: exampleAuthors,
-        date: new Date('2008-01-03'),
+        date: new Date('2008-01-01'),
         content: '<article></article>',
         licenses: exampleLicenses,
         headings: [],
@@ -137,7 +137,7 @@ describe('article-stores', () => {
         doi: 'test/article.4',
         title: 'Test Article 4',
         abstract: 'Test article 4 abstract',
-        date: new Date('2008-04-03'),
+        date: new Date('2008-04-01'),
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
@@ -148,7 +148,7 @@ describe('article-stores', () => {
         doi: 'test/article.5',
         title: 'Test Article 5',
         abstract: 'Test article 5 abstract',
-        date: new Date('2008-05-03'),
+        date: new Date('2008-05-01'),
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
@@ -159,7 +159,7 @@ describe('article-stores', () => {
         doi: 'test/article.6',
         title: 'Test Article 6',
         abstract: 'Test article 6 abstract',
-        date: new Date('2008-06-03'),
+        date: new Date('2008-06-01'),
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
@@ -175,15 +175,15 @@ describe('article-stores', () => {
       expect(articleSummaries).toStrictEqual(expect.arrayContaining([{
         doi: 'test/article.4',
         title: 'Test Article 4',
-        date: new Date('2008-04-03'),
+        date: new Date('2008-04-01'),
       }, {
         doi: 'test/article.5',
         title: 'Test Article 5',
-        date: new Date('2008-05-03'),
+        date: new Date('2008-05-01'),
       }, {
         doi: 'test/article.6',
         title: 'Test Article 6',
-        date: new Date('2008-06-03'),
+        date: new Date('2008-06-01'),
       }]));
     });
 
@@ -195,30 +195,34 @@ describe('article-stores', () => {
     it('stores and retrieves a Versioned Article by id', async () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle = {
-        id: 'testid',
+        id: 'testid1.1',
+        msid: 'testid1',
+        doi: 'journal/testid1',
         versionIdentifier: '1',
-        msid: 'testmsid',
-        preprintDoi: 'preprint/testdoi',
-        preprintUrl: 'http://preprints.org/preprint/testdoi',
-        preprintPosted: new Date('2008-06-03'),
-        doi: 'test/article.7',
-        title: 'Test Article 7',
-        abstract: 'Test article 7 abstract',
-        date: new Date('2008-07-03'),
-        authors: exampleAuthors,
-        content: '<article></article>',
-        licenses: exampleLicenses,
-        headings: [],
-        references: [exampleReference],
+        versionDoi: 'journal/testid1.1',
+        preprintDoi: 'preprint/article7',
+        preprintUrl: 'http://preprints.org/preprint/article7',
+        preprintPosted: new Date('2008-07-01'),
+        article: {
+          doi: 'preprint/article7',
+          title: 'Test Article 7',
+          abstract: 'Test article 7 abstract',
+          date: new Date('2008-07-01'),
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
       };
       const result = await articleStore.storeVersionedArticle(inputArticle);
-      const article = await articleStore.getArticleVersion('testid');
+      const article = await articleStore.getArticleVersion('testid1');
 
       expect(result).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle,
         versions: {
-          testid: inputArticle,
+          'testid1.1': inputArticle,
         },
       });
     });
@@ -226,30 +230,34 @@ describe('article-stores', () => {
     it('stores and retrieves a Versioned Article by msid', async () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle = {
-        id: 'testid2',
+        id: 'testid2.2',
+        msid: 'testid2',
+        doi: 'journal/testid2.2',
         versionIdentifier: '1',
-        msid: 'testmsid',
-        preprintDoi: 'preprint/testdoi2',
-        preprintUrl: 'http://preprints.org/preprint/testdoi2',
-        preprintPosted: new Date('2008-06-03'),
-        doi: 'test/article.7',
-        title: 'Test Article 7',
-        abstract: 'Test article 7 abstract',
-        date: new Date('2008-07-03'),
-        authors: exampleAuthors,
-        content: '<article></article>',
-        licenses: exampleLicenses,
-        headings: [],
-        references: [exampleReference],
+        versionDoi: 'journal/testid2.2',
+        preprintDoi: 'preprint/article8',
+        preprintUrl: 'http://preprints.org/preprint/article8',
+        preprintPosted: new Date('2008-08-02'),
+        article: {
+          doi: 'preprint/article8',
+          title: 'Test Article 8',
+          abstract: 'Test article 8 abstract',
+          date: new Date('2008-08-02'),
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
       };
       const result = await articleStore.storeVersionedArticle(inputArticle);
-      const article = await articleStore.getArticleVersion('testmsid');
+      const article = await articleStore.getArticleVersion('testid2');
 
       expect(result).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle,
         versions: {
-          testid2: inputArticle,
+          'testid2.2': inputArticle,
         },
       });
     });
@@ -257,41 +265,58 @@ describe('article-stores', () => {
     it('stores two Versioned Articles with the same msid and retreives them by id', async () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
-        id: 'testid3',
+        id: 'testid3.1',
+        msid: 'testid3',
+        doi: 'journal/testid3.1',
         versionIdentifier: '1',
-        msid: 'testmsid',
-        preprintDoi: 'preprint/testdoi3',
-        preprintUrl: 'http://preprints.org/preprint/testdoi3',
-        preprintPosted: new Date('2008-06-03'),
-        doi: 'test/article.8',
-        title: 'Test Article 8',
-        abstract: 'Test article 8 abstract',
-        date: new Date('2008-07-03'),
-        authors: exampleAuthors,
-        content: '<article></article>',
-        licenses: exampleLicenses,
-        headings: [],
-        references: [exampleReference],
+        versionDoi: 'journal/testid3.1',
+        preprintDoi: 'preprint/article9',
+        preprintUrl: 'http://preprints.org/preprint/article9',
+        preprintPosted: new Date('2008-09-01'),
+        article: {
+          doi: 'preprint/article9',
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
+          date: new Date('2008-09-01'),
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
       };
       const inputArticle2 = {
-        ...inputArticle1,
-        id: 'testid4',
-        versionIdentifier: '2',
-        preprintDoi: 'preprint/testdoi4',
-        preprintUrl: 'http://preprints.org/preprint/testdoi4',
-        preprintPosted: new Date('2008-07-03'),
+        id: 'testid3.2',
+        msid: 'testid3',
+        doi: 'journal/testid3.2',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid3.2',
+        preprintDoi: 'preprint/article9v2',
+        preprintUrl: 'http://preprints.org/preprint/article9v2',
+        preprintPosted: new Date('2008-09-02'),
+        article: {
+          doi: 'preprint/article9v2',
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
+          date: new Date('2008-09-02'),
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
       };
       const result1 = await articleStore.storeVersionedArticle(inputArticle1);
       const result2 = await articleStore.storeVersionedArticle(inputArticle2);
-      const article = await articleStore.getArticleVersion('testid3');
+      const article = await articleStore.getArticleVersion('testid3.1');
 
       expect(result1).toStrictEqual(true);
       expect(result2).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle1,
         versions: {
-          testid3: inputArticle1,
-          testid4: inputArticle2,
+          'testid3.1': inputArticle1,
+          'testid3.2': inputArticle2,
         },
       });
     });
@@ -299,41 +324,58 @@ describe('article-stores', () => {
     it('stores two Versioned Articles with the same msid and retreives the latest by msid', async () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
-        id: 'testid3',
+        id: 'testid4.1',
+        msid: 'testid4',
+        doi: 'journal/testid4.1',
         versionIdentifier: '1',
-        msid: 'testmsid',
-        preprintDoi: 'preprint/testdoi3',
-        preprintUrl: 'http://preprints.org/preprint/testdoi3',
-        preprintPosted: new Date('2008-06-03'),
-        doi: 'test/article.8',
-        title: 'Test Article 8',
-        abstract: 'Test article 8 abstract',
-        date: new Date('2008-07-03'),
-        authors: exampleAuthors,
-        content: '<article></article>',
-        licenses: exampleLicenses,
-        headings: [],
-        references: [exampleReference],
+        versionDoi: 'journal/testid4.1',
+        preprintDoi: 'preprint/article10',
+        preprintUrl: 'http://preprints.org/preprint/article10',
+        preprintPosted: new Date('2008-10-01'),
+        article: {
+          doi: 'preprint/article10',
+          title: 'Test Article 10',
+          abstract: 'Test article 10 abstract',
+          date: new Date('2008-10-01'),
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
       };
       const inputArticle2 = {
-        ...inputArticle1,
-        id: 'testid4',
-        versionIdentifier: '2',
-        preprintDoi: 'preprint/testdoi4',
-        preprintUrl: 'http://preprints.org/preprint/testdoi4',
-        preprintPosted: new Date('2008-07-03'),
+        id: 'testid4.2',
+        msid: 'testid4',
+        doi: 'journal/testid4.2',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid4.2',
+        preprintDoi: 'preprint/article10v2',
+        preprintUrl: 'http://preprints.org/preprint/article10v2',
+        preprintPosted: new Date('2008-10-02'),
+        article: {
+          doi: 'preprint/article10v2',
+          title: 'Test Article 10',
+          abstract: 'Test article 10 abstract',
+          date: new Date('2008-10-02'),
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
       };
       const result1 = await articleStore.storeVersionedArticle(inputArticle1);
       const result2 = await articleStore.storeVersionedArticle(inputArticle2);
-      const article = await articleStore.getArticleVersion('testmsid');
+      const article = await articleStore.getArticleVersion('testid4');
 
       expect(result1).toStrictEqual(true);
       expect(result2).toStrictEqual(true);
       expect(article).toMatchObject({
         current: inputArticle2,
         versions: {
-          testid3: inputArticle1,
-          testid4: inputArticle2,
+          'testid4.1': inputArticle1,
+          'testid4.2': inputArticle2,
         },
       });
     });
