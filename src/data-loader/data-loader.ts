@@ -140,6 +140,10 @@ const extractHeadings = (content: Content): Heading[] => {
       return false;
     }
 
+    if (Array.isArray(contentPart)) {
+      return extractHeadings(content);
+    }
+
     if (contentPart.type !== 'Heading') {
       return false;
     }
