@@ -106,10 +106,12 @@ describe('httpschema', () => {
   it.each([
     [{id: '12345', msid: 1}, '"msid" must be a string'],
     [{unknown: 'unknown'}, '"unknown" is not allowed'],
+    [{unknown1: 'unknown', unknown2: 'unknown'}, '"unknown1" is not allowed'],
   ])('handles validation error', (value, error) => {
     const invalidateEnhancedArticle = EnhancedArticleSchema.validate(value);
 
     expect(invalidateEnhancedArticle.error).toBeDefined();
+    expect(invalidateEnhancedArticle.error?.details).toHaveLength(1);
     expect(invalidateEnhancedArticle.error?.details.at(0)?.message).toStrictEqual(error);
   });
 
