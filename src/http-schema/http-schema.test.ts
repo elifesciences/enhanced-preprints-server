@@ -33,12 +33,66 @@ const enhancedArticleExample = {
 
 describe('httpschema', () => {
   it.each([
-    ['multi', 'strings'],
-    { type: 'Paragraph', content: 'PARAGRAPH!!!' },
-    [{ type: 'Paragraph', content: 'PARAGRAPH!!!' }, { type: 'Strong', content: 'STRONG!!!' }],
-    ['This is a ', { type: 'Strong', content: 'STRONG!!!' }, ' string'],
-    ['This is a ', { type: 'Strong', content: [{ type: 'Paragraph', content: 'PARAGRAPH!!!' }, 'foo'] }, ' string'],
-  ])('validates correct content', (value) => {
+    'foo',
+    ['one', 'two', { type: 'Strong', content: 'three' }],
+    {
+      type: 'Heading', depth: 1, content: 'heading', id: 'h1',
+    },
+    {
+      type: 'Cite',
+      content: 'I am a citation',
+      target: 'target',
+    },
+    {
+      type: 'Link',
+      content: 'I am a link',
+      target: 'target',
+    },
+    {
+      type: 'Paragraph',
+      content: 'I am a paragraph',
+    },
+    {
+      type: 'Emphasis',
+      content: 'I am emphasised',
+    },
+    {
+      type: 'Strong',
+      content: 'I am strong',
+    },
+    {
+      type: 'Superscript',
+      content: 'I am super',
+    },
+    {
+      type: 'Subscript',
+      content: 'I am a subscript',
+    },
+    {
+      type: 'Date',
+      content: '13/01/2001',
+    },
+    {
+      type: 'Figure',
+      content: 'I am a figure',
+      caption: 'I am a caption',
+      label: 'I am a label',
+      id: 'id',
+    },
+    {
+      type: 'ImageObject',
+      contentUrl: 'https://placekitten.com/500/300',
+      content: [],
+      meta: {
+        inline: false,
+      },
+    },
+    [
+      [{
+        type: 'Heading', depth: 1, content: 'heading', id: 'h1',
+      }],
+    ],
+  ])('validates %s content', (value) => {
     const enhancedArticle = {
       ...enhancedArticleExample,
       article: {
@@ -48,6 +102,7 @@ describe('httpschema', () => {
     };
     expect(EnhancedArticleSchema.validate(enhancedArticle).error).toStrictEqual(undefined);
   });
+
   it('coerces dates', () => {
     const enhancedArticle = EnhancedArticleSchema.validate(enhancedArticleExample);
 

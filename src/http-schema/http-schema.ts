@@ -15,6 +15,21 @@ const DateContentSchema = Joi.object({
   content: Joi.link('#Content'),
 });
 
+const EmphasisContentSchema = Joi.object({
+  type: Joi.string().valid('Emphasis'),
+  content: Joi.link('#Content'),
+});
+
+const SuperscriptContentSchema = Joi.object({
+  type: Joi.string().valid('Superscript'),
+  content: Joi.link('#Content'),
+});
+
+const SubscriptContentSchema = Joi.object({
+  type: Joi.string().valid('Subscript'),
+  content: Joi.link('#Content'),
+});
+
 const LinkContentSchema = Joi.object({
   type: Joi.string().valid('Link'),
   target: Joi.string(),
@@ -25,6 +40,7 @@ const LinkContentSchema = Joi.object({
 const CiteContentSchema = Joi.object({
   type: Joi.string().valid('Cite'),
   content: Joi.link('#Content'),
+  target: Joi.string(),
 });
 
 const CiteGroupContentSchema = Joi.object({
@@ -32,20 +48,49 @@ const CiteGroupContentSchema = Joi.object({
   items: Joi.array().items(CiteContentSchema),
 });
 
+const HeadingContentSchema = Joi.object({
+  id: Joi.string(),
+  type: Joi.string().valid('Heading'),
+  content: Joi.link('#Content'),
+  depth: Joi.number().valid(1, 2, 3, 4, 5, 6),
+});
+
+const FigureContentSchema = Joi.object({
+  type: Joi.string().valid('Figure'),
+  content: Joi.link('#Content'),
+  caption: Joi.link('#Content'),
+  id: Joi.string(),
+  label: Joi.string(),
+});
+
+const ImageObjectContent = Joi.object({
+  type: Joi.string().valid('ImageObject'),
+  contentUrl: Joi.string().optional(),
+  content: Joi.link('#Content').optional(),
+  meta: Joi.object({
+    inline: Joi.boolean(),
+  }),
+});
+
 const ContentPartSchema = Joi.alternatives().try(
   Joi.string(),
   ParagraphSchema,
   StrongContentSchema,
   DateContentSchema,
+  EmphasisContentSchema,
+  SuperscriptContentSchema,
+  SubscriptContentSchema,
   LinkContentSchema,
   CiteContentSchema,
   CiteGroupContentSchema,
+  HeadingContentSchema,
+  FigureContentSchema,
+  ImageObjectContent,
 );
 
 const ContentSchema = Joi.alternatives().try(
-  Joi.string(),
   ContentPartSchema,
-  Joi.array().items(Joi.alternatives().try(Joi.string(), ContentPartSchema)),
+  Joi.array().items(Joi.alternatives().try(ContentPartSchema, Joi.array().items(Joi.link('#Content')))),
 ).id('Content');
 
 const ParticipantSchema = Joi.object({
