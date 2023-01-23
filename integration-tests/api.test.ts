@@ -429,30 +429,113 @@ describe('server tests', () => {
   });
 
   describe('/import-version', () => {
+    const enhancedArticle = {
+      id: 'testid3',
+      msid: 'testmsid',
+      doi: 'doi1',
+      versionIdentifier: '1',
+      versionDoi: 'publisher/testid1',
+      article: {
+        doi: 'preprint/testid1',
+        title: 'test article',
+        date: '2023-01-02',
+        authors: [
+          {
+            familyNames: ['Daffy'],
+            givenNames: ['Duck'],
+            affiliations: [{ name: 'ACME Labs' }],
+            emails: ['daffy.duck@acme.org'],
+          },
+        ],
+        abstract: 'This is the test abstract',
+        licenses: [],
+        content: 'This is some test content',
+        headings: [{ id: 'head1', text: 'Heading 1' }],
+        references: [],
+      },
+      preprintDoi: 'preprint/testid1',
+      preprintUrl: 'doi.org/preprint/testid1',
+      preprintPosted: '2023-01-02',
+      sentForReview: '2023-01-03',
+      published: '2023-01-23',
+    };
+
+    const enhancedVersion = {
+      article: {
+        id: 'testid3',
+        msid: 'testmsid',
+        doi: 'doi1',
+        versionIdentifier: '1',
+        versionDoi: 'publisher/testid1',
+        article: {
+          doi: 'preprint/testid1',
+          title: 'test article',
+          date: '2023-01-02T00:00:00.000Z',
+          authors: [
+            {
+              familyNames: ['Daffy'],
+              givenNames: ['Duck'],
+              affiliations: [{ name: 'ACME Labs' }],
+              emails: ['daffy.duck@acme.org'],
+            },
+          ],
+          abstract: 'This is the test abstract',
+          licenses: [],
+          content: 'This is some test content',
+          headings: [
+            { id: 'head1', text: 'Heading 1' },
+          ],
+          references: [],
+        },
+        preprintDoi: 'preprint/testid1',
+        preprintUrl: 'doi.org/preprint/testid1',
+        preprintPosted: '2023-01-02T00:00:00.000Z',
+        sentForReview: '2023-01-03T00:00:00.000Z',
+        published: '2023-01-23T00:00:00.000Z',
+      },
+      versions: {
+        testid3: {
+          id: 'testid3',
+          msid: 'testmsid',
+          doi: 'doi1',
+          versionIdentifier: '1',
+          versionDoi: 'publisher/testid1',
+          article: {
+            doi: 'preprint/testid1',
+            title: 'test article',
+            date: '2023-01-02T00:00:00.000Z',
+            authors: [
+              {
+                familyNames: ['Daffy'],
+                givenNames: ['Duck'],
+                affiliations: [{ name: 'ACME Labs' }],
+                emails: ['daffy.duck@acme.org'],
+              },
+            ],
+            abstract: 'This is the test abstract',
+            licenses: [],
+            content: 'This is some test content',
+            headings: [{ id: 'head1', text: 'Heading 1' }],
+            references: [],
+          },
+          preprintDoi: 'preprint/testid1',
+          preprintUrl: 'doi.org/preprint/testid1',
+          preprintPosted: '2023-01-02T00:00:00.000Z',
+          sentForReview: '2023-01-03T00:00:00.000Z',
+          published: '2023-01-23T00:00:00.000Z',
+        },
+      },
+    };
+
     it('imports a valid JSON body', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
         .post('/import-version')
-        .send({
-          id: 'testid3',
-          versionIdentifier: '1',
-          msid: 'testmsid',
-          preprintDoi: 'preprint/testdoi3',
-          preprintUrl: 'http://preprints.org/preprint/testdoi3',
-          preprintPosted: new Date('2008-06-03'),
-          doi: 'test/article.8',
-          title: 'Test Article 8',
-          abstract: 'Test article 8 abstract',
-          date: new Date('2008-07-03'),
-          authors: [],
-          content: '<article></article>',
-          licenses: [],
-          headings: [],
-          references: [],
-        })
+        .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
     });
 
@@ -460,40 +543,18 @@ describe('server tests', () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = createApp(repo, {});
 
-      const exampleVersion = {
-        id: 'testid3',
-        versionIdentifier: '1',
-        msid: 'testmsid',
-        preprintDoi: 'preprint/testdoi3',
-        preprintUrl: 'http://preprints.org/preprint/testdoi3',
-        preprintPosted: '2008-06-03',
-        doi: 'test/article.8',
-        title: 'Test Article 8',
-        abstract: 'Test article 8 abstract',
-        date: '2008-07-03',
-        authors: [],
-        content: '<article></article>',
-        licenses: [],
-        headings: [],
-        references: [],
-      };
-
       await request(app)
         .post('/import-version')
-        .send(exampleVersion)
+        .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
 
       await request(app)
         .get('/api/preprint/testid3')
-        .expect({
-          article: exampleVersion,
-          versions: {
-            testid3: exampleVersion,
-          },
-        });
+        .expect(200, enhancedVersion);
     });
 
     it('imports two content types and we are able to retrieve the earliest by ID, and the latest by msid', async () => {

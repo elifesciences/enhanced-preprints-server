@@ -115,12 +115,12 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
     }
   });
 
-  app.post<{}, { status: boolean, message: string }, EnhancedArticle>('/import-version', async (req, res, next) => {
+  app.post<{}, { result: boolean, message: string }, EnhancedArticle>('/import-version', async (req, res, next) => {
     try {
       const { value, error } = EnhancedArticleSchema.validate(req.body);
       if (error) {
         res.status(400).send({
-          status: false,
+          result: false,
           message: `body sent failed validation: (${error.name}): ${error.message}`,
         });
         return;
@@ -128,13 +128,13 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
       const result = await repo.storeEnhancedArticle(value);
       if (!result) {
         res.status(500).send({
-          status: false,
+          result: false,
           message: 'Unable to save result to database',
         });
         return;
       }
       res.status(200).send({
-        status: true,
+        result: true,
         message: 'OK',
       });
     } catch (err) {
