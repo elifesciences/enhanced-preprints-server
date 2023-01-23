@@ -100,7 +100,17 @@ describe('httpschema', () => {
         content: value,
       },
     };
-    expect(EnhancedArticleSchema.validate(enhancedArticle).error).toStrictEqual(undefined);
+    expect(EnhancedArticleSchema.validate(enhancedArticle).error).toBeUndefined();
+  });
+
+  it.each([
+    [{id: '12345', msid: 1}, '"msid" must be a string'],
+    [{unknown: 'unknown'}, '"unknown" is not allowed'],
+  ])('handles validation error', (value, error) => {
+    const invalidateEnhancedArticle = EnhancedArticleSchema.validate(value);
+
+    expect(invalidateEnhancedArticle.error).toBeDefined();
+    expect(invalidateEnhancedArticle.error?.details.at(0)?.message).toStrictEqual(error);
   });
 
   it('coerces dates', () => {
