@@ -1,33 +1,31 @@
-import { z } from 'zod';
 import Joi from 'joi';
-// import { Content } from '../model/content';
 import { ReviewType } from '../model/model';
 
 const ParagraphSchema = Joi.object({
   type: Joi.string().valid('Paragraph'),
-  content: Joi.link('/'),
+  content: Joi.link('#Content'),
 });
 
 const StrongContentSchema = Joi.object({
   type: Joi.string().valid('Strong'),
-  content: Joi.link('/'),
+  content: Joi.link('#Content'),
 });
 
 const DateContentSchema = Joi.object({
   type: Joi.string().valid('Date'),
-  content: Joi.link('/'),
+  content: Joi.link('#Content'),
 });
 
 const LinkContentSchema = Joi.object({
   type: Joi.string().valid('Link'),
   target: Joi.string(),
   relation: Joi.string().optional(),
-  content: Joi.link('/'),
+  content: Joi.link('#Content'),
 });
 
 const CiteContentSchema = Joi.object({
   type: Joi.string().valid('Cite'),
-  content: Joi.link('/'),
+  content: Joi.link('#Content'),
 });
 
 const CiteGroupContentSchema = Joi.object({
@@ -49,7 +47,7 @@ export const ContentSchema = Joi.alternatives().try(
   Joi.string(),
   ContentPartSchema,
   Joi.array().items(Joi.alternatives().try(Joi.string(), ContentPartSchema)),
-);
+).id('Content');
 
 // const ReviewTextSchema = z.string();
 // const ParticipantSchema = z.object({

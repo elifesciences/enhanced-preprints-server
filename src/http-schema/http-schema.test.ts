@@ -32,7 +32,6 @@ const enhancedArticleExample = {
 };
 
 describe('httpschema', () => {
-
   it('foo', () => {
     expect(ContentSchema.validate(['multi', 'strings']).error).toStrictEqual(undefined);
     expect(ContentSchema.validate({ type: 'Paragraph', content: 'PARAGRAPH!!!' }).error).toStrictEqual(undefined);
