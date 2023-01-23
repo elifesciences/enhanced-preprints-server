@@ -567,16 +567,18 @@ describe('server tests', () => {
         msid: 'article.2',
         preprintDoi: 'preprint/testdoi4',
         preprintUrl: 'http://preprints.org/preprint/testdoi4',
-        preprintPosted: '2008-06-03',
-        doi: 'test/article.2',
-        title: 'Test Article 8',
-        abstract: 'Test article 8 abstract',
-        date: '2008-08-03',
-        authors: [],
-        content: '<article></article>',
-        licenses: [],
-        headings: [],
-        references: [],
+        preprintPosted: '2008-06-03T00:00:00.000Z',
+        article: {
+          doi: 'test/article.2',
+          title: 'Test Article 8',
+          abstract: 'Test article 8 abstract',
+          date: '2008-08-03T00:00:00.000Z',
+          authors: [],
+          content: '<article></article>',
+          licenses: [],
+          headings: [],
+          references: [],
+        },
       };
       const exampleVersion2 = {
         id: 'testid5',
@@ -584,16 +586,18 @@ describe('server tests', () => {
         msid: 'article.2',
         preprintDoi: 'preprint/testdoi5',
         preprintUrl: 'http://preprints.org/preprint/testdoi5',
-        preprintPosted: '2008-07-03',
-        doi: 'test/article.2',
-        title: 'Test Article 2',
-        abstract: 'Test article 2 abstract',
-        date: '2008-09-03',
-        authors: [],
-        content: '<article></article>',
-        licenses: [],
-        headings: [],
-        references: [],
+        preprintPosted: '2008-07-03T00:00:00.000Z',
+        article: {
+          doi: 'test/article.2',
+          title: 'Test Article 2',
+          abstract: 'Test article 2 abstract',
+          date: '2008-09-03T00:00:00.000Z',
+          authors: [],
+          content: '<article></article>',
+          licenses: [],
+          headings: [],
+          references: [],
+        },
       };
 
       await request(app)
@@ -602,6 +606,7 @@ describe('server tests', () => {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
       await request(app)
         .post('/import-version')
@@ -609,6 +614,7 @@ describe('server tests', () => {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
 
       await request(app)
