@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { EnhancedArticle } from '../model/model';
 
 const ParagraphSchema = Joi.object({
   type: Joi.string().valid('Paragraph'),
@@ -180,7 +181,7 @@ const ProcessedArticleSchema = Joi.object({
   references: Joi.array().items(ReferenceSchema),
 });
 
-export const EnhancedArticleSchema = Joi.object({
+export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   id: Joi.string(),
   msid: Joi.string(),
   doi: Joi.string(),

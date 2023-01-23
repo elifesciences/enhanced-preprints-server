@@ -115,12 +115,27 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
     }
   });
 
-  app.post<{}, { result: boolean }, EnhancedArticle>('/import-version', async (req, res, next) => {
+  app.post<{}, { status: boolean, message: string }, EnhancedArticle>('/import-version', async (req, res, next) => {
     try {
-      const data = EnhancedArticleSchema.parse(req.body);
-      const result = await repo.storeEnhancedArticle(data);
-      res.status(result ? 200 : 500).send({
-        result,
+      const { value, error } = EnhancedArticleSchema.validate(req.body);
+      if (error) {
+        res.status(400).send({
+          status: false,
+          message: `body sent failed validation: (${error.name}): ${error.message}`,
+        });
+        return;
+      }
+      const result = await repo.storeEnhancedArticle(value);
+      if (!result) {
+        res.status(500).send({
+          status: false,
+          message: 'Unable to save result to database',
+        });
+        return;
+      }
+      res.status(200).send({
+        status: true,
+        message: 'OK',
       });
     } catch (err) {
       next(err);
