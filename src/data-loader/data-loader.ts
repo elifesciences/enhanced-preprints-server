@@ -1,7 +1,9 @@
-import { existsSync, readdirSync, realpathSync, } from 'fs';
+import { existsSync, readdirSync, realpathSync } from 'fs';
 import { dirname } from 'path';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
-import { ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle, } from '../model/model';
+import {
+  ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
+} from '../model/model';
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
 

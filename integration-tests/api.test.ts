@@ -491,7 +491,7 @@ describe('server tests', () => {
           article: enhancedArticle,
           versions: {
             testid3: enhancedArticle,
-          }
+          },
         });
     });
 
