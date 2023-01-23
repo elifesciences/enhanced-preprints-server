@@ -1,47 +1,23 @@
 import { z } from 'zod';
-// import { Content } from '../model/content';
 import { ReviewType } from '../model/model';
 
-// const ContentObjectBaseSchema = z.object({
-//   type: z.enum([
-//     'Paragraph',
-//     'Strong',
-//     'Date',
-//     'Link',
-//     'Cite',
-//     'CiteGroup',
-//     'Heading',
-//     'Figure',
-//     'ImageObject',
-//     'Emphasis',
-//     'Superscript',
-//     'Subscript',
-//   ]),
-// });
-// type DecoratedContent = z.infer<typeof ContentObjectBaseSchema> & {
-//   content: Content,
-// };
-
-// type Publication = z.infer<typeof PublicationBaseSchema> & {
-//   isPartOf?: Publication,
-// };
-// const PublicationSchema: z.ZodType<Publication> = PublicationBaseSchema.extend({
-//   isPartOf: z.lazy(() => PublicationBaseSchema.optional()),
-// });
-
-// const ContentPartSchema = ContentObjectBaseSchema.or(z.string());
-// const ContentPartArraySchema = ContentPartSchema.array();
-// const ContentSchema = ContentPartSchema.or(ContentPartArraySchema);
-// const DecoratedContentSchema: z.ZodType<DecoratedContent> = ContentObjectBaseSchema.extend({
-//   content: z.lazy(() => ContentSchema),
-// });
-// const HeadingContent = DecoratedContentSchema.extend({
-//   type: 'Heading',
-//   id: string,
-//   depth: 1 | 2 | 3 | 4 | 5 | 6,
-// });
-
-const ContentSchema = z.string().or(z.object({}).passthrough());
+const ContentObjectSchema = z.object({
+  type: z.literal('Paragraph')
+    .or(z.literal('Strong'))
+    .or(z.literal('Date'))
+    .or(z.literal('Link'))
+    .or(z.literal('Cite'))
+    .or(z.literal('Heading'))
+    .or(z.literal('Figure'))
+    .or(z.literal('Emphasis'))
+    .or(z.literal('Superscript'))
+    .or(z.literal('Subscript'))
+    .or(z.literal('CiteGroup'))
+    .or(z.literal('ImageObject'))
+    .or(z.literal('Article')),
+}).passthrough();
+const ContentPartSchema = z.string().or(ContentObjectSchema);
+const ContentSchema = ContentPartSchema.or(ContentPartSchema.array());
 
 const ReviewTextSchema = z.string();
 const ParticipantSchema = z.object({
@@ -50,7 +26,7 @@ const ParticipantSchema = z.object({
   institution: z.string(),
 });
 const EvaluationSchema = z.object({
-  date: z.date(),
+  date: z.coerce.date(),
   reviewType: z.nativeEnum(ReviewType),
   text: ReviewTextSchema,
   participants: ParticipantSchema.array(),
@@ -114,7 +90,7 @@ const ReferenceSchema = z.object({
   pageEnd: z.number(),
   pageStart: z.number(),
   authors: AuthorSchema.array(),
-  datePublished: z.date().optional(),
+  datePublished: z.coerce.date().optional(),
   isPartOf: PublicationSchema.optional(),
   identifiers: z.object({
     type: z.string(),
@@ -127,7 +103,7 @@ const ReferenceSchema = z.object({
 const ProcessedArticleSchema = z.object({
   doi: z.string(),
   title: ContentSchema,
-  date: z.date(),
+  date: z.coerce.date(),
   authors: AuthorSchema.array(),
   abstract: ContentSchema,
   licenses: LicenseSchema.array(),
@@ -145,8 +121,8 @@ export const EnhancedArticleSchema = z.object({
   article: ProcessedArticleSchema,
   preprintDoi: z.string(),
   preprintUrl: z.string(),
-  preprintPosted: z.date(),
-  sentForReview: z.date().optional(),
+  preprintPosted: z.coerce.date(),
+  sentForReview: z.coerce.date().optional(),
   peerReview: PeerReviewSchema.optional(),
-  published: z.date().optional(),
+  published: z.coerce.date().optional(),
 });
