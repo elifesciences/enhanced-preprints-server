@@ -438,7 +438,7 @@ describe('server tests', () => {
       article: {
         doi: 'preprint/testid1',
         title: 'test article',
-        date: '2023-01-02',
+        date: '2023-01-02T00:00:00.000Z',
         authors: [
           {
             familyNames: ['Daffy'],
@@ -455,76 +455,9 @@ describe('server tests', () => {
       },
       preprintDoi: 'preprint/testid1',
       preprintUrl: 'doi.org/preprint/testid1',
-      preprintPosted: '2023-01-02',
-      sentForReview: '2023-01-03',
-      published: '2023-01-23',
-    };
-
-    const enhancedVersion = {
-      article: {
-        id: 'testid3',
-        msid: 'testmsid',
-        doi: 'doi1',
-        versionIdentifier: '1',
-        versionDoi: 'publisher/testid1',
-        article: {
-          doi: 'preprint/testid1',
-          title: 'test article',
-          date: '2023-01-02T00:00:00.000Z',
-          authors: [
-            {
-              familyNames: ['Daffy'],
-              givenNames: ['Duck'],
-              affiliations: [{ name: 'ACME Labs' }],
-              emails: ['daffy.duck@acme.org'],
-            },
-          ],
-          abstract: 'This is the test abstract',
-          licenses: [],
-          content: 'This is some test content',
-          headings: [
-            { id: 'head1', text: 'Heading 1' },
-          ],
-          references: [],
-        },
-        preprintDoi: 'preprint/testid1',
-        preprintUrl: 'doi.org/preprint/testid1',
-        preprintPosted: '2023-01-02T00:00:00.000Z',
-        sentForReview: '2023-01-03T00:00:00.000Z',
-        published: '2023-01-23T00:00:00.000Z',
-      },
-      versions: {
-        testid3: {
-          id: 'testid3',
-          msid: 'testmsid',
-          doi: 'doi1',
-          versionIdentifier: '1',
-          versionDoi: 'publisher/testid1',
-          article: {
-            doi: 'preprint/testid1',
-            title: 'test article',
-            date: '2023-01-02T00:00:00.000Z',
-            authors: [
-              {
-                familyNames: ['Daffy'],
-                givenNames: ['Duck'],
-                affiliations: [{ name: 'ACME Labs' }],
-                emails: ['daffy.duck@acme.org'],
-              },
-            ],
-            abstract: 'This is the test abstract',
-            licenses: [],
-            content: 'This is some test content',
-            headings: [{ id: 'head1', text: 'Heading 1' }],
-            references: [],
-          },
-          preprintDoi: 'preprint/testid1',
-          preprintUrl: 'doi.org/preprint/testid1',
-          preprintPosted: '2023-01-02T00:00:00.000Z',
-          sentForReview: '2023-01-03T00:00:00.000Z',
-          published: '2023-01-23T00:00:00.000Z',
-        },
-      },
+      preprintPosted: '2023-01-02T00:00:00.000Z',
+      sentForReview: '2023-01-03T00:00:00.000Z',
+      published: '2023-01-23T00:00:00.000Z',
     };
 
     it('imports a valid JSON body', async () => {
@@ -554,7 +487,12 @@ describe('server tests', () => {
 
       await request(app)
         .get('/api/preprint/testid3')
-        .expect(200, enhancedVersion);
+        .expect(200, {
+          article: enhancedArticle,
+          versions: {
+            testid3: enhancedArticle,
+          }
+        });
     });
 
     it('imports two content types and we are able to retrieve the earliest by ID, and the latest by msid', async () => {
@@ -562,23 +500,10 @@ describe('server tests', () => {
       const app = createApp(repo, {});
 
       const exampleVersion1 = {
+        ...enhancedArticle,
         id: 'testid4',
         versionIdentifier: '1',
         msid: 'article.2',
-        preprintDoi: 'preprint/testdoi4',
-        preprintUrl: 'http://preprints.org/preprint/testdoi4',
-        preprintPosted: '2008-06-03T00:00:00.000Z',
-        article: {
-          doi: 'test/article.2',
-          title: 'Test Article 8',
-          abstract: 'Test article 8 abstract',
-          date: '2008-08-03T00:00:00.000Z',
-          authors: [],
-          content: '<article></article>',
-          licenses: [],
-          headings: [],
-          references: [],
-        },
       };
       const exampleVersion2 = {
         id: 'testid5',
@@ -586,12 +511,12 @@ describe('server tests', () => {
         msid: 'article.2',
         preprintDoi: 'preprint/testdoi5',
         preprintUrl: 'http://preprints.org/preprint/testdoi5',
-        preprintPosted: '2008-07-03T00:00:00.000Z',
+        preprintPosted: '2023-02-02T00:00:00.000Z',
         article: {
           doi: 'test/article.2',
           title: 'Test Article 2',
           abstract: 'Test article 2 abstract',
-          date: '2008-09-03T00:00:00.000Z',
+          date: '2023-02-02T00:00:00.000Z',
           authors: [],
           content: '<article></article>',
           licenses: [],
