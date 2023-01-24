@@ -117,7 +117,7 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
 
   app.post<{}, { result: boolean, message: string }, EnhancedArticle>('/import-version', async (req, res, next) => {
     try {
-      const { value, error } = EnhancedArticleSchema.validate(req.body);
+      const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false });
       if (error) {
         res.status(400).send({
           result: false,
