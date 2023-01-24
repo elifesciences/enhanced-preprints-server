@@ -1,16 +1,8 @@
-import {
-  existsSync,
-  readdirSync,
-  realpathSync,
-} from 'fs';
+import { existsSync, readdirSync, realpathSync } from 'fs';
 import { dirname } from 'path';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
-  ArticleRepository,
-  ProcessedArticle,
-  Heading,
-  ArticleContent,
-  OrcidIdentifier as OrcidModel,
+  ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
 } from '../model/model';
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
@@ -140,28 +132,24 @@ const extractHeadings = (content: Content): Heading[] => {
       return false;
     }
 
+    if (Array.isArray(contentPart)) {
+      return extractHeadings(content);
+    }
+
     if (contentPart.type !== 'Heading') {
       return false;
     }
 
-    const heading = contentPart as HeadingContent;
-
-    if (heading.depth > 1) {
-      return false;
-    }
-
-    return true;
+    return contentPart.depth <= 1;
   });
 
-  const headings = headingContentParts.map((contentPart) => {
+  return headingContentParts.map((contentPart) => {
     const heading = contentPart as HeadingContent;
     return {
       id: heading.id,
       text: heading.content,
     };
   });
-
-  return headings;
 };
 
 const processArticle = (article: ArticleContent): ProcessedArticle => {

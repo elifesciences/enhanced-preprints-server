@@ -1,42 +1,82 @@
-/*
- * The Encoda JSON process converts various JATS input into structures that are either a string, a structure with a type
- * and content or an array that contains any of the above.
- * I guess in theory this can be infinitely deep, so recursively converting this to text to use it more
- * easily.
- *
- * examples:
- * - "a string"
- * - ["a", "string"]
- * - {"type":"emphasis", "content":"a"}
- * - {"type":"emphasis", "content":["a"]}
- * - [{"type":"emphasis", "content":["a"]}, "string"]
- *
- * See tests for more examples
- */
-
 type DecoratedContent = {
-  content: string | DecoratedContent | Array<DecoratedContent | string>,
-  type: string,
+  content: Content,
+};
+
+type ParagraphContent = DecoratedContent & {
+  type: 'Paragraph',
+};
+
+type StrongContent = DecoratedContent & {
+  type: 'Strong',
+};
+
+type DateContent = DecoratedContent & {
+  type: 'Date',
+};
+
+type LinkContent = DecoratedContent & {
+  type: 'Link',
+  target: string,
+  relation?: string,
+};
+
+type CiteContent = DecoratedContent & {
+  type: 'Cite',
+  target: string,
+};
+
+type CiteGroupContent = {
+  type: 'CiteGroup',
+  items: CiteContent[],
 };
 
 export type HeadingContent = DecoratedContent & {
   type: 'Heading',
   id: string,
-  depth: number,
+  depth: 1 | 2 | 3 | 4 | 5 | 6,
 };
 
-export type EmphasisContent = DecoratedContent & {
+type FigureContent = DecoratedContent & {
+  type: 'Figure',
+  id: string,
+  caption: Content,
+  label: string,
+};
+
+type ImageObjectContent = {
+  type: 'ImageObject',
+  contentUrl?: string,
+  content?: Content
+  meta: {
+    inline: boolean,
+  },
+};
+
+type EmphasisContent = DecoratedContent & {
   type: 'Emphasis',
-  depth: number,
 };
 
-export type SuperscriptContent = DecoratedContent & {
+type SuperscriptContent = DecoratedContent & {
   type: 'Superscript',
 };
 
-export type SubscriptContent = DecoratedContent & {
+type SubscriptContent = DecoratedContent & {
   type: 'Subscript',
 };
 
-type ContentPart = string | DecoratedContent | HeadingContent | EmphasisContent;
-export type Content = string | ContentPart | Array<ContentPart>;
+type ContentPart =
+  string |
+  HeadingContent |
+  EmphasisContent |
+  SuperscriptContent |
+  SubscriptContent |
+  ParagraphContent |
+  StrongContent |
+  DateContent |
+  LinkContent |
+  CiteContent |
+  CiteGroupContent |
+  FigureContent |
+  ImageObjectContent;
+
+export type Content = ContentPart | Array<Content>;

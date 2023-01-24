@@ -2,6 +2,7 @@ import express from 'express';
 import { fetchReviews } from './reviews/fetch-reviews';
 import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
 import { ArticleRepository, EnhancedArticle } from './model/model';
+import { EnhancedArticleSchema } from './http-schema/http-schema';
 
 export const createApp = (repo: ArticleRepository, config: Record<string, string>) => {
   const app = express();
@@ -114,12 +115,27 @@ export const createApp = (repo: ArticleRepository, config: Record<string, string
     }
   });
 
-  app.post<{}, { result: boolean }, EnhancedArticle>('/import-version', async (req, res, next) => {
+  app.post<{}, { result: boolean, message: string }, EnhancedArticle>('/import-version', async (req, res, next) => {
     try {
-      const data = req.body;
-      const result = await repo.storeEnhancedArticle(data);
-      res.status(result ? 200 : 500).send({
-        result,
+      const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false });
+      if (error) {
+        res.status(400).send({
+          result: false,
+          message: `body sent failed validation: (${error.name}): ${error.message}`,
+        });
+        return;
+      }
+      const result = await repo.storeEnhancedArticle(value);
+      if (!result) {
+        res.status(500).send({
+          result: false,
+          message: 'Unable to save result to database',
+        });
+        return;
+      }
+      res.status(200).send({
+        result: true,
+        message: 'OK',
       });
     } catch (err) {
       next(err);

@@ -429,30 +429,46 @@ describe('server tests', () => {
   });
 
   describe('/import-version', () => {
+    const enhancedArticle = {
+      id: 'testid3',
+      msid: 'testmsid',
+      doi: 'doi1',
+      versionIdentifier: '1',
+      versionDoi: 'publisher/testid1',
+      article: {
+        doi: 'preprint/testid1',
+        title: 'test article',
+        date: '2023-01-02T00:00:00.000Z',
+        authors: [
+          {
+            familyNames: ['Daffy'],
+            givenNames: ['Duck'],
+            affiliations: [{ name: 'ACME Labs' }],
+            emails: ['daffy.duck@acme.org'],
+          },
+        ],
+        abstract: 'This is the test abstract',
+        licenses: [],
+        content: 'This is some test content',
+        headings: [{ id: 'head1', text: 'Heading 1' }],
+        references: [],
+      },
+      preprintDoi: 'preprint/testid1',
+      preprintUrl: 'doi.org/preprint/testid1',
+      preprintPosted: '2023-01-02T00:00:00.000Z',
+      sentForReview: '2023-01-03T00:00:00.000Z',
+      published: '2023-01-23T00:00:00.000Z',
+    };
+
     it('imports a valid JSON body', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
         .post('/import-version')
-        .send({
-          id: 'testid3',
-          versionIdentifier: '1',
-          msid: 'testmsid',
-          preprintDoi: 'preprint/testdoi3',
-          preprintUrl: 'http://preprints.org/preprint/testdoi3',
-          preprintPosted: new Date('2008-06-03'),
-          doi: 'test/article.8',
-          title: 'Test Article 8',
-          abstract: 'Test article 8 abstract',
-          date: new Date('2008-07-03'),
-          authors: [],
-          content: '<article></article>',
-          licenses: [],
-          headings: [],
-          references: [],
-        })
+        .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
     });
 
@@ -460,38 +476,21 @@ describe('server tests', () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = createApp(repo, {});
 
-      const exampleVersion = {
-        id: 'testid3',
-        versionIdentifier: '1',
-        msid: 'testmsid',
-        preprintDoi: 'preprint/testdoi3',
-        preprintUrl: 'http://preprints.org/preprint/testdoi3',
-        preprintPosted: '2008-06-03',
-        doi: 'test/article.8',
-        title: 'Test Article 8',
-        abstract: 'Test article 8 abstract',
-        date: '2008-07-03',
-        authors: [],
-        content: '<article></article>',
-        licenses: [],
-        headings: [],
-        references: [],
-      };
-
       await request(app)
         .post('/import-version')
-        .send(exampleVersion)
+        .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
 
       await request(app)
         .get('/api/preprint/testid3')
-        .expect({
-          article: exampleVersion,
+        .expect(200, {
+          article: enhancedArticle,
           versions: {
-            testid3: exampleVersion,
+            testid3: enhancedArticle,
           },
         });
     });
@@ -501,21 +500,10 @@ describe('server tests', () => {
       const app = createApp(repo, {});
 
       const exampleVersion1 = {
+        ...enhancedArticle,
         id: 'testid4',
         versionIdentifier: '1',
         msid: 'article.2',
-        preprintDoi: 'preprint/testdoi4',
-        preprintUrl: 'http://preprints.org/preprint/testdoi4',
-        preprintPosted: '2008-06-03',
-        doi: 'test/article.2',
-        title: 'Test Article 8',
-        abstract: 'Test article 8 abstract',
-        date: '2008-08-03',
-        authors: [],
-        content: '<article></article>',
-        licenses: [],
-        headings: [],
-        references: [],
       };
       const exampleVersion2 = {
         id: 'testid5',
@@ -523,16 +511,18 @@ describe('server tests', () => {
         msid: 'article.2',
         preprintDoi: 'preprint/testdoi5',
         preprintUrl: 'http://preprints.org/preprint/testdoi5',
-        preprintPosted: '2008-07-03',
-        doi: 'test/article.2',
-        title: 'Test Article 2',
-        abstract: 'Test article 2 abstract',
-        date: '2008-09-03',
-        authors: [],
-        content: '<article></article>',
-        licenses: [],
-        headings: [],
-        references: [],
+        preprintPosted: '2023-02-02T00:00:00.000Z',
+        article: {
+          doi: 'test/article.2',
+          title: 'Test Article 2',
+          abstract: 'Test article 2 abstract',
+          date: '2023-02-02T00:00:00.000Z',
+          authors: [],
+          content: '<article></article>',
+          licenses: [],
+          headings: [],
+          references: [],
+        },
       };
 
       await request(app)
@@ -541,6 +531,7 @@ describe('server tests', () => {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
       await request(app)
         .post('/import-version')
@@ -548,6 +539,7 @@ describe('server tests', () => {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
+          message: 'OK',
         });
 
       await request(app)
