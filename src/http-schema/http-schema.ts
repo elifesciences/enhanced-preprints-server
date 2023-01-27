@@ -182,15 +182,15 @@ const ProcessedArticleSchema = Joi.object({
 });
 
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
-  id: Joi.string(),
-  msid: Joi.string(),
-  doi: Joi.string(),
-  versionIdentifier: Joi.string(),
+  id: Joi.string().required(),
+  msid: Joi.string().required(),
+  doi: Joi.string().required(),
+  versionIdentifier: Joi.string().required(),
   versionDoi: Joi.string().optional(),
-  article: ProcessedArticleSchema,
-  preprintDoi: Joi.string(),
-  preprintUrl: Joi.string(),
-  preprintPosted: Joi.date(),
+  article: ProcessedArticleSchema.required(),
+  preprintDoi: Joi.string().required(),
+  preprintUrl: Joi.string().required(),
+  preprintPosted: Joi.date().required(),
   sentForReview: Joi.date().optional(),
   peerReview: PeerReviewSchema.optional(),
   published: Joi.date().optional(),

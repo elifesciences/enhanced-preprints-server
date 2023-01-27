@@ -103,10 +103,26 @@ describe('httpschema', () => {
     expect(EnhancedArticleSchema.validate(enhancedArticle).error).toBeUndefined();
   });
 
+  const sampleRequiredFieldValidationMessages = [
+    { message: '"doi" is required' },
+    { message: '"versionIdentifier" is required' },
+    { message: '"article" is required' },
+    { message: '"preprintDoi" is required' },
+    { message: '"preprintUrl" is required' },
+    { message: '"preprintPosted" is required' },
+  ];
+
+  const allRequiredFieldValidationMessages = [
+    { message: '"id" is required' },
+    { message: '"msid" is required' },
+    ...sampleRequiredFieldValidationMessages,
+  ];
+
   it.each([
-    [{ id: '12345', msid: 1 }, [{ message: '"msid" must be a string' }]],
-    [{ unknown: 'unknown' }, [{ message: '"unknown" is not allowed' }]],
-    [{ unknown1: 'unknown', unknown2: 'unknown' }, [{ message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
+    [{}, allRequiredFieldValidationMessages],
+    [{ id: '12345', msid: 1 }, [{ message: '"msid" must be a string' }, ...sampleRequiredFieldValidationMessages]],
+    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown" is not allowed' }]],
+    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
   ])('handles validation error', (value, errorDetails) => {
     const invalidateEnhancedArticle = EnhancedArticleSchema.validate(value, { abortEarly: false });
 
