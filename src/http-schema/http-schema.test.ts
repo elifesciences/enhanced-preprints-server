@@ -7,9 +7,7 @@ const enhancedArticleExample = {
   versionIdentifier: '1',
   versionDoi: 'publisher/testid1',
   article: {
-    doi: 'preprint/testid1',
     title: 'test article',
-    date: '2023-01-02',
     authors: [
       {
         familyNames: ['Daffy'],
@@ -134,7 +132,6 @@ describe('httpschema', () => {
     const enhancedArticle = EnhancedArticleSchema.validate(enhancedArticleExample);
 
     expect(enhancedArticle.error).toBeUndefined();
-    expect(enhancedArticle.value?.article.date).toStrictEqual(new Date('2023-01-02'));
     expect(enhancedArticle.value?.preprintPosted).toStrictEqual(new Date('2023-01-02'));
     expect(enhancedArticle.value?.sentForReview).toStrictEqual(new Date('2023-01-03'));
     expect(enhancedArticle.value?.published).toStrictEqual(new Date('2023-01-23'));
