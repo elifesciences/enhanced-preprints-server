@@ -436,9 +436,7 @@ describe('server tests', () => {
       versionIdentifier: '1',
       versionDoi: 'publisher/testid1',
       article: {
-        doi: 'preprint/testid1',
         title: 'test article',
-        date: '2023-01-02T00:00:00.000Z',
         authors: [
           {
             familyNames: ['Daffy'],
@@ -509,14 +507,13 @@ describe('server tests', () => {
         id: 'testid5',
         versionIdentifier: '2',
         msid: 'article.2',
+        doi: 'test/article.2',
         preprintDoi: 'preprint/testdoi5',
         preprintUrl: 'http://preprints.org/preprint/testdoi5',
         preprintPosted: '2023-02-02T00:00:00.000Z',
         article: {
-          doi: 'test/article.2',
           title: 'Test Article 2',
           abstract: 'Test article 2 abstract',
-          date: '2023-02-02T00:00:00.000Z',
           authors: [],
           content: '<article></article>',
           licenses: [],
