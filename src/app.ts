@@ -7,7 +7,7 @@ import { EnhancedArticleSchema } from './http-schema/http-schema';
 export const createApp = (repo: ArticleRepository, config: Record<string, string>) => {
   const app = express();
 
-  app.use(express.json());
+  app.use(express.json({ limit: '5mb' }));
 
   app.get('/', async (req, res, next) => {
     try {
