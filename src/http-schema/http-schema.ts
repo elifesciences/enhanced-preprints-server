@@ -2,75 +2,75 @@ import Joi from 'joi';
 import { EnhancedArticle } from '../model/model';
 
 const ParagraphSchema = Joi.object({
-  type: Joi.string().valid('Paragraph'),
-  content: Joi.link('#Content'),
+  type: Joi.string().valid('Paragraph').required(),
+  content: Joi.link('#Content').required(),
 });
 
 const StrongContentSchema = Joi.object({
-  type: Joi.string().valid('Strong'),
-  content: Joi.link('#Content'),
+  type: Joi.string().valid('Strong').required(),
+  content: Joi.link('#Content').required(),
 });
 
 const DateContentSchema = Joi.object({
-  type: Joi.string().valid('Date'),
-  content: Joi.link('#Content'),
+  type: Joi.string().valid('Date').required(),
+  content: Joi.link('#Content').required(),
 });
 
 const EmphasisContentSchema = Joi.object({
-  type: Joi.string().valid('Emphasis'),
-  content: Joi.link('#Content'),
+  type: Joi.string().valid('Emphasis').required(),
+  content: Joi.link('#Content').required(),
 });
 
 const SuperscriptContentSchema = Joi.object({
-  type: Joi.string().valid('Superscript'),
-  content: Joi.link('#Content'),
+  type: Joi.string().valid('Superscript').required(),
+  content: Joi.link('#Content').required(),
 });
 
 const SubscriptContentSchema = Joi.object({
-  type: Joi.string().valid('Subscript'),
-  content: Joi.link('#Content'),
+  type: Joi.string().valid('Subscript').required(),
+  content: Joi.link('#Content').required(),
 });
 
 const LinkContentSchema = Joi.object({
-  type: Joi.string().valid('Link'),
-  target: Joi.string(),
+  type: Joi.string().valid('Link').required(),
+  target: Joi.string().required(),
   relation: Joi.string().optional(),
-  content: Joi.link('#Content'),
+  content: Joi.link('#Content').required(),
 });
 
 const CiteContentSchema = Joi.object({
-  type: Joi.string().valid('Cite'),
-  content: Joi.link('#Content'),
-  target: Joi.string(),
+  type: Joi.string().valid('Cite').required(),
+  content: Joi.link('#Content').required(),
+  target: Joi.string().required(),
 });
 
 const CiteGroupContentSchema = Joi.object({
-  type: Joi.string().valid('CiteGroup'),
-  items: Joi.array().items(CiteContentSchema),
+  type: Joi.string().valid('CiteGroup').required(),
+  items: Joi.array().items(CiteContentSchema).required(),
 });
 
 const HeadingContentSchema = Joi.object({
-  id: Joi.string(),
-  type: Joi.string().valid('Heading'),
-  content: Joi.link('#Content'),
-  depth: Joi.number().valid(1, 2, 3, 4, 5, 6),
+  id: Joi.string().required(),
+  type: Joi.string().valid('Heading').required(),
+  content: Joi.link('#Content').required(),
+  depth: Joi.number().valid(1, 2, 3, 4, 5, 6).required(),
 });
 
 const FigureContentSchema = Joi.object({
-  type: Joi.string().valid('Figure'),
-  content: Joi.link('#Content'),
-  caption: Joi.link('#Content'),
-  id: Joi.string(),
-  label: Joi.string(),
+  type: Joi.string().valid('Figure').required(),
+  content: Joi.link('#Content').required(),
+  caption: Joi.link('#Content').required(),
+  id: Joi.string().required(),
+  label: Joi.string().required(),
 });
 
 const ImageObjectContent = Joi.object({
-  type: Joi.string().valid('ImageObject'),
+  type: Joi.string().valid('ImageObject').required(),
   contentUrl: Joi.string().optional(),
   content: Joi.link('#Content').optional(),
   meta: Joi.object({
     inline: Joi.boolean(),
-  }),
+  }).optional(),
 });
 
 const ContentPartSchema = Joi.alternatives().try(
@@ -95,102 +95,100 @@ const ContentSchema = Joi.alternatives().try(
 ).id('Content');
 
 const ParticipantSchema = Joi.object({
-  name: Joi.string(),
-  role: Joi.string(),
-  institution: Joi.string(),
+  name: Joi.string().required(),
+  role: Joi.string().required(),
+  institution: Joi.string().optional(),
 });
 const EvaluationSchema = Joi.object({
-  date: Joi.date(),
-  reviewType: Joi.string().valid('evaluation-summary', 'review-article', 'reply'), // TODO get this from ENUM?
-  text: Joi.string(),
-  participants: Joi.array().items(ParticipantSchema),
+  date: Joi.date().required(),
+  reviewType: Joi.string().valid('evaluation-summary', 'review-article', 'reply').required(), // TODO get this from ENUM?
+  text: Joi.string().required(),
+  participants: Joi.array().items(ParticipantSchema).required(),
 });
 
 const PeerReviewSchema = Joi.object({
-  evaluationSummary: EvaluationSchema,
-  reviews: Joi.array().items(EvaluationSchema),
+  evaluationSummary: EvaluationSchema.required(),
+  reviews: Joi.array().items(EvaluationSchema).required(),
   authorResponse: EvaluationSchema.optional(),
 });
 
 const AddressSchema = Joi.object({
-  addressCountry: Joi.string(),
+  addressCountry: Joi.string().required(),
 });
 
 const OrganisationSchema = Joi.object({
-  name: Joi.string(),
+  name: Joi.string().required(),
   address: AddressSchema.optional(),
 });
 
 const IdentifierSchema = Joi.object({
-  type: Joi.string(),
-  value: Joi.string(),
+  type: Joi.string().required(),
+  value: Joi.string().required(),
 });
 
 const AuthorSchema = Joi.object({
-  familyNames: Joi.array().items(Joi.string()),
-  givenNames: Joi.array().items(Joi.string()),
+  familyNames: Joi.array().items(Joi.string()).required(),
+  givenNames: Joi.array().items(Joi.string()).required(),
   affiliations: Joi.array().items(OrganisationSchema).optional(),
   emails: Joi.array().items(Joi.string()).optional(),
   identifiers: Joi.array().items(IdentifierSchema).optional(),
 });
 
 const LicenseSchema = Joi.object({
-  type: Joi.string(),
-  url: Joi.string(),
+  type: Joi.string().required(),
+  url: Joi.string().required(),
 });
 
 const HeadingSchema = Joi.object({
-  id: Joi.string(),
-  text: ContentSchema,
+  id: Joi.string().required(),
+  text: ContentSchema.required(),
 });
 
 const PublicationSchema = Joi.object({
-  type: Joi.string().valid('PublicationVolume', 'Periodical'),
-  name: Joi.string(),
+  type: Joi.string().valid('PublicationVolume', 'Periodical').required(),
+  name: Joi.string().required(),
   volumeNumber: Joi.number().optional(),
-  isPartOf: Joi.link('#Publication'),
+  isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
 
 const ReferenceSchema = Joi.object({
-  type: Joi.string().valid('Article'),
-  id: Joi.string(),
-  title: Joi.string(),
-  url: Joi.string(),
-  pageEnd: Joi.number(),
-  pageStart: Joi.number(),
-  authors: Joi.array().items(AuthorSchema),
+  type: Joi.string().valid('Article').required(),
+  id: Joi.string().required(),
+  title: Joi.string().required(),
+  url: Joi.string().required(),
+  pageEnd: Joi.number().required(),
+  pageStart: Joi.number().required(),
+  authors: Joi.array().items(AuthorSchema).required(),
   datePublished: Joi.date().optional(),
   isPartOf: PublicationSchema.optional(),
   identifiers: Joi.array().items(Joi.object({
-    type: Joi.string(),
-    name: Joi.string(),
-    propertyID: Joi.string(),
-    value: Joi.string(),
-  })),
+    type: Joi.string().required(),
+    name: Joi.string().required(),
+    propertyID: Joi.string().required(),
+    value: Joi.string().required(),
+  })).required(),
 });
 
 const ProcessedArticleSchema = Joi.object({
-  doi: Joi.string(),
   title: ContentSchema,
-  date: Joi.date(),
-  authors: Joi.array().items(AuthorSchema),
+  authors: Joi.array().items(AuthorSchema).required(),
   abstract: ContentSchema,
-  licenses: Joi.array().items(LicenseSchema),
+  licenses: Joi.array().items(LicenseSchema).required(),
   content: ContentSchema,
-  headings: Joi.array().items(HeadingSchema),
-  references: Joi.array().items(ReferenceSchema),
+  headings: Joi.array().items(HeadingSchema).required(),
+  references: Joi.array().items(ReferenceSchema).required(),
 });
 
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
-  id: Joi.string(),
-  msid: Joi.string(),
-  doi: Joi.string(),
-  versionIdentifier: Joi.string(),
+  id: Joi.string().required(),
+  msid: Joi.string().required(),
+  doi: Joi.string().required(),
+  versionIdentifier: Joi.string().required(),
   versionDoi: Joi.string().optional(),
-  article: ProcessedArticleSchema,
-  preprintDoi: Joi.string(),
-  preprintUrl: Joi.string(),
-  preprintPosted: Joi.date(),
+  article: ProcessedArticleSchema.required(),
+  preprintDoi: Joi.string().required(),
+  preprintUrl: Joi.string().required(),
+  preprintPosted: Joi.date().required(),
   sentForReview: Joi.date().optional(),
   peerReview: PeerReviewSchema.optional(),
   published: Joi.date().optional(),
