@@ -16,7 +16,7 @@ describe('fetch-reviews', () => {
         data: {},
         status: 200,
       };
-      if (url.includes('.json')) {
+      if (url.includes('?preprint_doi=')) {
         response.data = docmapMock;
       } else {
         response.data = reviewMocks[url];
