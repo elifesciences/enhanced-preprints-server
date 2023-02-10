@@ -4,9 +4,18 @@ import { Participant, PeerReview, ReviewType } from '../model/model';
 type FetchReviews = (doi: string, reviewingGroup: string) => Promise<PeerReview>;
 
 type FetchDocmap = (doi: string) => Promise<Docmap>;
-const fetchDocmaps: FetchDocmap = async (doi) => axios.get<Docmap>(`https://sciety.org/docmaps/v1/evaluations-by/elife/${doi}.docmap.json`).then(async (response) => response.data);
+const fetchDocmaps: FetchDocmap = async (doi) => {
+  const docmapResponse = await axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/get-by-doi?preprint_doi=${doi}`).then(async (res) => res.data);
+  if (Array.isArray(docmapResponse)) { // see bug https://github.com/elifesciences/data-hub-issues/issues/589
+    return docmapResponse[0];
+  }
+  return docmapResponse;
+};
 
 const hypothesisCache:Map<string, string> = new Map();
+
+// find a content type that is Sciety's content page
+const isScietyContent = (content: { type: string, url: string }): boolean => content.type === 'web-page' && content.url.startsWith('https://sciety.org/evaluations/hypothesis:') && content.url.endsWith('/content');
 
 const roleToFriendlyRole = (role: string) => {
   if (role === 'senior-editor') {
@@ -31,7 +40,10 @@ export const fetchReviews: FetchReviews = async (doi) => {
     .flatMap((docmapStep) => docmapStep.actions)
     .flatMap(({ participants, outputs }) => outputs.map((output) => ({ ...output, participants })))
     .reduce((previousValue, currentValue) => {
-      const webContent = currentValue.content.find((content) => content.type === 'web-content');
+      if (!currentValue.content) { // ignore outputs without content
+        return previousValue;
+      }
+      const webContent = currentValue.content.find(isScietyContent);
       const participants = currentValue.participants
         // eslint-disable-next-line no-underscore-dangle
         .map((participant) => ({ name: participant.actor.name, role: roleToFriendlyRole(participant.role), institution: participant.actor._relatesToOrganization }))
