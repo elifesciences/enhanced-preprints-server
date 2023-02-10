@@ -48,7 +48,7 @@ describe('fetch-reviews', () => {
       ]));
     });
 
-    it('fetches the evaluation text for each action with a "web-content" type', () => {
+    it('fetches the evaluation text for each action with a sciety hypothesis content URL', () => {
       expect(peerReview.evaluationSummary.text).toStrictEqual('summary');
       expect(peerReview.authorResponse?.text).toStrictEqual('reply');
       expect(peerReview.reviews.map((review) => review.text)).toStrictEqual(expect.arrayContaining([
