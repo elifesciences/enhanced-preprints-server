@@ -15,7 +15,8 @@ const fetchDocmaps: FetchDocmap = async (doi) => {
 const hypothesisCache:Map<string, string> = new Map();
 
 // find a content type that is Sciety's content page
-const isScietyContent = (content: { type: string, url: string }): boolean => content.type === 'web-page' && content.url.startsWith('https://sciety.org/evaluations/hypothesis:') && content.url.endsWith('/content');
+const isScietyContent = (content: { type: string, url: string }): boolean => (content.type === 'web-page' || content.type === 'web-content')
+  && content.url.startsWith('https://sciety.org/evaluations/hypothesis:') && content.url.endsWith('/content');
 
 const roleToFriendlyRole = (role: string) => {
   if (role === 'senior-editor') {
