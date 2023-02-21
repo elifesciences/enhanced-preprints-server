@@ -1,11 +1,13 @@
 import { existsSync, readdirSync, realpathSync } from 'fs';
 import { dirname } from 'path';
+import { Client as MinioClient } from 'minio';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
 } from '../model/model';
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
+import { config } from '../config';
 
 // type related to the JSON output of encoda
 type Address = {
@@ -93,9 +95,28 @@ type DateType = {
   value: string
 };
 
+const getS3Connection = () => new MinioClient(config.s3);
+
 const getDirectories = (source: string) => readdirSync(source, { withFileTypes: true })
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
+
+const getAvailableManuscriptPaths = async (client: MinioClient): Promise<string[]> => new Promise((resolve, reject) => {
+  const filesStream = client.listObjects(config.s3Bucket, 'data/', true);
+  const manuscriptPaths: string[] = [];
+
+  filesStream.on('data', (obj) => {
+    if (obj.name.endsWith('.xml')) {
+      manuscriptPaths.push(obj.name);
+    }
+  });
+  filesStream.on('end', () => {
+    resolve(manuscriptPaths);
+  });
+  filesStream.on('error', (e) => {
+    reject(e);
+  });
+});
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
@@ -111,6 +132,47 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const articleDir = dirname(realFile);
   logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find asset path`);
   json = json.replaceAll(articleDir, doi);
+
+  return {
+    doi,
+    document: json,
+  };
+};
+
+const fetchXmlS3 = async (client: MinioClient, xmlPath: string): Promise<string> => new Promise((resolve, reject) => {
+  let xml = '';
+  client.getObject(config.s3Bucket, xmlPath, (err, fileStream) => {
+    if (err) {
+      reject(err);
+    }
+
+    fileStream.on('data', (data) => {
+      xml += data;
+    });
+    fileStream.on('end', () => {
+      resolve(xml);
+    });
+    fileStream.on('error', (e) => {
+      reject(e);
+    });
+  });
+});
+
+const processXmlString = async (xml: string): Promise<ArticleContent> => {
+  // resolve path so that we can search for filenames reliable once encoda has converted the source
+  const json = await convertJatsToJson(xml);
+  const articleStruct = JSON.parse(json) as ArticleStruct;
+
+  // extract DOI
+  const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
+  const doi = dois[0].value;
+
+  // figure out in the json that comes back from encoda what external assets there are (i.e images)
+
+  // HACK: replace all locally referenced files with a id referencing the asset path
+  // const articleDir = dirname(realFile);
+  // logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find asset path`);
+  // json = json.replaceAll(articleDir, doi);
 
   return {
     doi,
@@ -181,9 +243,9 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     const identifiers = author.identifiers
       ?.filter<OrcidIdentifier>((identifier): identifier is OrcidIdentifier => identifier.propertyID === 'https://registry.identifiers.org/registry/orcid')
       .map<OrcidModel>((identifier) => ({
-      type: 'orcid',
-      value: identifier.value.trim(),
-    })) ?? undefined;
+        type: 'orcid',
+        value: identifier.value.trim(),
+      })) ?? undefined;
 
     return {
       ...author,
@@ -205,14 +267,21 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
 };
 
 export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
+  // ['10.1101/2021.11.17.469032']
   const existingDocuments = (await articleRepository.getArticleSummaries()).map(({ doi }) => doi);
-  const xmlFiles = getDirectories(dataDir)
-    .map((articleId) => `${dataDir}/${articleId}/${articleId}.xml`)
-    .filter((xmlFilePath) => existsSync(xmlFilePath));
 
-  const articlesToLoad = (await Promise.all(xmlFiles.map((xmlFile) => processXml(xmlFile))))
-    .filter((article) => !existingDocuments.includes(article.doi))
-    .map(processArticle);
+  const s3 = getS3Connection();
+  // ['data/10.1101/2021.11.17.469032/2021.11.17.469032.xml']
+  const xmlFiles = await getAvailableManuscriptPaths(s3);
+
+  // Filter DOIs here!!
+  const filteredXmlFiles = xmlFiles.filter((file) => !existingDocuments.some((doc) => file.includes(doc)));
+
+  const articlesToLoad = await Promise.all(
+    filteredXmlFiles.map(async (xmlFile) => fetchXmlS3(s3, xmlFile)
+      .then((xml) => processXmlString(xml)))
+      .map(async (articleContent) => processArticle(await articleContent)),
+  );
 
   return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
 };
