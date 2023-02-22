@@ -141,18 +141,18 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
 
 const fetchXmlS3 = async (client: MinioClient, xmlPath: string): Promise<string> => new Promise((resolve, reject) => {
   let xml = '';
-  client.getObject(config.s3Bucket, xmlPath, (err, fileStream) => {
+  client.getObject(config.s3Bucket, xmlPath, (err: unknown, fileStream: any) => {
     if (err) {
       reject(err);
     }
 
-    fileStream.on('data', (data) => {
+    fileStream.on('data', (data: any) => {
       xml += data;
     });
     fileStream.on('end', () => {
       resolve(xml);
     });
-    fileStream.on('error', (e) => {
+    fileStream.on('error', (e: any) => {
       reject(e);
     });
   });
@@ -161,13 +161,18 @@ const fetchXmlS3 = async (client: MinioClient, xmlPath: string): Promise<string>
 const processXmlString = async (xml: string): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
   const json = await convertJatsToJson(xml);
-  const articleStruct = JSON.parse(json) as ArticleStruct;
+  const articleStruct = JSON.parse(json);
+
+  // console.log('Article: >> ', articleStruct);
 
   // extract DOI
-  const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
+  const dois = articleStruct.identifiers.filter((identifier: any) => identifier.name === 'doi');
   const doi = dois[0].value;
 
   // figure out in the json that comes back from encoda what external assets there are (i.e images)
+
+  const figures = articleStruct.content.length !== undefined ? articleStruct.content.filter((content: any) => !!content.type && content.type === 'Figure') : undefined;
+  console.log('Figures: >> ', figures);
 
   // HACK: replace all locally referenced files with a id referencing the asset path
   // const articleDir = dirname(realFile);
@@ -243,9 +248,9 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     const identifiers = author.identifiers
       ?.filter<OrcidIdentifier>((identifier): identifier is OrcidIdentifier => identifier.propertyID === 'https://registry.identifiers.org/registry/orcid')
       .map<OrcidModel>((identifier) => ({
-        type: 'orcid',
-        value: identifier.value.trim(),
-      })) ?? undefined;
+      type: 'orcid',
+      value: identifier.value.trim(),
+    })) ?? undefined;
 
     return {
       ...author,
@@ -273,7 +278,7 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
   const s3 = getS3Connection();
   // ['data/10.1101/2021.11.17.469032/2021.11.17.469032.xml']
   const xmlFiles = await getAvailableManuscriptPaths(s3);
-
+  console.log('Files: >> ', xmlFiles);
   // Filter DOIs here!!
   const filteredXmlFiles = xmlFiles.filter((file) => !existingDocuments.some((doc) => file.includes(doc)));
 
