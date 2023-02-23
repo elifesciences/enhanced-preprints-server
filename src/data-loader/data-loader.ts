@@ -1,4 +1,5 @@
-import { existsSync, readdirSync, realpathSync, rmSync } from 'fs';
+import { realpathSync, rmSync } from 'fs';
+import { mkdtemp } from 'fs/promises';
 import { basename, dirname } from 'path';
 import { Client as MinioClient } from 'minio';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
@@ -8,7 +9,6 @@ import {
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
 import { config } from '../config';
-import { mkdtemp } from 'fs/promises';
 
 // type related to the JSON output of encoda
 type Address = {
