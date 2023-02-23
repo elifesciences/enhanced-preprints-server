@@ -19,8 +19,8 @@ export const docmapMock = {
             type: 'web-page',
             url: 'https://sciety.org/articles/activity/10.1101/654321#hypothesis:sQ7jVo5DEeyQwX8SmvZEzw',
           }, {
-            type: 'web-content',
-            url: 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html',
+            type: 'web-page',
+            url: 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-review-one/content',
           }],
         }],
       }, {
@@ -34,7 +34,7 @@ export const docmapMock = {
           }, {
             type: 'web-page',
             url: 'https://sciety.org/articles/activity/10.1101/654321#hypothesis:ySfx9I5REeyOiqtIYslcxA',
-          }, { type: 'web-content', url: 'https://sciety.org/static/docmaps/hardcoded-elife-article-reply.html' }],
+          }, { type: 'web-page', url: 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-reply/content' }],
         }],
       }],
     },
@@ -42,7 +42,7 @@ export const docmapMock = {
 };
 
 export const reviewMocks: Record<string, string> = {
-  'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html': 'one',
-  'https://sciety.org/static/docmaps/hardcoded-elife-article-reply.html': 'reply',
-  'https://sciety.org/static/docmaps/hardcoded-elife-article-evaluation-summary.html': 'summary',
+  'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-review-one/content': 'one',
+  'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-reply/content': 'reply',
+  'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-evaluation-summary/content': 'summary',
 };
