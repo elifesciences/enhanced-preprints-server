@@ -50,8 +50,11 @@ services:
       /bin/sh -c "
       /usr/bin/mc config host add myminio http://minio:9000 minio miniotest;
       /usr/bin/mc mb myminio/eppdata;
+      /usr/bin/mc cp --recursive /data myminio/eppdata/;
       exit 0;
       "
+    volumes:
+        -   ./data:/data
 
   # EPP API
   api:
