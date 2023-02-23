@@ -1,5 +1,5 @@
-import { existsSync, readdirSync, realpathSync } from 'fs';
-import { dirname } from 'path';
+import { existsSync, readdirSync, realpathSync, rmSync } from 'fs';
+import { basename, dirname } from 'path';
 import { Client as MinioClient } from 'minio';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
@@ -8,6 +8,7 @@ import {
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
 import { config } from '../config';
+import { mkdtemp } from 'fs/promises';
 
 // type related to the JSON output of encoda
 type Address = {
@@ -97,10 +98,6 @@ type DateType = {
 
 const getS3Connection = () => new MinioClient(config.s3);
 
-const getDirectories = (source: string) => readdirSync(source, { withFileTypes: true })
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => dirent.name);
-
 const getAvailableManuscriptPaths = async (client: MinioClient): Promise<string[]> => new Promise((resolve, reject) => {
   const filesStream = client.listObjects(config.s3Bucket, 'data/', true);
   const manuscriptPaths: string[] = [];
@@ -139,50 +136,12 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   };
 };
 
-const fetchXmlS3 = async (client: MinioClient, xmlPath: string): Promise<string> => new Promise((resolve, reject) => {
-  let xml = '';
-  client.getObject(config.s3Bucket, xmlPath, (err: unknown, fileStream: any) => {
-    if (err) {
-      reject(err);
-    }
-
-    fileStream.on('data', (data: any) => {
-      xml += data;
-    });
-    fileStream.on('end', () => {
-      resolve(xml);
-    });
-    fileStream.on('error', (e: any) => {
-      reject(e);
-    });
-  });
-});
-
-const processXmlString = async (xml: string): Promise<ArticleContent> => {
-  // resolve path so that we can search for filenames reliable once encoda has converted the source
-  const json = await convertJatsToJson(xml);
-  const articleStruct = JSON.parse(json);
-
-  // console.log('Article: >> ', articleStruct);
-
-  // extract DOI
-  const dois = articleStruct.identifiers.filter((identifier: any) => identifier.name === 'doi');
-  const doi = dois[0].value;
-
-  // figure out in the json that comes back from encoda what external assets there are (i.e images)
-
-  const figures = articleStruct.content.length !== undefined ? articleStruct.content.filter((content: any) => !!content.type && content.type === 'Figure') : undefined;
-  console.log('Figures: >> ', figures);
-
-  // HACK: replace all locally referenced files with a id referencing the asset path
-  // const articleDir = dirname(realFile);
-  // logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find asset path`);
-  // json = json.replaceAll(articleDir, doi);
-
-  return {
-    doi,
-    document: json,
-  };
+const fetchXml = async (client: MinioClient, xmlPath: string): Promise<string> => {
+  const xmlFileName = basename(xmlPath);
+  const downloadDir = await mkdtemp(xmlFileName);
+  const articlePath = `${downloadDir}/article.xml`;
+  await client.fGetObject(config.s3Bucket, xmlPath, articlePath);
+  return articlePath;
 };
 
 const extractHeadings = (content: Content): Heading[] => {
@@ -272,19 +231,23 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
 };
 
 export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
-  // ['10.1101/2021.11.17.469032']
   const existingDocuments = (await articleRepository.getArticleSummaries()).map(({ doi }) => doi);
 
   const s3 = getS3Connection();
-  // ['data/10.1101/2021.11.17.469032/2021.11.17.469032.xml']
   const xmlFiles = await getAvailableManuscriptPaths(s3);
-  console.log('Files: >> ', xmlFiles);
-  // Filter DOIs here!!
+
+  // filter out already loaded DOIs
   const filteredXmlFiles = xmlFiles.filter((file) => !existingDocuments.some((doc) => file.includes(doc)));
 
+  // fetch XML to FS, convert to JSON, map to Article data structure
   const articlesToLoad = await Promise.all(
-    filteredXmlFiles.map(async (xmlFile) => fetchXmlS3(s3, xmlFile)
-      .then((xml) => processXmlString(xml)))
+    filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
+      .then(async (xmlFilePath) => {
+        const articleContent = await processXml(xmlFilePath);
+        console.log(`removing ${dirname(xmlFilePath)}`);
+        rmSync(dirname(xmlFilePath), { recursive: true, force: true });
+        return articleContent;
+      }))
       .map(async (articleContent) => processArticle(await articleContent)),
   );
 
