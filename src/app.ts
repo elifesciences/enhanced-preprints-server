@@ -4,7 +4,7 @@ import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
 import { ArticleRepository, EnhancedArticle } from './model/model';
 import { EnhancedArticleSchema } from './http-schema/http-schema';
 
-export const createApp = (repo: ArticleRepository, config: Record<string, string>) => {
+export const createApp = (repo: ArticleRepository, config: Record<string, any>) => {
   const app = express();
 
   app.use(express.json({ limit: '5mb' }));

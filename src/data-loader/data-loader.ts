@@ -1,11 +1,16 @@
-import { existsSync, readdirSync, realpathSync } from 'fs';
-import { dirname } from 'path';
+import {
+  existsSync, readdirSync, readFileSync, realpathSync, rmSync,
+} from 'fs';
+import { mkdtemp } from 'fs/promises';
+import { basename, dirname } from 'path';
+import { Client as MinioClient } from 'minio';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
 } from '../model/model';
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
+import { config } from '../config';
 
 // type related to the JSON output of encoda
 type Address = {
@@ -97,6 +102,36 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
+const getS3Connection = () => {
+  // read in the token from file if it's a file
+  if (config.s3.sessionToken) {
+    const sessionToken = existsSync(config.s3.sessionToken) ? readFileSync(config.s3.sessionToken).toString('utf-8') : config.s3.sessionToken;
+    return new MinioClient({
+      ...config.s3,
+      sessionToken,
+    });
+  }
+
+  return new MinioClient(config.s3);
+};
+
+const getAvailableManuscriptPaths = async (client: MinioClient): Promise<string[]> => new Promise((resolve, reject) => {
+  const filesStream = client.listObjects(config.s3Bucket, 'data/', true);
+  const manuscriptPaths: string[] = [];
+
+  filesStream.on('data', (obj) => {
+    if (obj.name.endsWith('.xml')) {
+      manuscriptPaths.push(obj.name);
+    }
+  });
+  filesStream.on('end', () => {
+    resolve(manuscriptPaths);
+  });
+  filesStream.on('error', (e) => {
+    reject(e);
+  });
+});
+
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
   const realFile = realpathSync(file);
@@ -116,6 +151,14 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
     doi,
     document: json,
   };
+};
+
+const fetchXml = async (client: MinioClient, xmlPath: string): Promise<string> => {
+  const xmlFileName = basename(xmlPath);
+  const downloadDir = await mkdtemp(xmlFileName);
+  const articlePath = `${downloadDir}/article.xml`;
+  await client.fGetObject(config.s3Bucket, xmlPath, articlePath);
+  return articlePath;
 };
 
 const extractHeadings = (content: Content): Heading[] => {
@@ -206,6 +249,29 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
 
 export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
   const existingDocuments = (await articleRepository.getArticleSummaries()).map(({ doi }) => doi);
+
+  if (config.s3Bucket) {
+    const s3 = getS3Connection();
+    const xmlFiles = await getAvailableManuscriptPaths(s3);
+
+    // filter out already loaded DOIs
+    const filteredXmlFiles = xmlFiles.filter((file) => !existingDocuments.some((doc) => file.includes(doc)));
+
+    // fetch XML to FS, convert to JSON, map to Article data structure
+    const articlesToLoad = await Promise.all(
+      filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
+        .then(async (xmlFilePath) => {
+          const articleContent = await processXml(xmlFilePath);
+          rmSync(dirname(xmlFilePath), { recursive: true, force: true });
+          return articleContent;
+        }))
+        .map(async (articleContent) => processArticle(await articleContent)),
+    );
+
+    return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
+  }
+
+  // Old fs-based import
   const xmlFiles = getDirectories(dataDir)
     .map((articleId) => `${dataDir}/${articleId}/${articleId}.xml`)
     .filter((xmlFilePath) => existsSync(xmlFilePath));
