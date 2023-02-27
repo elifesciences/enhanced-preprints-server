@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, realpathSync, rmSync } from 'fs';
+import { existsSync, readdirSync, readFileSync, realpathSync, rmSync } from 'fs';
 import { mkdtemp } from 'fs/promises';
 import { basename, dirname } from 'path';
 import { Client as MinioClient } from 'minio';
@@ -100,7 +100,18 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
-const getS3Connection = () => new MinioClient(config.s3);
+const getS3Connection = () => {
+  // read in the token from file if it's a file
+  if (config.s3.sessionToken) {
+    const sessionToken = existsSync(config.s3.sessionToken) ? readFileSync(config.s3.sessionToken).toString('utf-8') : config.s3.sessionToken;
+    return new MinioClient({
+      ...config.s3,
+      sessionToken,
+    });
+  }
+
+  return new MinioClient(config.s3);
+};
 
 const getAvailableManuscriptPaths = async (client: MinioClient): Promise<string[]> => new Promise((resolve, reject) => {
   const filesStream = client.listObjects(config.s3Bucket, 'data/', true);
