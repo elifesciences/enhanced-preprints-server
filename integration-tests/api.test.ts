@@ -157,7 +157,7 @@ describe('server tests', () => {
                     type: 'PostalAddress',
                     addressCountry: 'USA',
                   },
-                  name: 'ACME Labs',
+                  name: 'ACME Labs, New York',
                 }],
               familyNames: ['Brain'],
               emails: ['brain@acmelabs.edu.au'],
@@ -170,7 +170,7 @@ describe('server tests', () => {
                     type: 'PostalAddress',
                     addressCountry: 'USA',
                   },
-                  name: 'ACME Labs',
+                  name: 'ACME Labs, New York',
                 }],
               familyNames: ['Pinky'],
             }],
@@ -201,7 +201,7 @@ describe('server tests', () => {
                     type: 'PostalAddress',
                     addressCountry: 'New Zealand',
                   },
-                  name: 'ACME Demolitions',
+                  name: 'ACME Demolitions, Wellington',
                 }],
               familyNames: ['Coyote'],
               givenNames: ['Wile', 'E'],
@@ -218,7 +218,7 @@ describe('server tests', () => {
                     type: 'PostalAddress',
                     addressCountry: 'New Zealand',
                   },
-                  name: 'ACME Demolitions',
+                  name: 'ACME Demolitions, Wellington',
                 }],
               familyNames: ['Devil'],
               givenNames: ['Taz'],
@@ -267,6 +267,7 @@ describe('server tests', () => {
             type: 'Heading', id: 's1', depth: 1, content: ['Section'],
           },
           { type: 'Paragraph', content: ['I am an article.'] },
+          { type: 'ThematicBreak' },
           { type: 'Heading', depth: 1, content: ['Acknowledgements'] },
           {
             type: 'Paragraph',
@@ -284,6 +285,7 @@ describe('server tests', () => {
             type: 'Heading', id: 's1', depth: 1, content: ['Section'],
           },
           { type: 'Paragraph', content: ['Run..... just run!'] },
+          { type: 'ThematicBreak' },
           { type: 'Heading', depth: 1, content: ['Acknowledgements'] },
           {
             type: 'Paragraph',
@@ -311,7 +313,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://sciety.org/docmaps/v1/evaluations-by/elife/10.1101/123456.docmap.json':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/get-by-doi?preprint_doi=10.1101/123456':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -331,11 +333,11 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://sciety.org/docmaps/v1/evaluations-by/elife/10.1101/123456.docmap.json':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/get-by-doi?preprint_doi=10.1101/123456':
             return Promise.resolve({
               data: docmapMock1,
             });
-          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html':
+          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-review-one/content':
             return Promise.resolve({
               data: reviewMocks1[url],
             });
@@ -355,13 +357,13 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://sciety.org/docmaps/v1/evaluations-by/elife/10.1101/654321.docmap.json':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/get-by-doi?preprint_doi=10.1101/654321':
             return Promise.resolve({
               data: docmapMock2,
             });
-          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html':
-          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-reply.html':
-          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-evaluation-summary.html':
+          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-review-one/content':
+          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-reply/content':
+          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-evaluation-summary/content':
             return Promise.resolve({
               data: reviewMocks2[url],
             });
@@ -381,13 +383,13 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://sciety.org/docmaps/v1/evaluations-by/elife/10.1101/123456.docmap.json':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/get-by-doi?preprint_doi=10.1101/123456':
             return Promise.resolve({
               data: docmapMock1,
             });
-          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-review-one.html':
-          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-reply.html':
-          case 'https://sciety.org/static/docmaps/hardcoded-elife-article-evaluation-summary.html':
+          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-review-one/content':
+          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-reply/content':
+          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-evaluation-summary/content':
             return Promise.resolve({
               data: reviewMocks1[url],
             });

@@ -16,7 +16,7 @@ describe('fetch-reviews', () => {
         data: {},
         status: 200,
       };
-      if (url.includes('.json')) {
+      if (url.includes('?preprint_doi=')) {
         response.data = docmapMock;
       } else {
         response.data = reviewMocks[url];
@@ -48,7 +48,7 @@ describe('fetch-reviews', () => {
       ]));
     });
 
-    it('fetches the evaluation text for each action with a "web-content" type', () => {
+    it('fetches the evaluation text for each action with a sciety hypothesis content URL', () => {
       expect(peerReview.evaluationSummary.text).toStrictEqual('summary');
       expect(peerReview.authorResponse?.text).toStrictEqual('reply');
       expect(peerReview.reviews.map((review) => review.text)).toStrictEqual(expect.arrayContaining([
