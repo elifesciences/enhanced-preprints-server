@@ -1,4 +1,6 @@
-import { existsSync, readdirSync, readFileSync, realpathSync, rmSync } from 'fs';
+import {
+  existsSync, readdirSync, readFileSync, realpathSync, rmSync,
+} from 'fs';
 import { mkdtemp } from 'fs/promises';
 import { basename, dirname } from 'path';
 import { Client as MinioClient } from 'minio';
@@ -260,7 +262,6 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
       filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
         .then(async (xmlFilePath) => {
           const articleContent = await processXml(xmlFilePath);
-          console.log(`removing ${dirname(xmlFilePath)}`);
           rmSync(dirname(xmlFilePath), { recursive: true, force: true });
           return articleContent;
         }))
@@ -278,5 +279,6 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
   const articlesToLoad = (await Promise.all(xmlFiles.map((xmlFile) => processXml(xmlFile))))
     .filter((article) => !existingDocuments.includes(article.doi))
     .map(processArticle);
+
   return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
 };
