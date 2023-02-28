@@ -106,7 +106,6 @@ const getS3Connection = () => new S3Client({
   credentials: {
     accessKeyId: config.s3.accessKey,
     secretAccessKey: config.s3.secretKey,
-    sessionToken: config.s3.sessionToken ?? undefined,
   },
   endpoint: config.s3.endPoint,
   forcePathStyle: true,

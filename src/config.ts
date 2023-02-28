@@ -27,7 +27,6 @@ export const config = {
     useSSL: process.env.S3_SSL === 'false' ? false : undefined,
     accessKey: process.env.S3_ACCESS_KEY ?? '',
     secretKey: process.env.S3_SECRET_KEY ?? '',
-    sessionToken: process.env.S3_SESSION_TOKEN ?? undefined,
   },
   s3Bucket: process.env.S3_BUCKET ?? '',
 };
