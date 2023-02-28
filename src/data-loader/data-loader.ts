@@ -1,9 +1,9 @@
 import {
-  existsSync, readdirSync, readFileSync, realpathSync, rmSync,
+  existsSync, readdirSync, realpathSync, rmSync,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
 import { basename, dirname } from 'path';
-import { Client as MinioClient } from 'minio';
+import { S3Client, ListObjectsCommand } from '@aws-sdk/client-s3';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
@@ -102,34 +102,44 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
-const getS3Connection = () => {
-  // read in the token from file if it's a file
-  if (config.s3.sessionToken) {
-    const sessionToken = existsSync(config.s3.sessionToken) ? readFileSync(config.s3.sessionToken).toString('utf-8') : config.s3.sessionToken;
-    return new MinioClient({
-      ...config.s3,
-      sessionToken,
-    });
-  }
+const getS3Connection = () => new S3Client({
+  credentials: {
+    accessKeyId: config.s3.accessKey,
+    secretAccessKey: config.s3.secretKey,
+    sessionToken: config.s3.sessionToken ?? undefined,
+  },
+  endpoint: config.s3.endPoint,
+  forcePathStyle: true,
+});
+// read in the token from file if it's a file
+// if (config.s3.sessionToken) {
+//   const sessionToken = existsSync(config.s3.sessionToken) ? readFileSync(config.s3.sessionToken).toString('utf-8') : config.s3.sessionToken;
+//   return new MinioClient({
+//     ...config.s3,
+//     sessionToken,
+//   });
+// }
 
-  return new MinioClient(config.s3);
-};
+// return new MinioClient(config.s3);
 
-const getAvailableManuscriptPaths = async (client: MinioClient): Promise<string[]> => new Promise((resolve, reject) => {
-  const filesStream = client.listObjects(config.s3Bucket, 'data/', true);
+// TO-DO: replace this with s3
+const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => new Promise((resolve, reject) => {
+  const objectsRequest = client.send(new ListObjectsCommand({
+    Bucket: config.s3Bucket,
+    Prefix: '/data',
+  }));
   const manuscriptPaths: string[] = [];
 
-  filesStream.on('data', (obj) => {
-    if (obj.name.endsWith('.xml')) {
-      manuscriptPaths.push(obj.name);
-    }
-  });
-  filesStream.on('end', () => {
+  objectsRequest.then((objects) => {
+    // An object's key is it's filename
+    objects.Contents?.forEach((obj) => {
+      if (obj.Key && obj.Key.endsWith('.xml')) {
+        manuscriptPaths.push(obj.Key);
+        console.log(obj.Key);
+      }
+    });
     resolve(manuscriptPaths);
-  });
-  filesStream.on('error', (e) => {
-    reject(e);
-  });
+  }).catch((err) => reject(err));
 });
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
@@ -153,11 +163,12 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   };
 };
 
-const fetchXml = async (client: MinioClient, xmlPath: string): Promise<string> => {
+// TO-DO: replace this with s3
+const fetchXml = async (xmlPath: string): Promise<string> => {
   const xmlFileName = basename(xmlPath);
   const downloadDir = await mkdtemp(xmlFileName);
   const articlePath = `${downloadDir}/article.xml`;
-  await client.fGetObject(config.s3Bucket, xmlPath, articlePath);
+  // await client.fGetObject(config.s3Bucket, xmlPath, articlePath);
   return articlePath;
 };
 
@@ -259,7 +270,7 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
 
     // fetch XML to FS, convert to JSON, map to Article data structure
     const articlesToLoad = await Promise.all(
-      filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
+      filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(xmlS3FilePath)
         .then(async (xmlFilePath) => {
           const articleContent = await processXml(xmlFilePath);
           rmSync(dirname(xmlFilePath), { recursive: true, force: true });
