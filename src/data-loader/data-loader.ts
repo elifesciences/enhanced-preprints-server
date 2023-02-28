@@ -1,9 +1,10 @@
 import {
-  existsSync, readdirSync, realpathSync, rmSync,
+  existsSync, readdirSync, realpathSync, rmSync, createWriteStream, readFileSync,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
 import { basename, dirname } from 'path';
-import { S3Client, ListObjectsCommand } from '@aws-sdk/client-s3';
+import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
@@ -109,19 +110,9 @@ const getS3Connection = () => new S3Client({
   },
   endpoint: config.s3.endPoint,
   forcePathStyle: true,
+  region: config.s3Region,
 });
-// read in the token from file if it's a file
-// if (config.s3.sessionToken) {
-//   const sessionToken = existsSync(config.s3.sessionToken) ? readFileSync(config.s3.sessionToken).toString('utf-8') : config.s3.sessionToken;
-//   return new MinioClient({
-//     ...config.s3,
-//     sessionToken,
-//   });
-// }
 
-// return new MinioClient(config.s3);
-
-// TO-DO: replace this with s3
 const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => new Promise((resolve, reject) => {
   const objectsRequest = client.send(new ListObjectsCommand({
     Bucket: config.s3Bucket,
@@ -134,7 +125,7 @@ const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> 
     objects.Contents?.forEach((obj) => {
       if (obj.Key && obj.Key.endsWith('.xml')) {
         manuscriptPaths.push(obj.Key);
-        console.log(obj.Key);
+        console.log('KEY', obj.Key);
       }
     });
     resolve(manuscriptPaths);
@@ -162,12 +153,27 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   };
 };
 
-// TO-DO: replace this with s3
-const fetchXml = async (xmlPath: string): Promise<string> => {
+const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
   const xmlFileName = basename(xmlPath);
   const downloadDir = await mkdtemp(xmlFileName);
   const articlePath = `${downloadDir}/article.xml`;
-  // await client.fGetObject(config.s3Bucket, xmlPath, articlePath);
+
+  // TO-DO: Figure out why file path (URL) is wrong
+  console.log(`ARTICLE PATH: ${articlePath}`);
+
+  const objectRequest = await client.send(new GetObjectCommand({
+    Bucket: config.s3Bucket,
+    Key: xmlPath,
+  }));
+
+  if (objectRequest.Body === undefined) {
+    throw Error('file is empty');
+  }
+
+  (objectRequest.Body as Readable).pipe(createWriteStream(articlePath));
+
+  console.log(readFileSync(articlePath, 'utf8'));
+
   return articlePath;
 };
 
@@ -269,7 +275,7 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
 
     // fetch XML to FS, convert to JSON, map to Article data structure
     const articlesToLoad = await Promise.all(
-      filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(xmlS3FilePath)
+      filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
         .then(async (xmlFilePath) => {
           const articleContent = await processXml(xmlFilePath);
           rmSync(dirname(xmlFilePath), { recursive: true, force: true });
