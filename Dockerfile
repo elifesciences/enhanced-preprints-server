@@ -21,9 +21,9 @@ RUN yarn
 
 FROM base as prod
 
-COPY src/ src/
-COPY package.json package.json
 COPY --from=build /opt/epp/node_modules node_modules
+COPY package.json package.json
+COPY src/ src/
 
 EXPOSE 3000
 CMD [ "yarn", "start" ]
