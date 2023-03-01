@@ -2,7 +2,8 @@ import {
   existsSync, readdirSync, realpathSync, rmSync, createWriteStream, readFileSync,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
-import { basename, dirname } from 'path';
+import { basename, dirname, join } from 'path';
+import { tmpdir } from 'os';
 import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
@@ -12,6 +13,7 @@ import {
 import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
 import { config } from '../config';
+
 
 // type related to the JSON output of encoda
 type Address = {
@@ -155,7 +157,7 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
 
 const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
   const xmlFileName = basename(xmlPath);
-  const downloadDir = await mkdtemp(xmlFileName);
+  const downloadDir = await mkdtemp(join(tmpdir(), xmlFileName));
   const articlePath = `${downloadDir}/article.xml`;
 
   // TO-DO: Figure out why file path (URL) is wrong
