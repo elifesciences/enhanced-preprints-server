@@ -176,7 +176,6 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
 
   await pipeline(streamBody, writeStream);
 
-  console.log(readFileSync(articlePath, 'utf-8'));
   return articlePath;
 };
 
