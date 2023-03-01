@@ -22,7 +22,7 @@ export const config = {
   repoUserName: process.env.REPO_USERNAME ?? '',
   repoPassword: process.env.REPO_PASSWORD ?? '',
   s3: {
-    endPoint: process.env.S3_ENDPOINT ?? 's3.amazonaws.com',
+    endPoint: process.env.S3_ENDPOINT ?? 'https://s3.amazonaws.com',
     accessKey: process.env.S3_ACCESS_KEY ?? '',
     secretKey: process.env.S3_SECRET_KEY ?? '',
   },
