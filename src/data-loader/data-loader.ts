@@ -136,11 +136,15 @@ const getS3Connection = () => {
 const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => new Promise((resolve, reject) => {
   const objectsRequest = client.send(new ListObjectsCommand({
     Bucket: config.s3Bucket,
+    // Try without this?
     Prefix: '/data',
   }));
   const manuscriptPaths: string[] = [];
 
   objectsRequest.then((objects) => {
+    // These will tell us a lot!
+    console.log('Fetched objects in S3: ', objects.Contents ? objects.Contents.length : 'No objects');
+    console.log('Number of objects ending .xml: ', objects.Contents?.filter((obj) => obj.Key?.endsWith('.xml')).length ?? 'None');
     // An object's key is it's filename
     objects.Contents?.forEach((obj) => {
       if (obj.Key && obj.Key.endsWith('.xml')) {
