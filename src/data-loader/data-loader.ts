@@ -1,9 +1,13 @@
 import {
-  existsSync, readdirSync, readFileSync, realpathSync, rmSync,
+  existsSync, readdirSync, realpathSync, rmSync, createWriteStream, readFileSync,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
-import { basename, dirname } from 'path';
-import { Client as MinioClient } from 'minio';
+import { pipeline } from 'node:stream/promises';
+import { basename, dirname, join } from 'path';
+import { tmpdir } from 'os';
+import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { fromWebToken } from '@aws-sdk/credential-providers';
+import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
@@ -103,33 +107,47 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .map((dirent) => dirent.name);
 
 const getS3Connection = () => {
-  // read in the token from file if it's a file
-  if (config.s3.sessionToken) {
-    const sessionToken = existsSync(config.s3.sessionToken) ? readFileSync(config.s3.sessionToken).toString('utf-8') : config.s3.sessionToken;
-    return new MinioClient({
-      ...config.s3,
-      sessionToken,
+  if (config.awsAssumeRole.webIdentityTokenFile !== undefined && config.awsAssumeRole.roleArn !== undefined) {
+    const webIdentityToken = readFileSync(config.awsAssumeRole.webIdentityTokenFile, 'utf-8');
+    const { roleArn, clientConfig } = config.awsAssumeRole;
+    return new S3Client({
+      credentials: fromWebToken({
+        roleArn,
+        clientConfig,
+        webIdentityToken,
+      }),
+      endpoint: config.s3.endPoint,
+      forcePathStyle: true,
+      region: config.s3Region,
     });
   }
 
-  return new MinioClient(config.s3);
+  return new S3Client({
+    credentials: {
+      accessKeyId: config.s3.accessKey,
+      secretAccessKey: config.s3.secretKey,
+    },
+    endpoint: config.s3.endPoint,
+    forcePathStyle: true,
+    region: config.s3Region,
+  });
 };
 
-const getAvailableManuscriptPaths = async (client: MinioClient): Promise<string[]> => new Promise((resolve, reject) => {
-  const filesStream = client.listObjects(config.s3Bucket, 'data/', true);
+const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => new Promise((resolve, reject) => {
+  const objectsRequest = client.send(new ListObjectsCommand({
+    Bucket: config.s3Bucket,
+    Prefix: 'data/',
+  }));
   const manuscriptPaths: string[] = [];
 
-  filesStream.on('data', (obj) => {
-    if (obj.name.endsWith('.xml')) {
-      manuscriptPaths.push(obj.name);
-    }
-  });
-  filesStream.on('end', () => {
+  objectsRequest.then((objects) => {
+    objects.Contents?.forEach((obj) => {
+      if (obj.Key && obj.Key.endsWith('.xml')) {
+        manuscriptPaths.push(obj.Key);
+      }
+    });
     resolve(manuscriptPaths);
-  });
-  filesStream.on('error', (e) => {
-    reject(e);
-  });
+  }).catch((err) => reject(err));
 });
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
@@ -153,11 +171,23 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   };
 };
 
-const fetchXml = async (client: MinioClient, xmlPath: string): Promise<string> => {
+const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
   const xmlFileName = basename(xmlPath);
-  const downloadDir = await mkdtemp(xmlFileName);
+  const downloadDir = await mkdtemp(join(tmpdir(), xmlFileName));
   const articlePath = `${downloadDir}/article.xml`;
-  await client.fGetObject(config.s3Bucket, xmlPath, articlePath);
+
+  const objectRequest = await client.send(new GetObjectCommand({
+    Bucket: config.s3Bucket,
+    Key: xmlPath,
+  }));
+
+  if (objectRequest.Body === undefined) {
+    throw Error('file is empty');
+  }
+
+  const writeStream = createWriteStream(articlePath);
+  await pipeline((objectRequest.Body as Readable), writeStream);
+
   return articlePath;
 };
 

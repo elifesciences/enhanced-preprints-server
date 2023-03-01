@@ -22,12 +22,17 @@ export const config = {
   repoUserName: process.env.REPO_USERNAME ?? '',
   repoPassword: process.env.REPO_PASSWORD ?? '',
   s3: {
-    endPoint: process.env.S3_ENDPOINT ?? 's3.amazonaws.com',
-    port: process.env.S3_PORT ? Number(process.env.S3_PORT) : undefined,
-    useSSL: process.env.S3_SSL === 'false' ? false : undefined,
+    endPoint: process.env.S3_ENDPOINT ?? 'https://s3.amazonaws.com',
     accessKey: process.env.S3_ACCESS_KEY ?? '',
     secretKey: process.env.S3_SECRET_KEY ?? '',
-    sessionToken: process.env.S3_SESSION_TOKEN ?? undefined,
+  },
+  awsAssumeRole: {
+    webIdentityTokenFile: process.env.AWS_WEB_IDENTITY_TOKEN_FILE ?? undefined,
+    roleArn: process.env.AWS_ROLE_ARN ?? undefined,
+    clientConfig: {
+      region: process.env.S3_REGION ?? 'us-east-1',
+    },
   },
   s3Bucket: process.env.S3_BUCKET ?? '',
+  s3Region: process.env.S3_REGION ?? 'us-east-1',
 };
