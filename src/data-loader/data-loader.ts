@@ -1,11 +1,12 @@
 import {
-  existsSync, readdirSync, realpathSync, rmSync, createWriteStream,
+  existsSync, readdirSync, realpathSync, rmSync, createWriteStream, readFileSync,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join } from 'path';
 import { tmpdir } from 'os';
 import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { fromWebToken } from '@aws-sdk/credential-providers';
 import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
@@ -105,15 +106,32 @@ const getDirectories = (source: string) => readdirSync(source, { withFileTypes: 
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name);
 
-const getS3Connection = () => new S3Client({
-  credentials: {
-    accessKeyId: config.s3.accessKey,
-    secretAccessKey: config.s3.secretKey,
-  },
-  endpoint: config.s3.endPoint,
-  forcePathStyle: true,
-  region: config.s3Region,
-});
+const getS3Connection = () => {
+  if (config.awsAssumeRole.webIdentityTokenFile !== undefined && config.awsAssumeRole.roleArn !== undefined) {
+    const webIdentityToken = readFileSync(config.awsAssumeRole.webIdentityTokenFile, 'utf-8');
+    const { roleArn, clientConfig } = config.awsAssumeRole;
+    return new S3Client({
+      credentials: fromWebToken({
+        roleArn,
+        clientConfig,
+        webIdentityToken,
+      }),
+      endpoint: config.s3.endPoint,
+      forcePathStyle: true,
+      region: config.s3Region,
+    });
+  }
+
+  return new S3Client({
+    credentials: {
+      accessKeyId: config.s3.accessKey,
+      secretAccessKey: config.s3.secretKey,
+    },
+    endpoint: config.s3.endPoint,
+    forcePathStyle: true,
+    region: config.s3Region,
+  });
+};
 
 const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => new Promise((resolve, reject) => {
   const objectsRequest = client.send(new ListObjectsCommand({

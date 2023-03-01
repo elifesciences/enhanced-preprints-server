@@ -28,6 +28,13 @@ export const config = {
     accessKey: process.env.S3_ACCESS_KEY ?? '',
     secretKey: process.env.S3_SECRET_KEY ?? '',
   },
+  awsAssumeRole: {
+    webIdentityTokenFile: process.env.AWS_WEB_IDENTITY_TOKEN_FILE ?? undefined,
+    roleArn: process.env.AWS_ROLE_ARN ?? undefined,
+    clientConfig: {
+      region: process.env.S3_REGION ?? 'us-east-1',
+    },
+  },
   s3Bucket: process.env.S3_BUCKET ?? '',
   s3Region: process.env.S3_REGION ?? 'us-east-1',
 };
