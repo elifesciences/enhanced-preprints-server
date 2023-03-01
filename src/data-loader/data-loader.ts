@@ -136,16 +136,11 @@ const getS3Connection = () => {
 const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => new Promise((resolve, reject) => {
   const objectsRequest = client.send(new ListObjectsCommand({
     Bucket: config.s3Bucket,
-    // Try without this?
     Prefix: 'data/',
   }));
   const manuscriptPaths: string[] = [];
 
   objectsRequest.then((objects) => {
-    // These will tell us a lot!
-    console.log('Fetched objects in S3: ', objects.Contents ? objects.Contents.length : 'No objects');
-    console.log('Number of objects ending .xml: ', objects.Contents?.filter((obj) => obj.Key?.endsWith('.xml')).length ?? 'None');
-    // An object's key is it's filename
     objects.Contents?.forEach((obj) => {
       if (obj.Key && obj.Key.endsWith('.xml')) {
         manuscriptPaths.push(obj.Key);
@@ -289,12 +284,8 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
     const s3 = getS3Connection();
     const xmlFiles = await getAvailableManuscriptPaths(s3);
 
-    console.log('Number of XML: ', JSON.stringify(xmlFiles, null, 4));
-
     // filter out already loaded DOIs
     const filteredXmlFiles = xmlFiles.filter((file) => !existingDocuments.some((doc) => file.includes(doc)));
-
-    console.log('Number of Filtered: ', JSON.stringify(filteredXmlFiles, null, 4));
 
     // fetch XML to FS, convert to JSON, map to Article data structure
     const articlesToLoad = await Promise.all(
@@ -306,8 +297,6 @@ export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleR
         }))
         .map(async (articleContent) => processArticle(await articleContent)),
     );
-
-    console.log('Articles to load: ', articlesToLoad.length);
 
     return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
   }
