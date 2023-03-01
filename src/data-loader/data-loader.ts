@@ -160,9 +160,6 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
   const downloadDir = await mkdtemp(join(tmpdir(), xmlFileName));
   const articlePath = `${downloadDir}/article.xml`;
 
-  // TO-DO: Figure out why file path (URL) is wrong
-  console.log(`ARTICLE PATH: ${articlePath}`);
-
   const objectRequest = await client.send(new GetObjectCommand({
     Bucket: config.s3Bucket,
     Key: xmlPath,
@@ -172,11 +169,19 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
     throw Error('file is empty');
   }
 
-  (objectRequest.Body as Readable).pipe(createWriteStream(articlePath));
+  // aws sdk types these as `Readable | ReadableStream | Blob`, but it always returns `Readable` on node runtime
+  const streamBody = (objectRequest.Body as Readable);
 
-  console.log(readFileSync(articlePath, 'utf8'));
+  return new Promise((resolve, reject) => {
+    streamBody.pipe(createWriteStream(articlePath));
 
-  return articlePath;
+    streamBody.on('end', () => {
+      resolve(articlePath);
+    });
+    streamBody.on('error', (err) => {
+      reject(err);
+    });
+  });
 };
 
 const extractHeadings = (content: Content): Heading[] => {
