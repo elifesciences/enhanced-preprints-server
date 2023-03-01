@@ -2,6 +2,7 @@ import {
   existsSync, readdirSync, realpathSync, rmSync, createWriteStream, readFileSync,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
+import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join } from 'path';
 import { tmpdir } from 'os';
 import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
@@ -171,17 +172,12 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
 
   // aws sdk types these as `Readable | ReadableStream | Blob`, but it always returns `Readable` on node runtime
   const streamBody = (objectRequest.Body as Readable);
+  const writeStream = createWriteStream(articlePath);
 
-  return new Promise((resolve, reject) => {
-    streamBody.pipe(createWriteStream(articlePath));
+  await pipeline(streamBody, writeStream);
 
-    streamBody.on('end', () => {
-      resolve(articlePath);
-    });
-    streamBody.on('error', (err) => {
-      reject(err);
-    });
-  });
+  console.log(readFileSync(articlePath, 'utf-8'));
+  return articlePath;
 };
 
 const extractHeadings = (content: Content): Heading[] => {
