@@ -23,8 +23,6 @@ export const config = {
   repoPassword: process.env.REPO_PASSWORD ?? '',
   s3: {
     endPoint: process.env.S3_ENDPOINT ?? 's3.amazonaws.com',
-    port: process.env.S3_PORT ? Number(process.env.S3_PORT) : undefined,
-    useSSL: process.env.S3_SSL === 'false' ? false : undefined,
     accessKey: process.env.S3_ACCESS_KEY ?? '',
     secretKey: process.env.S3_SECRET_KEY ?? '',
   },
