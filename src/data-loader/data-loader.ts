@@ -1,5 +1,5 @@
 import {
-  existsSync, readdirSync, realpathSync, rmSync, createWriteStream, readFileSync,
+  existsSync, readdirSync, realpathSync, rmSync, createWriteStream,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
 import { pipeline } from 'node:stream/promises';
