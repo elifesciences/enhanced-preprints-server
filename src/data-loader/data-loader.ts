@@ -170,11 +170,8 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
     throw Error('file is empty');
   }
 
-  // aws sdk types these as `Readable | ReadableStream | Blob`, but it always returns `Readable` on node runtime
-  const streamBody = (objectRequest.Body as Readable);
   const writeStream = createWriteStream(articlePath);
-
-  await pipeline(streamBody, writeStream);
+  await pipeline((objectRequest.Body as Readable), writeStream);
 
   return articlePath;
 };
