@@ -15,7 +15,6 @@ import { Content, HeadingContent } from '../model/content';
 import { logger } from '../utils/logger';
 import { config } from '../config';
 
-
 // type related to the JSON output of encoda
 type Address = {
   type: 'PostalAddress',
@@ -128,7 +127,6 @@ const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> 
     objects.Contents?.forEach((obj) => {
       if (obj.Key && obj.Key.endsWith('.xml')) {
         manuscriptPaths.push(obj.Key);
-        console.log('KEY', obj.Key);
       }
     });
     resolve(manuscriptPaths);
