@@ -137,7 +137,7 @@ const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> 
   const objectsRequest = client.send(new ListObjectsCommand({
     Bucket: config.s3Bucket,
     // Try without this?
-    Prefix: '/data',
+    Prefix: 'data/',
   }));
   const manuscriptPaths: string[] = [];
 
