@@ -53,7 +53,7 @@ jobs:
       - name: Check status code
         if: steps.changed-dockerfile.outputs.any_changed == 'true'
         run: |
-          http_status=$(curl --write-out %{http_code} --silent --output /dev/null "http://localhost:3000/api/reviewed-preprints") && [ "$http_status" -eq "200" ] || exit 1
+          http_status=$(curl --write-out %{http_code} --silent --output /dev/null "http://test-build:3000/api/reviewed-preprints") && [ "$http_status" -eq "200" ] || exit 1
   build-and-push:
     needs: [test]
     runs-on: ubuntu-18.04
