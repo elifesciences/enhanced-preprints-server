@@ -32,16 +32,21 @@ jobs:
   test-build:
     needs: [test]
     runs-on: ubuntu-18.04
-    if: github.event_name == 'push' && github.event.head_commit.modified | contains('Dockerfile')
     steps:
       - uses: actions/checkout@v3
+      - name: Detect Dockerfile change
+        id: changed-dockerfile
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            Dockerfile
       - name: Build test
+        if: steps.changed-dockerfile.outputs.any_changed == 'true'
         uses: docker/build-push-action@v4
         with:
           load: true
           tags: ghcr.io/elifesciences/enhanced-preprints:test
-      -
-        name: Test
+      - name: Test
         run: |
           docker run --rm ghcr.io/elifesciences/enhanced-preprints:test
   build-and-push:
