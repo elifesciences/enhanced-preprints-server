@@ -4,13 +4,7 @@ import { Participant, PeerReview, ReviewType } from '../model/model';
 type FetchReviews = (doi: string, reviewingGroup: string) => Promise<PeerReview>;
 
 type FetchDocmap = (doi: string) => Promise<Docmap>;
-const fetchDocmaps: FetchDocmap = async (doi) => {
-  const docmapResponse = await axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/get-by-doi?preprint_doi=${doi}`).then(async (res) => res.data);
-  if (Array.isArray(docmapResponse)) { // see bug https://github.com/elifesciences/data-hub-issues/issues/589
-    return docmapResponse[0];
-  }
-  return docmapResponse;
-};
+const fetchDocmaps: FetchDocmap = async (doi) => axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=${doi}`).then(async (res) => res.data);
 
 const hypothesisCache:Map<string, string> = new Map();
 
