@@ -30,8 +30,8 @@ jobs:
       - name: Integration Test
         run: yarn test:integration
   test-build:
-    needs: [test]
     runs-on: ubuntu-18.04
+    if: github.ref != 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
       - name: Detect Dockerfile change
@@ -46,11 +46,11 @@ jobs:
         with:
           load: true
           tags: ghcr.io/elifesciences/enhanced-preprints:test
-      - name: Test
-        run: |
-          docker run --rm ghcr.io/elifesciences/enhanced-preprints:test
+      - name: Test docker run
+        if: steps.changed-dockerfile.outputs.any_changed == 'true'
+        run: docker run --rm ghcr.io/elifesciences/enhanced-preprints:test
   build-and-push:
-    needs: [test, test-build]
+    needs: [test]
     runs-on: ubuntu-18.04
     if: github.ref == 'refs/heads/master'
     steps:
