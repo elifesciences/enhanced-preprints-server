@@ -54,7 +54,6 @@ jobs:
         if: steps.changed-dockerfile.outputs.any_changed == 'true'
         run: |
           http_status=$(curl --write-out %{http_code} --silent --output /dev/null "http://localhost:3000/api/reviewed-preprints") && [ "$http_status" -eq "200" ] || exit 1
-          docker stop myapp
   build-and-push:
     needs: [test]
     runs-on: ubuntu-18.04
