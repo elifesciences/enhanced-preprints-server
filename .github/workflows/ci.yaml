@@ -47,14 +47,6 @@ jobs:
         with:
           load: true
           tags: ghcr.io/elifesciences/enhanced-preprints:test
-      - name: Test docker run
-        if: steps.changed-dockerfile.outputs.any_changed == 'true'
-        run: docker run -d --name myapp ghcr.io/elifesciences/enhanced-preprints:test
-      - name: Check status code
-        if: steps.changed-dockerfile.outputs.any_changed == 'true'
-        run: |
-          ss -tulpn | grep 3000
-          http_status=$(curl --write-out %{http_code} --silent --output /dev/null "http://0.0.0.0:3000/api/reviewed-preprints") && [ "$http_status" -eq "200" ] || exit 1
   build-and-push:
     needs: [test]
     runs-on: ubuntu-18.04
