@@ -30,7 +30,6 @@ jobs:
       - name: Integration Test
         run: yarn test:integration
   test-build:
-    needs: [test]
     runs-on: ubuntu-18.04
     if: github.ref != 'refs/heads/master'
     steps:
@@ -40,6 +39,13 @@ jobs:
         with:
           load: true
           tags: ghcr.io/elifesciences/enhanced-preprints:test
+      - name: Test docker run
+        if: steps.changed-dockerfile.outputs.any_changed == 'true'
+        run: docker run -d --name myapp -p 3000:3000 ghcr.io/elifesciences/enhanced-preprints:test
+      - name: Check status code
+        if: steps.changed-dockerfile.outputs.any_changed == 'true'
+        run: |
+          http_status=$(curl --write-out %{http_code} --silent --output /dev/null "http://localhost:3000/api/reviewed-preprints") && [ "$http_status" -eq "200" ] || exit 1
   build-and-push:
     needs: [test]
     runs-on: ubuntu-18.04
