@@ -24,7 +24,7 @@ describe('encode', () => {
       const articleStruct = JSON.parse(await convertJatsToJson('test-utils/jats-examples/example.xml')) as ArticleStruct;
 
       expect(articleStruct.description).not.toBeNull();
-      expect(articleStruct.description).toBe('This is an abstract');
+      expect(articleStruct.description).toStrictEqual([{ content: ['This is an abstract'], type: 'Paragraph' }]);
     });
   });
 });
