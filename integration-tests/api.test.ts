@@ -183,7 +183,7 @@ describe('server tests', () => {
           citations: 2,
           tweets: 3,
           headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
-          abstract: 'An abstract.',
+          abstract: [{ type: 'Paragraph', content: ['An abstract.'] }],
           references: [],
         });
 
@@ -235,7 +235,7 @@ describe('server tests', () => {
           citations: 2,
           tweets: 3,
           headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
-          abstract: 'Why not to mess with an agent of chaos.',
+          abstract: [{ type: 'Paragraph', content: ['Why not to mess with an agent of chaos.'] }],
           references: [],
         });
     });
