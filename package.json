@@ -6,6 +6,7 @@
   "author": "Will Byrne <will.alex.byrne@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@aws-sdk/util-stream-node": "^3.292.0",
     "@tsconfig/node16": "1.0.3",
     "@types/axios": "0.14.0",
     "@types/eslint": "8.21.2",
@@ -15,6 +16,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "5.55.0",
     "@typescript-eslint/parser": "5.55.0",
+    "aws-sdk-client-mock": "^2.1.1",
     "eslint": "8.36.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.0.0",

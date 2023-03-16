@@ -1,5 +1,9 @@
 import request from 'supertest';
 import axios from 'axios';
+import { mockClient } from 'aws-sdk-client-mock';
+import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { sdkStreamMixin } from '@aws-sdk/util-stream-node';
+import { createReadStream } from 'fs';
 import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
 import { docmapMock as docmapMock1, reviewMocks as reviewMocks1 } from './data/10.1101/123456/docmap-mock';
@@ -15,6 +19,29 @@ const generateAgent = async () => {
 };
 
 describe('server tests', () => {
+  beforeEach(() => {
+    // mock the s3 client
+    const fooStream = createReadStream('./integration-tests/data/10.1101/123456/123456.xml');
+    const barStream = createReadStream('./integration-tests/data/10.1101/654321/654321.xml');
+
+    mockClient(S3Client)
+      .on(ListObjectsCommand)
+      .resolves({
+        Contents: [
+          { Key: 'data/10.1101/123456/123456.xml' },
+          { Key: 'data/10.1101/654321/654321.xml' },
+        ],
+      })
+      .on(GetObjectCommand, { Key: 'data/10.1101/123456/123456.xml' })
+      .resolves({ Body: sdkStreamMixin(fooStream) })
+      .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
+      .resolves({ Body: sdkStreamMixin(barStream) });
+  });
+
+  afterEach(() => {
+    mockClient(S3Client).reset();
+  });
+
   describe('/api/reviewed-preprints', () => {
     describe('empty database', () => {
       it('should redirect from / to /api/reviewed-preprints/', async () => {
@@ -72,7 +99,7 @@ describe('server tests', () => {
   describe('/import', () => {
     it('import the articles', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+      const app = await createApp(repo, {});
 
       return request(app)
         .post('/import')

@@ -1,6 +1,6 @@
 import express from 'express';
 import { fetchReviews } from './reviews/fetch-reviews';
-import { loadXmlArticlesFromDirIntoStores } from './data-loader/data-loader';
+import { loadXmlArticlesFromS3IntoStores } from './data-loader/data-loader';
 import { ArticleRepository, EnhancedArticle } from './model/model';
 import { EnhancedArticleSchema } from './http-schema/http-schema';
 
@@ -93,7 +93,7 @@ export const createApp = (repo: ArticleRepository, config: Record<string, any>) 
   });
   app.post('/import', async (req, res, next) => {
     try {
-      const results = await loadXmlArticlesFromDirIntoStores(config.dataDir, repo);
+      const results = await loadXmlArticlesFromS3IntoStores(repo);
       if (results.length === 0) {
         res.send({
           status: false,

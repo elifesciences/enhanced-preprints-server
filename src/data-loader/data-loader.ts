@@ -1,5 +1,5 @@
 import {
-  existsSync, readdirSync, realpathSync, rmSync, createWriteStream, readFileSync,
+  realpathSync, rmSync, createWriteStream, readFileSync,
 } from 'fs';
 import { mkdtemp } from 'fs/promises';
 import { pipeline } from 'node:stream/promises';
@@ -101,10 +101,6 @@ type DateType = {
   type: string,
   value: string
 };
-
-const getDirectories = (source: string) => readdirSync(source, { withFileTypes: true })
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => dirent.name);
 
 const getS3Connection = () => {
   if (config.awsAssumeRole.webIdentityTokenFile !== undefined && config.awsAssumeRole.roleArn !== undefined) {
@@ -277,38 +273,25 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
   };
 };
 
-export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
+export const loadXmlArticlesFromS3IntoStores = async (articleRepository: ArticleRepository): Promise<boolean[]> => {
   const existingDocuments = (await articleRepository.getArticleSummaries()).map(({ doi }) => doi);
 
-  if (config.s3Bucket) {
-    const s3 = getS3Connection();
-    const xmlFiles = await getAvailableManuscriptPaths(s3);
+  const s3 = getS3Connection();
+  const xmlFiles = await getAvailableManuscriptPaths(s3);
 
-    // filter out already loaded DOIs
-    const filteredXmlFiles = xmlFiles.filter((file) => !existingDocuments.some((doc) => file.includes(doc)));
+  // filter out already loaded DOIs
+  const filteredXmlFiles = xmlFiles.filter((file) => !existingDocuments.some((doc) => file.includes(doc)));
 
-    // fetch XML to FS, convert to JSON, map to Article data structure
-    const articlesToLoad = await Promise.all(
-      filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
-        .then(async (xmlFilePath) => {
-          const articleContent = await processXml(xmlFilePath);
-          rmSync(dirname(xmlFilePath), { recursive: true, force: true });
-          return articleContent;
-        }))
-        .map(async (articleContent) => processArticle(await articleContent)),
-    );
-
-    return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
-  }
-
-  // Old fs-based import
-  const xmlFiles = getDirectories(dataDir)
-    .map((articleId) => `${dataDir}/${articleId}/${articleId}.xml`)
-    .filter((xmlFilePath) => existsSync(xmlFilePath));
-
-  const articlesToLoad = (await Promise.all(xmlFiles.map((xmlFile) => processXml(xmlFile))))
-    .filter((article) => !existingDocuments.includes(article.doi))
-    .map(processArticle);
+  // fetch XML to FS, convert to JSON, map to Article data structure
+  const articlesToLoad = await Promise.all(
+    filteredXmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
+      .then(async (xmlFilePath) => {
+        const articleContent = await processXml(xmlFilePath);
+        rmSync(dirname(xmlFilePath), { recursive: true, force: true });
+        return articleContent;
+      }))
+      .map(async (articleContent) => processArticle(await articleContent)),
+  );
 
   return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
 };
