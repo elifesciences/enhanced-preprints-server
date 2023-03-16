@@ -4,6 +4,10 @@
     "lib": [
       "ES2021",
       "DOM"
-    ]
-  }
+    ],
+  },
+  "include": [
+    "src/customTypes/*.d.ts",
+    "src/**/*"
+  ],
 }
