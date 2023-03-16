@@ -99,7 +99,7 @@ describe('server tests', () => {
   describe('/import', () => {
     it('import the articles', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+      const app = await createApp(repo, {});
 
       return request(app)
         .post('/import')

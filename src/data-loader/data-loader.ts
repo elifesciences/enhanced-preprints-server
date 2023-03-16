@@ -273,7 +273,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
   };
 };
 
-export const loadXmlArticlesFromDirIntoStores = async (dataDir: string, articleRepository: ArticleRepository): Promise<boolean[]> => {
+export const loadXmlArticlesFromS3IntoStores = async (articleRepository: ArticleRepository): Promise<boolean[]> => {
   const existingDocuments = (await articleRepository.getArticleSummaries()).map(({ doi }) => doi);
 
   const s3 = getS3Connection();
