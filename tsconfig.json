@@ -6,8 +6,4 @@
       "DOM"
     ],
   },
-  "include": [
-    "src/customTypes/*.d.ts",
-    "src/**/*"
-  ],
 }
