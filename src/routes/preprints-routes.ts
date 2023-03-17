@@ -10,7 +10,7 @@ export const preprintsRoutes = (repo: ArticleRepository) => {
   router.get('/api/preprints/:identifier', preprintsController(repo).getPreprintsByIdentifier);
   router.post<{}, ResponseBodyType, EnhancedArticle>('/api/preprints', preprintsController(repo).postPreprints);
 
-  router.post('/import-version', preprintsController(repo).redirectPostPreprints);
+  router.post<{}, ResponseBodyType, EnhancedArticle>('/import-version', preprintsController(repo).redirectPostPreprints);
 
   return router;
 };
