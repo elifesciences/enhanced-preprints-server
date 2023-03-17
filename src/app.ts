@@ -1,9 +1,9 @@
 import express from 'express';
 import { ArticleRepository } from './model/model';
-import { baseRoutes } from './routes/base.routes';
-import { reviewedPreprintsRoutes } from './routes/reviewed-preprints.routes';
-import { importRoutes } from './routes/import.routes';
-import { preprintsRoutes } from './routes/preprints.routes';
+import { baseRoutes } from './routes/base-routes';
+import { reviewedPreprintsRoutes } from './routes/reviewed-preprints-routes';
+import { importRoutes } from './routes/import-routes';
+import { preprintsRoutes } from './routes/preprints-routes';
 
 export const createApp = (repo: ArticleRepository, config: Record<string, any>) => {
   const app = express();

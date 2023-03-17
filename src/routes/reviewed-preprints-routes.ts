@@ -1,5 +1,5 @@
 import express from 'express';
-import { reviewedPreprintsController } from '../controller/reviewed-preprints.controller';
+import { reviewedPreprintsController } from '../controller/reviewed-preprints-controller';
 import { ArticleRepository } from '../model/model';
 
 export const reviewedPreprintsRoutes = (repo: ArticleRepository, config: Record<string, any>) => {

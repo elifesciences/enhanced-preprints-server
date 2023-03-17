@@ -1,5 +1,5 @@
 import express from 'express';
-import { importController } from '../controller/import.controller';
+import { importController } from '../controller/import-controller';
 import { ArticleRepository } from '../model/model';
 
 export const importRoutes = (repo: ArticleRepository) => {
