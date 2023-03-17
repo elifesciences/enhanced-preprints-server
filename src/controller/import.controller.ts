@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { loadXmlArticlesFromS3IntoStores } from '../data-loader/data-loader';
+import { loadXmlArticlesFromS3IntoStores } from '../services/data-loader/data-loader';
 import { ArticleRepository } from '../model/model';
 
 export const importController = (repo: ArticleRepository) => {

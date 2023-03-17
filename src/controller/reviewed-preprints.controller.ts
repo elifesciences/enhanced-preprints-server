@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ArticleRepository } from '../model/model';
-import { fetchReviews } from '../reviews/fetch-reviews';
+import { fetchReviews } from '../services/reviews/fetch-reviews';
 
 export const reviewedPreprintsController = (repo: ArticleRepository, config: Record<string, any>) => {
   const getReviewedPreprints = async (req: Request, res: Response, next: NextFunction) => {

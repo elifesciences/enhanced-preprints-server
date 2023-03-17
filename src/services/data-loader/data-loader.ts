@@ -11,10 +11,10 @@ import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
-} from '../model/model';
-import { Content, HeadingContent } from '../model/content';
-import { logger } from '../utils/logger';
-import { config } from '../config';
+} from '../../model/model';
+import { Content, HeadingContent } from '../../model/content';
+import { logger } from '../../utils/logger';
+import { config } from '../../config';
 
 // type related to the JSON output of encoda
 type Address = {
