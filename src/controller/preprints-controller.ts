@@ -3,7 +3,6 @@ import { EnhancedArticleSchema } from '../http-schema/http-schema';
 import { ArticleRepository } from '../model/model';
 
 export const preprintsController = (repo: ArticleRepository) => {
-  // formerly import-version
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false });
@@ -31,6 +30,8 @@ export const preprintsController = (repo: ArticleRepository) => {
     }
   };
 
+  const redirectPostPreprints = async (req: Request, res: Response) => res.redirect('/api/preprints');
+
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const version = await repo.getArticleVersion(req.params.identifier);
@@ -42,6 +43,7 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   return {
     postPreprints,
+    redirectPostPreprints,
     getPreprintsByIdentifier,
   };
 };

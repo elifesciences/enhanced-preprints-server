@@ -73,6 +73,9 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   };
 
   return {
-    getReviewedPreprints, getReviewedPreprintMetadata, getReviewedPreprintContent, getReviewedPreprintReviews,
+    getReviewedPreprints,
+    getReviewedPreprintMetadata,
+    getReviewedPreprintContent,
+    getReviewedPreprintReviews,
   };
 };

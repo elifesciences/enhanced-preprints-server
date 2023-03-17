@@ -8,6 +8,7 @@ export const importController = (repo: ArticleRepository) => {
     <input type="submit" value="import">
   </form>`);
   };
+
   const postImport = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const results = await loadXmlArticlesFromS3IntoStores(repo);
