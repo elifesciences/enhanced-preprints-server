@@ -30,8 +30,6 @@ export const preprintsController = (repo: ArticleRepository) => {
     }
   };
 
-  const redirectPostPreprints = async (req: Request, res: Response) => res.redirect('/api/preprints');
-
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const version = await repo.getArticleVersion(req.params.identifier);
@@ -43,7 +41,6 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   return {
     postPreprints,
-    redirectPostPreprints,
     getPreprintsByIdentifier,
   };
 };

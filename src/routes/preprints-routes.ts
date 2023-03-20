@@ -8,9 +8,7 @@ export const preprintsRoutes = (repo: ArticleRepository) => {
   const router = express.Router();
 
   router.get('/api/preprints/:identifier', preprintsController(repo).getPreprintsByIdentifier);
-  router.post<{}, ResponseBodyType, EnhancedArticle>('/api/preprints', preprintsController(repo).postPreprints);
-
-  router.post<{}, ResponseBodyType, EnhancedArticle>('/import-version', preprintsController(repo).redirectPostPreprints);
+  router.post<{}, ResponseBodyType, EnhancedArticle>('/preprints', preprintsController(repo).postPreprints);
 
   return router;
 };

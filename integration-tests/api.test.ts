@@ -490,7 +490,7 @@ describe('server tests', () => {
     it('imports a valid JSON body', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
-        .post('/api/preprints')
+        .post('/preprints')
         .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
@@ -504,7 +504,7 @@ describe('server tests', () => {
       const app = createApp(repo, {});
 
       await request(app)
-        .post('/api/preprints')
+        .post('/preprints')
         .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
@@ -552,7 +552,7 @@ describe('server tests', () => {
       };
 
       await request(app)
-        .post('/api/preprints')
+        .post('/preprints')
         .send(exampleVersion1)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
@@ -560,7 +560,7 @@ describe('server tests', () => {
           message: 'OK',
         });
       await request(app)
-        .post('/api/preprints')
+        .post('/preprints')
         .send(exampleVersion2)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
