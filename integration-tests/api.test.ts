@@ -457,7 +457,7 @@ describe('server tests', () => {
     });
   });
 
-  describe('/import-version', () => {
+  describe('/api/preprints', () => {
     const enhancedArticle = {
       id: 'testid3',
       msid: 'testmsid',
@@ -490,7 +490,7 @@ describe('server tests', () => {
     it('imports a valid JSON body', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
-        .post('/import-version')
+        .post('/preprints')
         .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
@@ -504,7 +504,7 @@ describe('server tests', () => {
       const app = createApp(repo, {});
 
       await request(app)
-        .post('/import-version')
+        .post('/preprints')
         .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
@@ -513,7 +513,7 @@ describe('server tests', () => {
         });
 
       await request(app)
-        .get('/api/preprint/testid3')
+        .get('/api/preprints/testid3')
         .expect(200, {
           article: enhancedArticle,
           versions: {
@@ -552,7 +552,7 @@ describe('server tests', () => {
       };
 
       await request(app)
-        .post('/import-version')
+        .post('/preprints')
         .send(exampleVersion1)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
@@ -560,7 +560,7 @@ describe('server tests', () => {
           message: 'OK',
         });
       await request(app)
-        .post('/import-version')
+        .post('/preprints')
         .send(exampleVersion2)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
@@ -569,7 +569,7 @@ describe('server tests', () => {
         });
 
       await request(app)
-        .get('/api/preprint/testid4')
+        .get('/api/preprints/testid4')
         .expect({
           article: exampleVersion1,
           versions: {
@@ -578,7 +578,7 @@ describe('server tests', () => {
           },
         });
       await request(app)
-        .get('/api/preprint/article.2')
+        .get('/api/preprints/article.2')
         .expect({
           article: exampleVersion2,
           versions: {

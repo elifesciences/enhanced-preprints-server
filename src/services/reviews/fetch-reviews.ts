@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Participant, PeerReview, ReviewType } from '../model/model';
+import { Participant, PeerReview, ReviewType } from '../../model/model';
 
 type FetchReviews = (doi: string, reviewingGroup: string) => Promise<PeerReview>;
 
