@@ -628,12 +628,5 @@ describe('server tests', () => {
       agent.get('/api/citations/10.1101/123456/bibtex')
         .expect(404);
     });
-
-    it('returns a 404 when the article does not exist', async () => {
-      const agent = await generateAgent();
-
-      agent.get('/api/citations/10.1101/nope/bibtex')
-        .expect(404);
-    });
   });
 });

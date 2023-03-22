@@ -1,11 +1,10 @@
 import express from 'express';
 import { citationsController } from '../controller/citations-controller';
-import { ArticleRepository } from '../model/model';
 
-export const citationsRoutes = (repo: ArticleRepository) => {
+export const citationsRoutes = () => {
   const router = express.Router();
 
-  router.get('/api/citations/:publisherId/:articleId/bibtex', citationsController(repo).downloadBibtex);
+  router.get('/api/citations/:publisherId/:articleId/bibtex', citationsController().downloadBibtex);
 
   return router;
 };
