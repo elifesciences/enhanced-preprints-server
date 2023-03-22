@@ -607,25 +607,29 @@ describe('server tests', () => {
     `;
 
     it('returns a bibtex file with the correct information', async () => {
-      const agent = await generateAgent();
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
 
       // Needed for jest mock of axios
       // @ts-ignore
       axios.get.mockImplementation(() => Promise.resolve({ data: bibtex }));
 
-      agent.get('/api/citations/10.1101/123456/bibtex')
+      await request(app)
+        .get('/api/citations/10.5555/12345678/bibtex')
         .expect(200)
-        .expect('Content-Type', 'application/x-bibtex');
+        .expect('Content-Type', 'application/x-bibtex; charset=utf-8');
     });
 
-    it('returns a 404 when the crossref call fails', async () => {
-      const agent = await generateAgent();
+    it('returns a 400 when the crossref call fails', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
 
       // Needed for jest mock of axios
       // @ts-ignore
       axios.get.mockImplementation(() => Promise.reject());
 
-      agent.get('/api/citations/10.1101/123456/bibtex')
+      await request(app)
+        .get('/api/citations/10.5555/12345678/bibtex')
         .expect(404);
     });
   });
