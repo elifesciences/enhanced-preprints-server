@@ -28,7 +28,7 @@ export const createApp = (repo: ArticleRepository, config: Record<string, any>) 
   app.use(reviewedPreprintsRoutes(repo, config));
   app.use(preprintsRoutes(repo));
   app.use(importRoutes(repo));
-  app.use(citationsRoutes());
+  app.use(citationsRoutes(repo));
 
   return app;
 };

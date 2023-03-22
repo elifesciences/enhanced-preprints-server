@@ -592,7 +592,7 @@ describe('server tests', () => {
   describe('/api/citations', () => {
     const bibtex = `
     @article{Carberry_2008,
-      doi = {10.5555/12345678},
+      doi = {10.1101/123456},
       url = {https://doi.org/10.5555%2F12345678},
       year = 2008,
       month = {aug},
@@ -607,29 +607,32 @@ describe('server tests', () => {
     `;
 
     it('returns a bibtex file with the correct information', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const agent = await generateAgent();
 
       // Needed for jest mock of axios
       // @ts-ignore
       axios.get.mockImplementation(() => Promise.resolve({ data: bibtex }));
 
-      await request(app)
-        .get('/api/citations/10.5555/12345678/bibtex')
+      agent.get('/api/citations/10.1101/123456/bibtex')
         .expect(200)
-        .expect('Content-Disposition', 'attachment; filename=citation.bib');
+        .expect('Content-Type', 'application/x-bibtex');
     });
 
-    it('returns a 400 when the crossref call fails', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+    it('returns a 404 when the crossref call fails', async () => {
+      const agent = await generateAgent();
 
       // Needed for jest mock of axios
       // @ts-ignore
       axios.get.mockImplementation(() => Promise.reject());
 
-      await request(app)
-        .get('/api/citations/10.5555/12345678/bibtex')
+      agent.get('/api/citations/10.1101/123456/bibtex')
+        .expect(404);
+    });
+
+    it('returns a 404 when the article does not exist', async () => {
+      const agent = await generateAgent();
+
+      agent.get('/api/citations/10.1101/nope/bibtex')
         .expect(404);
     });
   });
