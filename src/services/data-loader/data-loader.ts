@@ -278,15 +278,14 @@ export const loadXmlArticlesFromS3IntoStores = async (articleRepository: Article
   const xmlFiles = await getAvailableManuscriptPaths(s3);
 
   // fetch XML to FS, convert to JSON, map to Article data structure
-  const articlesToLoad = await Promise.all(
+  return Promise.all(
     xmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
       .then(async (xmlFilePath) => {
         const articleContent = await processXml(xmlFilePath);
         rmSync(dirname(xmlFilePath), { recursive: true, force: true });
         return articleContent;
-      }))
-      .map(async (articleContent) => processArticle(await articleContent)),
+      })
+      .then((articleContent) => processArticle(articleContent))
+      .then((article) => articleRepository.storeArticle(article))),
   );
-
-  return Promise.all(articlesToLoad.map((article) => articleRepository.storeArticle(article)));
 };
