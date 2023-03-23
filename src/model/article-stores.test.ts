@@ -78,7 +78,7 @@ describe('article-stores', () => {
       expect(stored).toStrictEqual(true);
     });
 
-    it('fails to store article if already stored', async () => {
+    it('overrides the article if already stored', async () => {
       const articleStore = await createArticleRepo(store);
       const article = {
         doi: 'test/article.1',
@@ -91,10 +91,21 @@ describe('article-stores', () => {
         headings: [],
         references: [exampleReference],
       };
-      await articleStore.storeArticle(article);
-      const stored = await articleStore.storeArticle(article);
+      const stored1 = await articleStore.storeArticle(article);
+      const retreived1 = await articleStore.getArticle(article.doi);
 
-      expect(stored).toStrictEqual(false);
+      const stored2 = await articleStore.storeArticle({
+        ...article,
+        content: '<article>content</article>',
+      });
+
+      const retreived2 = await articleStore.getArticle(article.doi);
+
+      expect(stored1).toStrictEqual(true);
+      expect(stored2).toStrictEqual(true);
+
+      expect(retreived1.content).toStrictEqual('<article></article>');
+      expect(retreived2.content).toStrictEqual('<article>content</article>');
     });
 
     it('stores article content and retrieves a specific processed article by ID', async () => {
