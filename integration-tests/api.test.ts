@@ -108,9 +108,20 @@ describe('server tests', () => {
         });
     });
 
-    it.failing('import missing articles', async () => {
+    it('import new articles', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+
+      // set the mock for single manuscript to import
+      mockClient(S3Client)
+        .on(ListObjectsCommand)
+        .resolves({
+          Contents: [
+            { Key: 'data/10.1101/123456/123456.xml' },
+          ],
+        })
+        .on(GetObjectCommand, { Key: 'data/10.1101/123456/123456.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/123456/123456.xml')) });
 
       await request(app)
         .post('/import')
@@ -120,18 +131,26 @@ describe('server tests', () => {
           message: 'Import completed',
         });
 
-      // TODO: how to only import one then another?
+      // reset the mock for second set of imports
+      mockClient(S3Client)
+        .on(ListObjectsCommand)
+        .resolves({
+          Contents: [
+            { Key: 'data/10.1101/654321/654321.xml' },
+          ],
+        })
+        .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/654321/654321.xml')) });
 
-      return request(app)
-        .post('/import')
+      await request(app).post('/import')
         .expect(200)
         .expect({
           status: true,
-          message: 'Some new items imported',
+          message: 'Import completed',
         });
     });
 
-    it('returns success and message when reimporting', async () => {
+    it('returns success on reimport and message describing that some items have not changed', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
 
