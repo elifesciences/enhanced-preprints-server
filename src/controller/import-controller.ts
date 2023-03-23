@@ -24,8 +24,8 @@ export const importController = (repo: ArticleRepository) => {
         });
       } else {
         res.send({
-          status: true,
-          message: 'Some new items imported',
+          status: false,
+          message: 'Some items did not import',
         });
       }
     } catch (err) {

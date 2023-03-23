@@ -179,8 +179,8 @@ describe('server tests', () => {
       await request(app).post('/import')
         .expect(200)
         .expect({
-          status: true,
-          message: 'Some new items imported',
+          status: false,
+          message: 'Some items did not import',
         });
     });
   });
