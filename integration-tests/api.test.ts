@@ -133,21 +133,37 @@ describe('server tests', () => {
         });
     });
 
-    it('return success and message when nothing new to import', async () => {
-      const agent = await generateAgent();
+    it('returns success and message when reimporting', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
 
-      await agent.post('/import')
+      await request(app)
+        .post('/import')
         .expect(200)
         .expect({
           status: true,
           message: 'Import completed',
         });
 
-      await agent.post('/import')
+      // reset the mock for second set of imports
+      mockClient(S3Client)
+        .on(ListObjectsCommand)
+        .resolves({
+          Contents: [
+            { Key: 'data/10.1101/123456/123456.xml' },
+            { Key: 'data/10.1101/654321/654321.xml' },
+          ],
+        })
+        .on(GetObjectCommand, { Key: 'data/10.1101/123456/123456.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/123456/123456.xml')) })
+        .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/654321/654321.xml')) });
+
+      await request(app).post('/import')
         .expect(200)
         .expect({
-          status: false,
-          message: 'No new files were imported',
+          status: true,
+          message: 'Some new items imported',
         });
     });
   });
