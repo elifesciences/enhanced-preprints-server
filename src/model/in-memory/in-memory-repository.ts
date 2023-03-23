@@ -28,10 +28,6 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
-    if (this.store.has(article.doi)) {
-      return false;
-    }
-
     this.store.set(article.doi, article);
 
     return true;

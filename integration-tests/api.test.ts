@@ -150,7 +150,7 @@ describe('server tests', () => {
         });
     });
 
-    it('returns success on reimport and message describing that some items have not changed', async () => {
+    it('returns success on reimport and message', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
 
@@ -179,8 +179,8 @@ describe('server tests', () => {
       await request(app).post('/import')
         .expect(200)
         .expect({
-          status: false,
-          message: 'Some items did not import',
+          status: true,
+          message: 'Import completed',
         });
     });
   });
