@@ -77,20 +77,18 @@ describe('server tests', () => {
 
         await agent.get('/api/reviewed-preprints')
           .expect('Content-Type', 'application/json; charset=utf-8')
-          .expect({
-            items: [
-              {
-                doi: '10.1101/123456',
-                title: 'Our Pondering of World Domination!',
-                date: '2021-11-19T00:00:00.000Z',
-              },
-              {
-                doi: '10.1101/654321',
-                title: 'Dangers of roadrunners with reality warping powers.',
-                date: '2021-11-19T00:00:00.000Z',
-              },
-            ],
-            total: 2,
+          .expect((response) => {
+            expect(response.body.total).toBe(2);
+            expect(response.body.items).toContainEqual({
+              doi: '10.1101/123456',
+              title: 'Our Pondering of World Domination!',
+              date: '2021-11-19T00:00:00.000Z',
+            });
+            expect(response.body.items).toContainEqual({
+              doi: '10.1101/654321',
+              title: 'Dangers of roadrunners with reality warping powers.',
+              date: '2021-11-19T00:00:00.000Z',
+            });
           });
       });
     });
@@ -110,7 +108,49 @@ describe('server tests', () => {
         });
     });
 
-    it.failing('import missing articles', async () => {
+    it('import new articles', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+
+      // set the mock for single manuscript to import
+      mockClient(S3Client)
+        .on(ListObjectsCommand)
+        .resolves({
+          Contents: [
+            { Key: 'data/10.1101/123456/123456.xml' },
+          ],
+        })
+        .on(GetObjectCommand, { Key: 'data/10.1101/123456/123456.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/123456/123456.xml')) });
+
+      await request(app)
+        .post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      // reset the mock for second set of imports
+      mockClient(S3Client)
+        .on(ListObjectsCommand)
+        .resolves({
+          Contents: [
+            { Key: 'data/10.1101/654321/654321.xml' },
+          ],
+        })
+        .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/654321/654321.xml')) });
+
+      await request(app).post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+    });
+
+    it('returns success on reimport and message', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
 
@@ -122,32 +162,25 @@ describe('server tests', () => {
           message: 'Import completed',
         });
 
-      // TODO: how to only import one then another?
+      // reset the mock for second set of imports
+      mockClient(S3Client)
+        .on(ListObjectsCommand)
+        .resolves({
+          Contents: [
+            { Key: 'data/10.1101/123456/123456.xml' },
+            { Key: 'data/10.1101/654321/654321.xml' },
+          ],
+        })
+        .on(GetObjectCommand, { Key: 'data/10.1101/123456/123456.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/123456/123456.xml')) })
+        .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/654321/654321.xml')) });
 
-      return request(app)
-        .post('/import')
-        .expect(200)
-        .expect({
-          status: true,
-          message: 'Some new items imported',
-        });
-    });
-
-    it('return success and message when nothing new to import', async () => {
-      const agent = await generateAgent();
-
-      await agent.post('/import')
+      await request(app).post('/import')
         .expect(200)
         .expect({
           status: true,
           message: 'Import completed',
-        });
-
-      await agent.post('/import')
-        .expect(200)
-        .expect({
-          status: false,
-          message: 'No new files were imported',
         });
     });
   });

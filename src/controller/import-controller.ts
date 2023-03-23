@@ -15,7 +15,7 @@ export const importController = (repo: ArticleRepository) => {
       if (results.length === 0) {
         res.send({
           status: false,
-          message: 'No new files were imported',
+          message: 'No files were imported',
         });
       } else if (results.every((value) => value)) {
         res.send({
@@ -24,8 +24,8 @@ export const importController = (repo: ArticleRepository) => {
         });
       } else {
         res.send({
-          status: true,
-          message: 'Some new items imported',
+          status: false,
+          message: 'Some items did not import',
         });
       }
     } catch (err) {
