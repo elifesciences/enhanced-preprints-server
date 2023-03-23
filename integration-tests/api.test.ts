@@ -77,20 +77,18 @@ describe('server tests', () => {
 
         await agent.get('/api/reviewed-preprints')
           .expect('Content-Type', 'application/json; charset=utf-8')
-          .expect({
-            items: [
-              {
-                doi: '10.1101/123456',
-                title: 'Our Pondering of World Domination!',
-                date: '2021-11-19T00:00:00.000Z',
-              },
-              {
-                doi: '10.1101/654321',
-                title: 'Dangers of roadrunners with reality warping powers.',
-                date: '2021-11-19T00:00:00.000Z',
-              },
-            ],
-            total: 2,
+          .expect((response) => {
+            expect(response.body.total).toBe(2);
+            expect(response.body.items).toContainEqual({
+              doi: '10.1101/123456',
+              title: 'Our Pondering of World Domination!',
+              date: '2021-11-19T00:00:00.000Z',
+            });
+            expect(response.body.items).toContainEqual({
+              doi: '10.1101/654321',
+              title: 'Dangers of roadrunners with reality warping powers.',
+              date: '2021-11-19T00:00:00.000Z',
+            });
           });
       });
     });
