@@ -4,6 +4,7 @@ import { baseRoutes } from './routes/base-routes';
 import { reviewedPreprintsRoutes } from './routes/reviewed-preprints-routes';
 import { importRoutes } from './routes/import-routes';
 import { preprintsRoutes } from './routes/preprints-routes';
+import { citationsRoutes } from './routes/citations-routes';
 
 export const createApp = (repo: ArticleRepository, config: Record<string, any>) => {
   const app = express();
@@ -27,6 +28,7 @@ export const createApp = (repo: ArticleRepository, config: Record<string, any>) 
   app.use(reviewedPreprintsRoutes(repo, config));
   app.use(preprintsRoutes(repo));
   app.use(importRoutes(repo));
+  app.use(citationsRoutes());
 
   return app;
 };
