@@ -14,7 +14,7 @@ export const citationsController = () => {
         `https://api.crossref.org/works/${doi}/transform/application/x-bibtex`,
       );
 
-      const bibtex = decodeURI(extReq.data);
+      const bibtex = decodeURIComponent(extReq.data);
 
       if (bibtex) {
         res.set({ 'Content-Type': 'application/x-bibtex' });
