@@ -42,18 +42,28 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async storeArticle(article: ProcessedArticle): Promise<boolean> {
-    const response = await this.collection.insertOne({
-      _id: article.doi,
-      title: article.title,
-      abstract: article.abstract,
-      authors: article.authors,
-      content: article.content,
-      date: article.date,
-      doi: article.doi,
-      headings: article.headings,
-      licenses: article.licenses,
-      references: article.references,
-    });
+    const response = await this.collection.updateOne(
+      {
+        _id: article.doi,
+      },
+      {
+        $set: {
+          _id: article.doi,
+          title: article.title,
+          abstract: article.abstract,
+          authors: article.authors,
+          content: article.content,
+          date: article.date,
+          doi: article.doi,
+          headings: article.headings,
+          licenses: article.licenses,
+          references: article.references,
+        },
+      },
+      {
+        upsert: true,
+      },
+    );
 
     return response.acknowledged;
   }
