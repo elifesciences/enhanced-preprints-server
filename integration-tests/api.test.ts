@@ -626,6 +626,22 @@ describe('server tests', () => {
     const bibtex = `
     @article{Carberry_2008,
       doi = {10.1101/123456},
+      url = {https://doi.org/10.5555/12345678},
+      year = 2008,
+      month = {aug},
+      publisher = {Test accounts},
+      volume = {5},
+      number = {11},
+      pages = {1--3},
+      author = {Josiah Carberry},
+      title = {Toward a Unified Theory of High-Energy Metaphysics: Silly String Theory},
+      journal = {Journal of Psychoceramics}
+    }
+    `;
+
+    const encodedBibtex = `
+    @article{Carberry_2008,
+      doi = {10.1101/123456},
       url = {https://doi.org/10.5555%2F12345678},
       year = 2008,
       month = {aug},
@@ -664,6 +680,20 @@ describe('server tests', () => {
       await request(app)
         .get('/api/citations/10.5555/12345678/bibtex')
         .expect(404);
+    });
+
+    it.only('formats the data to be URI decoded', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
+
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation(() => Promise.resolve({ data: encodedBibtex }));
+
+      await request(app)
+        .get('/api/citations/10.5555/12345678/bibtex')
+        .expect(200, bibtex)
+        .expect('Content-Type', 'application/x-bibtex; charset=utf-8');
     });
   });
 });
