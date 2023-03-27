@@ -5,7 +5,7 @@ import { mkdtemp } from 'fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join } from 'path';
 import { tmpdir } from 'os';
-import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { fromWebToken } from '@aws-sdk/credential-providers';
 import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
@@ -129,22 +129,31 @@ const getS3Connection = () => {
   });
 };
 
-const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => new Promise((resolve, reject) => {
-  const objectsRequest = client.send(new ListObjectsCommand({
-    Bucket: config.s3Bucket,
-    Prefix: 'data/',
-  }));
+const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => {
   const manuscriptPaths: string[] = [];
+  let continuationToken: string | undefined;
 
-  objectsRequest.then((objects) => {
+  do {
+    const objectsRequest = client.send(new ListObjectsV2Command({
+      Bucket: config.s3Bucket,
+      Prefix: 'data/',
+      ContinuationToken: continuationToken,
+    }));
+
+    // eslint-disable-next-line no-await-in-loop
+    const objects = await objectsRequest;
+
     objects.Contents?.forEach((obj) => {
       if (obj.Key && obj.Key.endsWith('.xml')) {
         manuscriptPaths.push(obj.Key);
       }
     });
-    resolve(manuscriptPaths);
-  }).catch((err) => reject(err));
-});
+
+    continuationToken = objects.NextContinuationToken;
+  } while (continuationToken);
+
+  return manuscriptPaths;
+};
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
