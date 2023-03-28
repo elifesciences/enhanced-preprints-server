@@ -682,7 +682,7 @@ describe('server tests', () => {
         .expect(404);
     });
 
-    it.only('formats the data to be URI decoded', async () => {
+    it('formats the data to be URI decoded', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = createApp(repo, {});
 
