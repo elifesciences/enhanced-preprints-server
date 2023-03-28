@@ -130,29 +130,19 @@ const getS3Connection = () => {
 };
 
 const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => {
-  const manuscriptPaths: string[] = [];
-  let continuationToken: string | undefined;
-
-  do {
-    const objectsRequest = client.send(new ListObjectsV2Command({
+  const manuscriptsPaths = async (paths: string[] = [], continuationToken: string | undefined = undefined): Promise<string[]> => {
+    const objects = await client.send(new ListObjectsV2Command({
       Bucket: config.s3Bucket,
       Prefix: 'data/',
       ContinuationToken: continuationToken,
     }));
 
-    // eslint-disable-next-line no-await-in-loop
-    const objects = await objectsRequest;
+    objects.Contents?.map(({ Key }) => Key && Key.endsWith('.xml') && paths.push(Key));
 
-    objects.Contents?.forEach((obj) => {
-      if (obj.Key && obj.Key.endsWith('.xml')) {
-        manuscriptPaths.push(obj.Key);
-      }
-    });
+    return (objects.NextContinuationToken) ? manuscriptsPaths(paths, objects.NextContinuationToken) : paths;
+  };
 
-    continuationToken = objects.NextContinuationToken;
-  } while (continuationToken);
-
-  return manuscriptPaths;
+  return manuscriptsPaths();
 };
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
