@@ -1,7 +1,7 @@
 import request from 'supertest';
 import axios from 'axios';
 import { mockClient } from 'aws-sdk-client-mock';
-import { S3Client, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { sdkStreamMixin } from '@aws-sdk/util-stream-node';
 import { createReadStream } from 'fs';
 import { createApp } from '../src/app';
@@ -25,7 +25,7 @@ describe('server tests', () => {
     const barStream = createReadStream('./integration-tests/data/10.1101/654321/654321.xml');
 
     mockClient(S3Client)
-      .on(ListObjectsCommand)
+      .on(ListObjectsV2Command)
       .resolves({
         Contents: [
           { Key: 'data/10.1101/123456/123456.xml' },
@@ -114,7 +114,7 @@ describe('server tests', () => {
 
       // set the mock for single manuscript to import
       mockClient(S3Client)
-        .on(ListObjectsCommand)
+        .on(ListObjectsV2Command)
         .resolves({
           Contents: [
             { Key: 'data/10.1101/123456/123456.xml' },
@@ -133,7 +133,7 @@ describe('server tests', () => {
 
       // reset the mock for second set of imports
       mockClient(S3Client)
-        .on(ListObjectsCommand)
+        .on(ListObjectsV2Command)
         .resolves({
           Contents: [
             { Key: 'data/10.1101/654321/654321.xml' },
@@ -164,7 +164,7 @@ describe('server tests', () => {
 
       // reset the mock for second set of imports
       mockClient(S3Client)
-        .on(ListObjectsCommand)
+        .on(ListObjectsV2Command)
         .resolves({
           Contents: [
             { Key: 'data/10.1101/123456/123456.xml' },
