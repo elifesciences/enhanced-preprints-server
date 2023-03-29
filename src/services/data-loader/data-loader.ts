@@ -5,7 +5,7 @@ import { mkdtemp } from 'fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join } from 'path';
 import { tmpdir } from 'os';
-import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, GetObjectCommand, paginateListObjectsV2 } from '@aws-sdk/client-s3';
 import { fromWebToken } from '@aws-sdk/credential-providers';
 import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
@@ -130,19 +130,17 @@ const getS3Connection = () => {
 };
 
 const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> => {
-  const manuscriptsPaths = async (paths: string[] = [], continuationToken: string | undefined = undefined): Promise<string[]> => {
-    const objects = await client.send(new ListObjectsV2Command({
-      Bucket: config.s3Bucket,
-      Prefix: 'data/',
-      ContinuationToken: continuationToken,
-    }));
+  const manuscriptPaths: string[] = [];
 
-    objects.Contents?.map(({ Key }) => Key && Key.endsWith('.xml') && paths.push(Key));
+  /* eslint-disable-next-line no-restricted-syntax */
+  for await (const data of paginateListObjectsV2({ client }, { Bucket: config.s3Bucket, Prefix: 'data/' })) {
+    if (data.Contents) {
+      const keys = data.Contents.map(({ Key }) => Key).filter((Key): Key is string => !!Key);
+      manuscriptPaths.push(...keys);
+    }
+  }
 
-    return (objects.NextContinuationToken) ? manuscriptsPaths(paths, objects.NextContinuationToken) : paths;
-  };
-
-  return manuscriptsPaths();
+  return manuscriptPaths;
 };
 
 const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
