@@ -135,7 +135,7 @@ const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> 
   /* eslint-disable-next-line no-restricted-syntax */
   for await (const data of paginateListObjectsV2({ client }, { Bucket: config.s3Bucket, Prefix: 'data/' })) {
     if (data.Contents) {
-      const keys = data.Contents.map(({ Key }) => Key).filter((Key): Key is string => !!Key);
+      const keys = data.Contents.map(({ Key }) => Key).filter((Key): Key is string => !!Key && Key.endsWith('.xml'));
       manuscriptPaths.push(...keys);
     }
   }
