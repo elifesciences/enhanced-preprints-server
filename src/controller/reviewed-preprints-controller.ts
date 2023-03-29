@@ -19,10 +19,8 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintMetadata = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        publisherId,
-        articleId,
+        doi,
       } = req.params;
-      const doi = `${publisherId}/${articleId}`;
 
       const article = await repo.getArticle(doi);
       res.send({
@@ -47,10 +45,8 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintContent = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        publisherId,
-        articleId,
+        doi,
       } = req.params;
-      const doi = `${publisherId}/${articleId}`;
 
       const { content } = await repo.getArticle(doi);
       res.send(content);
@@ -62,10 +58,9 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintReviews = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        publisherId,
-        articleId,
+        doi,
       } = req.params;
-      const doi = `${publisherId}/${articleId}`;
+
       res.send(await fetchReviews(doi, config.id));
     } catch (err) {
       next(err);

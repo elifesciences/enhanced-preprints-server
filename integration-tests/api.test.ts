@@ -23,19 +23,23 @@ describe('server tests', () => {
     // mock the s3 client
     const fooStream = createReadStream('./integration-tests/data/10.1101/123456/123456.xml');
     const barStream = createReadStream('./integration-tests/data/10.1101/654321/654321.xml');
+    const bazStream = createReadStream('./integration-tests/data/10.1101/456/789/789.xml');
 
     mockClient(S3Client)
       .on(ListObjectsV2Command)
       .resolves({
         Contents: [
           { Key: 'data/10.1101/123456/123456.xml' },
+          { Key: 'data/10.1101/456/789.xml' },
           { Key: 'data/10.1101/654321/654321.xml' },
         ],
       })
       .on(GetObjectCommand, { Key: 'data/10.1101/123456/123456.xml' })
       .resolves({ Body: sdkStreamMixin(fooStream) })
       .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
-      .resolves({ Body: sdkStreamMixin(barStream) });
+      .resolves({ Body: sdkStreamMixin(barStream) })
+      .on(GetObjectCommand, { Key: 'data/10.1101/456/789.xml' })
+      .resolves({ Body: sdkStreamMixin(bazStream) });
   });
 
   afterEach(() => {
@@ -78,7 +82,7 @@ describe('server tests', () => {
         await agent.get('/api/reviewed-preprints')
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect((response) => {
-            expect(response.body.total).toBe(2);
+            expect(response.body.total).toBe(3);
             expect(response.body.items).toContainEqual({
               doi: '10.1101/123456',
               title: 'Our Pondering of World Domination!',
@@ -87,6 +91,11 @@ describe('server tests', () => {
             expect(response.body.items).toContainEqual({
               doi: '10.1101/654321',
               title: 'Dangers of roadrunners with reality warping powers.',
+              date: '2021-11-19T00:00:00.000Z',
+            });
+            expect(response.body.items).toContainEqual({
+              doi: '10.1101/456/789',
+              title: 'The Wild Adventures of Wile E. Coyote vs Reality-Bending Roadrunners.',
               date: '2021-11-19T00:00:00.000Z',
             });
           });
@@ -136,6 +145,24 @@ describe('server tests', () => {
         .on(ListObjectsV2Command)
         .resolves({
           Contents: [
+            { Key: 'data/10.1101/456/789/789.xml' },
+          ],
+        })
+        .on(GetObjectCommand, { Key: 'data/10.1101/456/789/789.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/456/789/789.xml')) });
+
+      await request(app).post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      // reset the mock for third set of imports
+      mockClient(S3Client)
+        .on(ListObjectsV2Command)
+        .resolves({
+          Contents: [
             { Key: 'data/10.1101/654321/654321.xml' },
           ],
         })
@@ -169,12 +196,15 @@ describe('server tests', () => {
           Contents: [
             { Key: 'data/10.1101/123456/123456.xml' },
             { Key: 'data/10.1101/654321/654321.xml' },
+            { Key: 'data/10.1101/456/789/789.xml' },
           ],
         })
         .on(GetObjectCommand, { Key: 'data/10.1101/123456/123456.xml' })
         .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/123456/123456.xml')) })
         .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
-        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/654321/654321.xml')) });
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/654321/654321.xml')) })
+        .on(GetObjectCommand, { Key: 'data/10.1101/456/789/789.xml' })
+        .resolves({ Body: sdkStreamMixin(createReadStream('./integration-tests/data/10.1101/456/789/789.xml')) });
 
       await request(app).post('/import')
         .expect(200)
@@ -185,7 +215,7 @@ describe('server tests', () => {
     });
   });
 
-  describe('/api/reviewed-preprints/:publisherId/:articleId/metadata', () => {
+  describe('/api/reviewed-preprints/:doi(*)/metadata', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
@@ -301,7 +331,7 @@ describe('server tests', () => {
     });
   });
 
-  describe('/api/reviewed-preprints/:publisherId/:articleId/content', () => {
+  describe('/api/reviewed-preprints/:doi(*)/content', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
@@ -357,7 +387,7 @@ describe('server tests', () => {
     });
   });
 
-  describe('/api/reviewed-preprints/:publisherId/:articleId/reviews', () => {
+  describe('/api/reviewed-preprints/:doi(*)/reviews', () => {
     it('returns a 500 when it cant get a docmap', async () => {
       // Needed for jest mock of axios
       // @ts-ignore
