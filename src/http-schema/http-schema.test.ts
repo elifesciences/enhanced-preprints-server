@@ -29,6 +29,30 @@ const enhancedArticleExample = {
   published: '2023-01-23',
 };
 
+const invalidAuthor = {
+  type: 'Person',
+  affiliations: [
+    {
+      type: 'Organization',
+      address: {
+        type: 'PostalAddress',
+        addressLocality: 'Minneapolis MN 55455',
+      },
+      name: 'Department of Neuroscience and Center for Magnetic Resonance Research, University of Minnesota',
+    },
+  ],
+  emails: [
+    'desai054@umn.edu',
+    'desai054@umn.edu',
+  ],
+  familyNames: [
+    'Desai',
+  ],
+  givenNames: [
+    'Nisarg',
+  ],
+};
+
 describe('httpschema', () => {
   it.each([
     'foo',
@@ -135,5 +159,13 @@ describe('httpschema', () => {
     expect(enhancedArticle.value?.preprintPosted).toStrictEqual(new Date('2023-01-02'));
     expect(enhancedArticle.value?.sentForReview).toStrictEqual(new Date('2023-01-03'));
     expect(enhancedArticle.value?.published).toStrictEqual(new Date('2023-01-23'));
+  });
+
+  it('validates authors', () => {
+    const articleWithBrokenAuthor = enhancedArticleExample;
+    articleWithBrokenAuthor.article.authors = [invalidAuthor];
+    const enhancedArticle = EnhancedArticleSchema.validate(articleWithBrokenAuthor);
+
+    expect(enhancedArticle.error).toBeUndefined();
   });
 });
