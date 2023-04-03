@@ -80,6 +80,7 @@ services:
       S3_ACCESS_KEY: minio
       S3_SECRET_KEY: miniotest
       S3_BUCKET: eppdata
+      # ENCODA_NEXT: 1
     ports:
       - 3000:3000
     volumes:

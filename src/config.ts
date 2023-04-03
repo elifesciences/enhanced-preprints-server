@@ -34,4 +34,5 @@ export const config = {
   },
   s3Bucket: process.env.S3_BUCKET ?? '',
   s3Region: process.env.S3_REGION ?? 'us-east-1',
+  encodaNext: process.env.ENCODA_NEXT ?? false,
 };

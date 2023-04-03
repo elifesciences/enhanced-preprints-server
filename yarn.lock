@@ -3627,7 +3627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stencila/encoda@npm:0.121.1":
+"@stencila/encoda-next@npm:@stencila/encoda@0.121.1, @stencila/encoda@npm:0.121.1":
   version: 0.121.1
   resolution: "@stencila/encoda@npm:0.121.1"
   dependencies:
@@ -7112,6 +7112,7 @@ __metadata:
     "@aws-sdk/credential-providers": ^3.281.0
     "@aws-sdk/util-stream-node": ^3.292.0
     "@stencila/encoda": 0.121.1
+    "@stencila/encoda-next": "npm:@stencila/encoda@0.121.1"
     "@tsconfig/node16": 1.0.3
     "@types/axios": 0.14.0
     "@types/eslint": 8.37.0
