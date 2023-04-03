@@ -1,1 +1,4828 @@
-{}
+{
+  "msid": "10.1101/000003",
+  "doi": "10.1101/000003",
+  "id": "10.1101/000003",
+  "versionIdentifier": "1",
+  "versionDoi": "10.1101/000003",
+  "article": {
+    "title": "Transposons are a major contributor to gene expression variability under selection in rice populations",
+    "authors": [
+      {
+        "type": "Person",
+        "affiliations": [
+          {
+            "type": "Organization",
+            "address": {
+              "type": "PostalAddress",
+              "addressCountry": "Spain",
+              "addressLocality": "campus UAB, Cerdanyola del Vallès, 08193 Barcelona"
+            },
+            "name": "Center for research in agricultural genomics, CRAG (CSIC-IRTA-UAB-UB), ,, ,."
+          }
+        ],
+        "emails": [
+          "raul.castanera@cragenomica.es",
+          "raul.castanera@cragenomica.es"
+        ],
+        "familyNames": [
+          "Castanera"
+        ],
+        "givenNames": [
+          "Raúl"
+        ],
+        "identifiers": [
+          {
+            "type": "PropertyValue",
+            "propertyID": "https://registry.identifiers.org/registry/orcid",
+            "value": "https://orcid.org/0000-0002-3772-7727"
+          }
+        ]
+      },
+      {
+        "type": "Person",
+        "affiliations": [
+          {
+            "type": "Organization",
+            "address": {
+              "type": "PostalAddress",
+              "addressCountry": "Spain",
+              "addressLocality": "campus UAB, Cerdanyola del Vallès, 08193 Barcelona"
+            },
+            "name": "Center for research in agricultural genomics, CRAG (CSIC-IRTA-UAB-UB), ,, ,."
+          }
+        ],
+        "familyNames": [
+          "Morales-Díaz"
+        ],
+        "givenNames": [
+          "Noemia"
+        ],
+        "identifiers": [
+          {
+            "type": "PropertyValue",
+            "propertyID": "https://registry.identifiers.org/registry/orcid",
+            "value": "https://orcid.org/0000-0001-5258-486X"
+          }
+        ]
+      },
+      {
+        "type": "Person",
+        "affiliations": [
+          {
+            "type": "Organization",
+            "address": {
+              "type": "PostalAddress",
+              "addressCountry": "USA",
+              "addressLocality": "12 Waverly Place, New York University, New York, NY 10003"
+            },
+            "name": "Center for Genomics and Systems Biology, ,"
+          }
+        ],
+        "familyNames": [
+          "Gupta"
+        ],
+        "givenNames": [
+          "Sonal"
+        ]
+      },
+      {
+        "type": "Person",
+        "affiliations": [
+          {
+            "type": "Organization",
+            "address": {
+              "type": "PostalAddress",
+              "addressCountry": "USA",
+              "addressLocality": "12 Waverly Place, New York University, New York, NY 10003"
+            },
+            "name": "Center for Genomics and Systems Biology, ,"
+          },
+          {
+            "type": "Organization",
+            "address": {
+              "type": "PostalAddress",
+              "addressCountry": "United Arab Emirates",
+              "addressLocality": "Saadiyat Island, Abu Dhabi"
+            },
+            "name": "Center for Genomics and Systems Biology, New York University Abu Dhabi, ,"
+          }
+        ],
+        "familyNames": [
+          "Purugganan"
+        ],
+        "givenNames": [
+          "Michael"
+        ],
+        "identifiers": [
+          {
+            "type": "PropertyValue",
+            "propertyID": "https://registry.identifiers.org/registry/orcid",
+            "value": "https://orcid.org/0000-0002-9197-4112"
+          }
+        ]
+      },
+      {
+        "type": "Person",
+        "affiliations": [
+          {
+            "type": "Organization",
+            "address": {
+              "type": "PostalAddress",
+              "addressCountry": "Spain",
+              "addressLocality": "campus UAB, Cerdanyola del Vallès, 08193 Barcelona"
+            },
+            "name": "Center for research in agricultural genomics, CRAG (CSIC-IRTA-UAB-UB), ,, ,."
+          }
+        ],
+        "emails": [
+          "josep.casacuberta@cragenomica.es",
+          "josep.casacuberta@cragenomica.es"
+        ],
+        "familyNames": [
+          "Casacuberta"
+        ],
+        "givenNames": [
+          "Josep",
+          "M."
+        ]
+      }
+    ],
+    "abstract": [
+      {
+        "type": "Paragraph",
+        "content": [
+          "Transposable elements are an important source of genome variability. Here, we analyze their contribution to gene expression variability in crops by performing a TE insertion polymorphism (TIP)-eQTL mapping using expression data from rice varieties from the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. sativa"
+            ]
+          },
+          " ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "indica"
+            ]
+          },
+          " and ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. sativa"
+            ]
+          },
+          " ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "japonica"
+            ]
+          },
+          " subspecies. Our data shows that TE insertions are associated with changes of expression of many genes known to be targets of rice domestication and breeding. An important fraction of these insertions were already present in the rice wild ancestors, and have been differentially selected in indica and japonica rice populations. Taken together, these data show that small changes of expression in signal transduction genes induced by TE insertions accompany the domestication and adaptation of rice populations."
+        ]
+      }
+    ],
+    "licenses": [
+      {
+        "type": "CreativeWork",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              "This work is licensed under a ",
+              {
+                "type": "Link",
+                "target": "http://creativecommons.org/licenses/by/4.0/",
+                "content": [
+                  "Creative Commons Attribution 4.0"
+                ]
+              },
+              " International License."
+            ]
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "type": "Heading",
+        "id": "s1",
+        "depth": 1,
+        "content": [
+          "Introduction"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Transposable elements (TEs) are a major component of eukaryotic genomes, particularly in plants ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c1",
+                "content": [
+                  "1"
+                ]
+              }
+            ]
+          },
+          ". Their ability to move, creating mutations by insertion/excision, and amplify in genomes - thus generating new copies that provide opportunities for recombination - make them a major source of genetic variability ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c2",
+                "content": [
+                  "2"
+                ]
+              }
+            ]
+          },
+          ". For this reason TEs are considered a major driver of plant genome evolution, both in the wild or under human selection ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c3",
+                "content": [
+                  "3"
+                ]
+              }
+            ]
+          },
+          ". TE insertions and other structural variants, however, have been frequently overlooked when using genome wide association studies (GWAS) to look for genetic variants linked to interesting phenotypes ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c4",
+                "content": [
+                  "4"
+                ]
+              }
+            ]
+          },
+          ". The recent development of efficient tools to identify transposon insertion polymorphisms (TIPs) ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c5",
+                "content": [
+                  "5"
+                ]
+              }
+            ]
+          },
+          " has allowed the incorporation of TIPs in these analyses, and several GWAS reports have shown that TIPs uncover additional variability linked to phenotypic traits ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c6",
+                "content": [
+                  "6"
+                ]
+              },
+              "–",
+              {
+                "type": "Cite",
+                "target": "c8",
+                "content": [
+                  "8"
+                ]
+              }
+            ]
+          },
+          ". Interestingly, TIPs often explain more phenotypic variance compared to SNPs, and can be used for genomic prediction ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c9",
+                "content": [
+                  "9"
+                ]
+              }
+            ]
+          },
+          ". The reason for this could be that, as compared with SNPs, TE insertions are more frequently the causal mutation."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "A major fraction of the mutations linked to crop domestication and breeding are associated with changes of the expression of genes involved in signal transduction ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c10",
+                "content": [
+                  "10"
+                ]
+              },
+              ",",
+              {
+                "type": "Cite",
+                "target": "c11",
+                "content": [
+                  "11"
+                ]
+              }
+            ]
+          },
+          ". TEs can alter gene transcription, activating or repressing them, by different means. On the one hand, insertion of TEs within a promoter can interfere with transcription, and the silencing of TEs inserted close to genes can result in repression of gene expression ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c12",
+                "content": [
+                  "12"
+                ]
+              },
+              "–",
+              {
+                "type": "Cite",
+                "target": "c14",
+                "content": [
+                  "14"
+                ]
+              }
+            ]
+          },
+          ". Alternatively, TE insertions can also result in gene overexpression ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c15",
+                "content": [
+                  "15"
+                ]
+              },
+              ",",
+              {
+                "type": "Cite",
+                "target": "c16",
+                "content": [
+                  "16"
+                ]
+              }
+            ]
+          },
+          ", as TEs bring their own transcriptional promoters that can induce expression of neighboring genes. This is particularly clear for LTR-retrotransposons which contain promoters in their 5′ and 3′ LTRs, and may provide nearby genes with alternative promoters. In addition, TEs can also contain transcription factor binding sites (TFBS) that can alter the expression of host genes ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c17",
+                "content": [
+                  "17"
+                ]
+              }
+            ]
+          },
+          "; it has been shown, for example, that MITEs have frequently amplified and redistributed TFBS in plant genomes ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c18",
+                "content": [
+                  "18"
+                ]
+              }
+            ]
+          },
+          "."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Here we explore the impact of the movement of TEs during the recent evolution of rice on the variability of gene expression in this species. We took advantage of a recently published transcriptional analysis of 208 rice varieties grown under wet paddy and intermittent drought conditions ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c19",
+                "content": [
+                  "19"
+                ]
+              }
+            ]
+          },
+          " to perform an expression quantitative trait locus (eQTL) GWAS using TIPs as genetic markers. We show that TIPs are frequently associated with changes of expression of rice genes and that many TIPs altering the expression of regulatory genes have been positively selected in indica and japonica rice subspecies."
+        ]
+      },
+      {
+        "type": "Figure",
+        "id": "fig1",
+        "caption": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              {
+                "type": "Strong",
+                "content": [
+                  "Characterization of rice TIP-eQTLs"
+                ]
+              },
+              ". A-B, Association between TIPs and gene expression levels in ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "cis"
+                ]
+              },
+              " (TIP-eQTLs) found in indica and japonica population along the twelve rice chromosomes. Horizontal lines represent 5% significance thresholds corrected for multiple testing using FDR method. C, Number of TIP-eQTLs found in each condition classified at the order TE level. White bars represent the number of total TIPs (secondary axis). D, Expression variance explained by leading TIP-eQTL and SNP-eQTL. Each point represents a gene. Indica and Japonica TIP-eQTLs are combined into a single plot. Number of TIP-eQTLs (E) or SNP-eQTL (F) per Mb of gene feature. Upstream and downstream regions are 1 Kb long. Gene region includes 5’ and 3’ UTRs. All the TIPs and SNPs with a significant association (FDR < 5%) were used in this analysis."
+            ]
+          }
+        ],
+        "label": "Figure 1",
+        "content": [
+          {
+            "type": "ImageObject",
+            "contentUrl": "10.1101/000003/v1/figures/2197876v1_fig1.jpg",
+            "meta": {
+              "inline": false
+            }
+          }
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s2",
+        "depth": 1,
+        "content": [
+          "Results"
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s2a",
+        "depth": 2,
+        "content": [
+          "TIPs are associated with gene expression variation in rice"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "We used a recently published dataset containing genome resequencing and transcription data for rice (",
+          {
+            "type": "Emphasis",
+            "content": [
+              "Oryza sativa"
+            ]
+          },
+          ") varieties to perform TIP-eQTL mapping analyses. Rice is one of the most important food crops in the world, and varieties are generally found in two subspecies – ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. sativa"
+            ]
+          },
+          " ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "japonica"
+            ]
+          },
+          " and ssp ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "indica"
+            ]
+          },
+          ". Other minor variety groups include aus varieties, which appear closely related to indica, and basmati rice varieties that appear to be a hybrid between ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "japonica"
+            ]
+          },
+          " and aus. The data we analyzed consists of an ‘indica’ dataset for 126 ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. sativa"
+            ]
+          },
+          " ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "indica"
+            ]
+          },
+          " and some ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "circum"
+            ]
+          },
+          "-aus accessions, and 84 ‘japonica’ accessions comprising of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. sativa"
+            ]
+          },
+          " ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "japonica"
+            ]
+          },
+          " and some ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "circum"
+            ]
+          },
+          "-basmati varieties, described in Groen et al. (2020) ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c19",
+                "content": [
+                  "19"
+                ]
+              }
+            ]
+          },
+          ". We predicted TIPs using Popoolation TE2 ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c20",
+                "content": [
+                  "20"
+                ]
+              }
+            ]
+          },
+          ", and identified 45,050 TIPs. Using the Minghui MH63 short read data and assembled draft reference genome ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c21",
+                "content": [
+                  "21"
+                ]
+              }
+            ]
+          },
+          " we estimated the performance of the TIP genotyping on this dataset to have 97.1% sensitivity and 92.2% precision (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data9",
+            "content": [
+              "Supplementary text 1"
+            ]
+          },
+          "). Most of the TIPs detected are related to DNA transposons (84%), especially MITEs belonging to the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "Stowaway"
+            ]
+          },
+          " (24%) and ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "Tourist"
+            ]
+          },
+          " (20%) superfamilies; LTR retrotransposons make up a minor fraction (9 %)."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "The 45,050 TIPs are distributed along the 12 chromosomes and 81.3 % of them are less than 5 kb away from an annotated gene (IRGSP RAP-DB gene models). This results in up to 81.4% of rice genes having a TIP less than 5 Kb distant. In order to analyze the potential of TIPs to generate gene expression variability in rice, we used the 3’ mRNA-seq expression data from leaves of adult plants grown in normally-watered soil (“wet” condition) and under intermittent drought-stress (“drought stress” condition) ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c19",
+                "content": [
+                  "19"
+                ]
+              }
+            ]
+          },
+          ". We selected data from 15,549 genes showing expression in more than 10% of the samples. Due to the strong population structure present in rice we separately analyzed data in the indica (126 varieties) and japonica (82 varieties) datasets. We found a total of 563 significant associations between TIPs and gene expression levels in the indica population and 356 in the japonica population (TIP-eQTLs with MAF > 3%, FDR adjusted p value < 0.05 in at least one replicate) (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig1",
+            "content": [
+              "Figure 1A"
+            ]
+          },
+          " and ",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig1",
+            "content": [
+              "1B"
+            ]
+          },
+          ", ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data4",
+            "content": [
+              "Supplementary Table 2"
+            ]
+          },
+          "). These involve 477 and 317 genes, in indica and japonica respectively, representing 3.1% and 2% of the expressed genes. The TIP-eQTLs were related to the different TE types (orders ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c22",
+                "content": [
+                  "22"
+                ]
+              }
+            ]
+          },
+          "), and the proportion of TE orders found in the significant TIPs did not differ significantly from their representation across the genome (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig1",
+            "content": [
+              "Figure 1C"
+            ]
+          },
+          ")."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "In order to estimate the relative contribution of TIPs and SNPs to gene expression changes, we also performed eQTL mapping analyses using 1 million of randomly chosen SNPs as markers ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c19",
+                "content": [
+                  "19"
+                ]
+              }
+            ]
+          },
+          ". We obtained 4,913 SNP-eQTLs in indica and 3,308 SNP-eQTLs in japonica associated with SNPs located less than 5 kb from the gene; each SNP-eQTL represents the leading SNP-gene association. This corresponds to ~31.6% of the genes in indica and ~21.3 % in japonica. For each gene with a significant association, we compared the proportion of variance (R",
+          {
+            "type": "Superscript",
+            "content": [
+              "2"
+            ]
+          },
+          ") explained by the most significantly associated TIPs and/or SNPs. For most genes that have an associated TIP, either there is no associated SNP or the TIP explains more expression variance than the associated SNP (~62% of the indica TIP-eQTLs and ~73% of the japonica TIP-eQTLs) (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig1",
+            "content": [
+              "Figure 1D"
+            ]
+          },
+          "). This demonstrates that TIPs uncover genetic associations with changes of expression that are not observed when using SNPs as molecular markers."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "The SNP-eQTLs found in our study are associated to both positive (47%) and negative (53%) effects on gene expression levels, very close to an even distribution. In contrast, TIPs more frequently (59%) have a negative effect. The proportion varies among TE superfamilies, with TIR/MULEs being close to 50%, and LTR/Gypsy having the most frequently negative impact on gene expression (67%, ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data3",
+            "content": [
+              "Supplementary Table 1"
+            ]
+          },
+          "). This suggests that, as compared with SNP-eQTLs, TIP-eQTLs are more frequently the likely causal mutation responsible for the change in expression, and that the effect of the insertion is more generally negative, in line with recent analyses done in ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "Capsella"
+            ]
+          },
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c23",
+                "content": [
+                  "23"
+                ]
+              }
+            ]
+          },
+          ", especially for long elements such as LTR-retrotransposons."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "An analysis of the TIP and SNP-eQTL location with respect to the associated genes shows that while SNP-eQTLs are more evenly distributed across the genic region (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig1",
+            "content": [
+              "Figure 1F"
+            ]
+          },
+          "), TIP-eQTLs are over-represented in the 1 kb region upstream of the gene (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig1",
+            "content": [
+              "Figure 1E"
+            ]
+          },
+          "), which is the region that most frequently contains promoter elements regulating transcription. This suggests that although some TIP-eQTLs could be in linkage disequilibrium with the causal mutation for the change of expression, an important fraction of TIP-eQTLs could be the actual causal mutation inducing expression variation."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "It has been proposed that an important fraction of gene expression variation is deleterious, and therefore, alleles associated with major expression effects should be maintained at lower frequencies ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c24",
+                "content": [
+                  "24"
+                ]
+              },
+              ",",
+              {
+                "type": "Cite",
+                "target": "c25",
+                "content": [
+                  "25"
+                ]
+              }
+            ]
+          },
+          ". An analysis of the effect size of the different TIP-eQTLs taking into account their frequency in the population shows that, indeed, low and high-frequency TIPs (corresponding to rare alleles) show the highest positive or negative effect on the expression of the associated gene (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig2",
+            "content": [
+              "Figure 2 A-D"
+            ]
+          },
+          ", ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data1",
+            "content": [
+              "Supplementary Figure 1"
+            ]
+          },
+          "). This is consistent with what is described as the rare variant effect ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c25",
+                "content": [
+                  "25"
+                ]
+              }
+            ]
+          },
+          " where rare (and likely deleterious) mutations in a population are associated with greater effects on gene expression in a population."
+        ]
+      },
+      {
+        "type": "Figure",
+        "id": "fig2",
+        "caption": [
+          {
+            "type": "Heading",
+            "depth": 3,
+            "content": [
+              {
+                "type": "Strong",
+                "content": [
+                  "Effect size and population frequencies of wet and drought-stress TIP-eQTLs. representation of the effect size (beta) of the TIP-eQTL with respect to the frequency of the insertion"
+                ]
+              },
+              " TIP-eQTLs in indica (A, C) and japonica (B,D) for positive (A,B) and negative (C,D) effects. Venn diagram illustrating the intersection between TIP-eQTLs detected in each condition of the two subspecies analyzed, indica (ind), and japonica (jap) (E). Percentage of subspecies-specific TIP-eQTLs, considering as shared the TIPs that fall in the intersection between all the FDR-corrected TIP-eQTLs found in a given population and all the associations of the other population using a relaxed cutoff (p < 0.05, no FDR correction) (F). Percentage of condition-specific TIP-eQTLs considering as shared the TIPs that fall in the intersection between all the FDR-corrected TIP-eQTLs found in a given population and all the associations of the other population using a relaxed cutoff (p < 0.05, no FDR correction. Relationship between the frequencies in indica and japonica populations of the 33,389 non-eQTL TIPs (H) and 829 TIP-eQTLs (I)."
+            ]
+          }
+        ],
+        "label": "Figure 2",
+        "content": [
+          {
+            "type": "ImageObject",
+            "contentUrl": "10.1101/000003/v1/figures/2197876v1_fig2.jpg",
+            "meta": {
+              "inline": false
+            }
+          }
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "A comparison of TIP-eQTLs associated with changes of expression in the two different growth conditions (wet and drought stress) shows that there is an important overlap of eQTLs between the two environments (38.5 % for indica TIP-eQTLs and 33.2% for japonica TIP-eQTLs) (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig2",
+            "content": [
+              "Figure 2E"
+            ]
+          },
+          "). Such overlap increases to 90% (average of indica and japonica, wet) and 71 % (average of indica and japonica, drought stress) when we compare TIP-eQTLs of one condition with a non-FDR-corrected TIP-eQTLs in the other environment (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig2",
+            "content": [
+              "Figure 2G"
+            ]
+          },
+          "). This result suggests that the majority of TIP-eQTLs are associated with changes of expression in both growth conditions, and that only a small number of TIP-eQTLs (81 in indica and 78 in japonica) are associated with stress-specific changes of expression. Nevertheless, among the TIP-eQTLs associated with changes of gene expression in both wet and drought stress, there are TIP associated with genes known to be involved in drought tolerance (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data4",
+            "content": [
+              "Supplementary Table 2"
+            ]
+          },
+          "). As an example, TIP_49046 is associated with a reduction of the expression of the gene synaptotagmin-5 (",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsSYT-5"
+            ]
+          },
+          "). ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsSYT-5"
+            ]
+          },
+          " encodes a Ca",
+          {
+            "type": "Superscript",
+            "content": [
+              "2+"
+            ]
+          },
+          " sensing protein with a C2 domain, is expressed in both stressed and non-stressed plants, and it has been recently shown that its silencing enhances drought tolerance in rice ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c26",
+                "content": [
+                  "26"
+                ]
+              }
+            ]
+          },
+          ". Other examples are TIP_23764 and TIP_52367, associated with an increased expression of the gene encoding the OsSAPK10 ABA-activated protein kinase and the S-type euonymus-related lectin gene OsEULS2 in respectively, two genes known to mediate drought stress in rice ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c27",
+                "content": [
+                  "27"
+                ]
+              },
+              ",",
+              {
+                "type": "Cite",
+                "target": "c28",
+                "content": [
+                  "28"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s2b",
+        "depth": 2,
+        "content": [
+          "TIP-eQTLs are present at different population frequencies in indica and japonica"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Although the overlap of TIPs associated with changes in expression under wet and drought stress conditions is very high, the overlap between indica and japonica TIP-eQTLs is low, and only 90 TIP-eQTLs out of the 563 from indica and 356 from japonica are significantly associated with variation of gene expression in both subspecies (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig2",
+            "content": [
+              "Figure 2E"
+            ]
+          },
+          "). Even when we make the less-stringent comparison of the TIP-eQTLs of one subspecies with the non-FDR-corrected TIP-eQTLs of the other, as much as ~69% of indica and ~60% of japonica TIP-eQTLs appear as subspecies-specific (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig2",
+            "content": [
+              "Figure 2F"
+            ]
+          },
+          "). This result may suggest differences in the transcriptional networks in indica and japonica or, alternatively, that different alleles showing expression level differences may be differentially represented in the two subspecies. An analysis of the frequencies in indica and japonica of all the TIP-eQTLs described here shows that approximately one-third of the TIPs are only found in one of the two subspecies. This suggests that TEs have been actively inserting (or have been excised or eliminated from the population) very recently during rice evolution, likely post-domestication and during the crop diversification phase, as has already been proposed for some rice TE families ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c29",
+                "content": [
+                  "29"
+                ]
+              },
+              ",",
+              {
+                "type": "Cite",
+                "target": "c30",
+                "content": [
+                  "30"
+                ]
+              }
+            ]
+          },
+          ". Here we show that some of these recent TIPs are associated with changes in gene expression and may therefore have phenotypic consequences. We found 44 TIP-eQTLs corresponding to TIPs present only in japonica varieties and 64 TIP-eQTL corresponding to TIPs present only in indica varieties. Some of these insertions are found at high frequencies in its corresponding subspecies, which suggest that they may have been under positive selection (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data5",
+            "content": [
+              "Supplementary Table 3"
+            ]
+          },
+          ")."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "However, two thirds (66%) of all TIP-eQTLs found in this study correspond to TIPs present in both subspecies, which suggests that these insertions are relatively old and were already present in the ancestor of indica and japonica rice. Remarkably, in most cases they are found at very different frequencies in the two subspecies (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig2",
+            "content": [
+              "Figure 2I"
+            ]
+          },
+          "). This suggests that these insertions were already present in the ancestor of indica and japonica rice and have been differentially retained in the two subspecies. Interestingly, an analysis of all non-eQTL-TIPs shows that an important fraction is found at the same frequency in both genomes (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig2",
+            "content": [
+              "Figure 2H"
+            ]
+          },
+          "), suggesting that the preferential retention of TIP-eQTLs in indica or japonica may be a specific phenomenon potentially linked to their impact on the expression of the associated genes."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "We examined whether TIP-eQTLs present in both indica and japonica varieties are also found in either ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "Oryza rufipogon"
+            ]
+          },
+          " and ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "Oryza nivara"
+            ]
+          },
+          ", the wild rice relatives believed to be the ancestors of domesticated rice ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c31",
+                "content": [
+                  "31"
+                ]
+              }
+            ]
+          },
+          ". We looked for the presence of the TIPs identified in rice in a set of 72 accessions of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. rufigogon"
+            ]
+          },
+          " and 10 accessions of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. nivara"
+            ]
+          },
+          " (collectively called rufipogon/nivara from now on) (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data6",
+            "content": [
+              "Supplementary Table 4"
+            ]
+          },
+          "). Up to 552 of the 829 TIP-eQTLs present in indica and/or japonica (66%), can be found in rufipogon/nivara varieties, confirming that an important fraction of TIP-eQTLs found in indica and japonica may be relatively old insertions already present in the wild ancestors of domesticated rice. Not surprisingly, in most cases the TIP frequencies in rufipogon/nivara are different from the frequencies of these insertions in indica and/or japonica (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data7",
+            "content": [
+              "Supplementary Table 5"
+            ]
+          },
+          "); these may have arisen either due to selection or genetic drift accompanying the bottleneck associated with crop evolution."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "In order to identify possible selection of TIPs in indica and japonica populations, we used the Population Branch Statistic (PBS) method ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c32",
+                "content": [
+                  "32"
+                ]
+              }
+            ]
+          },
+          " which examines strong differentiation in frequencies between populations. This approach consists in comparing the three pairwise FST values between indica, japonica and rufipogon/nivara to estimate the frequency change in TIPs that occurred since the divergence of the two rice subspecies from its wild ancestor. We calculated PBS values for a total of 11,698 TIPs present in the japonica, indica and rufipogon/nivara populations, which included 354 TIPs that are eQTLs in in indica and/or japonica populations. TIP-eQTLs (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig3",
+            "content": [
+              "Figure 3A"
+            ]
+          },
+          ") showed much higher PBS values in comparison to those not identified as eQTLs (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig3",
+            "content": [
+              "Figure 3B"
+            ]
+          },
+          ") (mean absolute PBS of 0.06 vs 0.02, respectively, p < 0.01, Wilcoxon test). Furthermore, TIPs with the most extreme PBS values (above 95 percentile) are enriched for TIP-eQTLs (Fisher’s Exact test odds ratio = 4.87, p < 0.01), suggesting that a high fraction of TIP eQTLs have been positively selected in indica or japonica. Note that some of the TIPs not identified as eQTLs in this particular dataset may actually be linked to variation of gene expression in organs, developmental stages or environmental conditions different from the ones analyzed here. Interestingly, up to 35% of the TIP-eQTLs identified here, associated with 119 genes, fell within the top 10% of absolute PBS values for all TIPs (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig3",
+            "content": [
+              "Fig 3A"
+            ]
+          },
+          "), suggesting that TIPs associated with gene expression variation are likely under differential selection during rice evolution."
+        ]
+      },
+      {
+        "type": "Figure",
+        "id": "fig3",
+        "caption": [
+          {
+            "type": "Heading",
+            "depth": 3,
+            "content": [
+              {
+                "type": "Strong",
+                "content": [
+                  "Signatures of positive selection on TIP-eQTLs"
+                ]
+              },
+              ". A, Absolute PBS of 354 TIP-eQTLs (left) and 11,344 TIPs (no-eQTL, right) present in indica, japonica and rufipogon populations. Dotted vertical lines represent the 95th an 99th percentile of the PBS values of the whole dataset (11,698 TIPs). Red dots represent two examples of TIP-eQTLs with extreme PBS values. B) Population frequency of the two TIPs with extreme PBS values, marked as red dots in the left panel A, as well as of the whole TIP dataset. C) Fst-based tree of the two TIPs with extreme PBS values, as well as of the whole TIP dataset (average Fst)."
+            ]
+          }
+        ],
+        "label": "Figure 3",
+        "content": [
+          {
+            "type": "ImageObject",
+            "contentUrl": "10.1101/000003/v1/figures/2197876v1_fig3.jpg",
+            "meta": {
+              "inline": false
+            }
+          }
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "We observe that TIPs can show evidence of selection in japonica, indica or both subspecies. As examples, ",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig3",
+            "content": [
+              "Figure 3B"
+            ]
+          },
+          " and ",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig3",
+            "content": [
+              "C"
+            ]
+          },
+          " shows the representation of the PBS analysis, and the frequency in the populations, of two TIP-eQTL whose frequency has greatly increased in indica (TIP_53500), or japonica (TIP_72732), compared with the mean PBS for all TIPs."
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s2c",
+        "depth": 2,
+        "content": [
+          "Gene variants selected during rice evolution: some examples"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Genes linked with TIP-eQTLs showing extreme indica or japonica PBS metrics are good candidates for genes underlying adaptation between different rice subspecies. Among the genes with TIP-eQTLs that have extreme PBS values in indica or japonica we can find several examples that are known to regulate plant architecture, plant and grain development or abiotic stress responses."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Some of the most extreme PBS values are for TIPs associated with changes of expression of genes involved in the signal transduction of hormones, including brassinosteroids, ABA, ethylene, jasmonic acid (JA) and auxin (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data7",
+            "content": [
+              "Supplementary Table 5"
+            ]
+          },
+          "). We found four different TIP-eQTLs with high PBS values associated with the EG2/OsJAZ1 gene (Os04g0653000), a locus encoding a JA signaling repressor ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c33",
+                "content": [
+                  "33"
+                ]
+              }
+            ]
+          },
+          "; the four insertions are related to MITEs of the Tourist transposon superfamily. Three of the insertions (TIP_32891, TIP_32892 and TIP_32894), located upstream (3.4 kb and 2.7 kb) and downstream (150 bp) of the gene, are associated with an increase of expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2,"
+            ]
+          },
+          " and are physically linked to one another (mean r",
+          {
+            "type": "Superscript",
+            "content": [
+              "2"
+            ]
+          },
+          " value = 0.88). In contrast, the fourth insertion (TIP_32893), is not linked to them, is within the first intron of the gene and is associated with expression reduction."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "The recent advances in characterizing the pangenome of rice and the super-pangenome that includes its wild ancestors ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c34",
+                "content": [
+                  "34"
+                ]
+              },
+              "–",
+              {
+                "type": "Cite",
+                "target": "c36",
+                "content": [
+                  "36"
+                ]
+              }
+            ]
+          },
+          " has allowed us to characterize the locus in indica, japonica and rufipogon/nivara. This analysis showed that ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2"
+            ]
+          },
+          " is primarily found in two different haplotypes (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig4",
+            "content": [
+              "Figure 4A"
+            ]
+          },
+          "). One haplotype, Hap A, contains the three MITE insertions associated with higher expression of EG2 (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig4",
+            "content": [
+              "Figure 4A, 4B"
+            ]
+          },
+          ", and ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data2",
+            "content": [
+              "Supplementary Figure 2A"
+            ]
+          },
+          "), while the second haplotype, Hap B, contains the fourth MITE insertion and is associated with reduced EG2 expression (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig4",
+            "content": [
+              "Figure 4A, 4B"
+            ]
+          },
+          " and ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data2",
+            "content": [
+              "Supplementary Figure 2A"
+            ]
+          },
+          "). Hap A was identified to be at high frequency in rufipogon/nivara (48%), whereas Hap B is at lower frequency (16%). The frequency of both Hap A and Hap B is slightly increased in japonica (65% and 28%, respectively). In indica, however, there is a clear reduction in the frequency of Hap A and a concomitant strong frequency increase of Hap B, associated with reduced expression in indica (16% and 83%, respectively). Interestingly, EG2/OsJAZ1 is a repressor of spikelet development ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c33",
+                "content": [
+                  "33"
+                ]
+              }
+            ]
+          },
+          " and the number of differentiated spikelets per panicle tends to be lower in japonica as compared with indica ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c37",
+                "content": [
+                  "37"
+                ]
+              }
+            ]
+          },
+          "."
+        ]
+      },
+      {
+        "type": "Figure",
+        "id": "fig4",
+        "caption": [
+          {
+            "type": "Heading",
+            "depth": 3,
+            "content": [
+              {
+                "type": "Strong",
+                "content": [
+                  "Selection on TIP-eQTLs associated with ",
+                  {
+                    "type": "Emphasis",
+                    "content": [
+                      "EG2"
+                    ]
+                  },
+                  " expression"
+                ]
+              },
+              ". A, Representation of the two main ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "EG2"
+                ]
+              },
+              " haplotypes present in rice and rufipogon/nivara populations identified in the rice super-pangenome. Conserved nucleotide regions are connected by gray marks. Structural variants longer than 50bp are shown as white spaces. TIP-eQTLs are shown as red boxes. Additional TIPs are shown as white boxes. B, Boxplot representation of the expression of the two ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "EG2"
+                ]
+              },
+              " haplotypes in the indica population. Numbers inside boxplots represent the number of accessions in each group. Analysis of nucleotide diversity (π) and diversity in haplotypes homozygosity tracts (H12) for Hap A (C, E) and Hap B (D, F) in japonica (C, D) and indica (E, F) populations. The vertical dotted black line shows the position of the TIP insertion. the EG2 gene is schematically shown in blue. The horizontal dashed black line represents the mean of 1000 random permutation pulls (for p-value see ",
+              {
+                "type": "Link",
+                "relation": "supplementary-material",
+                "target": "#data1",
+                "content": [
+                  "Supplemental Table 6"
+                ]
+              },
+              ")."
+            ]
+          }
+        ],
+        "label": "Figure 4",
+        "content": [
+          {
+            "type": "ImageObject",
+            "contentUrl": "10.1101/000003/v1/figures/2197876v1_fig4.jpg",
+            "meta": {
+              "inline": false
+            }
+          }
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "We looked more closely for signs of selection at this specific locus, by examining levels of nucleotide diversity (π",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c38",
+                "content": [
+                  "38"
+                ]
+              }
+            ]
+          },
+          ") and diversity in haplotypes homozygosity tracts (H12 ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c39",
+                "content": [
+                  "39"
+                ]
+              }
+            ]
+          },
+          "). Consistent with the expression (and possible spikelet phenotypic differences), we found that in japonica the haplotype associated with increased ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2"
+            ]
+          },
+          " expression (Hap A) was under positive selection, whereas the haplotype associated with decreased expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2"
+            ]
+          },
+          " (Hap B) did not show any sign of selection; this indicates that positive selection acts on individuals carrying the haplotype for high expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2"
+            ]
+          },
+          " in japonica (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig4",
+            "content": [
+              "Figure 4C-D"
+            ]
+          },
+          "). Specifically, we observe significantly lower π and higher H12 in Hap A, associated with increased ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2"
+            ]
+          },
+          " expression, while this pattern was not significant for Hap B (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data8",
+            "content": [
+              "supplementary Table 6"
+            ]
+          },
+          "). However, in indica the opposite pattern appears to prevail, wherein there is a stronger evidence of selection for Hap B, but less so for Hap A (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig4",
+            "content": [
+              "Figure 4E-F"
+            ]
+          },
+          "). This suggests positive selection towards higher expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2"
+            ]
+          },
+          " in japonica, and lower expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "EG2"
+            ]
+          },
+          " in indica, which could potentially explain the higher number of spikelets per panicle observed in the latter",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c37",
+                "content": [
+                  "37"
+                ]
+              }
+            ]
+          },
+          "."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Another good candidate for genes underlying adaptation of rice is the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " gene. There are two different TIP-eQTLs with high PBS values associated with changes of expression of the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " gene (Os07g0500300) in japonica, whereas they do not correlate with changes in expression in indica (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data2",
+            "content": [
+              "Supplementary Figure 2B"
+            ]
+          },
+          "). ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " encodes a putative GTPase activating protein, similar to CAR proteins (C2-domain abscisic acid-related proteins), that play an important role in ABA signal transduction in Arabidopsis ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c40",
+                "content": [
+                  "40"
+                ]
+              }
+            ]
+          },
+          ". The first TIP (TIP_50057) is located ~4 kb upstream of the OsGAP gene and is associated with an increase of expression of the gene in japonica whereas the second insertion (TIP_50059) is located within the first intron and is associated with a decrease in expression in japonica (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig5",
+            "content": [
+              "Figure 5A-B"
+            ]
+          },
+          "). The analysis of the locus using the super-pangenome data shows that ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " is found in two different haplotypes, one containing TIP_50057 (Hap A) and the other containing TIP_50059, together with some additional structural differences (Hap B; ",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig5",
+            "content": [
+              "Figure 5A"
+            ]
+          },
+          "). The two TIPs defining the two haplotypes are present in the rufipogon/nivara population at complementary frequencies (73% and 19%, respectively). Interestingly, the proportion of the two haplotypes in cultivated rice seem to be very different, with an increased frequency of the haplotype associated with a reduced expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " (Hap B) in both japonica (~50%) and indica (~95%) were it reaches near fixation."
+        ]
+      },
+      {
+        "type": "Figure",
+        "id": "fig5",
+        "caption": [
+          {
+            "type": "Heading",
+            "depth": 3,
+            "content": [
+              {
+                "type": "Strong",
+                "content": [
+                  "Selection on TIP-eQTLs associated with ",
+                  {
+                    "type": "Emphasis",
+                    "content": [
+                      "OsGAP"
+                    ]
+                  },
+                  " expression"
+                ]
+              },
+              ". A, Representation of the two main ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "OsGAP"
+                ]
+              },
+              " haplotypes present in rice and rufipogon/nivara populations identified in the rice super-pangenome. Conserved nucleotide regions are connected by gray marks. Structural variants longer than 50bp are shown as white spaces. TIP-eQTLs are shown as red boxes. Additional TIPs are shown as white boxes. B, Boxplot representation of the expression of the two ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "OsGAP"
+                ]
+              },
+              " haplotypes in the japonica population. Numbers inside boxplots represent the number of accessions in each group. Analysis of nucleotide diversity (π) and diversity in haplotypes homozygosity tracts (H12) for Hap A (C) and Hap B (D) in japonica population. The vertical dotted black line shows the position of the TIP insertion. The OsGAP gene is schematically shown in blue. The horizontal dashed black line represents the mean of 1000 random permutation pulls (for p-value see ",
+              {
+                "type": "Link",
+                "relation": "supplementary-material",
+                "target": "#data1",
+                "content": [
+                  "Supplemental Table 6"
+                ]
+              },
+              ")."
+            ]
+          }
+        ],
+        "label": "Figure 5",
+        "content": [
+          {
+            "type": "ImageObject",
+            "contentUrl": "10.1101/000003/v1/figures/2197876v1_fig5.jpg",
+            "meta": {
+              "inline": false
+            }
+          }
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "It has been proposed that ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " is a negative regulator of ABA signaling in seed germination and dormancy, and that reduced expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " may prevent rice pre-harvest sprouting (PHS) ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c40",
+                "content": [
+                  "40"
+                ]
+              }
+            ]
+          },
+          ". Reduced seed dormancy is a common target for selection of cultivated varieties, but this trait may come at a cost of a higher PHS risk, which may be a problem, especially in regions where heavy rain is common during the harvest season. Therefore, the appropriate degree of dormancy may depend on the agroecological conditions in which a particular variety is grown. We see here that two independent TIPs are associated with changes of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " expression in japonica but not in indica (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig5",
+            "content": [
+              "Figure 5A"
+            ]
+          },
+          ", ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data2",
+            "content": [
+              "Supplementary Figure 2B"
+            ]
+          },
+          "). Interestingly, there are clear and strong signs of selection for increased expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " in japonica, wherein Hap A was under positive selection, and Hap B was selectively neutral, indicating positive selection acts on only those individuals carrying haplotype for high expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " in japonica (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig5",
+            "content": [
+              "Figure 5C,D"
+            ]
+          },
+          "; ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data8",
+            "content": [
+              "Supplementary Table 6"
+            ]
+          },
+          "). In contrast, there is no evidence for selection in indica varieties despite the near fixation of one haplotype. This suggests that an increased level of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " may be relevant for the control of dormancy in japonica but not in indica (despite its near-fixation in the latter), which would be in line with recent data suggesting that seed dormancy is regulated by different genes/alleles in indica and japonica ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c41",
+                "content": [
+                  "41"
+                ]
+              }
+            ]
+          },
+          "."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Finally, we find a TIP-eQTL whose frequency has greatly increased in cultivated rice with respect to rufipogon/nivara. TIP_45706, corresponding to an insertion of a gypsy-like LTR-RT at ~1 kb upstream of the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsMPH1"
+            ]
+          },
+          " gene (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig6",
+            "content": [
+              "Figure 6A"
+            ]
+          },
+          "). This insertion is associated with a decrease in the expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsMPH1"
+            ]
+          },
+          " in indica and possibly japonica varieties (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig6",
+            "content": [
+              "Figure 6B"
+            ]
+          },
+          ", ",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data2",
+            "content": [
+              "Supplementary Figure 2C"
+            ]
+          },
+          "), and is found at low frequency in rufipogon/nivara (~11%) but at high frequency in both indica (70%) and japonica (95%). ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsMPH1"
+            ]
+          },
+          " encodes a MYB-like transcription factor that has been shown to regulate plant height, its reduced expression resulting in shorter plants ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c42",
+                "content": [
+                  "42"
+                ]
+              }
+            ]
+          },
+          ". A reduction in plant height due to a mutation in the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "SD1"
+            ]
+          },
+          " gene, which encodes the gibberellin biosynthesis gene GA-20ox, was at the origin of the Green Revolution in the 1960s, but it has been shown that alleles of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "SD1"
+            ]
+          },
+          " resulting in shorter culm length were also selected during the domestication of japonica rice ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c43",
+                "content": [
+                  "43"
+                ]
+              }
+            ]
+          },
+          ". Our results suggest possible parallel selection of alleles in other genes that may lead to similar phenotypes. This is further reinforced by strong selection acting on the haplotype containing the TIP_45706 insertion in both indica and japonica (",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig6",
+            "content": [
+              "Figure 6C"
+            ]
+          },
+          " and ",
+          {
+            "type": "Link",
+            "relation": "fig",
+            "target": "#fig6",
+            "content": [
+              "6D"
+            ]
+          },
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data8",
+            "content": [
+              "Supplementary table 6"
+            ]
+          },
+          "), leading to reduced expression of ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsMPH1"
+            ]
+          },
+          " and thus shorter plants."
+        ]
+      },
+      {
+        "type": "Figure",
+        "id": "fig6",
+        "caption": [
+          {
+            "type": "Heading",
+            "depth": 3,
+            "content": [
+              {
+                "type": "Strong",
+                "content": [
+                  "Selection on TIP-eQTLs associated with ",
+                  {
+                    "type": "Emphasis",
+                    "content": [
+                      "OsMPH1"
+                    ]
+                  },
+                  " expression."
+                ]
+              },
+              " Representation of the two main ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "OsMPH1"
+                ]
+              },
+              " haplotypes present in rice and rufipogon/nivara populations identified in the rice super-pangenome. Conserved nucleotide regions are connected by gray marks. Structural variants longer than 50bp are shown as white spaces. TIP-eQTLs are shown as red boxes. B, Boxplot representation of the expression of the two ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "OsMPH1"
+                ]
+              },
+              " haplotypes in the japonica population. Numbers inside boxplots represent the number of accessions in each group. Analysis of nucleotide diversity (π) and diversity in haplotypes homozygosity tracts (H12) for Hap A in indica population (C) and Hap A (D) in japonica population. The vertical dotted black line shows the position of the TIP insertion. The OsMPH1 gene, which is schematically shown in blue. The horizontal dashed black line represents the mean of 1000 random permutation pulls (for p-value see ",
+              {
+                "type": "Link",
+                "relation": "supplementary-material",
+                "target": "#data1",
+                "content": [
+                  "Supplemental Table 6"
+                ]
+              },
+              ")."
+            ]
+          }
+        ],
+        "label": "Figure 6",
+        "content": [
+          {
+            "type": "ImageObject",
+            "contentUrl": "10.1101/000003/v1/figures/2197876v1_fig6.jpg",
+            "meta": {
+              "inline": false
+            }
+          }
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s3",
+        "depth": 1,
+        "content": [
+          "Discussion"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Transposons are a major source of genome variability, and are known to affect gene expression in numerous ways. The importance of rare variants and unfixed TE insertions for gene expression variation in humans ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c44",
+                "content": [
+                  "44"
+                ]
+              }
+            ]
+          },
+          " and plants ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c23",
+                "content": [
+                  "23"
+                ]
+              }
+            ]
+          },
+          " has already been demonstrated. A recent pangenome analysis in tomato has shown that the phenotypic variation of important crop traits is linked to structural variants present in the species, most of which are actually TIPs, which are associated to subtle changes of transcription of genes involved in signal transduction ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c45",
+                "content": [
+                  "45"
+                ]
+              }
+            ]
+          },
+          ". In the present study we evaluated the importance of TIP-related expression variability in the recent evolution of rice. To this end we performed a TIP-eQTL mapping using expression data from rice varieties from the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. sativa"
+            ]
+          },
+          " ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "indica"
+            ]
+          },
+          " and ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "O. sativa"
+            ]
+          },
+          " ssp. ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "japonica"
+            ]
+          },
+          " subspecies. We show here that using TIPs in addition to SNPs as genetic information allows the uncovering of additional genomic associations to changes in gene expression, and that when both TIPs and SNPs are both associated, TIPs often explain more of the variance in expression. This is in line with recent reports that have also used TIPs for GWAS with different phenotypes in tomato and rice ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c7",
+                "content": [
+                  "7"
+                ]
+              },
+              ",",
+              {
+                "type": "Cite",
+                "target": "c8",
+                "content": [
+                  "8"
+                ]
+              }
+            ]
+          },
+          ", and suggests that TIPs may be more frequently the causal mutation of a particular phenotype than SNPs. The concentration of TIP-eQTLs in upstream regions of genes, where most transcriptional regulatory elements usually reside, also suggest that a high fraction of the TIP-eQTLs here described are the actual mutation underlying gene expression variation."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "The close association of some TEs with genes could also partially explain the frequent association of more than one TIP with changes of expression of particular genes. Indeed, among the 718 genes with TIP-eQTLs described here, 18% have two of more TIPs associated with changes of expression. However, not all genes have the same number of TIPs. Among the 30 genes with TIPs in indica and japonica that have the highest population branch statistics (PBS) – an indicator of strong differential selection - 13 have more than one TIP-eQTL. This suggests that TIPs are a major source of gene expression variability in rice, in particular in genes that may have been strongly selected during the recent evolution of rice. In some cases, the different TIPs linked to a gene are associated with opposite effects on its expression and are present in different haplotypes. In these instances, as shown for the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsJAZ1"
+            ]
+          },
+          " and ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "OsGAP"
+            ]
+          },
+          " genes, the two haplotypes have strong signs of selection, although one positively and the other negatively, pointing to role these TE insertions may play in adaptive evolution of these crop subspecies."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "The results presented here show that most TIPs associated with variation of gene expression in indica and/or japonica are relatively old insertions that are also present in rufipogon/nivara, the wild ancestors of rice. This is in line with recent data showing that a high number of the structural variants associated with changes of expression in tomato were already present in its wild ancestor ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c45",
+                "content": [
+                  "45"
+                ]
+              }
+            ]
+          },
+          " and highlights the importance of the standing variation, already present in the wild ancestors, for crop adaptation. It is assumed that most TE insertions are selectively neutral or slightly deleterious ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c46",
+                "content": [
+                  "46"
+                ]
+              }
+            ]
+          },
+          ", and the presence of TIPs associated with expression variation of genes in the wild ancestors of rice, suggests that this variation can be well tolerated in wild rice. Interestingly, we show here that many of these TIPs have been positive or negative selected in rice populations, which shows that they translate into selectable phenotypic differences in the agroecological conditions of cultivated rice. Indeed, we show examples of selected variants with modified expression of genes known to be linked to important traits that were targets of selection. It has been already proposed that a major fraction of the mutations linked to crop domestication and breeding are associated with changes of gene expression involved in signal transduction ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c10",
+                "content": [
+                  "10"
+                ]
+              },
+              ",",
+              {
+                "type": "Cite",
+                "target": "c11",
+                "content": [
+                  "11"
+                ]
+              }
+            ]
+          },
+          ". Here we show that specific expression variants of genes involved in signal transduction have been differentially selected in indica and japonica rice populations. In addition, our results also point to TEs as a major driver of gene expression variation selected during crop adaptation and breeding."
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s4",
+        "depth": 1,
+        "content": [
+          "Methods"
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s4a",
+        "depth": 2,
+        "content": [
+          "TIP detection"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Re-sequencing data for 126 indica and 82 japonica rice accessions was obtained from Groen et al ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c19",
+                "content": [
+                  "19"
+                ]
+              }
+            ]
+          },
+          " (Bioproject accessions PRJNA557122, PRJNA422249 and PRJEB6180). BBDuK (",
+          {
+            "type": "Link",
+            "target": "https://sourceforge.net/projects/bbmap/",
+            "content": [
+              "https://sourceforge.net/projects/bbmap/"
+            ]
+          },
+          ") was used for adaptor and quality trimming. Clean reads were aligned to the Nipponbare reference genome ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c47",
+                "content": [
+                  "47"
+                ]
+              }
+            ]
+          },
+          " using BWA ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c48",
+                "content": [
+                  "48"
+                ]
+              }
+            ]
+          },
+          ". PoPoolationTE2 ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c20",
+                "content": [
+                  "20"
+                ]
+              }
+            ]
+          },
+          " was used to detect TIPs in the mode “joint” using Nipponbare TE annotation described by Ou et al ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c47",
+                "content": [
+                  "47"
+                ]
+              }
+            ]
+          },
+          ". TIPs with a zygosity lower than 0.25 in all samples were excluded to avoid false positives. TIPs were further filtered using the parameters –-min-count 5, --max-otherte-count 2, --max-structvar-count 2, and only those having MAF higher than 3% and no missing data were kept. Finally, the TIP matrix was transformed to binary form using zygosity cutoff of 0.05 to define an insertion as present."
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s4b",
+        "depth": 2,
+        "content": [
+          "TIP and SNP-eQTL mapping"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Transcriptome data for the 208 rice accessions (wet and drought stress conditions; tree independent replicates per condition) was obtained from Groen el al ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c19",
+                "content": [
+                  "19"
+                ]
+              }
+            ]
+          },
+          " and separated into individual replicate matrices. Transcripts expressed in more than 10% of the samples on each replicate were extracted and counts were normalized using the ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "yst"
+            ]
+          },
+          " function of DESeq2 ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c49",
+                "content": [
+                  "49"
+                ]
+              }
+            ]
+          },
+          ". TIP and SNP-eQTL mapping were performed using Matrix eQTL software ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c50",
+                "content": [
+                  "50"
+                ]
+              }
+            ]
+          },
+          ", applying the simple linear regression model and including subpopulation groups as covariates. We used a cut-off distance of 5,000bp to identify ",
+          {
+            "type": "Emphasis",
+            "content": [
+              "cis"
+            ]
+          },
+          "-eQTLs and a 5% False Discovery Rate threshold for multiple testing corrections."
+        ]
+      },
+      {
+        "type": "Heading",
+        "id": "s4c",
+        "depth": 2,
+        "content": [
+          "Selection analyses"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "For the Population Branch Statistics (PBS) analysis we looked for the presence of rice TIPs in the 82 accessions belonging to the rufipogon/nivara population (",
+          {
+            "type": "Link",
+            "relation": "supplementary-material",
+            "target": "#data6",
+            "content": [
+              "Supplementary Table 4"
+            ]
+          },
+          ") and retained only those present in the three populations (indica, japonica, rufipogon/nivara), resulting in a matrix of 13,622 TIPs and 288 accessions. The TIP matrix was filtered to remove TIPs with more than 5% missing data, or with MAF < 5%. The remaining missing data (1.7%) was imputed using the “wright” algorithm implemented in SNPready. The clean matrix (11,698) was used to calculate the individual PBS values per TIP, following the formulas described in Yi et al., (2010)",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c32",
+                "content": [
+                  "32"
+                ]
+              }
+            ]
+          },
+          "."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "Along with PBS, to evaluate whether TIP-eQTLs show signs of selection, we estimated nucleotide diversity (pi ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c38",
+                "content": [
+                  "38"
+                ]
+              }
+            ]
+          },
+          "), which is a SFS (site-frequency spectrum) measure to test for the presence of selection. This was done using a custom script in a window of 25SNPs with a sliding window of 5. Further, we also estimated the H12 homozygosity statistic ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c39",
+                "content": [
+                  "39"
+                ]
+              }
+            ]
+          },
+          " that can detect the presence of both hard and soft sweeps associated with selection. Since we expect long runs of homozygosity in the regions around the selected loci, H12 was calcuted in windows of 50 SNPs, with a sliding window of 25. Both these statistics were estimated separately for indica and japonica, and for the samples with TIP insertions present and absent. This was for a range of 100kb (50kb up-and downstream the TIP insertion), using SNPs identified from Groen et al ",
+          {
+            "type": "Superscript",
+            "content": [
+              {
+                "type": "Cite",
+                "target": "c19",
+                "content": [
+                  "19"
+                ]
+              }
+            ]
+          },
+          " but without the 1000bp linkage thinning. To test for the significance of the statistics, we performed a permutation test (N=1000) with random sampling with the same number of individuals that were used to estimate the selection statistics. The statistics were estimated for these 1000 random pulls in the same regions, and using the same window sizes as the original statistics."
+        ]
+      },
+      {
+        "type": "ThematicBreak"
+      },
+      {
+        "type": "Heading",
+        "depth": 1,
+        "content": [
+          "Acknowledgements"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "We thank Jae Yong Choi, Simon C. Groen and Sebastián Ramos-Onsins for helpful discussions. Noemia Morales-Diaz holds Predoctoral fellowship PRE2020-095111-funded by MCIN/AEI/ 10.13039/501100011033 and by “ESF Investing in your future”. Raúl Castanera holds a Juan de la Cierva Incorporación Postdoctoral fellowship IJC2020– 045949-I funded by MCIN/AEI/10.13039/501100011033 and by the “European Union NextGenerationEU/PRTR”. This work was funded by the Spanish Ministerio de Ciencia e Innovación (PID2019-106374RB-I00/AEI/10.13039/501100011033). We also acknowledge financial support from the Spanish Ministerio de Economía y Competitividad through the “Severo Ochoa Program for Centers of Excellence in R&D” 2016–2019 (SEV-2015-0533) and CEX2019–000902-S funded by MCIN/AEI/10.13039/501100011033."
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "This work was also supported by grants SEV - 2015 - 0533 and CEX2019-000902-S funded by MCIN/AEI/10.13039/501100011033, and by the CERCA Program / Generalitat de Catalunya."
+        ]
+      },
+      {
+        "type": "ThematicBreak"
+      },
+      {
+        "type": "Heading",
+        "id": "",
+        "depth": 1,
+        "content": [
+          "Author contributions"
+        ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          "RC and JMC conceived the project. RC and JMC planned the experiments, together with SG and MDP for the selection analyses. RC performed most experiments with the help of NMD, who also solved the structure of the different haplotypes. SG performed the analyses of selection. All authors discussed the results JMC and RC drafted the article. All authors contributed to the paper."
+        ]
+      },
+      {
+        "type": "ThematicBreak"
+      },
+      {
+        "type": "Heading",
+        "id": "",
+        "depth": 1,
+        "content": [
+          "Supplementary Data"
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data9",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data9.docx",
+        "text": "Supplementary Text 1:",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "Evaluation of TIP-calling performance in our dataset"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data3",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data3.xlsx",
+        "text": "Supplementary Table 1.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "TIP-eQTL effect on gene expression levels up, for increased gene expression when TE is present, down for decreased gene expression when TE is present) according to TE superfamily classification"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data4",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data4.xlsx",
+        "text": "Supplementary Table 2.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "Extended information on significant TIP-eQTLs."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data5",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data5.xlsx",
+        "text": "Supplementary Table 3.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "Extended information on indica-specific and japonica-specific TIPs associated with expression changes."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data6",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data6.xlsx",
+        "text": "Supplementary Table 4.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "NCBI-SRA accession numbers for ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "O. rufipogon"
+                ]
+              },
+              " and ",
+              {
+                "type": "Emphasis",
+                "content": [
+                  "O. nivara"
+                ]
+              },
+              " accessions used in this study."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data7",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data7.xlsx",
+        "text": "Supplementary Table 5.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "PBS results and TIP information for TIP-eQTLs present in indica, japonica and rufipogon/nivara populations."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data8",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data8.xlsx",
+        "text": "Supplementary Table 6.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "Statistical significance of the permutation test performed to identify selection on OsJAZ1, OsGAP and OsMPH1. Only the haplotypes that cleared the p-value cutoff of 0.01 were reported to be under selection."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data1",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data1.png",
+        "text": "Supplementary Figure 1.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "Effect size of TIP-eQTLs based on their population frequency on the drought condition."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MediaObject",
+        "id": "data2",
+        "contentUrl": "10.1101/000003/v1/figures/2197876-data2.pptx",
+        "text": "Supplementary Figure 2.",
+        "content": [
+          {
+            "type": "Heading",
+            "depth": 2,
+            "content": [
+              "Boxplots representing the expression differences between haplotypes in OsJAZ1 (A), OsGAP (B) and OsMPH1 (C). Three independent experimental replicates are shown separately."
+            ]
+          }
+        ]
+      }
+    ],
+    "headings": [
+      {
+        "id": "s1",
+        "text": [
+          "Introduction"
+        ]
+      },
+      {
+        "id": "s2",
+        "text": [
+          "Results"
+        ]
+      },
+      {
+        "id": "s2a",
+        "text": [
+          "TIPs are associated with gene expression variation in rice"
+        ]
+      },
+      {
+        "id": "s2b",
+        "text": [
+          "TIP-eQTLs are present at different population frequencies in indica and japonica"
+        ]
+      },
+      {
+        "id": "s2c",
+        "text": [
+          "Gene variants selected during rice evolution: some examples"
+        ]
+      },
+      {
+        "id": "s3",
+        "text": [
+          "Discussion"
+        ]
+      },
+      {
+        "id": "s4",
+        "text": [
+          "Methods"
+        ]
+      },
+      {
+        "id": "s4a",
+        "text": [
+          "TIP detection"
+        ]
+      },
+      {
+        "id": "s4b",
+        "text": [
+          "TIP and SNP-eQTL mapping"
+        ]
+      },
+      {
+        "id": "s4c",
+        "text": [
+          "Selection analyses"
+        ]
+      },
+      {
+        "id": "gen_header_10",
+        "text": [
+          "Acknowledgements"
+        ]
+      },
+      {
+        "id": "gen_header_11",
+        "text": [
+          "Author contributions"
+        ]
+      },
+      {
+        "id": "gen_header_12",
+        "text": [
+          "Supplementary Data"
+        ]
+      }
+    ],
+    "references": [
+      {
+        "type": "Article",
+        "id": "c1",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wendel"
+            ],
+            "givenNames": [
+              "J.",
+              "F."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Jackson"
+            ],
+            "givenNames": [
+              "S.",
+              "A."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Meyers"
+            ],
+            "givenNames": [
+              "B.",
+              "C."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wing"
+            ],
+            "givenNames": [
+              "R.",
+              "A."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2016"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Genome Biol"
+          },
+          "volumeNumber": 17
+        },
+        "pageStart": 37,
+        "title": "Evolution of plant genome architecture",
+        "meta": {
+          "label": "1."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c2",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Tenaillon"
+            ],
+            "givenNames": [
+              "M.",
+              "I."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Hollister"
+            ],
+            "givenNames": [
+              "J.",
+              "D."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Gaut"
+            ],
+            "givenNames": [
+              "B.",
+              "S."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2010"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Trends in Plant Science"
+          },
+          "volumeNumber": 15
+        },
+        "pageEnd": 478,
+        "pageStart": 471,
+        "title": "A triptych of the evolution of plant transposable elements",
+        "meta": {
+          "label": "2."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c3",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Lisch"
+            ],
+            "givenNames": [
+              "D."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2013"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Rev. Genet"
+          },
+          "volumeNumber": 14
+        },
+        "pageEnd": 61,
+        "pageStart": 49,
+        "title": "How important are transposons for plant evolution?",
+        "meta": {
+          "label": "3."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c4",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Voichek"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Weigel"
+            ],
+            "givenNames": [
+              "D."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Genet"
+          },
+          "volumeNumber": 52
+        },
+        "pageEnd": 540,
+        "pageStart": 534,
+        "title": "Identifying genetic variants underlying phenotypic variation in plants without complete genomes",
+        "meta": {
+          "label": "4."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c5",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Vendrell-Mir"
+            ],
+            "givenNames": [
+              "P."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2019"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Mob. DNA"
+          },
+          "volumeNumber": 10
+        },
+        "pageStart": 53,
+        "title": "A benchmark of transposon insertion detection tools using real data",
+        "meta": {
+          "label": "5."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c6",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Akakpo"
+            ],
+            "givenNames": [
+              "R."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Carpentier"
+            ],
+            "givenNames": [
+              "M.",
+              "C."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Ie",
+              "Hsing"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Panaud"
+            ],
+            "givenNames": [
+              "O."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "New Phytologist"
+          },
+          "volumeNumber": 226
+        },
+        "pageEnd": 49,
+        "pageStart": 44,
+        "title": "The impact of transposable elements on the structure, evolution and function of the rice genome",
+        "meta": {
+          "label": "6."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c7",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Domínguez"
+            ],
+            "givenNames": [
+              "M."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Commun"
+          },
+          "volumeNumber": 11
+        },
+        "pageStart": 4058,
+        "title": "The impact of transposable elements on tomato diversity",
+        "meta": {
+          "label": "7."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c8",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Castanera"
+            ],
+            "givenNames": [
+              "R."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2021"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Plant J"
+          },
+          "volumeNumber": 107
+        },
+        "pageEnd": 135,
+        "pageStart": 118,
+        "title": "The amplification dynamics of MITEs and their impact on rice trait variability",
+        "meta": {
+          "label": "8."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c9",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Vourlaki"
+            ],
+            "givenNames": [
+              "I.-T."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Castanera"
+            ],
+            "givenNames": [
+              "R."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Ramos-Onsins"
+            ],
+            "givenNames": [
+              "S.",
+              "E."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Casacuberta"
+            ],
+            "givenNames": [
+              "J.",
+              "M."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Pérez-Enciso"
+            ],
+            "givenNames": [
+              "M."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2022"
+        },
+        "title": "Transposable element polymorphisms improve prediction of complex agronomic traits in rice",
+        "meta": {
+          "label": "9."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c10",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Swinnen"
+            ],
+            "givenNames": [
+              "G."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Goossens"
+            ],
+            "givenNames": [
+              "A."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Pauwels"
+            ],
+            "givenNames": [
+              "L."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2016"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Trends in Plant Science"
+          },
+          "volumeNumber": 21
+        },
+        "pageEnd": 515,
+        "pageStart": 506,
+        "title": "Lessons from Domestication: Targeting Cis-Regulatory Elements for Crop Improvement",
+        "meta": {
+          "label": "10."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c11",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Meyer"
+            ],
+            "givenNames": [
+              "R.",
+              "S."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Purugganan"
+            ],
+            "givenNames": [
+              "M.",
+              "D."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2013"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Rev. Genet"
+          },
+          "volumeNumber": 14
+        },
+        "pageEnd": 852,
+        "pageStart": 840,
+        "title": "Evolution of crop species: Genetics of domestication and diversification",
+        "meta": {
+          "label": "11."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c12",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wang"
+            ],
+            "givenNames": [
+              "Q."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wang"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Sun"
+            ],
+            "givenNames": [
+              "H."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Sun"
+            ],
+            "givenNames": [
+              "L."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Zhang"
+            ],
+            "givenNames": [
+              "L."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "J. Exp. Bot"
+          },
+          "volumeNumber": 71
+        },
+        "pageEnd": 2550,
+        "pageStart": 2537,
+        "title": "Transposon-induced methylation of the RsMYB1 promoter disturbs anthocyanin accumulation in red-fleshed radish",
+        "meta": {
+          "label": "12."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c13",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Martin"
+            ],
+            "givenNames": [
+              "A."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2009"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nature"
+          },
+          "volumeNumber": 461
+        },
+        "pageEnd": 1138,
+        "pageStart": 1135,
+        "title": "A transposon-induced epigenetic change leads to sex determination in melon",
+        "meta": {
+          "label": "13."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c14",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Quadrana"
+            ],
+            "givenNames": [
+              "L."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Transcription"
+          },
+          "volumeNumber": 11
+        },
+        "pageEnd": 198,
+        "pageStart": 192,
+        "title": "The contribution of transposable elements to transcriptional novelty in plants: the FLC affair",
+        "meta": {
+          "label": "14."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c15",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Tian"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2022"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Plant Biotechnol. J"
+          },
+          "volumeNumber": 20
+        },
+        "pageEnd": 1297,
+        "pageStart": 1285,
+        "title": "Transposon insertions regulate genome-wide allele-specific expression and underpin flower colour variations in apple (Malus spp.)",
+        "meta": {
+          "label": "15."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c16",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Studer"
+            ],
+            "givenNames": [
+              "A."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Zhao"
+            ],
+            "givenNames": [
+              "Q."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Ross-Ibarra"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Doebley"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2011"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Genet"
+          },
+          "volumeNumber": 43
+        },
+        "pageEnd": 1163,
+        "pageStart": 1160,
+        "title": "Identification of a functional transposon insertion in the maize domestication gene tb1",
+        "meta": {
+          "label": "16."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c17",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Rebollo"
+            ],
+            "givenNames": [
+              "R."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Romanish"
+            ],
+            "givenNames": [
+              "M.",
+              "T."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Mager"
+            ],
+            "givenNames": [
+              "D.",
+              "L."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2012"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Annu. Rev. Genet"
+          },
+          "volumeNumber": 46
+        },
+        "pageEnd": 42,
+        "pageStart": 21,
+        "title": "Transposable elements: An abundant and natural source of regulatory sequences for host genes",
+        "meta": {
+          "label": "17."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c18",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Morata"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Marín"
+            ],
+            "givenNames": [
+              "F."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Payet"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Casacuberta"
+            ],
+            "givenNames": [
+              "J.",
+              "M."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2018"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Genome Biol. Evol"
+          },
+          "volumeNumber": 10
+        },
+        "pageEnd": 1220,
+        "pageStart": 1210,
+        "title": "Plant lineage-specific amplification of transcription factor binding motifs by miniature inverted-repeat transposable elements (MITEs)",
+        "meta": {
+          "label": "18."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c19",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Groen"
+            ],
+            "givenNames": [
+              "S.",
+              "C."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nature"
+          },
+          "volumeNumber": 578
+        },
+        "pageEnd": 576,
+        "pageStart": 572,
+        "title": "The strength and pattern of natural selection on gene expression in rice",
+        "meta": {
+          "label": "19."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c20",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Kofler"
+            ],
+            "givenNames": [
+              "R."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Gómez-Sánchez"
+            ],
+            "givenNames": [
+              "D."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Schlötterer"
+            ],
+            "givenNames": [
+              "C."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2016"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Mol. Biol. Evol"
+          },
+          "volumeNumber": 33
+        },
+        "pageEnd": 2764,
+        "pageStart": 2759,
+        "title": "PoPoolationTE2: Comparative Population Genomics of Transposable Elements Using Pool-Seq",
+        "meta": {
+          "label": "20."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c21",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Zhang"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2016"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Sci. Data"
+          },
+          "volumeNumber": 3
+        },
+        "pageStart": 160076,
+        "title": "Building two indica rice reference genomes with PacBio long-read and Illumina paired-end sequencing data",
+        "meta": {
+          "label": "21."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c22",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wicker"
+            ],
+            "givenNames": [
+              "T."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2007"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Rev. Genet"
+          },
+          "volumeNumber": 8
+        },
+        "pageEnd": 982,
+        "pageStart": 973,
+        "title": "A unified classification system for eukaryotic transposable elements",
+        "meta": {
+          "label": "22."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c23",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Uzunović"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Josephs"
+            ],
+            "givenNames": [
+              "E.",
+              "B."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Stinchcombe"
+            ],
+            "givenNames": [
+              "J.",
+              "R."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wright"
+            ],
+            "givenNames": [
+              "S.",
+              "I."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2019"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Mol. Biol. Evol"
+          },
+          "volumeNumber": 36
+        },
+        "pageEnd": 1745,
+        "pageStart": 1734,
+        "title": "Transposable Elements Are Important Contributors to Standing Variation in Gene Expression in Capsella Grandiflora",
+        "meta": {
+          "label": "23."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c24",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Josephs"
+            ],
+            "givenNames": [
+              "E."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Lee"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Stinchcombe"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wright"
+            ],
+            "givenNames": [
+              "S."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2015"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Proc Natl Acad Sci U S A"
+          },
+          "volumeNumber": 112
+        },
+        "pageEnd": 15395,
+        "pageStart": 15390,
+        "title": "Association mapping reveals the role of purifying selection in the maintenance of genomic variation in gene expression",
+        "meta": {
+          "label": "24."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c25",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Lye"
+            ],
+            "givenNames": [
+              "Z."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Choi"
+            ],
+            "givenNames": [
+              "J.",
+              "Y."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Purugganan"
+            ],
+            "givenNames": [
+              "M.",
+              "D."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2022"
+        },
+        "title": "Deleterious mutations and the rare allele burden on rice gene expression",
+        "meta": {
+          "label": "25."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c26",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Shanmugam"
+            ],
+            "givenNames": [
+              "S."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Boyett"
+            ],
+            "givenNames": [
+              "V.",
+              "A."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Khodakovskaya"
+            ],
+            "givenNames": [
+              "M."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2021"
+        },
+        "identifiers": [
+          {
+            "type": "PropertyValue",
+            "name": "elocation-id",
+            "value": "e0258171"
+          }
+        ],
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "PLoS One"
+          },
+          "volumeNumber": 16
+        },
+        "title": "Enhancement of drought tolerance in rice by silencing of the OsSYT-5 gene",
+        "meta": {
+          "label": "26."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c27",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Gao"
+            ],
+            "givenNames": [
+              "W."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2022"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "PLANT Physiol"
+          },
+          "volumeNumber": 189
+        },
+        "pageEnd": 905,
+        "pageStart": 889,
+        "title": "miR2105 and the kinase OsSAPK10 co-regulate OsbZIP86 to mediate drought-induced ABA biosynthesis in rice",
+        "meta": {
+          "label": "27."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c28",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Lambin"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Front. Plant Sci"
+          },
+          "volumeNumber": 11
+        },
+        "pageStart": 185,
+        "title": "OsEUL Lectin Gene Expression in Rice: Stress Regulation, Subcellular Localization and Tissue Specificity",
+        "meta": {
+          "label": "28."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c29",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Lu"
+            ],
+            "givenNames": [
+              "L."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2017"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Proc Natl Acad Sci U S A"
+          },
+          "volumeNumber": 114
+        },
+        "title": "Tracking the genome-wide outcomes of a transposable element burst over decades of amplification",
+        "meta": {
+          "label": "29."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c30",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Carpentier"
+            ],
+            "givenNames": [
+              "M.",
+              "C."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2019"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Commun"
+          },
+          "volumeNumber": 10
+        },
+        "pageStart": 24,
+        "title": "Retrotranspositional landscape of Asian rice revealed by 3000 genomes",
+        "meta": {
+          "label": "30."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c31",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Choi"
+            ],
+            "givenNames": [
+              "J."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2017"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Mol. Biol. Evol"
+          },
+          "volumeNumber": 34
+        },
+        "pageEnd": 979,
+        "pageStart": 969,
+        "title": "The Rice Paradox: Multiple Origins but Single Domestication in Asian Rice",
+        "meta": {
+          "label": "31."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c32",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Yi"
+            ],
+            "givenNames": [
+              "X."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2010"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Science (80-. )"
+          },
+          "volumeNumber": 329
+        },
+        "pageEnd": 78,
+        "pageStart": 75,
+        "title": "Sequencing of Fifty Human Exomes Reveals Adaptation to High Altitude",
+        "meta": {
+          "label": "32."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c33",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Cai"
+            ],
+            "givenNames": [
+              "Q."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2014"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Nat. Commun"
+          },
+          "volumeNumber": 5
+        },
+        "pageStart": 3476,
+        "title": "Jasmonic acid regulates spikelet development in rice",
+        "meta": {
+          "label": "33."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c34",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Qin"
+            ],
+            "givenNames": [
+              "P."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2021"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Cell"
+          },
+          "volumeNumber": 184
+        },
+        "pageEnd": 3558,
+        "pageStart": 3542,
+        "title": "Pan-genome analysis of 33 genetically diverse rice accessions reveals hidden genomic variations",
+        "meta": {
+          "label": "34."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c35",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Zhou"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Sci. Data"
+          },
+          "volumeNumber": 7
+        },
+        "pageStart": 113,
+        "title": "A platinum standard pan-genome resource that represents the population structure of Asian rice",
+        "meta": {
+          "label": "35."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c36",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Shang"
+            ],
+            "givenNames": [
+              "L."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2022"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Cell Res"
+          },
+          "volumeNumber": 32
+        },
+        "pageEnd": 896,
+        "pageStart": 878,
+        "title": "A super pan-genomic landscape of rice",
+        "meta": {
+          "label": "36."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c37",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Ansari"
+            ],
+            "givenNames": [
+              "T.",
+              "H."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Yamamoto"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Yoshida"
+            ],
+            "givenNames": [
+              "T."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Miyazaki"
+            ],
+            "givenNames": [
+              "A."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Wang"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2003"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Soil Sci. Plant Nutr"
+          },
+          "volumeNumber": 49
+        },
+        "pageEnd": 444,
+        "pageStart": 433,
+        "title": "Cultivar Differences in the Number of Differentiated Spikelets and Percentage of Degenerated Spikelets as Determinants of the Spikelet Number per Panicle in Relation to Dry Matter Production and Nitrogen Absorption",
+        "meta": {
+          "label": "37."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c38",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Nei"
+            ],
+            "givenNames": [
+              "M."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Li"
+            ],
+            "givenNames": [
+              "W.",
+              "H."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "1979"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Proc Natl Acad Sci U S A"
+          },
+          "volumeNumber": 76
+        },
+        "pageEnd": 5273,
+        "pageStart": 5269,
+        "title": "Mathematical model for studying genetic variation in terms of restriction endonucleases",
+        "meta": {
+          "label": "38."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c39",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Garud"
+            ],
+            "givenNames": [
+              "N.",
+              "R."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Rosenberg"
+            ],
+            "givenNames": [
+              "N.",
+              "A."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2015"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Theor. Popul. Biol"
+          },
+          "volumeNumber": 102
+        },
+        "pageEnd": 101,
+        "pageStart": 94,
+        "title": "Enhancing the mathematical properties of new haplotype homozygosity statistics for the detection of selective sweeps",
+        "meta": {
+          "label": "39."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c40",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Xu"
+            ],
+            "givenNames": [
+              "F."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2019"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Plant J"
+          },
+          "volumeNumber": 100
+        },
+        "pageEnd": 1051,
+        "pageStart": 1036,
+        "title": "Control of rice pre-harvest sprouting by glutaredoxin-mediated abscisic acid signaling",
+        "meta": {
+          "label": "40."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c41",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Magwa"
+            ],
+            "givenNames": [
+              "R.",
+              "A."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Zhao"
+            ],
+            "givenNames": [
+              "H."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Xing"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2016"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "BMC Genet"
+          },
+          "volumeNumber": 17
+        },
+        "pageStart": 28,
+        "title": "Genome-wide association mapping revealed a diverse genetic basis of seed dormancy across subpopulations in rice (Oryza sativa L.)",
+        "meta": {
+          "label": "41."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c42",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Zhang"
+            ],
+            "givenNames": [
+              "Y."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2017"
+        },
+        "identifiers": [
+          {
+            "type": "PropertyValue",
+            "name": "elocation-id",
+            "value": "e0180825"
+          }
+        ],
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "PLoS One"
+          },
+          "volumeNumber": 12
+        },
+        "title": "OsMPH1 regulates plant height and improves grain yield in rice",
+        "meta": {
+          "label": "42."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c43",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Asano"
+            ],
+            "givenNames": [
+              "K."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2011"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Proc Natl Acad Sci U S A"
+          },
+          "volumeNumber": 108
+        },
+        "pageEnd": 11039,
+        "pageStart": 11034,
+        "title": "Artificial selection for a green revolution gene during japonica rice domestication",
+        "meta": {
+          "label": "43."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c44",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Goubert"
+            ],
+            "givenNames": [
+              "C."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Zevallos"
+            ],
+            "givenNames": [
+              "N.",
+              "A."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Feschotte"
+            ],
+            "givenNames": [
+              "C."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Philos. Trans. R. Soc. B Biol. Sci"
+          },
+          "volumeNumber": 375
+        },
+        "pageStart": 20190331,
+        "title": "Contribution of unfixed transposable element insertions to human regulatory variation",
+        "meta": {
+          "label": "44."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c45",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Alonge"
+            ],
+            "givenNames": [
+              "M."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2020"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Cell"
+          },
+          "volumeNumber": 182
+        },
+        "pageEnd": 161,
+        "pageStart": 145,
+        "title": "Major impacts of widespread structural variation on gene expression and crop improvement in tomato",
+        "meta": {
+          "label": "45."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c46",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Arkhipova"
+            ],
+            "givenNames": [
+              "I.",
+              "R."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2018"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Mol. Biol. Evol"
+          },
+          "volumeNumber": 35
+        },
+        "pageEnd": 1337,
+        "pageStart": 1332,
+        "title": "Neutral theory, transposable elements, and eukaryotic genome evolution",
+        "meta": {
+          "label": "46."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c47",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Matsumoto"
+            ],
+            "givenNames": [
+              "T."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2005"
+        },
+        "identifiers": [
+          {
+            "type": "PropertyValue",
+            "name": "doi",
+            "propertyID": "https://registry.identifiers.org/registry/doi",
+            "value": "10.1038/nature03895"
+          }
+        ],
+        "title": "The map-based sequence of the rice genome",
+        "meta": {
+          "label": "47."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c48",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Li"
+            ],
+            "givenNames": [
+              "H."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Durbin"
+            ],
+            "givenNames": [
+              "R."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2010"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Bioinformatics"
+          },
+          "volumeNumber": 26
+        },
+        "pageEnd": 595,
+        "pageStart": 589,
+        "title": "Fast and accurate long-read alignment with Burrows-Wheeler Transform",
+        "meta": {
+          "label": "48."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c49",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Love"
+            ],
+            "givenNames": [
+              "M.",
+              "I."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Huber"
+            ],
+            "givenNames": [
+              "W."
+            ]
+          },
+          {
+            "type": "Person",
+            "familyNames": [
+              "Anders"
+            ],
+            "givenNames": [
+              "S."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2014"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Genome Biol"
+          },
+          "volumeNumber": 15
+        },
+        "pageStart": 550,
+        "title": "Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2",
+        "meta": {
+          "label": "49."
+        }
+      },
+      {
+        "type": "Article",
+        "id": "c50",
+        "authors": [
+          {
+            "type": "Person",
+            "familyNames": [
+              "Shabalin"
+            ],
+            "givenNames": [
+              "A.",
+              "A."
+            ]
+          }
+        ],
+        "datePublished": {
+          "type": "Date",
+          "value": "2012"
+        },
+        "isPartOf": {
+          "type": "PublicationVolume",
+          "isPartOf": {
+            "type": "Periodical",
+            "name": "Bioinformatics"
+          },
+          "volumeNumber": 28
+        },
+        "pageEnd": 1358,
+        "pageStart": 1353,
+        "title": "Matrix eQTL: ultra fast eQTL analysis via large matrix operations",
+        "meta": {
+          "label": "50."
+        }
+      }
+    ]
+  },
+  "preprintDoi": "10.1101/000003",
+  "preprintUrl": "https://www.biorxiv.org/content/10.1101/000003v1",
+  "preprintPosted": "2023-03-24T00:00:00.000Z",
+  "published": "2023-03-24T00:00:00.000Z"
+}
