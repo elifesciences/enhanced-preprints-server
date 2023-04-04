@@ -652,6 +652,7 @@ describe('server tests', () => {
     });
   });
 
+  // TODO: Add tests for falling back to preprints DOI
   describe('/api/citations', () => {
     const bibtex = `
     @article{Carberry_2008,

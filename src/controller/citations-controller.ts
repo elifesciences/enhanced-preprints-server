@@ -14,6 +14,8 @@ export const citationsController = () => {
         `https://api.crossref.org/works/${doi}/transform/application/x-bibtex`,
       );
 
+      // TODO: add fallback in case the DOI is not minted yet
+
       const bibtex = decodeURIComponent(extReq.data);
 
       if (bibtex) {
