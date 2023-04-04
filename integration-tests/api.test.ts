@@ -652,7 +652,7 @@ describe('server tests', () => {
     });
   });
 
-  describe('/api/citations', () => {
+  describe('/api/citations/:publisherId/:articleId/bibtex', () => {
     const bibtex = `
     @article{Carberry_2008,
       doi = {10.1101/123456},
@@ -685,7 +685,7 @@ describe('server tests', () => {
     }
     `;
 
-    it('returns a bibtex file with the correct information', async () => {
+    it('returns a BibTeX file with the correct information', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = createApp(repo, {});
 
@@ -699,7 +699,7 @@ describe('server tests', () => {
         .expect('Content-Type', 'application/x-bibtex; charset=utf-8');
     });
 
-    it('returns a 400 when the crossref call fails', async () => {
+    it('returns a 400 when the crossref BibTeX call fails', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = createApp(repo, {});
 
@@ -712,7 +712,7 @@ describe('server tests', () => {
         .expect(404);
     });
 
-    it('formats the data to be URI decoded', async () => {
+    it('formats the BibTeX data to be URI decoded', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = createApp(repo, {});
 
@@ -724,6 +724,75 @@ describe('server tests', () => {
         .get('/api/citations/10.5555/12345678/bibtex')
         .expect(200, bibtex)
         .expect('Content-Type', 'application/x-bibtex; charset=utf-8');
+    });
+  });
+
+  describe('/api/citations/:publisherId/:articleId/ris', () => {
+    const ris = `
+    TY  - GENERIC
+    DO  - 10.7554/elife.85646.1
+    UR  - http://dx.doi.org/10.7554/eLife.85646.1
+    TI  - Parahippocampal neurons encode task-relevant information for goal-directed navigation
+    AU  - Gonzalez, Alexander
+    AU  - Giocomo, Lisa M.
+    PY  - 2023
+    DA  - 2023/03/09
+    PB  - eLife Sciences Publications, Ltd
+    ER  - 
+    `;
+
+    const encodedRis = `
+    TY  - GENERIC
+    DO  - 10.7554/elife.85646.1
+    UR  - http://dx.doi.org/10.7554%2FeLife.85646.1
+    TI  - Parahippocampal neurons encode task-relevant information for goal-directed navigation
+    AU  - Gonzalez, Alexander
+    AU  - Giocomo, Lisa M.
+    PY  - 2023
+    DA  - 2023/03/09
+    PB  - eLife Sciences Publications, Ltd
+    ER  - 
+    `;
+
+    it('returns an RIS file with the correct information', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
+
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation(() => Promise.resolve({ data: ris }));
+
+      await request(app)
+        .get('/api/citations/10.5555/12345678/ris')
+        .expect(200)
+        .expect('Content-Type', 'application/x-research-info-systems; charset=utf-8');
+    });
+
+    it('returns a 400 when the crossref RIS call fails', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
+
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation(() => Promise.reject());
+
+      await request(app)
+        .get('/api/citations/10.5555/12345678/ris')
+        .expect(404);
+    });
+
+    it('formats the RIS data to be URI decoded', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo, {});
+
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation(() => Promise.resolve({ data: encodedRis }));
+
+      await request(app)
+        .get('/api/citations/10.5555/12345678/ris')
+        .expect(200, ris)
+        .expect('Content-Type', 'application/x-research-info-systems; charset=utf-8');
     });
   });
 });
