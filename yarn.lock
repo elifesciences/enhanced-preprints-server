@@ -171,8 +171,8 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/client-s3@npm:^3.279.0":
-  version: 3.304.0
-  resolution: "@aws-sdk/client-s3@npm:3.304.0"
+  version: 3.305.0
+  resolution: "@aws-sdk/client-s3@npm:3.305.0"
   dependencies:
     "@aws-crypto/sha1-browser": 3.0.0
     "@aws-crypto/sha256-browser": 3.0.0
@@ -228,7 +228,7 @@ __metadata:
     "@aws-sdk/xml-builder": 3.303.0
     fast-xml-parser: 4.1.2
     tslib: ^2.5.0
-  checksum: 8dda05a26366a551131b4f3414c393a3edb6f44a14addcb2537de1ce5f87ecac3084f239965002bd9340955a84e111bef8576fa19eb25039d29fbea251731440
+  checksum: 5d622bf9824eb3e54337e2ba3edf4b559f2de0f4e9fcf565e88ece12762f762a8e42d4ffca701b02f953e94534aa939c0b35c061f14ad0182323d5a5c1f1c653
   languageName: node
   linkType: hard
 
