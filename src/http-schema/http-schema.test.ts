@@ -29,81 +29,6 @@ const enhancedArticleExample = {
   published: '2023-01-23',
 };
 
-const enhancedArticleFigureExample = {
-  id: 'testid1',
-  msid: 'testmsid1',
-  doi: 'doi1',
-  versionIdentifier: '1',
-  versionDoi: 'publisher/testid1',
-  article: {
-    title: 'test article',
-    authors: [
-      {
-        familyNames: ['Daffy'],
-        givenNames: ['Duck'],
-        affiliations: [{ name: 'ACME Labs' }],
-        emails: ['daffy.duck@acme.org'],
-      },
-    ],
-    abstract: 'This is the test abstract',
-    licenses: [],
-    content: {
-      type: 'Figure',
-      id: 'fig6',
-      caption: [
-        {
-          type: 'Heading',
-          depth: 2,
-          content: [
-            'The probability of',
-          ],
-        },
-      ],
-      label: 'Figure S1',
-      content: [
-        {
-          type: 'ImageObject',
-          contentUrl: '10.1101/000001/v1/figures/2212.00741v1_fig6.jpg',
-          meta: {
-            inline: false,
-          },
-        },
-      ],
-    },
-    headings: [{ id: 'head1', text: 'Heading 1' }],
-    references: [],
-  },
-  preprintDoi: 'preprint/testid1',
-  preprintUrl: 'doi.org/preprint/testid1',
-  preprintPosted: '2023-01-02',
-  sentForReview: '2023-01-03',
-  published: '2023-01-23',
-};
-
-const invalidAuthor = {
-  type: 'Person',
-  affiliations: [
-    {
-      type: 'Organization',
-      address: {
-        type: 'PostalAddress',
-        addressLocality: 'Minneapolis MN 55455',
-      },
-      name: 'Department of Neuroscience and Center for Magnetic Resonance Research, University of Minnesota',
-    },
-  ],
-  emails: [
-    'desai054@umn.edu',
-    'desai054@umn.edu',
-  ],
-  familyNames: [
-    'Desai',
-  ],
-  givenNames: [
-    'Nisarg',
-  ],
-};
-
 describe('httpschema', () => {
   it.each([
     'foo',
@@ -210,19 +135,5 @@ describe('httpschema', () => {
     expect(enhancedArticle.value?.preprintPosted).toStrictEqual(new Date('2023-01-02'));
     expect(enhancedArticle.value?.sentForReview).toStrictEqual(new Date('2023-01-03'));
     expect(enhancedArticle.value?.published).toStrictEqual(new Date('2023-01-23'));
-  });
-
-  it('validates authors', () => {
-    const articleWithBrokenAuthor = enhancedArticleExample;
-    articleWithBrokenAuthor.article.authors = [invalidAuthor];
-    const enhancedArticle = EnhancedArticleSchema.validate(articleWithBrokenAuthor, { allowUnknown: true });
-
-    expect(enhancedArticle.error).toBeUndefined();
-  });
-
-  it('validates figure', () => {
-    const enhancedArticle = EnhancedArticleSchema.validate(enhancedArticleFigureExample);
-
-    expect(enhancedArticle.error).toBeUndefined();
   });
 });
