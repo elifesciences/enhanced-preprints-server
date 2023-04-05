@@ -75,7 +75,7 @@ const ImageObjectContent = Joi.object({
 
 // These are not imported yet
 const OtherContent = Joi.object({
-  type: Joi.string().valid('CodeBlock', 'MathFragment', 'Table', 'ThematicBreak'),
+  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'Table', 'ThematicBreak'),
 });
 // end block
 
@@ -135,7 +135,7 @@ const IdentifierSchema = Joi.object({
 
 const AuthorSchema = Joi.object({
   familyNames: Joi.array().items(Joi.string()).required(),
-  givenNames: Joi.array().items(Joi.string()).required(),
+  givenNames: Joi.array().items(Joi.string()).optional(),
   affiliations: Joi.array().items(OrganisationSchema).optional(),
   emails: Joi.array().items(Joi.string()).optional(),
   identifiers: Joi.array().items(IdentifierSchema).optional(),
@@ -152,7 +152,7 @@ const HeadingSchema = Joi.object({
 });
 
 const PublicationSchema = Joi.object({
-  type: Joi.string().valid('PublicationVolume', 'Periodical', 'PublicationIssue').required(),
+  type: Joi.string().valid('CreativeWork', 'Periodical', 'PublicationIssue', 'PublicationVolume').required(),
   name: Joi.string().optional(), // this seems wrong but required to pass the test document
   volumeNumber: Joi.number().optional(),
   isPartOf: Joi.link('#Publication').optional(),

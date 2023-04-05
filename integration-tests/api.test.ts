@@ -9,6 +9,8 @@ import { createArticleRepository, StoreType } from '../src/model/create-article-
 import { docmapMock as docmapMock1, reviewMocks as reviewMocks1 } from './data/10.1101/123456/docmap-mock';
 import { docmapMock as docmapMock2, reviewMocks as reviewMocks2 } from './data/10.1101/654321/docmap-mock';
 import mockBody1 from './mock-data/mock-body-1.json';
+import mockBody2 from './mock-data/mock-body-2.json';
+import mockBody3 from './mock-data/mock-body-3.json';
 
 jest.mock('axios');
 
@@ -522,11 +524,11 @@ describe('server tests', () => {
   });
 
   describe('/api/preprints', () => {
-    it('passes validation on import', async () => {
+    it.each([mockBody1, mockBody2, mockBody3])('passes validation on import', async (mockBody) => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
         .post('/preprints')
-        .send(mockBody1)
+        .send(mockBody)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(200, {
           result: true,
