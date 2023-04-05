@@ -55,7 +55,7 @@ const enhancedArticleFigureExample = {
           type: 'Heading',
           depth: 2,
           content: [
-            'The probability of correct keypoint (PCK) values (y-axis) at different thresholds ranging from 0-1 (x-axis) of HRNet-W48 models tested on each species from the OpenApePose (OAP) test set and trained on the OAP training set with the corresponding species excluded. Dotted lines indicate the performance on the species excluded from training in the case of OAP and the performance of the OpenMonkeyPose model trained on monkeys on the excluded species.',
+            'The probability of',
           ],
         },
       ],

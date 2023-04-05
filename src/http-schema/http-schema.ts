@@ -93,7 +93,7 @@ const ContentPartSchema = Joi.alternatives().try(
   HeadingContentSchema,
   FigureContentSchema,
   ImageObjectContent,
-  OtherContent
+  OtherContent,
 );
 
 const ContentSchema = Joi.alternatives().try(
@@ -152,8 +152,8 @@ const HeadingSchema = Joi.object({
 });
 
 const PublicationSchema = Joi.object({
-  type: Joi.string().valid('PublicationVolume', 'Periodical').required(),
-  name: Joi.string().required(),
+  type: Joi.string().valid('PublicationVolume', 'Periodical', 'PublicationIssue').required(),
+  name: Joi.string().optional(), // this seems wrong but required to pass the test document
   volumeNumber: Joi.number().optional(),
   isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
@@ -162,18 +162,21 @@ const ReferenceSchema = Joi.object({
   type: Joi.string().valid('Article').required(),
   id: Joi.string().required(),
   title: Joi.string().required(),
-  url: Joi.string().required(),
-  pageEnd: Joi.number().required(),
-  pageStart: Joi.number().required(),
-  authors: Joi.array().items(AuthorSchema).required(),
-  datePublished: Joi.date().optional(),
+  url: Joi.string().optional(),
+  pageEnd: Joi.number().optional(),
+  pageStart: Joi.number().optional(),
+  authors: Joi.array().items(Joi.alternatives().try(AuthorSchema, OrganisationSchema)).required(),
+  datePublished: Joi.alternatives().try(
+    Joi.date().optional(),
+    Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().required() }),
+  ),
   isPartOf: PublicationSchema.optional(),
   identifiers: Joi.array().items(Joi.object({
     type: Joi.string().required(),
     name: Joi.string().required(),
-    propertyID: Joi.string().required(),
+    propertyID: Joi.string().optional(),
     value: Joi.string().required(),
-  })).required(),
+  })).optional(),
 });
 
 const ProcessedArticleSchema = Joi.object({

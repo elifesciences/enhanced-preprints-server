@@ -522,7 +522,7 @@ describe('server tests', () => {
   });
 
   describe('/api/preprints', () => {
-    it.only('does stuff', async () => {
+    it('passes validation on import', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo, {}))
         .post('/preprints')
