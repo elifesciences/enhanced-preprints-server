@@ -29,6 +29,57 @@ const enhancedArticleExample = {
   published: '2023-01-23',
 };
 
+const enhancedArticleFigureExample = {
+  id: 'testid1',
+  msid: 'testmsid1',
+  doi: 'doi1',
+  versionIdentifier: '1',
+  versionDoi: 'publisher/testid1',
+  article: {
+    title: 'test article',
+    authors: [
+      {
+        familyNames: ['Daffy'],
+        givenNames: ['Duck'],
+        affiliations: [{ name: 'ACME Labs' }],
+        emails: ['daffy.duck@acme.org'],
+      },
+    ],
+    abstract: 'This is the test abstract',
+    licenses: [],
+    content: {
+      type: 'Figure',
+      id: 'fig6',
+      caption: [
+        {
+          type: 'Heading',
+          depth: 2,
+          content: [
+            'The probability of correct keypoint (PCK) values (y-axis) at different thresholds ranging from 0-1 (x-axis) of HRNet-W48 models tested on each species from the OpenApePose (OAP) test set and trained on the OAP training set with the corresponding species excluded. Dotted lines indicate the performance on the species excluded from training in the case of OAP and the performance of the OpenMonkeyPose model trained on monkeys on the excluded species.',
+          ],
+        },
+      ],
+      label: 'Figure S1',
+      content: [
+        {
+          type: 'ImageObject',
+          contentUrl: '10.1101/000001/v1/figures/2212.00741v1_fig6.jpg',
+          meta: {
+            inline: false,
+          },
+        },
+      ],
+    },
+    headings: [{ id: 'head1', text: 'Heading 1' }],
+    references: [],
+  },
+  preprintDoi: 'preprint/testid1',
+  preprintUrl: 'doi.org/preprint/testid1',
+  preprintPosted: '2023-01-02',
+  sentForReview: '2023-01-03',
+  published: '2023-01-23',
+};
+
 const invalidAuthor = {
   type: 'Person',
   affiliations: [
@@ -165,6 +216,12 @@ describe('httpschema', () => {
     const articleWithBrokenAuthor = enhancedArticleExample;
     articleWithBrokenAuthor.article.authors = [invalidAuthor];
     const enhancedArticle = EnhancedArticleSchema.validate(articleWithBrokenAuthor, { allowUnknown: true });
+
+    expect(enhancedArticle.error).toBeUndefined();
+  });
+
+  it('validates figure', () => {
+    const enhancedArticle = EnhancedArticleSchema.validate(enhancedArticleFigureExample);
 
     expect(enhancedArticle.error).toBeUndefined();
   });

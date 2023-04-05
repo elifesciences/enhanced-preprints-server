@@ -50,7 +50,7 @@ const CiteGroupContentSchema = Joi.object({
 });
 
 const HeadingContentSchema = Joi.object({
-  id: Joi.string().required(),
+  id: Joi.string().optional().allow(''),
   type: Joi.string().valid('Heading').required(),
   content: Joi.link('#Content').required(),
   depth: Joi.number().valid(1, 2, 3, 4, 5, 6).required(),
@@ -73,6 +73,12 @@ const ImageObjectContent = Joi.object({
   }).optional(),
 });
 
+// These are not imported yet
+const OtherContent = Joi.object({
+  type: Joi.string().valid('CodeBlock', 'MathFragment', 'Table', 'ThematicBreak'),
+});
+// end block
+
 const ContentPartSchema = Joi.alternatives().try(
   Joi.string(),
   ParagraphSchema,
@@ -87,6 +93,7 @@ const ContentPartSchema = Joi.alternatives().try(
   HeadingContentSchema,
   FigureContentSchema,
   ImageObjectContent,
+  OtherContent
 );
 
 const ContentSchema = Joi.alternatives().try(
