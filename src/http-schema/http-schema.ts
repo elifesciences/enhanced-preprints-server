@@ -113,7 +113,7 @@ const PeerReviewSchema = Joi.object({
 });
 
 const AddressSchema = Joi.object({
-  addressCountry: Joi.string().required(),
+  addressCountry: Joi.string().optional(),
 });
 
 const OrganisationSchema = Joi.object({

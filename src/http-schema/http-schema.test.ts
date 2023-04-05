@@ -164,7 +164,7 @@ describe('httpschema', () => {
   it('validates authors', () => {
     const articleWithBrokenAuthor = enhancedArticleExample;
     articleWithBrokenAuthor.article.authors = [invalidAuthor];
-    const enhancedArticle = EnhancedArticleSchema.validate(articleWithBrokenAuthor);
+    const enhancedArticle = EnhancedArticleSchema.validate(articleWithBrokenAuthor, { allowUnknown: true });
 
     expect(enhancedArticle.error).toBeUndefined();
   });

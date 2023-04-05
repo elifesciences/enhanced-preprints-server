@@ -6,7 +6,7 @@ import { logger } from '../utils/logger';
 export const preprintsController = (repo: ArticleRepository) => {
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false });
+      const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false, allowUnknown: true });
       if (error) {
         res.status(400).send({
           result: false,

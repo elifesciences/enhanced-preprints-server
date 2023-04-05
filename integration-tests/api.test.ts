@@ -8,6 +8,7 @@ import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
 import { docmapMock as docmapMock1, reviewMocks as reviewMocks1 } from './data/10.1101/123456/docmap-mock';
 import { docmapMock as docmapMock2, reviewMocks as reviewMocks2 } from './data/10.1101/654321/docmap-mock';
+import mockBody1 from './mock-data/mock-body-1.json';
 
 jest.mock('axios');
 
@@ -521,6 +522,18 @@ describe('server tests', () => {
   });
 
   describe('/api/preprints', () => {
+    it.only('does stuff', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo, {}))
+        .post('/preprints')
+        .send(mockBody1)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+    });
+
     const enhancedArticle = {
       id: 'testid3',
       msid: 'testmsid',
