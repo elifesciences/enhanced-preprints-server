@@ -42,10 +42,10 @@ export type Heading = {
   id?: string,
   text: Content,
 };
-export type PublicationType = 'PublicationVolume' | 'Periodical';
+export type PublicationType = 'CreativeWork' | 'Periodical' | 'PublicationIssue' | 'PublicationVolume';
 export type Publication = {
   type: PublicationType,
-  name: string,
+  name?: string,
   volumeNumber?: number,
   isPartOf?: Publication,
 };
