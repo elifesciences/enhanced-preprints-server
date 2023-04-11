@@ -1,16 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
 import { EnhancedArticleSchema } from '../http-schema/http-schema';
 import { ArticleRepository } from '../model/model';
+import { logger } from '../utils/logger';
 
 export const preprintsController = (repo: ArticleRepository) => {
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false });
+      const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false, allowUnknown: true });
       if (error) {
         res.status(400).send({
           result: false,
           message: `body sent failed validation: (${error.name}): ${error.message}`,
         });
+
+        logger.error('validation failed for preprint', error);
         return;
       }
       const result = await repo.storeEnhancedArticle(value);

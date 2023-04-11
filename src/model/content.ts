@@ -32,7 +32,7 @@ type CiteGroupContent = {
 
 export type HeadingContent = DecoratedContent & {
   type: 'Heading',
-  id: string,
+  id?: string,
   depth: 1 | 2 | 3 | 4 | 5 | 6,
 };
 
@@ -64,6 +64,10 @@ type SubscriptContent = DecoratedContent & {
   type: 'Subscript',
 };
 
+type OtherContent = {
+  type: 'CodeBlock' | 'MathFragment' | 'MediaObject' | 'Table' | 'ThematicBreak'
+};
+
 type ContentPart =
   string |
   HeadingContent |
@@ -77,6 +81,7 @@ type ContentPart =
   CiteContent |
   CiteGroupContent |
   FigureContent |
-  ImageObjectContent;
+  ImageObjectContent |
+  OtherContent;
 
 export type Content = ContentPart | Array<Content>;

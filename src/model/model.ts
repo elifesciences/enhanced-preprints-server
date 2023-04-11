@@ -11,7 +11,7 @@ export type ArticleContent = {
 export type ArticleTitle = Content;
 export type ArticleAbstract = Content;
 export type Address = {
-  addressCountry: string,
+  addressCountry?: string,
 };
 export type Organisation = {
   name: string,
@@ -27,7 +27,7 @@ export type Identifier = OrcidIdentifier;
 
 export type Author = {
   familyNames: string[],
-  givenNames: string[],
+  givenNames?: string[],
   affiliations?: Organisation[],
   emails?: string[],
   identifiers?: Identifier[],
@@ -39,13 +39,13 @@ export type License = {
 };
 
 export type Heading = {
-  id: string,
+  id?: string,
   text: Content,
 };
-export type PublicationType = 'PublicationVolume' | 'Periodical';
+export type PublicationType = 'CreativeWork' | 'Periodical' | 'PublicationIssue' | 'PublicationVolume';
 export type Publication = {
   type: PublicationType,
-  name: string,
+  name?: string,
   volumeNumber?: number,
   isPartOf?: Publication,
 };
@@ -53,16 +53,16 @@ export type Reference = {
   type: 'Article',
   id: string,
   title: string,
-  url: string,
-  pageEnd: number,
-  pageStart: number,
-  authors: Array<Author>,
+  url?: string,
+  pageEnd?: number,
+  pageStart?: number,
+  authors: Array<Author | Organisation>,
   datePublished?: Date,
   isPartOf?: Publication,
   identifiers?: {
     type: string,
     name: string,
-    propertyID: string,
+    propertyID?: string,
     value: string,
   }[],
   meta?: {

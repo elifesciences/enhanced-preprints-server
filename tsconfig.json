@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
+    "resolveJsonModule": true,
     "lib": [
       "ES2021",
       "DOM"

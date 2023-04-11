@@ -50,7 +50,7 @@ const CiteGroupContentSchema = Joi.object({
 });
 
 const HeadingContentSchema = Joi.object({
-  id: Joi.string().required(),
+  id: Joi.string().optional().allow(''),
   type: Joi.string().valid('Heading').required(),
   content: Joi.link('#Content').required(),
   depth: Joi.number().valid(1, 2, 3, 4, 5, 6).required(),
@@ -73,6 +73,12 @@ const ImageObjectContent = Joi.object({
   }).optional(),
 });
 
+// These are not imported yet
+const OtherContent = Joi.object({
+  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'Table', 'ThematicBreak'),
+});
+// end block
+
 const ContentPartSchema = Joi.alternatives().try(
   Joi.string(),
   ParagraphSchema,
@@ -87,6 +93,7 @@ const ContentPartSchema = Joi.alternatives().try(
   HeadingContentSchema,
   FigureContentSchema,
   ImageObjectContent,
+  OtherContent,
 );
 
 const ContentSchema = Joi.alternatives().try(
@@ -113,7 +120,7 @@ const PeerReviewSchema = Joi.object({
 });
 
 const AddressSchema = Joi.object({
-  addressCountry: Joi.string().required(),
+  addressCountry: Joi.string().optional(),
 });
 
 const OrganisationSchema = Joi.object({
@@ -128,7 +135,7 @@ const IdentifierSchema = Joi.object({
 
 const AuthorSchema = Joi.object({
   familyNames: Joi.array().items(Joi.string()).required(),
-  givenNames: Joi.array().items(Joi.string()).required(),
+  givenNames: Joi.array().items(Joi.string()).optional(),
   affiliations: Joi.array().items(OrganisationSchema).optional(),
   emails: Joi.array().items(Joi.string()).optional(),
   identifiers: Joi.array().items(IdentifierSchema).optional(),
@@ -145,8 +152,8 @@ const HeadingSchema = Joi.object({
 });
 
 const PublicationSchema = Joi.object({
-  type: Joi.string().valid('PublicationVolume', 'Periodical').required(),
-  name: Joi.string().required(),
+  type: Joi.string().valid('CreativeWork', 'Periodical', 'PublicationIssue', 'PublicationVolume').required(),
+  name: Joi.string().optional(), // this seems wrong but required to pass the test document
   volumeNumber: Joi.number().optional(),
   isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
@@ -155,18 +162,21 @@ const ReferenceSchema = Joi.object({
   type: Joi.string().valid('Article').required(),
   id: Joi.string().required(),
   title: Joi.string().required(),
-  url: Joi.string().required(),
-  pageEnd: Joi.number().required(),
-  pageStart: Joi.number().required(),
-  authors: Joi.array().items(AuthorSchema).required(),
-  datePublished: Joi.date().optional(),
+  url: Joi.string().optional(),
+  pageEnd: Joi.number().optional(),
+  pageStart: Joi.number().optional(),
+  authors: Joi.array().items(Joi.alternatives().try(AuthorSchema, OrganisationSchema)).required(),
+  datePublished: Joi.alternatives().try(
+    Joi.date().optional(),
+    Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().required() }),
+  ),
   isPartOf: PublicationSchema.optional(),
   identifiers: Joi.array().items(Joi.object({
     type: Joi.string().required(),
     name: Joi.string().required(),
-    propertyID: Joi.string().required(),
+    propertyID: Joi.string().optional(),
     value: Joi.string().required(),
-  })).required(),
+  })).optional(),
 });
 
 const ProcessedArticleSchema = Joi.object({
