@@ -137,7 +137,7 @@ export type EnhancedArticleWithVersions = {
 };
 
 export interface ArticleRepository {
-  storeArticle(article: ProcessedArticle): Promise<boolean>;
+  storeArticle(article: ProcessedArticle, isPreview?: boolean): Promise<boolean>;
   getArticle(doi: Doi): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;

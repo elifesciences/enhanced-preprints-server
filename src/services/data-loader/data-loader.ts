@@ -162,8 +162,9 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
 };
 
 const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
+  const isPreview = xmlPath.indexOf('/preview/') >= 0;
   const xmlFileName = basename(xmlPath);
-  const downloadDir = await mkdtemp(join(tmpdir(), xmlFileName));
+  const downloadDir = await mkdtemp(join(tmpdir(), `${isPreview ? 'preview--' : ''}${xmlFileName}`));
   const articlePath = `${downloadDir}/article.xml`;
 
   const objectRequest = await client.send(new GetObjectCommand({
@@ -179,6 +180,54 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
   await pipeline((objectRequest.Body as Readable), writeStream);
 
   return articlePath;
+};
+
+const previewContent = (content: Content): Content => {
+  if (typeof content === 'string') {
+    return content;
+  }
+
+  if (Array.isArray(content)) {
+    return content.map((c) => previewContent(c));
+  }
+
+  switch (content.type) {
+    case 'Paragraph':
+    case 'Strong':
+    case 'Date':
+    case 'Emphasis':
+    case 'Superscript':
+    case 'Subscript':
+      return { ...content, content: previewContent(content.content) };
+    case 'CiteGroup':
+      return { ...content, items: content.items.map((item) => ({ ...item, content: previewContent(item.content) })) };
+    case 'Link':
+      return {
+        ...content,
+        content: previewContent(content.content),
+        target: `/preview/${content.target}`,
+      };
+    case 'Cite':
+      return { ...content, target: `/preview/${content.target}` };
+    case 'Heading':
+    case 'Figure':
+      return {
+        ...content,
+        content: previewContent(content.content),
+      };
+    case 'ImageObject':
+      return {
+        ...content,
+        ...(content.contentUrl ? {
+          contentUrl: `preview/${content.contentUrl}`,
+        } : {}),
+        ...(content.content ? {
+          content: previewContent(content.content),
+        } : {}),
+      };
+    default:
+      return content;
+  }
 };
 
 const extractHeadings = (content: Content): Heading[] => {
@@ -215,7 +264,7 @@ const extractHeadings = (content: Content): Heading[] => {
   });
 };
 
-const processArticle = (article: ArticleContent): ProcessedArticle => {
+const processArticle = (article: ArticleContent, isPreview: boolean = false): ProcessedArticle => {
   const articleStruct = JSON.parse(article.document) as ArticleStruct;
 
   // extract title
@@ -261,7 +310,7 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     authors,
     abstract,
     licenses,
-    content: articleStruct.content,
+    content: isPreview ? previewContent(articleStruct.content) : articleStruct.content,
     headings: extractHeadings(articleStruct.content),
     references,
   };
@@ -277,9 +326,15 @@ export const loadXmlArticlesFromS3IntoStores = async (articleRepository: Article
       .then(async (xmlFilePath) => {
         const articleContent = await processXml(xmlFilePath);
         rmSync(dirname(xmlFilePath), { recursive: true, force: true });
-        return articleContent;
+        return {
+          articleContent,
+          isPreview: xmlFilePath.indexOf('preview--') > 0,
+        };
       })
-      .then((articleContent) => processArticle(articleContent))
-      .then((article) => articleRepository.storeArticle(article))),
+      .then(({ articleContent, isPreview }) => ({
+        article: processArticle(articleContent, isPreview),
+        isPreview,
+      }))
+      .then(({ article, isPreview }) => articleRepository.storeArticle(article, isPreview))),
   );
 };

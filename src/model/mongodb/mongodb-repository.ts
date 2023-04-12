@@ -41,14 +41,15 @@ class MongoDBArticleRepository implements ArticleRepository {
     this.versionedCollection = versionedCollection;
   }
 
-  async storeArticle(article: ProcessedArticle): Promise<boolean> {
+  async storeArticle(article: ProcessedArticle, isPreview: boolean = false): Promise<boolean> {
+    const id = `${isPreview ? 'preview--' : ''}${article.doi}`;
     const response = await this.collection.updateOne(
       {
-        _id: article.doi,
+        _id: id,
       },
       {
         $set: {
-          _id: article.doi,
+          _id: id,
           title: article.title,
           abstract: article.abstract,
           authors: article.authors,
