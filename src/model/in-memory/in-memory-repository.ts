@@ -1,5 +1,4 @@
 import {
-  Doi,
   ArticleRepository,
   ProcessedArticle,
   ArticleSummary,
@@ -27,16 +26,16 @@ class InMemoryArticleRepository implements ArticleRepository {
     this.versionedStore = versionedStore;
   }
 
-  async storeArticle(article: ProcessedArticle): Promise<boolean> {
-    this.store.set(article.doi, article);
+  async storeArticle(article: ProcessedArticle, id: string): Promise<boolean> {
+    this.store.set(id, article);
 
     return true;
   }
 
-  async getArticle(doi: Doi): Promise<ProcessedArticle> {
-    const article = this.store.get(doi);
+  async getArticle(id: string): Promise<ProcessedArticle> {
+    const article = this.store.get(id);
     if (article === undefined) {
-      throw new Error(`Article with DOI "${doi}" was not found`);
+      throw new Error(`Article with ID "${id}" was not found`);
     }
 
     return article;

@@ -73,7 +73,7 @@ describe('article-stores', () => {
         licenses: exampleLicenses,
         headings: [],
         references: [exampleReference],
-      });
+      }, 'test/article.1');
 
       expect(stored).toStrictEqual(true);
     });
@@ -91,13 +91,13 @@ describe('article-stores', () => {
         headings: [],
         references: [exampleReference],
       };
-      const stored1 = await articleStore.storeArticle(article);
-      const retreived1 = await articleStore.getArticle(article.doi);
+      const stored1 = await articleStore.storeArticle(article, 'test/article.1');
+      const retreived1 = await articleStore.getArticle('test/article.1');
 
       const stored2 = await articleStore.storeArticle({
         ...article,
         content: '<article>content</article>',
-      });
+      }, 'test/article.1');
 
       const retreived2 = await articleStore.getArticle(article.doi);
 
@@ -122,7 +122,7 @@ describe('article-stores', () => {
         headings: [],
         references: [exampleReference],
       };
-      const result = await articleStore.storeArticle(exampleArticle);
+      const result = await articleStore.storeArticle(exampleArticle, 'test/article.2');
       expect(result).toStrictEqual(true);
 
       const article = await articleStore.getArticle('test/article.2');
@@ -177,9 +177,9 @@ describe('article-stores', () => {
         headings: [],
         references: [exampleReference],
       };
-      await articleStore.storeArticle(exampleArticle1);
-      await articleStore.storeArticle(exampleArticle2);
-      await articleStore.storeArticle(exampleArticle3);
+      await articleStore.storeArticle(exampleArticle1, 'test/article.4');
+      await articleStore.storeArticle(exampleArticle2, 'test/article.5');
+      await articleStore.storeArticle(exampleArticle3, 'test/article.6');
 
       const articleSummaries = await articleStore.getArticleSummaries();
 

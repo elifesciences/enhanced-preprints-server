@@ -19,13 +19,13 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintMetadata = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        doi,
+        id,
       } = req.params;
 
-      const article = await repo.getArticle(doi);
+      const article = await repo.getArticle(id);
       res.send({
         authors: article.authors,
-        doi,
+        doi: article.doi,
         title: article.title,
         msas: [],
         importance: '',
@@ -45,10 +45,10 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintContent = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        doi,
+        id,
       } = req.params;
 
-      const { content } = await repo.getArticle(doi);
+      const { content } = await repo.getArticle(id);
       res.send(content);
     } catch (err) {
       next(err);
@@ -58,9 +58,10 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintReviews = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        doi,
+        id,
       } = req.params;
 
+      const { doi } = await repo.getArticle(id);
       res.send(await fetchReviews(doi, config.id));
     } catch (err) {
       next(err);

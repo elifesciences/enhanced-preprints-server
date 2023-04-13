@@ -280,6 +280,6 @@ export const loadXmlArticlesFromS3IntoStores = async (articleRepository: Article
         return articleContent;
       })
       .then((articleContent) => processArticle(articleContent))
-      .then((article) => articleRepository.storeArticle(article))),
+      .then((article) => articleRepository.storeArticle(article, dirname(xmlS3FilePath).replace('data/', '')))),
   );
 };
