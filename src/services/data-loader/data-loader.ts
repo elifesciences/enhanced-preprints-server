@@ -140,7 +140,7 @@ const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> 
   return manuscriptPaths;
 };
 
-const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
+const processXml = async (file: PreprintXmlFile, id: string): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
   const realFile = realpathSync(file);
   let json = await convertJatsToJson(realFile);
@@ -150,10 +150,10 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
   const doi = dois[0].value;
 
-  // HACK: replace all locally referenced files with a id referencing the asset path
+  // HACK: replace all locally referenced files with an id referencing the asset path
   const articleDir = dirname(realFile);
-  logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find asset path`);
-  json = json.replaceAll(articleDir, doi);
+  logger.debug(`replacing ${articleDir} in JSON with ${id} for client to find asset path`);
+  json = json.replaceAll(articleDir, id);
 
   return {
     doi,
@@ -275,11 +275,11 @@ export const loadXmlArticlesFromS3IntoStores = async (articleRepository: Article
   return Promise.all(
     xmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
       .then(async (xmlFilePath) => {
-        const articleContent = await processXml(xmlFilePath);
+        const articleContent = await processXml(xmlFilePath, dirname(xmlS3FilePath).replace('data/', ''));
         rmSync(dirname(xmlFilePath), { recursive: true, force: true });
         return articleContent;
       })
       .then((articleContent) => processArticle(articleContent))
-      .then((article) => articleRepository.storeArticle(article, dirname(xmlS3FilePath).replaceAll('data/', '')))),
+      .then((article) => articleRepository.storeArticle(article, dirname(xmlS3FilePath).replace('data/', '')))),
   );
 };
