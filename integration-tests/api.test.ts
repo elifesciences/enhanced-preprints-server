@@ -33,7 +33,7 @@ describe('server tests', () => {
       .resolves({
         Contents: [
           { Key: 'data/10.1101/123456/123456.xml' },
-          { Key: 'data/10.1101/456/789/789.xml' },
+          { Key: 'data/10.1101/456/789/v1/789.xml' },
           { Key: 'data/10.1101/654321/654321.xml' },
         ],
       })
@@ -41,7 +41,7 @@ describe('server tests', () => {
       .resolves({ Body: sdkStreamMixin(fooStream) })
       .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
       .resolves({ Body: sdkStreamMixin(barStream) })
-      .on(GetObjectCommand, { Key: 'data/10.1101/456/789/789.xml' })
+      .on(GetObjectCommand, { Key: 'data/10.1101/456/789/v1/789.xml' })
       .resolves({ Body: sdkStreamMixin(bazStream) });
   });
 
@@ -99,7 +99,7 @@ describe('server tests', () => {
               date: '2021-11-19T00:00:00.000Z',
             });
             expect(response.body.items).toContainEqual({
-              id: '10.1101/456/789',
+              id: '10.1101/456/789/v1', // This is the id from the path, rather than the DOI
               doi: '10.1101/456/789',
               title: 'The Wild Adventures of Wile E. Coyote vs Reality-Bending Roadrunners.',
               date: '2021-11-19T00:00:00.000Z',
@@ -272,6 +272,113 @@ describe('server tests', () => {
             }],
           doi: '10.1101/123456',
           title: 'Our Pondering of World Domination!',
+          msas: [],
+          importance: '',
+          strengthOfEvidence: '',
+          views: 1,
+          citations: 2,
+          tweets: 3,
+          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
+          abstract: [{ type: 'Paragraph', content: ['An abstract.'] }],
+          references: [],
+        });
+
+      await agent.get('/api/reviewed-preprints/10.1101/654321/metadata')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect({
+          authors: [
+            {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'New Zealand',
+                  },
+                  name: 'ACME Demolitions, Wellington',
+                }],
+              familyNames: ['Coyote'],
+              givenNames: ['Wile', 'E'],
+              emails: ['w.coyote@acme.demolitions.au'],
+              identifiers: [
+                { type: 'orcid', value: 'http://orcid.org/0000-0002-1234-5678' },
+              ],
+            }, {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'New Zealand',
+                  },
+                  name: 'ACME Demolitions, Wellington',
+                }],
+              familyNames: ['Devil'],
+              givenNames: ['Taz'],
+              identifiers: [
+                { type: 'orcid', value: 'http://orcid.org/0000-0002-1234-5679' },
+              ],
+            }],
+          doi: '10.1101/654321',
+          title: 'Dangers of roadrunners with reality warping powers.',
+          msas: [],
+          importance: '',
+          strengthOfEvidence: '',
+          views: 1,
+          citations: 2,
+          tweets: 3,
+          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
+          abstract: [{ type: 'Paragraph', content: ['Why not to mess with an agent of chaos.'] }],
+          references: [],
+        });
+    });
+
+    it('returns the correct metadata for the test article by ID', async () => {
+      const agent = await generateAgent();
+
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      await agent.get('/api/reviewed-preprints/10.1101/456/789/v1/metadata')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect({
+          authors: [
+            {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'USA',
+                  },
+                  name: 'ACME Labs, New York',
+                }],
+              familyNames: ['Brain'],
+              emails: ['brain@acmelabs.edu.au'],
+            }, {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'USA',
+                  },
+                  name: 'ACME Labs, New York',
+                }],
+              familyNames: ['Pinky'],
+            }],
+          doi: '10.1101/456/789',
+          title: 'The Wild Adventures of Wile E. Coyote vs Reality-Bending Roadrunners.',
           msas: [],
           importance: '',
           strengthOfEvidence: '',
