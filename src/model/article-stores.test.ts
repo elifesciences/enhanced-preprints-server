@@ -184,14 +184,17 @@ describe('article-stores', () => {
       const articleSummaries = await articleStore.getArticleSummaries();
 
       expect(articleSummaries).toStrictEqual(expect.arrayContaining([{
+        id: 'test/article.4',
         doi: 'test/article.4',
         title: 'Test Article 4',
         date: new Date('2008-04-01'),
       }, {
+        id: 'test/article.5',
         doi: 'test/article.5',
         title: 'Test Article 5',
         date: new Date('2008-05-01'),
       }, {
+        id: 'test/article.6',
         doi: 'test/article.6',
         title: 'Test Article 6',
         date: new Date('2008-06-01'),
