@@ -42,8 +42,9 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    return Array.from(this.store.values())
-      .map((article) => ({
+    return Array.from(this.store.entries())
+      .map(([id, article]) => ({
+        id,
         doi: article.doi,
         title: article.title,
         date: article.date,

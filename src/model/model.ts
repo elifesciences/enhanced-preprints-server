@@ -83,6 +83,7 @@ export type ProcessedArticle = {
 };
 
 export type ArticleSummary = {
+  id: string,
   doi: Doi
   title: ArticleTitle,
   date: Date,
