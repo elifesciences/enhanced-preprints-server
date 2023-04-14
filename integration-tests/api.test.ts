@@ -33,7 +33,7 @@ describe('server tests', () => {
       .resolves({
         Contents: [
           { Key: 'data/10.1101/123456/123456.xml' },
-          { Key: 'data/10.1101/456/789.xml' },
+          { Key: 'data/10.1101/456/789/789.xml' },
           { Key: 'data/10.1101/654321/654321.xml' },
         ],
       })
@@ -41,7 +41,7 @@ describe('server tests', () => {
       .resolves({ Body: sdkStreamMixin(fooStream) })
       .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
       .resolves({ Body: sdkStreamMixin(barStream) })
-      .on(GetObjectCommand, { Key: 'data/10.1101/456/789.xml' })
+      .on(GetObjectCommand, { Key: 'data/10.1101/456/789/789.xml' })
       .resolves({ Body: sdkStreamMixin(bazStream) });
   });
 
@@ -87,16 +87,19 @@ describe('server tests', () => {
           .expect((response) => {
             expect(response.body.total).toBe(3);
             expect(response.body.items).toContainEqual({
+              id: '10.1101/123456',
               doi: '10.1101/123456',
               title: 'Our Pondering of World Domination!',
               date: '2021-11-19T00:00:00.000Z',
             });
             expect(response.body.items).toContainEqual({
+              id: '10.1101/654321',
               doi: '10.1101/654321',
               title: 'Dangers of roadrunners with reality warping powers.',
               date: '2021-11-19T00:00:00.000Z',
             });
             expect(response.body.items).toContainEqual({
+              id: '10.1101/456/789',
               doi: '10.1101/456/789',
               title: 'The Wild Adventures of Wile E. Coyote vs Reality-Bending Roadrunners.',
               date: '2021-11-19T00:00:00.000Z',
@@ -406,7 +409,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/123456':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/654321':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -415,9 +418,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/10.1101/654321/reviews')
         .expect(404); // TODO: why is this a 404?
     });
 
@@ -426,7 +434,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/123456':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/654321':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -439,9 +447,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/10.1101/654321/reviews')
         .expect(404); // TODO: why is this a 404?
     });
 
@@ -465,9 +478,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/654321/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/10.1101/654321/reviews')
         .expect(500);
     });
 
@@ -491,9 +509,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/10.1101/123456/reviews')
         .expect(200)
         .expect({
           reviews: [
