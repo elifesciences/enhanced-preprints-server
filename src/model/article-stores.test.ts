@@ -137,6 +137,30 @@ describe('article-stores', () => {
       expect(article.content).toStrictEqual([]);
     });
 
+    it('stores article content and retrieves a specific processed article by ID, different to DOI', async () => {
+      const articleStore = await createArticleRepo(store);
+
+      const exampleArticle = {
+        doi: 'test/article.2',
+        title: 'Test Article 2',
+        abstract: 'Test article 2 abstract',
+        date: new Date('2008-02-03'),
+        authors: exampleAuthors,
+        content: [],
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const result = await articleStore.storeArticle(exampleArticle, 'test/article.2/v1');
+      expect(result).toStrictEqual(true);
+
+      const article = await articleStore.getArticle('test/article.2/v1');
+      expect(article).toBeDefined();
+      expect(article.doi).toStrictEqual('test/article.2');
+
+      expect(articleStore.getArticle('test/article.2')).rejects.toThrowError();
+    });
+
     it('errors when retrieving unknown article', async () => {
       const articleStore = await createArticleRepo(store);
       await expect(articleStore.getArticle('test/article.3')).rejects.toThrowError();
