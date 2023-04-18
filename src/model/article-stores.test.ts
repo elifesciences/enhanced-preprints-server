@@ -73,7 +73,7 @@ describe('article-stores', () => {
         licenses: exampleLicenses,
         headings: [],
         references: [exampleReference],
-      });
+      }, 'test/article.1');
 
       expect(stored).toStrictEqual(true);
     });
@@ -91,13 +91,13 @@ describe('article-stores', () => {
         headings: [],
         references: [exampleReference],
       };
-      const stored1 = await articleStore.storeArticle(article);
-      const retreived1 = await articleStore.getArticle(article.doi);
+      const stored1 = await articleStore.storeArticle(article, 'test/article.1');
+      const retreived1 = await articleStore.getArticle('test/article.1');
 
       const stored2 = await articleStore.storeArticle({
         ...article,
         content: '<article>content</article>',
-      });
+      }, 'test/article.1');
 
       const retreived2 = await articleStore.getArticle(article.doi);
 
@@ -122,7 +122,7 @@ describe('article-stores', () => {
         headings: [],
         references: [exampleReference],
       };
-      const result = await articleStore.storeArticle(exampleArticle);
+      const result = await articleStore.storeArticle(exampleArticle, 'test/article.2');
       expect(result).toStrictEqual(true);
 
       const article = await articleStore.getArticle('test/article.2');
@@ -135,6 +135,30 @@ describe('article-stores', () => {
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
       expect(article.content).toStrictEqual([]);
+    });
+
+    it('stores article content and retrieves a specific processed article by ID, different to DOI', async () => {
+      const articleStore = await createArticleRepo(store);
+
+      const exampleArticle = {
+        doi: 'test/article.2',
+        title: 'Test Article 2',
+        abstract: 'Test article 2 abstract',
+        date: new Date('2008-02-03'),
+        authors: exampleAuthors,
+        content: [],
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const result = await articleStore.storeArticle(exampleArticle, 'test/article.2/v1');
+      expect(result).toStrictEqual(true);
+
+      const article = await articleStore.getArticle('test/article.2/v1');
+      expect(article).toBeDefined();
+      expect(article.doi).toStrictEqual('test/article.2');
+
+      expect(articleStore.getArticle('test/article.2')).rejects.toThrowError();
     });
 
     it('errors when retrieving unknown article', async () => {
@@ -177,21 +201,24 @@ describe('article-stores', () => {
         headings: [],
         references: [exampleReference],
       };
-      await articleStore.storeArticle(exampleArticle1);
-      await articleStore.storeArticle(exampleArticle2);
-      await articleStore.storeArticle(exampleArticle3);
+      await articleStore.storeArticle(exampleArticle1, 'test/article.4');
+      await articleStore.storeArticle(exampleArticle2, 'test/article.5');
+      await articleStore.storeArticle(exampleArticle3, 'test/article.6');
 
       const articleSummaries = await articleStore.getArticleSummaries();
 
       expect(articleSummaries).toStrictEqual(expect.arrayContaining([{
+        id: 'test/article.4',
         doi: 'test/article.4',
         title: 'Test Article 4',
         date: new Date('2008-04-01'),
       }, {
+        id: 'test/article.5',
         doi: 'test/article.5',
         title: 'Test Article 5',
         date: new Date('2008-05-01'),
       }, {
+        id: 'test/article.6',
         doi: 'test/article.6',
         title: 'Test Article 6',
         date: new Date('2008-06-01'),

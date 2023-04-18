@@ -4,7 +4,7 @@ import {
   ArticleRepository,
   ArticleSummary,
   ArticleTitle,
-  Author, Doi,
+  Author,
   Heading,
   License,
   ProcessedArticle,
@@ -41,14 +41,14 @@ class MongoDBArticleRepository implements ArticleRepository {
     this.versionedCollection = versionedCollection;
   }
 
-  async storeArticle(article: ProcessedArticle): Promise<boolean> {
+  async storeArticle(article: ProcessedArticle, id: string): Promise<boolean> {
     const response = await this.collection.updateOne(
       {
-        _id: article.doi,
+        _id: id,
       },
       {
         $set: {
-          _id: article.doi,
+          _id: id,
           title: article.title,
           abstract: article.abstract,
           authors: article.authors,
@@ -68,10 +68,10 @@ class MongoDBArticleRepository implements ArticleRepository {
     return response.acknowledged;
   }
 
-  async getArticle(doi: Doi): Promise<ProcessedArticle> {
-    const article = await this.collection.findOne({ _id: doi });
+  async getArticle(id: string): Promise<ProcessedArticle> {
+    const article = await this.collection.findOne({ _id: id });
     if (!article) {
-      throw new Error(`Article with DOI "${doi}" was not found`);
+      throw new Error(`Article with ID "${id}" was not found`);
     }
 
     return {
@@ -81,13 +81,15 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    const results = await this.collection.find({}).project<ArticleSummary>({
+    const results = await this.collection.find({}).project({
       doi: 1,
       date: 1,
       title: 1,
     });
 
     return (await results.toArray()).map<ArticleSummary>((doc) => ({
+      // eslint-disable-next-line no-underscore-dangle
+      id: doc._id,
       doi: doc.doi,
       date: new Date(doc.date),
       title: doc.title,

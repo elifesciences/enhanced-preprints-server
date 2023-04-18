@@ -83,6 +83,7 @@ export type ProcessedArticle = {
 };
 
 export type ArticleSummary = {
+  id: string,
   doi: Doi
   title: ArticleTitle,
   date: Date,
@@ -137,8 +138,8 @@ export type EnhancedArticleWithVersions = {
 };
 
 export interface ArticleRepository {
-  storeArticle(article: ProcessedArticle): Promise<boolean>;
-  getArticle(doi: Doi): Promise<ProcessedArticle>;
+  storeArticle(article: ProcessedArticle, id: string): Promise<boolean>;
+  getArticle(id: string): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions>;
