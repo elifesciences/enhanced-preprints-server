@@ -2,7 +2,6 @@ import axios from 'axios';
 import { mocked } from 'jest-mock';
 import { fetchReviews } from './fetch-reviews';
 import { docmapMock, docmapMock2, reviewMocks } from '../../../test-utils/docmap-mock';
-import { PeerReview } from '../../model/model';
 
 jest.mock('axios');
 
@@ -81,7 +80,6 @@ describe('fetch-reviews', () => {
         'review-two',
         'review-three',
       ]));
-
     });
   });
 
