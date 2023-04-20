@@ -241,6 +241,18 @@ export const docmapMock2 = {
             },
           ],
         },
+        {
+          participants: [{ actor: { name: 'anonymous', type: 'person' }, role: 'peer-reviewer' }],
+          outputs: [{
+            type: 'reply',
+            published: '2022-02-15T11:24:05.730Z',
+            content: [
+              { type: 'web-page', url: 'https://hypothes.is/a/lxpxhN9cEe2uucduJPd1xg' },
+              { type: 'web-page', url: 'https://sciety.org/articles/activity/10.1101/2021.06.02.446694#hypothesis:lxpxhN9cEe2uucduJPd1xg' },
+              { type: 'web-page', url: 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article2-revised-reply/content' },
+            ],
+          }],
+        },
       ],
     },
   },
@@ -261,4 +273,5 @@ export const reviewMocks: Record<string, string> = {
   'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article2-revised-review-one/content': 'revised-one',
   'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article2-revised-review-two/content': 'revised-two',
   'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article2-revised-evaluation-summary/content': 'revised-summary',
+  'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article2-revised-reply/content': 'revised-reply',
 };
