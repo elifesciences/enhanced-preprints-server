@@ -3,11 +3,8 @@ import { Participant, PeerReview, ReviewType } from '../../model/model';
 
 type FetchReviews = (doi: string, reviewingGroup: string) => Promise<PeerReview>;
 
-type FetchDocmap = (id: string) => Promise<Docmap>;
-const fetchDocmapsForPreprint: FetchDocmap = async (doi) => axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=${doi}`).then(async (res) => res.data);
-const fetchDocmapsForManuscript: FetchDocmap = async (manuscriptId) => axios.get(
-  `https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=${manuscriptId}`,
-).then(async (res) => res.data);
+type FetchDocmap = (doi: string) => Promise<Docmap>;
+const fetchDocmaps: FetchDocmap = async (doi) => axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=${doi}`).then(async (res) => res.data);
 
 const hypothesisCache:Map<string, string> = new Map();
 
@@ -26,16 +23,12 @@ const roleToFriendlyRole = (role: string) => {
   return role;
 };
 
-export const fetchReviews: FetchReviews = async (id) => {
+export const fetchReviews: FetchReviews = async (doi) => {
   let docmap;
   try {
-    if (id.includes('/')) {
-      docmap = await fetchDocmapsForPreprint(id);
-    } else {
-      docmap = await fetchDocmapsForManuscript(id);
-    }
+    docmap = await fetchDocmaps(doi);
   } catch (error) {
-    throw Error(`Unable to retrieve docmap for article with id ${id}: ${error}`);
+    throw Error(`Unable to retrieve docmap for article ${doi}: ${error}`);
   }
 
   const evaluations = await Promise.all(Object.values(docmap.steps)
@@ -74,7 +67,7 @@ export const fetchReviews: FetchReviews = async (id) => {
 
   const evaluationSummary = evaluations.find((evaluation) => evaluation.reviewType === ReviewType.EvaluationSummary);
   if (!evaluationSummary) {
-    throw Error(`Summary is missing from evaluations for article ${id}`);
+    throw Error(`Summary is missing from evaluations for article ${doi}`);
   }
 
   return {
