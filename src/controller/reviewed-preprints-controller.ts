@@ -61,8 +61,7 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
         id,
       } = req.params;
 
-      const { doi } = await repo.getArticle(id);
-      res.send(await fetchReviews(doi, config.id));
+      res.send(await fetchReviews(id, config.id));
     } catch (err) {
       next(err);
     }

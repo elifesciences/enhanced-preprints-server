@@ -516,7 +516,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/654321':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -532,7 +532,7 @@ describe('server tests', () => {
           status: true,
           message: 'Import completed',
         });
-      await agent.get('/api/reviewed-preprints/10.1101/654321/reviews')
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(404); // TODO: why is this a 404?
     });
 
@@ -541,7 +541,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/654321':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -561,7 +561,7 @@ describe('server tests', () => {
           status: true,
           message: 'Import completed',
         });
-      await agent.get('/api/reviewed-preprints/10.1101/654321/reviews')
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(404); // TODO: why is this a 404?
     });
 
@@ -570,7 +570,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/654321':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock2,
             });
@@ -592,7 +592,7 @@ describe('server tests', () => {
           status: true,
           message: 'Import completed',
         });
-      await agent.get('/api/reviewed-preprints/10.1101/654321/reviews')
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(500);
     });
 
@@ -601,7 +601,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/123456':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -623,7 +623,7 @@ describe('server tests', () => {
           status: true,
           message: 'Import completed',
         });
-      await agent.get('/api/reviewed-preprints/10.1101/123456/reviews')
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(200)
         .expect({
           reviews: [
