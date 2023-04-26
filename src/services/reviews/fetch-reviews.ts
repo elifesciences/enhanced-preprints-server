@@ -27,6 +27,7 @@ export const fetchReviews: FetchReviews = async (msid) => {
   let docmap;
   try {
     // TO-DO: remove this once client is updated
+    // const newMsid = msid;
     const newMsid = msid.split('/')[0];
 
     docmap = await fetchDocmaps(newMsid);
