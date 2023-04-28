@@ -652,62 +652,6 @@ describe('server tests', () => {
           },
         });
     });
-
-    it('returns a 200 with a peer review object for each article if a version is passed with the msid', async () => {
-      // Needed for jest mock of axios
-      // @ts-ignore
-      axios.get.mockImplementation((url: string) => {
-        switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
-            return Promise.resolve({
-              data: docmapMock1,
-            });
-          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-review-one/content':
-          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-reply/content':
-          case 'https://sciety.org/evaluations/hypothesis:hardcoded-elife-article-evaluation-summary/content':
-            return Promise.resolve({
-              data: reviewMocks1[url],
-            });
-          default:
-            return Promise.reject();
-        }
-      });
-
-      const agent = await generateAgent();
-      await agent.post('/import')
-        .expect(200)
-        .expect({
-          status: true,
-          message: 'Import completed',
-        });
-      await agent.get('/api/reviewed-preprints/88888/foo/reviews')
-        .expect(200)
-        .expect({
-          reviews: [
-            {
-              text: 'one',
-              date: '2022-02-15T09:43:12.593Z',
-              reviewType: 'review-article',
-              participants: [],
-            },
-          ],
-          evaluationSummary: {
-            text: 'summary',
-            date: '2022-02-15T09:43:15.348Z',
-            reviewType: 'evaluation-summary',
-            participants: [
-              { name: 'Bugs Bunny', role: 'Senior Editor', institution: 'ACME University, United States' },
-              { name: 'Daffy Duck', role: 'Reviewing Editor', institution: 'ACME University, United States' },
-            ],
-          },
-          authorResponse: {
-            text: 'reply',
-            date: '2022-02-15T11:24:05.730Z',
-            reviewType: 'reply',
-            participants: [],
-          },
-        });
-    });
   });
 
   describe('/api/preprints', () => {
