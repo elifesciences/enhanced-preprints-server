@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { config } from '../../config';
 import { Participant, PeerReview, ReviewType } from '../../model/model';
 
 type FetchReviews = (msid: string, reviewingGroup: string) => Promise<PeerReview>;
 
 type FetchDocmap = (msid: string) => Promise<Docmap>;
-const fetchDocmaps: FetchDocmap = async (msid) => axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=${msid}`).then(async (res) => res.data);
+const fetchDocmaps: FetchDocmap = async (msid) => axios.get(`${config.docmapsApi}${msid}`).then(async (res) => res.data);
 
 const hypothesisCache:Map<string, string> = new Map();
 
@@ -30,6 +31,41 @@ export const fetchReviews: FetchReviews = async (msid) => {
   } catch (error) {
     throw Error(`Unable to retrieve docmap for article ${msid}: ${error}`);
   }
+
+  const evaluationsGroupedByVersion = await Promise.all(
+    Object.values(docmap.steps)
+      .map((step) => step.actions
+        .map(
+          ({ participants, outputs }) => (
+            {
+              participants: participants.filter(({ role }) => role !== 'peer-reviewer'),
+              outputs: outputs.filter((output) => output.content).map((output) => ({ ...output, content: output.content.filter(isScietyContent) })),
+            }
+          ),
+        )
+        .filter(({ outputs }) => outputs.length > 0))
+      .filter((step) => step.length > 0)
+      .map((version) => version.map(({ participants, outputs }) => {
+        const output = outputs[0];
+        const content = output.content[0];
+        return {
+          date: new Date(output.published),
+          reviewType: <ReviewType> output.type,
+          url: content.url,
+          participants: participants
+            // eslint-disable-next-line no-underscore-dangle
+            .map((participant) => ({ name: participant.actor.name, role: roleToFriendlyRole(participant.role), institution: participant.actor._relatesToOrganization })),
+        };
+      })
+        .map(async ({ url, ...rest }) => {
+          const response = await axios.get(url);
+          const text = await response.data;
+
+          return { text, ...rest };
+        })),
+  );
+  console.log(`Length: ${evaluationsGroupedByVersion.length}`);
+  console.log(evaluationsGroupedByVersion);
 
   const evaluations = await Promise.all(Object.values(docmap.steps)
     .flatMap((docmapStep) => docmapStep.actions)
