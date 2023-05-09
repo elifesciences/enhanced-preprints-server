@@ -2,7 +2,7 @@ import axios from 'axios';
 import { config } from '../../config';
 import { Participant, PeerReview, ReviewType } from '../../model/model';
 
-type FetchReviews = (msid: string, reviewingGroup: string) => Promise<PeerReview>;
+type FetchReviews = (msid: string, version?: number) => Promise<PeerReview>;
 
 type FetchDocmap = (msid: string) => Promise<Docmap>;
 const fetchDocmaps: FetchDocmap = async (msid) => axios.get(`${config.docmapsApi}${msid}`).then(async (res) => res.data);
@@ -24,7 +24,7 @@ const roleToFriendlyRole = (role: string) => {
   return role;
 };
 
-export const fetchReviews: FetchReviews = async (msid) => {
+export const fetchReviews: FetchReviews = async (msid, version = 1) => {
   let docmap: Docmap;
   try {
     docmap = await fetchDocmaps(msid);
@@ -32,9 +32,7 @@ export const fetchReviews: FetchReviews = async (msid) => {
     throw Error(`Unable to retrieve docmap for article ${msid}: ${error}`);
   }
 
-  type FooArray = { date: Date, reviewType: ReviewType, url: string, participants: Participant[] };
-
-  const foo: FooArray[][] = Object.values(docmap.steps)
+  const evaluationsGroupedByVersion: { date: Date, reviewType: ReviewType, url: string, participants: Participant[] }[][] = Object.values(docmap.steps)
     .map((step) => step.actions
       .map(
         ({ participants, outputs }) => (
@@ -46,7 +44,7 @@ export const fetchReviews: FetchReviews = async (msid) => {
       )
       .filter(({ outputs }) => outputs.length > 0))
     .filter((step) => step.length > 0)
-    .map((version) => version.map(({ participants, outputs }) => {
+    .map((evaluationSet) => evaluationSet.map(({ participants, outputs }) => {
       const output = outputs[0];
       const content = output.content[0];
       return {
@@ -59,42 +57,12 @@ export const fetchReviews: FetchReviews = async (msid) => {
       };
     }));
 
-  const evaluationsGroupedByVersion = await Promise.all(
-    foo.map(async (review) => {
-      const response = await axios.get(review[0].url);
-      const text = await response.data;
+  if (evaluationsGroupedByVersion.length === 0 || !((version - 1) in evaluationsGroupedByVersion)) {
+    throw Error(`Unable to retrieve reviews for article ${msid} (version: ${version}, entries: ${evaluationsGroupedByVersion.length})`);
+  }
 
-      return { text, ...review };
-    }),
-  );
-
-  console.log(`Length: ${evaluationsGroupedByVersion.length}`);
-  console.log(evaluationsGroupedByVersion);
-
-  const evaluations = await Promise.all(Object.values(docmap.steps)
-    .flatMap((docmapStep) => docmapStep.actions)
-    .flatMap(({ participants, outputs }) => outputs.map((output) => ({ ...output, participants })))
-    .reduce((previousValue, currentValue) => {
-      if (!currentValue.content) { // ignore outputs without content
-        return previousValue;
-      }
-      const webContent = currentValue.content.find(isScietyContent);
-      const participants = currentValue.participants
-        // eslint-disable-next-line no-underscore-dangle
-        .map((participant) => ({ name: participant.actor.name, role: roleToFriendlyRole(participant.role), institution: participant.actor._relatesToOrganization }))
-        .filter((participant) => participant.role !== 'peer-reviewer');
-      if (webContent) {
-        previousValue.push({
-          date: new Date(currentValue.published),
-          reviewType: <ReviewType> currentValue.type,
-          url: webContent.url,
-          participants,
-        });
-      }
-
-      return previousValue;
-    }, new Array<{ date: Date, reviewType: ReviewType, url: string, participants: Participant[] }>())
-    .map(async ({ url, ...rest }) => {
+  const evaluations = await Promise.all(
+    evaluationsGroupedByVersion[version - 1].map(async ({ url, ...rest }) => {
       if (hypothesisCache.has(url)) {
         return { text: hypothesisCache.get(url), ...rest };
       }
@@ -103,7 +71,8 @@ export const fetchReviews: FetchReviews = async (msid) => {
       hypothesisCache.set(url, text);
 
       return { text, ...rest };
-    }));
+    }),
+  );
 
   const evaluationSummary = evaluations.find((evaluation) => evaluation.reviewType === ReviewType.EvaluationSummary);
   if (!evaluationSummary) {

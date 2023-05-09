@@ -16,7 +16,7 @@ jest.mock('axios');
 
 const generateAgent = async () => {
   const repo = await createArticleRepository(StoreType.InMemory);
-  const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+  const app = await createApp(repo);
 
   return request(app);
 };
@@ -53,7 +53,7 @@ describe('server tests', () => {
     describe('empty database', () => {
       it('should redirect from / to /api/reviewed-preprints/', async () => {
         const repo = await createArticleRepository(StoreType.InMemory);
-        await request(createApp(repo, {}))
+        await request(createApp(repo))
           .get('/')
           .expect(302)
           .expect('Location', '/api/reviewed-preprints/');
@@ -61,7 +61,7 @@ describe('server tests', () => {
 
       it('should return an empty json array with no data', async () => {
         const repo = await createArticleRepository(StoreType.InMemory);
-        await request(createApp(repo, {}))
+        await request(createApp(repo))
           .get('/api/reviewed-preprints')
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect({
@@ -112,7 +112,7 @@ describe('server tests', () => {
   describe('/import', () => {
     it('import the articles', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, {});
+      const app = await createApp(repo);
 
       return request(app)
         .post('/import')
@@ -125,7 +125,7 @@ describe('server tests', () => {
 
     it('import new articles', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+      const app = await createApp(repo);
 
       // set the mock for single manuscript to import
       mockClient(S3Client)
@@ -185,7 +185,7 @@ describe('server tests', () => {
 
     it('returns success on reimport and message', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+      const app = await createApp(repo);
 
       await request(app)
         .post('/import')
@@ -224,7 +224,7 @@ describe('server tests', () => {
   describe('/api/reviewed-preprints/:doi(*)/metadata', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .get('/api/reviewed-preprints/1/2/metadata')
         .expect(500);
     });
@@ -447,7 +447,7 @@ describe('server tests', () => {
   describe('/api/reviewed-preprints/:doi(*)/content', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .get('/api/reviewed-preprints/1/2/content')
         .expect(500);
     });
@@ -507,7 +507,7 @@ describe('server tests', () => {
       axios.get.mockRejectedValue({});
 
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .get('/api/reviewed-preprints/1/2/reviews')
         .expect(500);
     });
@@ -657,7 +657,7 @@ describe('server tests', () => {
   describe('/api/preprints', () => {
     it.each([mockBody1, mockBody2, mockBody3])('passes validation on import', async (mockBody) => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .post('/preprints')
         .send(mockBody)
         .expect('Content-Type', 'application/json; charset=utf-8')
@@ -698,7 +698,7 @@ describe('server tests', () => {
 
     it('imports a valid JSON body', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .post('/preprints')
         .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
@@ -710,7 +710,7 @@ describe('server tests', () => {
 
     it('imports a valid JSON body and we are able to retrieve it', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       await request(app)
         .post('/preprints')
@@ -733,7 +733,7 @@ describe('server tests', () => {
 
     it('imports two content types and we are able to retrieve the earliest by ID, and the latest by msid', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       const exampleVersion1 = {
         ...enhancedArticle,
@@ -833,7 +833,7 @@ describe('server tests', () => {
 
     it('returns a BibTeX file with the correct information', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -847,7 +847,7 @@ describe('server tests', () => {
 
     it('returns a 400 when the crossref BibTeX call fails', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -860,7 +860,7 @@ describe('server tests', () => {
 
     it('formats the BibTeX data to be URI decoded', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -902,7 +902,7 @@ describe('server tests', () => {
 
     it('returns an RIS file with the correct information', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -916,7 +916,7 @@ describe('server tests', () => {
 
     it('returns a 400 when the crossref RIS call fails', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -929,7 +929,7 @@ describe('server tests', () => {
 
     it('formats the RIS data to be URI decoded', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore

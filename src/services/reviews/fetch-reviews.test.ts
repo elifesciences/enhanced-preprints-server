@@ -26,7 +26,7 @@ describe('fetch-reviews', () => {
 
     let peerReview: PeerReview;
     beforeAll(async () => {
-      peerReview = await fetchReviews('88888', 'test');
+      peerReview = await fetchReviews('88888');
     });
 
     it('extracts the correct participants for each action, maps roles to friendly and strips peer-reviewers', () => {
@@ -68,7 +68,7 @@ describe('fetch-reviews', () => {
         status: 404,
       }));
 
-      await expect(fetchReviews('88888', 'https://biophysics.sciencecolab.org')).rejects.toThrow();
+      await expect(fetchReviews('88888')).rejects.toThrow();
     });
 
     it('returns empty array if there are no hypothesis link in the docmap', async () => {
@@ -79,7 +79,7 @@ describe('fetch-reviews', () => {
         status: 200,
       }));
 
-      await expect(fetchReviews('88888', 'https://biophysics.sciencecolab.org')).rejects.toThrow();
+      await expect(fetchReviews('88888')).rejects.toThrow();
     });
   });
 });
