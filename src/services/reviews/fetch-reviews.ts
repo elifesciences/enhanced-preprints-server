@@ -32,38 +32,42 @@ export const fetchReviews: FetchReviews = async (msid) => {
     throw Error(`Unable to retrieve docmap for article ${msid}: ${error}`);
   }
 
-  const evaluationsGroupedByVersion = await Promise.all(
-    Object.values(docmap.steps)
-      .map((step) => step.actions
-        .map(
-          ({ participants, outputs }) => (
-            {
-              participants: participants.filter(({ role }) => role !== 'peer-reviewer'),
-              outputs: outputs.filter((output) => output.content).map((output) => ({ ...output, content: output.content.filter(isScietyContent) })),
-            }
-          ),
-        )
-        .filter(({ outputs }) => outputs.length > 0))
-      .filter((step) => step.length > 0)
-      .map((version) => version.map(({ participants, outputs }) => {
-        const output = outputs[0];
-        const content = output.content[0];
-        return {
-          date: new Date(output.published),
-          reviewType: <ReviewType> output.type,
-          url: content.url,
-          participants: participants
-            // eslint-disable-next-line no-underscore-dangle
-            .map((participant) => ({ name: participant.actor.name, role: roleToFriendlyRole(participant.role), institution: participant.actor._relatesToOrganization })),
-        };
-      })
-        .map(async ({ url, ...rest }) => {
-          const response = await axios.get(url);
-          const text = await response.data;
+  type FooArray = { date: Date, reviewType: ReviewType, url: string, participants: Participant[] };
 
-          return { text, ...rest };
-        })),
+  const foo: FooArray[][] = Object.values(docmap.steps)
+    .map((step) => step.actions
+      .map(
+        ({ participants, outputs }) => (
+          {
+            participants: participants.filter(({ role }) => role !== 'peer-reviewer'),
+            outputs: outputs.filter((output) => output.content).map((output) => ({ ...output, content: output.content.filter(isScietyContent) })),
+          }
+        ),
+      )
+      .filter(({ outputs }) => outputs.length > 0))
+    .filter((step) => step.length > 0)
+    .map((version) => version.map(({ participants, outputs }) => {
+      const output = outputs[0];
+      const content = output.content[0];
+      return {
+        date: new Date(output.published),
+        reviewType: <ReviewType> output.type,
+        url: content.url,
+        participants: participants
+        // eslint-disable-next-line no-underscore-dangle
+          .map((participant) => ({ name: participant.actor.name, role: roleToFriendlyRole(participant.role), institution: participant.actor._relatesToOrganization })),
+      };
+    }));
+
+  const evaluationsGroupedByVersion = await Promise.all(
+    foo.map(async (review) => {
+      const response = await axios.get(review[0].url);
+      const text = await response.data;
+
+      return { text, ...review };
+    }),
   );
+
   console.log(`Length: ${evaluationsGroupedByVersion.length}`);
   console.log(evaluationsGroupedByVersion);
 
