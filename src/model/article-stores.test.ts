@@ -225,6 +225,61 @@ describe('article-stores', () => {
       }]));
     });
 
+    it('gets articles hashes', async () => {
+      const articleStore = await createArticleRepo(store);
+      const exampleArticle1 = {
+        doi: 'test/article.4',
+        hash: '6a096ec816505f5d70c3d0e7be791bc0',
+        title: 'Test Article 4',
+        abstract: 'Test article 4 abstract',
+        date: new Date('2008-04-01'),
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const exampleArticle2 = {
+        doi: 'test/article.5',
+        hash: '4cfcf2fe178c18ba43a61e9ad415ad3c',
+        title: 'Test Article 5',
+        abstract: 'Test article 5 abstract',
+        date: new Date('2008-05-01'),
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      const exampleArticle3 = {
+        doi: 'test/article.6',
+        title: 'Test Article 6',
+        abstract: 'Test article 6 abstract',
+        date: new Date('2008-06-01'),
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      };
+      await articleStore.storeArticle(exampleArticle1, 'test/article.4');
+      await articleStore.storeArticle(exampleArticle2, 'test/article.5');
+      await articleStore.storeArticle(exampleArticle3, 'test/article.6');
+
+      const articleSummaries = await articleStore.getArticleHashes();
+
+      expect(articleSummaries).toStrictEqual(expect.arrayContaining([{
+        id: 'test/article.4',
+        hash: '6a096ec816505f5d70c3d0e7be791bc0',
+      }, {
+        id: 'test/article.5',
+        hash: '4cfcf2fe178c18ba43a61e9ad415ad3c',
+      }, {
+        id: 'test/article.6',
+        hash: undefined,
+      }]));
+    });
+
     it('throws an error with unknown identifier', async () => {
       const articleStore = await createArticleRepo(store);
       expect(async () => articleStore.getArticleVersion('not-an-id')).rejects.toThrow();

@@ -11,6 +11,7 @@ import {
   Reference,
   EnhancedArticle,
   EnhancedArticleWithVersions,
+  ArticleHash,
 } from '../model';
 import { Content } from '../content';
 
@@ -93,6 +94,18 @@ class MongoDBArticleRepository implements ArticleRepository {
       doi: doc.doi,
       date: new Date(doc.date),
       title: doc.title,
+    }));
+  }
+
+  async getArticleHashes(): Promise<ArticleHash[]> {
+    const results = await this.collection.find({}).project({
+      hash: 1,
+    });
+
+    return (await results.toArray()).map<ArticleHash>((doc) => ({
+      // eslint-disable-next-line no-underscore-dangle
+      id: doc._id,
+      hash: doc.hash,
     }));
   }
 

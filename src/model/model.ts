@@ -72,6 +72,7 @@ export type Reference = {
 
 export type ProcessedArticle = {
   doi: string,
+  hash?: string,
   title: ArticleTitle,
   date: Date,
   authors: Author[],
@@ -87,6 +88,11 @@ export type ArticleSummary = {
   doi: Doi
   title: ArticleTitle,
   date: Date,
+};
+
+export type ArticleHash = {
+  id: string,
+  hash?: string,
 };
 
 export type ReviewText = string;
@@ -117,6 +123,7 @@ export type PeerReview = {
 
 export type EnhancedArticle = {
   id: string,
+  hash?: string,
   msid: string,
   doi: string,
   versionIdentifier: string,
@@ -141,6 +148,7 @@ export interface ArticleRepository {
   storeArticle(article: ProcessedArticle, id: string): Promise<boolean>;
   getArticle(id: string): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
+  getArticleHashes(): Promise<ArticleHash[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions>;
 }

@@ -42,8 +42,18 @@ export const preprintsController = (repo: ArticleRepository) => {
     }
   };
 
+  const getAllPreprintHashes = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const hashes = await repo.getArticleHashes();
+      res.send(hashes);
+    } catch (err) {
+      next(err);
+    }
+  };
+
   return {
     postPreprints,
     getPreprintsByIdentifier,
+    getAllPreprintHashes,
   };
 };

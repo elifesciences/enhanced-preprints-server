@@ -4,6 +4,7 @@ import {
   ArticleSummary,
   EnhancedArticle,
   EnhancedArticleWithVersions,
+  ArticleHash,
 } from '../model';
 
 const comparePreprintPostedDates = (a: EnhancedArticle, b: EnhancedArticle): number => {
@@ -48,6 +49,14 @@ class InMemoryArticleRepository implements ArticleRepository {
         doi: article.doi,
         title: article.title,
         date: article.date,
+      }));
+  }
+
+  async getArticleHashes(): Promise<ArticleHash[]> {
+    return Array.from(this.store.entries())
+      .map(([id, article]) => ({
+        id,
+        hash: article.hash,
       }));
   }
 
