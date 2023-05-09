@@ -21,6 +21,10 @@
       "matchPackageNames": ["node"],
       "matchDatasources": ["docker"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["@stencila/encoda"],
+      "automerge": false
     }
   ]
 }
