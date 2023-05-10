@@ -2,7 +2,7 @@ import axios from 'axios';
 import { config } from '../../config';
 import { Participant, PeerReview, ReviewType } from '../../model/model';
 
-type FetchReviews = (msid: string, version?: number) => Promise<PeerReview>;
+type FetchReviews = (id: string) => Promise<PeerReview>;
 
 type FetchDocmap = (msid: string) => Promise<Docmap>;
 const fetchDocmaps: FetchDocmap = async (msid) => axios.get(`${config.docmapsApi}${msid}`).then(async (res) => res.data);
@@ -24,8 +24,16 @@ const roleToFriendlyRole = (role: string) => {
   return role;
 };
 
-export const fetchReviews: FetchReviews = async (msid, version = 1) => {
+export const fetchReviews: FetchReviews = async (id) => {
   let docmap: Docmap;
+
+  // We will not need to infer the reviews from id string after automation.
+  const [msid, versionId] = id.split('/');
+  const versionPattern = /[1-9][0-9]*$/;
+  const version = versionPattern.test(versionId)
+    ? parseInt(versionId.match(versionPattern)![0], 10)
+    : 1;
+
   try {
     docmap = await fetchDocmaps(msid);
   } catch (error) {
@@ -52,7 +60,7 @@ export const fetchReviews: FetchReviews = async (msid, version = 1) => {
         reviewType: <ReviewType> output.type,
         url: content.url,
         participants: participants
-        // eslint-disable-next-line no-underscore-dangle
+          // eslint-disable-next-line no-underscore-dangle
           .map((participant) => ({ name: participant.actor.name, role: roleToFriendlyRole(participant.role), institution: participant.actor._relatesToOrganization })),
       };
     }));
