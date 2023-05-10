@@ -225,7 +225,82 @@ describe('article-stores', () => {
       }]));
     });
 
-    it('gets articles hashes', async () => {
+    it('throws an error with unknown identifier', async () => {
+      const articleStore = await createArticleRepo(store);
+      expect(async () => articleStore.getArticleVersion('not-an-id')).rejects.toThrow();
+    });
+
+    it('stores and retrieves a Versioned Article by id with all fields', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle: EnhancedArticle = {
+        id: 'testid1.1',
+        hash: '6a096ec816505f5d70c3d0e7be791bc0',
+        msid: 'testid1',
+        doi: 'journal/testid1',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid1.1',
+        preprintDoi: 'preprint/article7',
+        preprintUrl: 'http://preprints.org/preprint/article7',
+        preprintPosted: new Date('2008-07-01'),
+        sentForReview: new Date('2008-07-02'),
+        published: new Date('2008-11-02'),
+        article: {
+          title: 'Test Article 7',
+          abstract: 'Test article 7 abstract',
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
+      };
+      const result = await articleStore.storeEnhancedArticle(inputArticle);
+      const article = await articleStore.getArticleVersion('testid1');
+
+      expect(result).toStrictEqual(true);
+      expect(article).toMatchObject({
+        article: inputArticle,
+        versions: {
+          'testid1.1': inputArticle,
+        },
+      });
+    });
+
+    it('stores and retrieves a Versioned Article by msid', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle = {
+        id: 'testid2.2',
+        hash: '6a096ec816505f5d70c3d0e7be791bc0',
+        msid: 'testid2',
+        doi: 'journal/testid2.2',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid2.2',
+        preprintDoi: 'preprint/article8',
+        preprintUrl: 'http://preprints.org/preprint/article8',
+        preprintPosted: new Date('2008-08-02'),
+        article: {
+          title: 'Test Article 8',
+          abstract: 'Test article 8 abstract',
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
+      };
+      const result = await articleStore.storeEnhancedArticle(inputArticle);
+      const article = await articleStore.getArticleVersion('testid2');
+
+      expect(result).toStrictEqual(true);
+      expect(article).toMatchObject({
+        article: inputArticle,
+        versions: {
+          'testid2.2': inputArticle,
+        },
+      });
+    });
+
+    it('retrieves the hashes of all Versioned Articles', async () => {
       const articleStore = await createArticleRepo(store);
       const exampleArticle1 = {
         doi: 'test/article.4',
@@ -280,83 +355,11 @@ describe('article-stores', () => {
       }]));
     });
 
-    it('throws an error with unknown identifier', async () => {
-      const articleStore = await createArticleRepo(store);
-      expect(async () => articleStore.getArticleVersion('not-an-id')).rejects.toThrow();
-    });
-
-    it('stores and retrieves a Versioned Article by id with all fields', async () => {
-      const articleStore = await createArticleRepo(store);
-      const inputArticle: EnhancedArticle = {
-        id: 'testid1.1',
-        msid: 'testid1',
-        doi: 'journal/testid1',
-        versionIdentifier: '1',
-        versionDoi: 'journal/testid1.1',
-        preprintDoi: 'preprint/article7',
-        preprintUrl: 'http://preprints.org/preprint/article7',
-        preprintPosted: new Date('2008-07-01'),
-        sentForReview: new Date('2008-07-02'),
-        published: new Date('2008-11-02'),
-        article: {
-          title: 'Test Article 7',
-          abstract: 'Test article 7 abstract',
-          authors: exampleAuthors,
-          content: '<article></article>',
-          licenses: exampleLicenses,
-          headings: [],
-          references: [exampleReference],
-        },
-      };
-      const result = await articleStore.storeEnhancedArticle(inputArticle);
-      const article = await articleStore.getArticleVersion('testid1');
-
-      expect(result).toStrictEqual(true);
-      expect(article).toMatchObject({
-        article: inputArticle,
-        versions: {
-          'testid1.1': inputArticle,
-        },
-      });
-    });
-
-    it('stores and retrieves a Versioned Article by msid', async () => {
-      const articleStore = await createArticleRepo(store);
-      const inputArticle = {
-        id: 'testid2.2',
-        msid: 'testid2',
-        doi: 'journal/testid2.2',
-        versionIdentifier: '1',
-        versionDoi: 'journal/testid2.2',
-        preprintDoi: 'preprint/article8',
-        preprintUrl: 'http://preprints.org/preprint/article8',
-        preprintPosted: new Date('2008-08-02'),
-        article: {
-          title: 'Test Article 8',
-          abstract: 'Test article 8 abstract',
-          authors: exampleAuthors,
-          content: '<article></article>',
-          licenses: exampleLicenses,
-          headings: [],
-          references: [exampleReference],
-        },
-      };
-      const result = await articleStore.storeEnhancedArticle(inputArticle);
-      const article = await articleStore.getArticleVersion('testid2');
-
-      expect(result).toStrictEqual(true);
-      expect(article).toMatchObject({
-        article: inputArticle,
-        versions: {
-          'testid2.2': inputArticle,
-        },
-      });
-    });
-
     it('stores two Versioned Articles with the same msid and retreives them by id', async () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3.1',
+        hash: '6a096ec816505f5d70c3d0e7be791bc0',
         msid: 'testid3',
         doi: 'journal/testid3.1',
         versionIdentifier: '1',
@@ -376,6 +379,7 @@ describe('article-stores', () => {
       };
       const inputArticle2 = {
         id: 'testid3.2',
+        hash: '4cfcf2fe178c18ba43a61e9ad415ad3c',
         msid: 'testid3',
         doi: 'journal/testid3.2',
         versionIdentifier: '1',
@@ -412,6 +416,7 @@ describe('article-stores', () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid4.1',
+        hash: '6a096ec816505f5d70c3d0e7be791bc0',
         msid: 'testid4',
         doi: 'journal/testid4.1',
         versionIdentifier: '1',
@@ -431,6 +436,7 @@ describe('article-stores', () => {
       };
       const inputArticle2 = {
         id: 'testid4.2',
+        hash: '4cfcf2fe178c18ba43a61e9ad415ad3c',
         msid: 'testid4',
         doi: 'journal/testid4.2',
         versionIdentifier: '1',

@@ -123,7 +123,7 @@ export type PeerReview = {
 
 export type EnhancedArticle = {
   id: string,
-  hash?: string,
+  hash: string,
   msid: string,
   doi: string,
   versionIdentifier: string,

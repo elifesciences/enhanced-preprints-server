@@ -17,6 +17,7 @@ import { Content } from '../content';
 
 type StoredArticle = {
   _id: string,
+  hash?: string,
   doi: string,
   title: ArticleTitle,
   date: Date,
@@ -98,9 +99,7 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleHashes(): Promise<ArticleHash[]> {
-    const results = await this.collection.find({}).project({
-      hash: 1,
-    });
+    const results = await this.versionedCollection.find({}).project({ hash: 1 });
 
     return (await results.toArray()).map<ArticleHash>((doc) => ({
       // eslint-disable-next-line no-underscore-dangle
