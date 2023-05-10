@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ArticleRepository } from '../model/model';
 import { fetchReviews } from '../services/reviews/fetch-reviews';
 
-export const reviewedPreprintsController = (repo: ArticleRepository, config: Record<string, any>) => {
+export const reviewedPreprintsController = (repo: ArticleRepository) => {
   const getReviewedPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const summaries = await repo.getArticleSummaries();
@@ -61,7 +61,7 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
         id,
       } = req.params;
 
-      res.send(await fetchReviews(id, config.id));
+      res.send(await fetchReviews(id));
     } catch (err) {
       next(err);
     }
