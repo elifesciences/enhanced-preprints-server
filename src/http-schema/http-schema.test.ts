@@ -2,6 +2,7 @@ import { EnhancedArticleSchema } from './http-schema';
 
 const enhancedArticleExample = {
   id: 'testid1',
+  hash: '6a096ec816505f5d70c3d0e7be791bc0',
   msid: 'testmsid1',
   doi: 'doi1',
   versionIdentifier: '1',
@@ -102,6 +103,7 @@ describe('httpschema', () => {
   });
 
   const sampleRequiredFieldValidationMessages = [
+    { message: '"hash" is required' },
     { message: '"doi" is required' },
     { message: '"versionIdentifier" is required' },
     { message: '"article" is required' },

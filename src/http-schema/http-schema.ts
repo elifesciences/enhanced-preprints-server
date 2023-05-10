@@ -191,8 +191,8 @@ const ProcessedArticleSchema = Joi.object({
 
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   id: Joi.string().required(),
-  hash: Joi.string().optional(),
   msid: Joi.string().required(),
+  hash: Joi.string().required(),
   doi: Joi.string().required(),
   versionIdentifier: Joi.string().required(),
   versionDoi: Joi.string().optional(),
