@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Participant, PeerReview, ReviewType } from '../../model/model';
 
-type FetchReviews = (msid: string, reviewingGroup: string) => Promise<PeerReview>;
+type FetchReviews = (id: string) => Promise<PeerReview>;
 
 type FetchDocmap = (msid: string) => Promise<Docmap>;
 const fetchDocmaps: FetchDocmap = async (msid) => axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=${msid}`).then(async (res) => res.data);
