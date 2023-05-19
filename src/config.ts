@@ -14,6 +14,7 @@ const getStoreTypeFromString = (repoType: string): StoreType => {
 };
 
 export const config = {
+  port: process.env.PORT ?? 3000,
   repoType: process.env.REPO_TYPE ? getStoreTypeFromString(process.env.REPO_TYPE) : StoreType.InMemory,
   repoConnection: process.env.REPO_CONNECTION ?? './data.db',
   repoUserName: process.env.REPO_USERNAME ?? '',
