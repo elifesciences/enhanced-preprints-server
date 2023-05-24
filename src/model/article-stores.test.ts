@@ -252,6 +252,25 @@ describe('article-stores', () => {
           headings: [],
           references: [exampleReference],
         },
+        timeline: [
+          {
+            name: 'PREPRINT_PUBLISHED',
+            date: new Date('2022-01-01'),
+            url: 'https://doi.org/12345',
+          },
+          {
+            name: 'SENT_FOR_REVIEW',
+            date: new Date('2022-02-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-03-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-05-01'),
+          },
+        ],
       };
       const result = await articleStore.storeEnhancedArticle(inputArticle);
       const article = await articleStore.getArticleVersion('testid1');
@@ -267,7 +286,7 @@ describe('article-stores', () => {
 
     it('stores and retrieves a Versioned Article by msid', async () => {
       const articleStore = await createArticleRepo(store);
-      const inputArticle = {
+      const inputArticle: EnhancedArticle = {
         id: 'testid2.2',
         msid: 'testid2',
         doi: 'journal/testid2.2',
@@ -285,6 +304,25 @@ describe('article-stores', () => {
           headings: [],
           references: [exampleReference],
         },
+        timeline: [
+          {
+            name: 'PREPRINT_PUBLISHED',
+            date: new Date('2022-01-01'),
+            url: 'https://doi.org/12345',
+          },
+          {
+            name: 'SENT_FOR_REVIEW',
+            date: new Date('2022-02-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-03-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-05-01'),
+          },
+        ],
       };
       const result = await articleStore.storeEnhancedArticle(inputArticle);
       const article = await articleStore.getArticleVersion('testid2');
@@ -300,7 +338,7 @@ describe('article-stores', () => {
 
     it('stores two Versioned Articles with the same msid and retreives them by id', async () => {
       const articleStore = await createArticleRepo(store);
-      const inputArticle1 = {
+      const inputArticle1: EnhancedArticle = {
         id: 'testid3.1',
         msid: 'testid3',
         doi: 'journal/testid3.1',
@@ -318,8 +356,27 @@ describe('article-stores', () => {
           headings: [],
           references: [exampleReference],
         },
+        timeline: [
+          {
+            name: 'PREPRINT_PUBLISHED',
+            date: new Date('2022-01-01'),
+            url: 'https://doi.org/12345',
+          },
+          {
+            name: 'SENT_FOR_REVIEW',
+            date: new Date('2022-02-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-03-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-05-01'),
+          },
+        ],
       };
-      const inputArticle2 = {
+      const inputArticle2: EnhancedArticle = {
         id: 'testid3.2',
         msid: 'testid3',
         doi: 'journal/testid3.2',
@@ -337,6 +394,25 @@ describe('article-stores', () => {
           headings: [],
           references: [exampleReference],
         },
+        timeline: [
+          {
+            name: 'PREPRINT_PUBLISHED',
+            date: new Date('2022-01-01'),
+            url: 'https://doi.org/12345',
+          },
+          {
+            name: 'SENT_FOR_REVIEW',
+            date: new Date('2022-02-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-03-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-05-01'),
+          },
+        ],
       };
       const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
       const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
@@ -355,7 +431,7 @@ describe('article-stores', () => {
 
     it('stores two Versioned Articles with the same msid and retreives the latest by msid', async () => {
       const articleStore = await createArticleRepo(store);
-      const inputArticle1 = {
+      const inputArticle1: EnhancedArticle = {
         id: 'testid4.1',
         msid: 'testid4',
         doi: 'journal/testid4.1',
@@ -373,8 +449,27 @@ describe('article-stores', () => {
           headings: [],
           references: [exampleReference],
         },
+        timeline: [
+          {
+            name: 'PREPRINT_PUBLISHED',
+            date: new Date('2022-01-01'),
+            url: 'https://doi.org/12345',
+          },
+          {
+            name: 'SENT_FOR_REVIEW',
+            date: new Date('2022-02-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-03-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-05-01'),
+          },
+        ],
       };
-      const inputArticle2 = {
+      const inputArticle2: EnhancedArticle = {
         id: 'testid4.2',
         msid: 'testid4',
         doi: 'journal/testid4.2',
@@ -392,6 +487,25 @@ describe('article-stores', () => {
           headings: [],
           references: [exampleReference],
         },
+        timeline: [
+          {
+            name: 'PREPRINT_PUBLISHED',
+            date: new Date('2022-01-01'),
+            url: 'https://doi.org/12345',
+          },
+          {
+            name: 'SENT_FOR_REVIEW',
+            date: new Date('2022-02-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-03-01'),
+          },
+          {
+            name: 'VERSION_PUBLISHED',
+            date: new Date('2022-05-01'),
+          },
+        ],
       };
       const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
       const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
