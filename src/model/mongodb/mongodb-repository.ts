@@ -106,7 +106,7 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
-    const allVersions = await this.versionedCollection.find({ $or: [{ _id: identifier }, { msid: identifier }] })
+    const allVersions = await this.versionedCollection.find({ msid: identifier })
       .sort({ preprintPosted: -1 }) // sorted descending
       .toArray();
 

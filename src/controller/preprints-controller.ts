@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { ArticleRepository, EnhancedArticle } from '../model/model';
+import { extractHeadings } from '../services/data-loader/extract-headings';
 import { EnhancedArticleSchema } from '../http-schema/http-schema';
-import { ArticleRepository } from '../model/model';
 import { logger } from '../utils/logger';
 
 export const preprintsController = (repo: ArticleRepository) => {
@@ -16,7 +17,13 @@ export const preprintsController = (repo: ArticleRepository) => {
         logger.error('validation failed for preprint', error);
         return;
       }
-      const result = await repo.storeEnhancedArticle(value);
+
+      const headings = extractHeadings(req.body.article.content);
+
+      // Inject headings into the article
+      const article: EnhancedArticle = { ...req.body, article: { ...value.article, headings } };
+
+      const result = await repo.storeEnhancedArticle(article);
       if (!result) {
         res.status(500).send({
           result: false,
