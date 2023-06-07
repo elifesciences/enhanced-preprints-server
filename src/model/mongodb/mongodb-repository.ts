@@ -108,16 +108,18 @@ class MongoDBArticleRepository implements ArticleRepository {
   async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
     const results = await this.versionedCollection.find({}).project({
       doi: 1,
-      date: 1,
-      title: 1,
+      published: 1,
+      article: {
+        title: 1,
+      },
     });
 
     return (await results.toArray()).map<ArticleSummary>((doc) => ({
       // eslint-disable-next-line no-underscore-dangle
       id: doc._id,
       doi: doc.doi,
-      date: new Date(doc.date),
-      title: doc.title,
+      date: new Date(doc.published),
+      title: doc.article.title,
     }));
   }
 

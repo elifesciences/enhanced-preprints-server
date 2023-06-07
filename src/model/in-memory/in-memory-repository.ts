@@ -100,7 +100,7 @@ class InMemoryArticleRepository implements ArticleRepository {
         id,
         doi: article.doi,
         title: article.article.title,
-        date: article.published ?? new Date(),
+        date: new Date(article.published ?? new Date()),
       }));
   }
 }
