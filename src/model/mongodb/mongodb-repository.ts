@@ -98,15 +98,31 @@ class MongoDBArticleRepository implements ArticleRepository {
 
   async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
     const response = await this.versionedCollection.insertOne({
-      _id: article.id,
+      _id: `${article.msid}v${article.versionIdentifier}`,
       ...article,
     });
 
     return response.acknowledged;
   }
 
+  async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
+    const results = await this.versionedCollection.find({}).project({
+      doi: 1,
+      date: 1,
+      title: 1,
+    });
+
+    return (await results.toArray()).map<ArticleSummary>((doc) => ({
+      // eslint-disable-next-line no-underscore-dangle
+      id: doc._id,
+      doi: doc.doi,
+      date: new Date(doc.date),
+      title: doc.title,
+    }));
+  }
+
   async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
-    const allVersions = await this.versionedCollection.find({ msid: identifier })
+    const allVersions = await this.versionedCollection.find({ $or: [{ _id: identifier }, { msid: identifier }] })
       .sort({ preprintPosted: -1 }) // sorted descending
       .toArray();
 

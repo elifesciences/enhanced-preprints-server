@@ -40,6 +40,19 @@ export const preprintsController = (repo: ArticleRepository) => {
     }
   };
 
+  const getPreprints = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const summaries = await repo.getArticleSummaries();
+
+      res.send({
+        items: summaries,
+        total: summaries.length,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const version = await repo.getArticleVersion(req.params.identifier);
@@ -51,6 +64,7 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   return {
     postPreprints,
+    getPreprints,
     getPreprintsByIdentifier,
   };
 };

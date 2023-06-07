@@ -93,6 +93,16 @@ class InMemoryArticleRepository implements ArticleRepository {
       }, {}),
     };
   }
+
+  async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
+    return Array.from(this.versionedStore.entries())
+      .map(([id, article]) => ({
+        id,
+        doi: article.doi,
+        title: article.article.title,
+        date: article.published ?? new Date(),
+      }));
+  }
 }
 
 export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => new InMemoryArticleRepository(new Map<string, ProcessedArticle>(), new Map<string, EnhancedArticle>());
