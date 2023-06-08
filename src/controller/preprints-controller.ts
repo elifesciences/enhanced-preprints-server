@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { ArticleRepository, EnhancedArticle } from '../model/model';
+import { ArticleRepository } from '../model/model';
 import { EnhancedArticleSchema } from '../http-schema/http-schema';
 import { logger } from '../utils/logger';
 
@@ -17,10 +17,7 @@ export const preprintsController = (repo: ArticleRepository) => {
         return;
       }
 
-      // Inject headings into the article
-      const article: EnhancedArticle = { ...req.body, article: { ...value.article } };
-
-      const result = await repo.storeEnhancedArticle(article);
+      const result = await repo.storeEnhancedArticle(value);
       if (!result) {
         res.status(500).send({
           result: false,
