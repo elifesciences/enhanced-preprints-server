@@ -56,6 +56,7 @@ class MongoDBArticleRepository implements ArticleRepository {
           date: article.date,
           doi: article.doi,
           licenses: article.licenses,
+          headings: article.headings,
           references: article.references,
         },
       },

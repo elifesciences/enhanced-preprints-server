@@ -19,6 +19,7 @@ const enhancedArticleExample = {
     abstract: 'This is the test abstract',
     licenses: [],
     content: 'This is some test content',
+    headings: [{ id: 'head1', text: 'Heading 1' }],
     references: [],
   },
   preprintDoi: 'preprint/testid1',

@@ -146,6 +146,11 @@ const LicenseSchema = Joi.object({
   url: Joi.string().required(),
 });
 
+const HeadingSchema = Joi.object({
+  id: Joi.string().required(),
+  text: ContentSchema.required(),
+});
+
 const PublicationSchema = Joi.object({
   type: Joi.string().valid('CreativeWork', 'Periodical', 'PublicationIssue', 'PublicationVolume').required(),
   name: Joi.string().optional(), // this seems wrong but required to pass the test document
@@ -180,6 +185,7 @@ const ProcessedArticleSchema = Joi.object({
   abstract: ContentSchema,
   licenses: Joi.array().items(LicenseSchema).required(),
   content: ContentSchema,
+  headings: Joi.array().items(HeadingSchema).required(),
   references: Joi.array().items(ReferenceSchema).required(),
 });
 
