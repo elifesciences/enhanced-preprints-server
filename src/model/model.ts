@@ -78,6 +78,7 @@ export type ProcessedArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: Content,
+  headings: Heading[],
   references: Reference[],
 };
 
