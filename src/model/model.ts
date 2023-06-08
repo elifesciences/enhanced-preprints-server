@@ -38,10 +38,6 @@ export type License = {
   url: string,
 };
 
-export type Heading = {
-  id?: string,
-  text: Content,
-};
 export type PublicationType = 'CreativeWork' | 'Periodical' | 'PublicationIssue' | 'PublicationVolume';
 export type Publication = {
   type: PublicationType,
@@ -78,7 +74,6 @@ export type ProcessedArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: Content,
-  headings: Heading[],
   references: Reference[],
 };
 
