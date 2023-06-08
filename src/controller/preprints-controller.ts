@@ -42,7 +42,7 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const getPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const summaries = await repo.getArticleSummaries();
+      const summaries = await repo.getEnhancedArticleSummaries();
 
       res.send({
         items: summaries,
@@ -55,6 +55,7 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log('identifier', req.params.identifier);
       const version = await repo.getArticleVersion(req.params.identifier);
       res.send(version);
     } catch (err) {
