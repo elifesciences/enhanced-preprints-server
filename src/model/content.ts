@@ -30,7 +30,7 @@ type CiteGroupContent = {
   items: CiteContent[],
 };
 
-export type HeadingContent = DecoratedContent & {
+type HeadingContent = DecoratedContent & {
   type: 'Heading',
   id?: string,
   depth: 1 | 2 | 3 | 4 | 5 | 6,

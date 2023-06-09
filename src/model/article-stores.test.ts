@@ -71,7 +71,6 @@ describe('article-stores', () => {
         date: new Date('2008-01-01'),
         content: [],
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       }, 'test/article.1');
 
@@ -88,7 +87,6 @@ describe('article-stores', () => {
         date: new Date('2008-01-01'),
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       const stored1 = await articleStore.storeArticle(article, 'test/article.1');
@@ -119,7 +117,6 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: [],
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       const result = await articleStore.storeArticle(exampleArticle, 'test/article.2');
@@ -148,7 +145,6 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: [],
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       const result = await articleStore.storeArticle(exampleArticle, 'test/article.2/v1');
@@ -176,7 +172,6 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       const exampleArticle2 = {
@@ -187,7 +182,6 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       const exampleArticle3 = {
@@ -198,7 +192,6 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       await articleStore.storeArticle(exampleArticle1, 'test/article.4');
@@ -249,7 +242,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -282,7 +274,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -315,7 +306,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -334,7 +324,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -370,7 +359,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -389,7 +377,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
