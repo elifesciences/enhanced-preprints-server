@@ -5,7 +5,6 @@ import {
   ArticleSummary,
   ArticleTitle,
   Author,
-  Heading,
   License,
   ProcessedArticle,
   Reference,
@@ -23,7 +22,6 @@ type StoredArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: Content,
-  headings: Heading[],
   references: Reference[],
 };
 

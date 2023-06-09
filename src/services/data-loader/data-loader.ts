@@ -10,9 +10,9 @@ import { fromWebToken } from '@aws-sdk/credential-providers';
 import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
-  ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
+  ArticleContent, ArticleRepository, OrcidIdentifier as OrcidModel, ProcessedArticle,
 } from '../../model/model';
-import { Content, HeadingContent } from '../../model/content';
+import { Content } from '../../model/content';
 import { logger } from '../../utils/logger';
 import { config } from '../../config';
 
@@ -181,40 +181,6 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
   return articlePath;
 };
 
-const extractHeadings = (content: Content): Heading[] => {
-  if (typeof content === 'string') {
-    return [];
-  }
-
-  if (!Array.isArray(content)) {
-    return extractHeadings([content]);
-  }
-
-  const headingContentParts = content.filter((contentPart) => {
-    if (typeof contentPart === 'string') {
-      return false;
-    }
-
-    if (Array.isArray(contentPart)) {
-      return extractHeadings(content);
-    }
-
-    if (contentPart.type !== 'Heading') {
-      return false;
-    }
-
-    return contentPart.depth <= 1;
-  });
-
-  return headingContentParts.map((contentPart) => {
-    const heading = contentPart as HeadingContent;
-    return {
-      id: heading.id,
-      text: heading.content,
-    };
-  });
-};
-
 const processArticle = (article: ArticleContent): ProcessedArticle => {
   const articleStruct = JSON.parse(article.document) as ArticleStruct;
 
@@ -262,7 +228,6 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     abstract,
     licenses,
     content: articleStruct.content,
-    headings: extractHeadings(articleStruct.content),
     references,
   };
 };

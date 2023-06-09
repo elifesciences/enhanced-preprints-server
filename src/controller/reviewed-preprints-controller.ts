@@ -33,7 +33,6 @@ export const reviewedPreprintsController = (repo: ArticleRepository) => {
         views: 1,
         citations: 2,
         tweets: 3,
-        headings: article.headings,
         abstract: article.abstract,
         references: article.references,
       });

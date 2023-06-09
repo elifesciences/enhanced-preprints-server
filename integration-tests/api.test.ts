@@ -278,7 +278,6 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
           abstract: [{ type: 'Paragraph', content: ['An abstract.'] }],
           references: [],
         });
@@ -330,7 +329,6 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
           abstract: [{ type: 'Paragraph', content: ['Why not to mess with an agent of chaos.'] }],
           references: [],
         });
@@ -385,7 +383,6 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
           abstract: [{ type: 'Paragraph', content: ['An abstract.'] }],
           references: [],
         });
@@ -437,7 +434,6 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
           abstract: [{ type: 'Paragraph', content: ['Why not to mess with an agent of chaos.'] }],
           references: [],
         });
@@ -686,7 +682,6 @@ describe('server tests', () => {
         abstract: 'This is the test abstract',
         licenses: [],
         content: 'This is some test content',
-        headings: [{ id: 'head1', text: 'Heading 1' }],
         references: [],
       },
       preprintDoi: 'preprint/testid1',
@@ -755,7 +750,6 @@ describe('server tests', () => {
           authors: [],
           content: '<article></article>',
           licenses: [],
-          headings: [],
           references: [],
         },
       };
