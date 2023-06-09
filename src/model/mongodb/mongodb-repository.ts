@@ -5,7 +5,6 @@ import {
   ArticleSummary,
   ArticleTitle,
   Author,
-  Heading,
   License,
   ProcessedArticle,
   Reference,
@@ -23,7 +22,6 @@ type StoredArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: Content,
-  headings: Heading[],
   references: Reference[],
 };
 
@@ -55,7 +53,6 @@ class MongoDBArticleRepository implements ArticleRepository {
           content: article.content,
           date: article.date,
           doi: article.doi,
-          headings: article.headings,
           licenses: article.licenses,
           references: article.references,
         },
