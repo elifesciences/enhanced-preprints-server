@@ -143,4 +143,5 @@ export interface ArticleRepository {
   getArticleSummaries(): Promise<ArticleSummary[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions>;
+  getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
 }
