@@ -509,101 +509,68 @@ describe('article-stores', () => {
       });
     });
 
-    it('gets versioned articles summaries', async () => {
+    it('stores two Versioned Articles and retreives summaries', async () => {
       const articleStore = await createArticleRepo(store);
-      const inputArticle1: EnhancedArticle = {
-        id: 'testid4.1',
-        msid: 'testid4',
-        doi: 'journal/testid4.1',
+      const inputArticle1 = {
+        id: 'testid3.1',
+        msid: 'testid3',
+        doi: 'journal/testid3.1',
         versionIdentifier: '1',
-        versionDoi: 'journal/testid4.1',
-        preprintDoi: 'preprint/article10',
-        preprintUrl: 'http://preprints.org/preprint/article10',
-        preprintPosted: new Date('2008-10-01'),
-        published: new Date('2008-10-02'),
+        versionDoi: 'journal/testid3.1',
+        preprintDoi: 'preprint/article9',
+        preprintUrl: 'http://preprints.org/preprint/article9',
+        preprintPosted: new Date('2008-09-01'),
+        published: new Date('2008-10-01'),
         article: {
-          title: 'Test Article 10',
-          abstract: 'Test article 10 abstract',
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
           headings: [],
           references: [exampleReference],
         },
-        timeline: [
-          {
-            name: 'PREPRINT_PUBLISHED',
-            date: new Date('2022-01-01'),
-            url: 'https://doi.org/12345',
-          },
-          {
-            name: 'SENT_FOR_REVIEW',
-            date: new Date('2022-02-01'),
-          },
-          {
-            name: 'VERSION_PUBLISHED',
-            date: new Date('2022-03-01'),
-          },
-          {
-            name: 'VERSION_PUBLISHED',
-            date: new Date('2022-05-01'),
-          },
-        ],
       };
-      const inputArticle2: EnhancedArticle = {
-        id: 'testid4.2',
-        msid: 'testid4',
-        doi: 'journal/testid4.2',
+      const inputArticle2 = {
+        id: 'testid3.2',
+        msid: 'testid3',
+        doi: 'journal/testid3.2',
         versionIdentifier: '1',
-        versionDoi: 'journal/testid4.2',
-        preprintDoi: 'preprint/article10v2',
-        preprintUrl: 'http://preprints.org/preprint/article10v2',
-        preprintPosted: new Date('2008-10-02'),
+        versionDoi: 'journal/testid3.2',
+        preprintDoi: 'preprint/article9v2',
+        preprintUrl: 'http://preprints.org/preprint/article9v2',
+        preprintPosted: new Date('2008-09-02'),
         published: new Date('2008-10-02'),
         article: {
-          title: 'Test Article 10',
-          abstract: 'Test article 10 abstract',
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
           headings: [],
           references: [exampleReference],
         },
-        timeline: [
-          {
-            name: 'PREPRINT_PUBLISHED',
-            date: new Date('2022-01-01'),
-            url: 'https://doi.org/12345',
-          },
-          {
-            name: 'SENT_FOR_REVIEW',
-            date: new Date('2022-02-01'),
-          },
-          {
-            name: 'VERSION_PUBLISHED',
-            date: new Date('2022-03-01'),
-          },
-          {
-            name: 'VERSION_PUBLISHED',
-            date: new Date('2022-05-01'),
-          },
-        ],
       };
-      await articleStore.storeEnhancedArticle(inputArticle1);
-      await articleStore.storeEnhancedArticle(inputArticle2);
-      const articleSummaries = await articleStore.getEnhancedArticleSummaries();
+      const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
+      const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
+      const articles = await articleStore.getEnhancedArticleSummaries();
 
-      expect(articleSummaries).toStrictEqual(expect.arrayContaining([{
-        id: 'testid4.1',
-        doi: 'journal/testid4.1',
-        title: 'Test Article 10',
-        date: new Date('2008-10-02'),
-      }, {
-        id: 'testid4.2',
-        doi: 'journal/testid4.2',
-        title: 'Test Article 10',
-        date: new Date('2008-10-02'),
-      }]));
+      expect(result1).toStrictEqual(true);
+      expect(result2).toStrictEqual(true);
+      expect(articles).toMatchObject([
+        {
+          id: 'testid3.1',
+          doi: 'journal/testid3.1',
+          title: 'Test Article 9',
+          date: new Date('2008-10-01'),
+        },
+        {
+          id: 'testid3.2',
+          doi: 'journal/testid3.2',
+          title: 'Test Article 9',
+          date: new Date('2008-10-02'),
+        },
+      ]);
     });
   });
 });
