@@ -790,6 +790,36 @@ describe('server tests', () => {
           },
         });
     });
+
+    it('imports content with forward slash in ID', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      const exampleVersion = {
+        ...enhancedArticle,
+        id: 'testid6/v1',
+        versionIdentifier: '1',
+        msid: 'article.3',
+      };
+
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid6/v1')
+        .expect({
+          article: exampleVersion,
+          versions: {
+            'testid6/v1': exampleVersion,
+          },
+        });
+    });
   });
 
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
@@ -878,7 +908,7 @@ describe('server tests', () => {
     PY  - 2023
     DA  - 2023/03/09
     PB  - eLife Sciences Publications, Ltd
-    ER  - 
+    ER  -
     `;
 
     const encodedRis = `
@@ -891,7 +921,7 @@ describe('server tests', () => {
     PY  - 2023
     DA  - 2023/03/09
     PB  - eLife Sciences Publications, Ltd
-    ER  - 
+    ER  -
     `;
 
     it('returns an RIS file with the correct information', async () => {
