@@ -467,6 +467,7 @@ describe('server tests', () => {
           },
           { type: 'Paragraph', content: ['I am an article.'] },
           { type: 'ThematicBreak' },
+          { type: 'List' },
           { type: 'Heading', depth: 1, content: ['Acknowledgements'] },
           {
             type: 'Paragraph',

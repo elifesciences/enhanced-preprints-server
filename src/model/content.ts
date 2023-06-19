@@ -39,8 +39,8 @@ type HeadingContent = DecoratedContent & {
 type FigureContent = DecoratedContent & {
   type: 'Figure',
   id: string,
-  caption: Content,
-  label: string,
+  caption?: Content,
+  label?: string,
 };
 
 type ImageObjectContent = {
@@ -65,7 +65,7 @@ type SubscriptContent = DecoratedContent & {
 };
 
 type OtherContent = {
-  type: 'CodeBlock' | 'MathFragment' | 'MediaObject' | 'Table' | 'ThematicBreak'
+  type: 'CodeBlock' | 'MathFragment' | 'MediaObject' | 'Table' | 'ThematicBreak' | 'List'
 };
 
 type ContentPart =

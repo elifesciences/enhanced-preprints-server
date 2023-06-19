@@ -59,9 +59,9 @@ const HeadingContentSchema = Joi.object({
 const FigureContentSchema = Joi.object({
   type: Joi.string().valid('Figure').required(),
   content: Joi.link('#Content').required(),
-  caption: Joi.link('#Content').required(),
+  caption: Joi.link('#Content').optional(),
   id: Joi.string().required(),
-  label: Joi.string().required(),
+  label: Joi.string().optional(),
 });
 
 const ImageObjectContent = Joi.object({
@@ -75,12 +75,12 @@ const ImageObjectContent = Joi.object({
 
 // These are not imported yet
 const OtherContent = Joi.object({
-  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'Table', 'ThematicBreak'),
+  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'Table', 'ThematicBreak', 'List'),
 });
 // end block
 
 const ContentPartSchema = Joi.alternatives().try(
-  Joi.string(),
+  Joi.string().allow(null, ''),
   ParagraphSchema,
   StrongContentSchema,
   DateContentSchema,
@@ -143,7 +143,8 @@ const AuthorSchema = Joi.object({
 
 const LicenseSchema = Joi.object({
   type: Joi.string().required(),
-  url: Joi.string().required(),
+  url: Joi.string().optional(),
+  content: ContentSchema,
 });
 
 const PublicationSchema = Joi.object({

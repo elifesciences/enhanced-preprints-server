@@ -17,7 +17,23 @@ const enhancedArticleExample = {
       },
     ],
     abstract: 'This is the test abstract',
-    licenses: [],
+    licenses: [
+      {
+        type: 'CreativeWork',
+        url: 'http://creativecommons.org/licenses/by/4.0/',
+      },
+      {
+        type: 'CreativeWork',
+        content: [
+          {
+            type: 'Paragraph',
+            content: [
+              'The copyright holder for this pre-print is the author. All rights reserved. The material may not be redistributed, re-used or adapted without the author\'s permission.',
+            ],
+          },
+        ],
+      },
+    ],
     content: 'This is some test content',
     references: [],
   },
@@ -30,6 +46,7 @@ const enhancedArticleExample = {
 
 describe('httpschema', () => {
   it.each([
+    ['can support', '', 'empty strings'],
     'foo',
     ['one', 'two', { type: 'Strong', content: 'three' }],
     {
@@ -74,6 +91,11 @@ describe('httpschema', () => {
       content: 'I am a figure',
       caption: 'I am a caption',
       label: 'I am a label',
+      id: 'id',
+    },
+    {
+      type: 'Figure',
+      content: 'I am a figure without a caption or label',
       id: 'id',
     },
     {
