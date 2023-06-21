@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { Participant, PeerReview, ReviewType } from '../../model/model';
+import { config } from '../../config';
 
 type FetchReviews = (id: string) => Promise<PeerReview>;
 
 type FetchDocmap = (msid: string) => Promise<Docmap>;
-const fetchDocmaps: FetchDocmap = async (msid) => axios.get(`https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=${msid}`).then(async (res) => res.data);
+const fetchDocmaps: FetchDocmap = async (msid) => axios.get(`${config.docmapsApi}${msid}`).then(async (res) => res.data);
 
 const hypothesisCache:Map<string, string> = new Map();
 
