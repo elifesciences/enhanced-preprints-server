@@ -80,7 +80,7 @@ const OtherContent = Joi.object({
 // end block
 
 const ContentPartSchema = Joi.alternatives().try(
-  Joi.string(),
+  Joi.string().allow(''),
   ParagraphSchema,
   StrongContentSchema,
   DateContentSchema,
