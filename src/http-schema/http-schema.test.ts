@@ -84,6 +84,42 @@ describe('httpschema', () => {
         inline: false,
       },
     },
+    {
+      type: 'List',
+      order: 'Unordered',
+      items: [
+        {
+          type: 'ListItem',
+          content: 'one',
+        },
+        {
+          type: 'ListItem',
+          content: ['two'],
+        },
+        {
+          type: 'ListItem',
+          content: [
+            {
+              type: 'Strong',
+              content: 'three',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'Claim',
+      claimType: 'Statement',
+      label: 'This is a label',
+      title: [
+        {
+          type: 'Heading',
+          depth: 1,
+          content: 'heading',
+          id: 'h1',
+        },
+      ],
+    },
     [
       [{
         type: 'Heading', depth: 1, content: 'heading', id: 'h1',
