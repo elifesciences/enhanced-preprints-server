@@ -35,7 +35,8 @@ export type Author = {
 
 export type License = {
   type: string,
-  url: string,
+  url?: string,
+  content?: Content,
 };
 
 export type PublicationType = 'CreativeWork' | 'Periodical' | 'PublicationIssue' | 'PublicationVolume';

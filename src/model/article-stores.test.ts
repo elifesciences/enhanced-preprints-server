@@ -1,5 +1,5 @@
 import { createArticleRepository, StoreType } from './create-article-repository';
-import { Reference, EnhancedArticle } from './model';
+import { Reference, EnhancedArticle, License } from './model';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
@@ -52,10 +52,21 @@ const exampleReference: Reference = {
   url: 'https://bbc.co.uk',
 };
 
-const exampleLicenses = [
+const exampleLicenses: License[] = [
   {
     type: 'CreativeWork',
     url: 'http://creativecommons.org/licenses/by/4.0/',
+  },
+  {
+    type: 'CreativeWork',
+    content: [
+      {
+        type: 'Paragraph',
+        content: [
+          'The copyright holder for this pre-print is the author. All rights reserved. The material may not be redistributed, re-used or adapted without the author\'s permission.',
+        ],
+      },
+    ],
   },
 ];
 
