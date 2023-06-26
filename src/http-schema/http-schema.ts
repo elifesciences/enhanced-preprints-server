@@ -58,8 +58,8 @@ const HeadingContentSchema = Joi.object({
 
 const FigureContentSchema = Joi.object({
   type: Joi.string().valid('Figure').required(),
-  content: Joi.link('#Content').required(),
-  caption: Joi.link('#Content').required(),
+  content: Joi.link('#Content').optional(),
+  caption: Joi.link('#Content').optional(),
   id: Joi.string().required(),
   label: Joi.string().required(),
 });

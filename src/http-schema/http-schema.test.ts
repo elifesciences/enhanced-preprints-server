@@ -71,7 +71,12 @@ describe('httpschema', () => {
     },
     {
       type: 'Figure',
-      content: 'I am a figure',
+      content: 'I am a simple figure',
+      id: 'id',
+    },
+    {
+      type: 'Figure',
+      content: 'I am a figure with caption and label',
       caption: 'I am a caption',
       label: 'I am a label',
       id: 'id',

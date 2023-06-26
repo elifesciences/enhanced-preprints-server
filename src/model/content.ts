@@ -39,8 +39,8 @@ type HeadingContent = DecoratedContent & {
 type FigureContent = DecoratedContent & {
   type: 'Figure',
   id: string,
-  caption: Content,
-  label: string,
+  caption?: Content,
+  label?: string,
 };
 
 type ImageObjectContent = {
