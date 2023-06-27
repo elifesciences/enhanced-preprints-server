@@ -17,7 +17,23 @@ const enhancedArticleExample = {
       },
     ],
     abstract: 'This is the test abstract',
-    licenses: [],
+    licenses: [
+      {
+        type: 'CreativeWork',
+        url: 'http://creativecommons.org/licenses/by/4.0/',
+      },
+      {
+        type: 'CreativeWork',
+        content: [
+          {
+            type: 'Paragraph',
+            content: [
+              'The copyright holder for this pre-print is the author. All rights reserved. The material may not be redistributed, re-used or adapted without the author\'s permission.',
+            ],
+          },
+        ],
+      },
+    ],
     content: 'This is some test content',
     references: [],
   },

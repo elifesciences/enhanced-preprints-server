@@ -164,7 +164,8 @@ const AuthorSchema = Joi.object({
 
 const LicenseSchema = Joi.object({
   type: Joi.string().required(),
-  url: Joi.string().required(),
+  url: Joi.string().optional(),
+  content: ContentSchema.optional(),
 });
 
 const PublicationSchema = Joi.object({
