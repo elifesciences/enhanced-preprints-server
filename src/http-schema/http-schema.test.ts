@@ -32,6 +32,7 @@ describe('httpschema', () => {
   it.each([
     'foo',
     ['one', 'two', { type: 'Strong', content: 'three' }],
+    ['', 'with', '', 'empty', { type: 'Strong', content: 'strings' }, ''],
     {
       type: 'Heading', depth: 1, content: 'heading', id: 'h1',
     },
