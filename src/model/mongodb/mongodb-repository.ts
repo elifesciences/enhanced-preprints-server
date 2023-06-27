@@ -149,6 +149,11 @@ class MongoDBArticleRepository implements ArticleRepository {
       }, {}),
     };
   }
+
+  async deleteArticleVersion(identifier: string): Promise<boolean> {
+    const deleteResult = await this.versionedCollection.deleteOne({ _id: identifier });
+    return deleteResult.deletedCount < 0;
+  }
 }
 
 export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => {
