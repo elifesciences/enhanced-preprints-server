@@ -64,6 +64,23 @@ type SubscriptContent = DecoratedContent & {
   type: 'Subscript',
 };
 
+type ListItemContent = DecoratedContent & {
+  type: 'ListItem',
+};
+
+type ListContent = {
+  type: 'List',
+  order: 'Unordered' | 'Ascending',
+  items: Array<ListItemContent>,
+};
+
+type ClaimContent = DecoratedContent & {
+  type: 'Claim',
+  claimType: 'Statement' | 'Theorem' | 'Lemma' | 'Proof' | 'Postulate' | 'Hypothesis' | 'Proposition' | 'Corollary',
+  label?: Content,
+  title?: Content,
+};
+
 type OtherContent = {
   type: 'CodeBlock' | 'MathFragment' | 'MediaObject' | 'Table' | 'ThematicBreak'
 };
@@ -82,6 +99,9 @@ type ContentPart =
   CiteGroupContent |
   FigureContent |
   ImageObjectContent |
+  ListItemContent |
+  ListContent |
+  ClaimContent |
   OtherContent;
 
 export type Content = ContentPart | Array<Content>;
