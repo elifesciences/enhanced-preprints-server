@@ -48,6 +48,7 @@ describe('httpschema', () => {
   it.each([
     'foo',
     ['one', 'two', { type: 'Strong', content: 'three' }],
+    ['', 'with', '', 'empty', { type: 'Strong', content: 'strings' }, ''],
     {
       type: 'Heading', depth: 1, content: 'heading', id: 'h1',
     },
@@ -99,6 +100,42 @@ describe('httpschema', () => {
       meta: {
         inline: false,
       },
+    },
+    {
+      type: 'List',
+      order: 'Unordered',
+      items: [
+        {
+          type: 'ListItem',
+          content: 'one',
+        },
+        {
+          type: 'ListItem',
+          content: ['two'],
+        },
+        {
+          type: 'ListItem',
+          content: [
+            {
+              type: 'Strong',
+              content: 'three',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'Claim',
+      claimType: 'Statement',
+      label: 'This is a label',
+      title: [
+        {
+          type: 'Heading',
+          depth: 1,
+          content: 'heading',
+          id: 'h1',
+        },
+      ],
     },
     [
       [{

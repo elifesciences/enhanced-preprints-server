@@ -31,6 +31,24 @@ const SubscriptContentSchema = Joi.object({
   content: Joi.link('#Content').required(),
 });
 
+const ListItemContentSchema = Joi.object({
+  type: Joi.string().valid('ListItem').required(),
+  content: Joi.link('#Content').required(),
+});
+
+const ListContentSchema = Joi.object({
+  type: Joi.string().valid('List').required(),
+  order: Joi.string().valid('Unordered', 'Ascending').required(),
+  items: Joi.array().items(ListItemContentSchema).required(),
+});
+
+const ClaimContentSchema = Joi.object({
+  type: Joi.string().valid('Claim').required(),
+  claimType: Joi.string().valid('Statement', 'Theorem', 'Lemma', 'Proof', 'Postulate', 'Hypothesis', 'Proposition', 'Corollary').required(),
+  label: Joi.link('#Content').optional(),
+  title: Joi.link('#Content').optional(),
+});
+
 const LinkContentSchema = Joi.object({
   type: Joi.string().valid('Link').required(),
   target: Joi.string().required(),
@@ -80,13 +98,16 @@ const OtherContent = Joi.object({
 // end block
 
 const ContentPartSchema = Joi.alternatives().try(
-  Joi.string(),
+  Joi.string().allow(''),
   ParagraphSchema,
   StrongContentSchema,
   DateContentSchema,
   EmphasisContentSchema,
   SuperscriptContentSchema,
   SubscriptContentSchema,
+  ListItemContentSchema,
+  ListContentSchema,
+  ClaimContentSchema,
   LinkContentSchema,
   CiteContentSchema,
   CiteGroupContentSchema,
