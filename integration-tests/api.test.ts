@@ -854,6 +854,39 @@ describe('server tests', () => {
         .delete('/api/preprints/somethingNonExistant/v1')
         .expect(404, 'Article not found');
     });
+
+    it('overwrites a version when given the same id', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      const changedEnhancedArticle = { ...enhancedArticle, msid: 'foo' };
+      await request(app)
+        .post('/preprints')
+        .send(changedEnhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid3')
+        .expect(200, {
+          article: changedEnhancedArticle,
+          versions: {
+            testid3: changedEnhancedArticle,
+          },
+        });
+    });
   });
 
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
