@@ -469,5 +469,34 @@ describe('article-stores', () => {
         },
       ]);
     });
+
+    it('stores a Versioned Article and deletes successfully', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle1 = {
+        id: 'testid3.1',
+        msid: 'testid3',
+        doi: 'journal/testid3.1',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid3.1',
+        preprintDoi: 'preprint/article9',
+        preprintUrl: 'http://preprints.org/preprint/article9',
+        preprintPosted: new Date('2008-09-01'),
+        published: new Date('2008-10-01'),
+        article: {
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
+      };
+
+      await articleStore.storeEnhancedArticle(inputArticle1);
+      const result = await articleStore.deleteArticleVersion(inputArticle1.id);
+
+      expect(result).toStrictEqual(true);
+    });
   });
 });

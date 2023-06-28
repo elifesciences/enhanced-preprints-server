@@ -820,6 +820,40 @@ describe('server tests', () => {
           },
         });
     });
+
+    it('removes an article version with a given ID', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      const exampleVersion = {
+        ...enhancedArticle,
+        id: 'testid6/v1',
+        versionIdentifier: '1',
+        msid: 'article.3',
+      };
+
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .delete('/api/preprints/testid6/v1')
+        .expect(200);
+    });
+
+    it('fails to remove a non-existant article version with a given ID', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      await request(app)
+        .delete('/api/preprints/somethingNonExistant/v1')
+        .expect(404, 'Article not found');
+    });
   });
 
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {

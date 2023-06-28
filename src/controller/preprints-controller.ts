@@ -55,9 +55,20 @@ export const preprintsController = (repo: ArticleRepository) => {
     }
   };
 
+  const deletePreprintByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const deleteResult = await repo.deleteArticleVersion(req.params.identifier);
+      if (deleteResult) res.sendStatus(200);
+      else res.status(404).send('Article not found');
+    } catch (err) {
+      next(err);
+    }
+  };
+
   return {
     postPreprints,
     getPreprints,
     getPreprintsByIdentifier,
+    deletePreprintByIdentifier,
   };
 };
