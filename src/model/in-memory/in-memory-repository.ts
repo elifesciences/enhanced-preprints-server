@@ -103,6 +103,10 @@ class InMemoryArticleRepository implements ArticleRepository {
         date: new Date(article.published ?? new Date()),
       }));
   }
+
+  async deleteArticleVersion(identifier: string): Promise<boolean> {
+    return this.versionedStore.delete(identifier);
+  }
 }
 
 export const createInMemoryArticleRepository = async (): Promise<ArticleRepository> => new InMemoryArticleRepository(new Map<string, ProcessedArticle>(), new Map<string, EnhancedArticle>());
