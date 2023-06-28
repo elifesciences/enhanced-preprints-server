@@ -52,10 +52,6 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
-    if (this.versionedStore.has(article.id)) {
-      return false;
-    }
-
     this.versionedStore.set(article.id, article);
 
     return true;

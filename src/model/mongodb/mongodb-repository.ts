@@ -94,9 +94,15 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
-    const response = await this.versionedCollection.insertOne({
+    const response = await this.versionedCollection.updateOne({
       _id: article.id,
-      ...article,
+    }, {
+      $set: {
+        _id: article.id,
+        ...article,
+      },
+    }, {
+      upsert: true,
     });
 
     return response.acknowledged;
