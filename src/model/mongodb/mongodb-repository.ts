@@ -152,7 +152,7 @@ class MongoDBArticleRepository implements ArticleRepository {
 
   async deleteArticleVersion(identifier: string): Promise<boolean> {
     const deleteResult = await this.versionedCollection.deleteOne({ _id: identifier });
-    return deleteResult.deletedCount < 0;
+    return deleteResult.deletedCount > 0;
   }
 }
 
