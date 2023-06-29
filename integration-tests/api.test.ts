@@ -842,7 +842,7 @@ describe('server tests', () => {
         });
 
       await request(app)
-        .delete('/api/preprints/testid6/v1')
+        .delete('/preprints/testid6/v1')
         .expect(200);
     });
 
@@ -851,7 +851,7 @@ describe('server tests', () => {
       const app = createApp(repo);
 
       await request(app)
-        .delete('/api/preprints/somethingNonExistant/v1')
+        .delete('/preprints/somethingNonExistant/v1')
         .expect(404, 'Article not found');
     });
 
