@@ -691,6 +691,19 @@ describe('server tests', () => {
       published: '2023-01-23T00:00:00.000Z',
     };
 
+    const versionSummary = {
+      id: 'testid3',
+      msid: 'testmsid',
+      doi: 'doi1',
+      versionIdentifier: '1',
+      versionDoi: 'publisher/testid1',
+      preprintDoi: 'preprint/testid1',
+      preprintUrl: 'doi.org/preprint/testid1',
+      preprintPosted: '2023-01-02T00:00:00.000Z',
+      sentForReview: '2023-01-03T00:00:00.000Z',
+      published: '2023-01-23T00:00:00.000Z',
+    };
+
     it('imports a valid JSON body', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       await request(createApp(repo))
@@ -721,7 +734,7 @@ describe('server tests', () => {
         .expect(200, {
           article: enhancedArticle,
           versions: {
-            testid3: enhancedArticle,
+            testid3: versionSummary,
           },
         });
     });
@@ -754,6 +767,23 @@ describe('server tests', () => {
         },
       };
 
+      const versionSummary1 = {
+        ...versionSummary,
+        id: 'testid4',
+        versionIdentifier: '1',
+        msid: 'article.2',
+      };
+
+      const versionSummary2 = {
+        id: 'testid5',
+        versionIdentifier: '2',
+        msid: 'article.2',
+        doi: 'test/article.2',
+        preprintDoi: 'preprint/testdoi5',
+        preprintUrl: 'http://preprints.org/preprint/testdoi5',
+        preprintPosted: '2023-02-02T00:00:00.000Z',
+      };
+
       await request(app)
         .post('/preprints')
         .send(exampleVersion1)
@@ -776,8 +806,8 @@ describe('server tests', () => {
         .expect({
           article: exampleVersion1,
           versions: {
-            testid4: exampleVersion1,
-            testid5: exampleVersion2,
+            testid4: versionSummary1,
+            testid5: versionSummary2,
           },
         });
       await request(app)
@@ -785,8 +815,8 @@ describe('server tests', () => {
         .expect({
           article: exampleVersion2,
           versions: {
-            testid4: exampleVersion1,
-            testid5: exampleVersion2,
+            testid4: versionSummary1,
+            testid5: versionSummary2,
           },
         });
     });
@@ -816,7 +846,12 @@ describe('server tests', () => {
         .expect({
           article: exampleVersion,
           versions: {
-            'testid6/v1': exampleVersion,
+            'testid6/v1': {
+              ...versionSummary,
+              id: 'testid6/v1',
+              versionIdentifier: '1',
+              msid: 'article.3',
+            },
           },
         });
     });
@@ -869,6 +904,8 @@ describe('server tests', () => {
         });
 
       const changedEnhancedArticle = { ...enhancedArticle, msid: 'foo' };
+      const changedSummaryVersion = { ...versionSummary, msid: 'foo' };
+
       await request(app)
         .post('/preprints')
         .send(changedEnhancedArticle)
@@ -883,7 +920,7 @@ describe('server tests', () => {
         .expect(200, {
           article: changedEnhancedArticle,
           versions: {
-            testid3: changedEnhancedArticle,
+            testid3: changedSummaryVersion,
           },
         });
     });

@@ -1,5 +1,5 @@
 import { createArticleRepository, StoreType } from './create-article-repository';
-import { Reference, EnhancedArticle, License } from './model';
+import { Reference, EnhancedArticle, License, EnhancedArticleWithVersions } from './model';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
@@ -263,7 +263,18 @@ describe('article-stores', () => {
       expect(article).toMatchObject({
         article: inputArticle,
         versions: {
-          'testid1.1': inputArticle,
+          'testid1.1': {
+            id: 'testid1.1',
+            msid: 'testid1',
+            doi: 'journal/testid1',
+            versionIdentifier: '1',
+            versionDoi: 'journal/testid1.1',
+            preprintDoi: 'preprint/article7',
+            preprintUrl: 'http://preprints.org/preprint/article7',
+            preprintPosted: new Date('2008-07-01'),
+            sentForReview: new Date('2008-07-02'),
+            published: new Date('2008-11-02'),
+          },
         },
       });
     });
@@ -295,7 +306,16 @@ describe('article-stores', () => {
       expect(article).toMatchObject({
         article: inputArticle,
         versions: {
-          'testid2.2': inputArticle,
+          'testid2.2': {
+            id: 'testid2.2',
+            msid: 'testid2',
+            doi: 'journal/testid2.2',
+            versionIdentifier: '1',
+            versionDoi: 'journal/testid2.2',
+            preprintDoi: 'preprint/article8',
+            preprintUrl: 'http://preprints.org/preprint/article8',
+            preprintPosted: new Date('2008-08-02'),
+          },
         },
       });
     });
@@ -344,11 +364,29 @@ describe('article-stores', () => {
 
       expect(result1).toStrictEqual(true);
       expect(result2).toStrictEqual(true);
-      expect(article).toMatchObject({
+      expect(article).toMatchObject<EnhancedArticleWithVersions>({
         article: inputArticle1,
         versions: {
-          'testid3.1': inputArticle1,
-          'testid3.2': inputArticle2,
+          'testid3.1': {
+            id: 'testid3.1',
+            msid: 'testid3',
+            doi: 'journal/testid3.1',
+            versionIdentifier: '1',
+            versionDoi: 'journal/testid3.1',
+            preprintDoi: 'preprint/article9',
+            preprintUrl: 'http://preprints.org/preprint/article9',
+            preprintPosted: new Date('2008-09-01'),
+          },
+          'testid3.2': {
+            id: 'testid3.2',
+            msid: 'testid3',
+            doi: 'journal/testid3.2',
+            versionIdentifier: '1',
+            versionDoi: 'journal/testid3.2',
+            preprintDoi: 'preprint/article9v2',
+            preprintUrl: 'http://preprints.org/preprint/article9v2',
+            preprintPosted: new Date('2008-09-02'),
+          },
         },
       });
     });
@@ -397,11 +435,29 @@ describe('article-stores', () => {
 
       expect(result1).toStrictEqual(true);
       expect(result2).toStrictEqual(true);
-      expect(article).toMatchObject({
+      expect(article).toMatchObject<EnhancedArticleWithVersions>({
         article: inputArticle2,
         versions: {
-          'testid4.1': inputArticle1,
-          'testid4.2': inputArticle2,
+          'testid4.1': {
+            id: 'testid4.1',
+            msid: 'testid4',
+            doi: 'journal/testid4.1',
+            versionIdentifier: '1',
+            versionDoi: 'journal/testid4.1',
+            preprintDoi: 'preprint/article10',
+            preprintUrl: 'http://preprints.org/preprint/article10',
+            preprintPosted: new Date('2008-10-01'),
+          },
+          'testid4.2': {
+            id: 'testid4.2',
+            msid: 'testid4',
+            doi: 'journal/testid4.2',
+            versionIdentifier: '1',
+            versionDoi: 'journal/testid4.2',
+            preprintDoi: 'preprint/article10v2',
+            preprintUrl: 'http://preprints.org/preprint/article10v2',
+            preprintPosted: new Date('2008-10-02'),
+          },
         },
       });
     });

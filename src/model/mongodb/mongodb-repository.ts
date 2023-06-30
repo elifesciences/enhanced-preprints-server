@@ -10,6 +10,7 @@ import {
   Reference,
   EnhancedArticle,
   EnhancedArticleWithVersions,
+  VersionSummary,
 } from '../model';
 import { Content } from '../content';
 
@@ -136,7 +137,7 @@ class MongoDBArticleRepository implements ArticleRepository {
       throw Error('Cannot find a matching article version');
     }
 
-    const allVersions = await this.versionedCollection.find(
+    const allVersions = await this.versionedCollection.find<VersionSummary>(
       { msid: version.msid },
       {
         projection: {
@@ -146,7 +147,7 @@ class MongoDBArticleRepository implements ArticleRepository {
       },
     );
 
-    const indexedVersions: Record<string, EnhancedArticle> = (await allVersions.toArray()).reduce((indexed: Record<string, EnhancedArticle>, current) => {
+    const indexedVersions: Record<string, VersionSummary> = (await allVersions.toArray()).reduce((indexed: Record<string, VersionSummary>, current) => {
       const toReturn = indexed;
       toReturn[current.id] = current;
       return toReturn;

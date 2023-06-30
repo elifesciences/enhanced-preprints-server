@@ -4,6 +4,7 @@ import {
   ArticleSummary,
   EnhancedArticle,
   EnhancedArticleWithVersions,
+  VersionSummary,
 } from '../model';
 
 const comparePreprintPostedDates = (a: EnhancedArticle, b: EnhancedArticle): number => {
@@ -65,7 +66,15 @@ class InMemoryArticleRepository implements ArticleRepository {
         .filter((article) => article.msid === version.msid)
         .reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
           const toReturn = record;
-          toReturn[otherVersion.id] = otherVersion;
+
+          // cast to any so we can remove the fields not used in VersionSummary
+          const versionSummary: any = {
+            ...otherVersion,
+          };
+          delete versionSummary.article;
+          delete versionSummary.peerReview;
+
+          toReturn[otherVersion.id] = versionSummary;
           return toReturn;
         }, {});
 
@@ -82,9 +91,18 @@ class InMemoryArticleRepository implements ArticleRepository {
     if (!versions.length) throw Error(`Unable to locate versions with id/msid ${identifier}`);
     return {
       article: versions[0],
-      versions: versions.reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
+      versions: versions.reduce((record: Record<string, VersionSummary>, otherVersion) => {
         const toReturn = record;
-        toReturn[otherVersion.id] = otherVersion;
+
+        // cast to any so we can remove the fields not used in VersionSummary
+        const versionSummary: any = {
+          ...otherVersion,
+        };
+        delete versionSummary.article;
+        delete versionSummary.peerReview;
+
+        toReturn[otherVersion.id] = versionSummary;
+
         return toReturn;
       }, {}),
     };
