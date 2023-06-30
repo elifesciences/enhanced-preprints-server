@@ -10,7 +10,7 @@ export const preprintsRoutes = (repo: ArticleRepository) => {
   router.get('/api/preprints/', preprintsController(repo).getPreprints);
   router.get('/api/preprints/:identifier(*)', preprintsController(repo).getPreprintsByIdentifier);
   router.post<{}, ResponseBodyType, EnhancedArticle>('/preprints', preprintsController(repo).postPreprints);
-  router.delete('/api/preprints/:identifier(*)', preprintsController(repo).deletePreprintByIdentifier);
+  router.delete('/preprints/:identifier(*)', preprintsController(repo).deletePreprintByIdentifier);
 
   return router;
 };
