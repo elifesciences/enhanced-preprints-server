@@ -30,3 +30,4 @@ jobs:
           platforms: linux/amd64
           tags: |
             ghcr.io/elifesciences/enhanced-preprints:preview-${{ steps.commit_sha.outputs.commit_sha }}
+            ghcr.io/elifesciences/enhanced-preprints-server:preview-${{ steps.commit_sha.outputs.commit_sha }}

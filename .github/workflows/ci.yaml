@@ -45,7 +45,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           load: true
-          tags: ghcr.io/elifesciences/enhanced-preprints:test
+          tags: |
+            ghcr.io/elifesciences/enhanced-preprints:test
+            ghcr.io/elifesciences/enhanced-preprints-server:test
   build-and-push:
     needs: [test]
     runs-on: ubuntu-latest
@@ -75,4 +77,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ghcr.io/elifesciences/enhanced-preprints:latest
+            ghcr.io/elifesciences/enhanced-preprints-server:latest
             ghcr.io/elifesciences/enhanced-preprints:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
+            ghcr.io/elifesciences/enhanced-preprints-server:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
