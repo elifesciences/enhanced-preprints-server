@@ -10,7 +10,7 @@ export const server = express();
 let articleRepository: ArticleRepository;
 createArticleRepository(config.repoType, config.repoConnection, config.repoUserName, config.repoPassword).then(async (repo: ArticleRepository) => {
   articleRepository = repo;
-  createApp(articleRepository, config).listen(3000, () => {
-    logger.info('Example app listening on port 3000');
+  createApp(articleRepository).listen(config.port, () => {
+    logger.info(`EPP server is listening on port ${config.port}`);
   });
 });

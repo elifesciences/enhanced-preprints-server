@@ -1,4 +1,10 @@
+ifneq ($(shell docker compose version 2>/dev/null),)
+  DOCKER_COMPOSE=docker compose
+else
+  DOCKER_COMPOSE=docker-compose
+endif
+
 .PHONY: start-dev
 
 start-dev:
-	@docker-compose up
+	@$(DOCKER_COMPOSE) up

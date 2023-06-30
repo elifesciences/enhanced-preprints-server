@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ArticleRepository } from '../model/model';
 import { fetchReviews } from '../services/reviews/fetch-reviews';
 
-export const reviewedPreprintsController = (repo: ArticleRepository, config: Record<string, any>) => {
+export const reviewedPreprintsController = (repo: ArticleRepository) => {
   const getReviewedPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const summaries = await repo.getArticleSummaries();
@@ -19,13 +19,13 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintMetadata = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        doi,
+        id,
       } = req.params;
 
-      const article = await repo.getArticle(doi);
+      const article = await repo.getArticle(id);
       res.send({
         authors: article.authors,
-        doi,
+        doi: article.doi,
         title: article.title,
         msas: [],
         importance: '',
@@ -33,7 +33,6 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
         views: 1,
         citations: 2,
         tweets: 3,
-        headings: article.headings,
         abstract: article.abstract,
         references: article.references,
       });
@@ -45,10 +44,10 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintContent = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        doi,
+        id,
       } = req.params;
 
-      const { content } = await repo.getArticle(doi);
+      const { content } = await repo.getArticle(id);
       res.send(content);
     } catch (err) {
       next(err);
@@ -58,10 +57,10 @@ export const reviewedPreprintsController = (repo: ArticleRepository, config: Rec
   const getReviewedPreprintReviews = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        doi,
+        id,
       } = req.params;
 
-      res.send(await fetchReviews(doi, config.id));
+      res.send(await fetchReviews(id));
     } catch (err) {
       next(err);
     }

@@ -11,7 +11,7 @@ export type ArticleContent = {
 export type ArticleTitle = Content;
 export type ArticleAbstract = Content;
 export type Address = {
-  addressCountry: string,
+  addressCountry?: string,
 };
 export type Organisation = {
   name: string,
@@ -27,7 +27,7 @@ export type Identifier = OrcidIdentifier;
 
 export type Author = {
   familyNames: string[],
-  givenNames: string[],
+  givenNames?: string[],
   affiliations?: Organisation[],
   emails?: string[],
   identifiers?: Identifier[],
@@ -35,17 +35,14 @@ export type Author = {
 
 export type License = {
   type: string,
-  url: string,
+  url?: string,
+  content?: Content,
 };
 
-export type Heading = {
-  id: string,
-  text: Content,
-};
-export type PublicationType = 'PublicationVolume' | 'Periodical';
+export type PublicationType = 'CreativeWork' | 'Periodical' | 'PublicationIssue' | 'PublicationVolume';
 export type Publication = {
   type: PublicationType,
-  name: string,
+  name?: string,
   volumeNumber?: number,
   isPartOf?: Publication,
 };
@@ -53,16 +50,16 @@ export type Reference = {
   type: 'Article',
   id: string,
   title: string,
-  url: string,
-  pageEnd: number,
-  pageStart: number,
-  authors: Array<Author>,
+  url?: string,
+  pageEnd?: number,
+  pageStart?: number,
+  authors: Array<Author | Organisation>,
   datePublished?: Date,
   isPartOf?: Publication,
   identifiers?: {
     type: string,
     name: string,
-    propertyID: string,
+    propertyID?: string,
     value: string,
   }[],
   meta?: {
@@ -78,11 +75,11 @@ export type ProcessedArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: Content,
-  headings: Heading[],
   references: Reference[],
 };
 
 export type ArticleSummary = {
+  id: string,
   doi: Doi
   title: ArticleTitle,
   date: Date,
@@ -137,9 +134,11 @@ export type EnhancedArticleWithVersions = {
 };
 
 export interface ArticleRepository {
-  storeArticle(article: ProcessedArticle): Promise<boolean>;
-  getArticle(doi: Doi): Promise<ProcessedArticle>;
+  storeArticle(article: ProcessedArticle, id: string): Promise<boolean>;
+  getArticle(id: string): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions>;
+  getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
+  deleteArticleVersion(identifier: string): Promise<boolean>;
 }

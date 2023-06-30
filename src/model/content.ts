@@ -30,17 +30,17 @@ type CiteGroupContent = {
   items: CiteContent[],
 };
 
-export type HeadingContent = DecoratedContent & {
+type HeadingContent = DecoratedContent & {
   type: 'Heading',
-  id: string,
+  id?: string,
   depth: 1 | 2 | 3 | 4 | 5 | 6,
 };
 
 type FigureContent = DecoratedContent & {
   type: 'Figure',
-  id: string,
-  caption: Content,
-  label: string,
+  id?: string,
+  caption?: Content,
+  label?: string,
 };
 
 type ImageObjectContent = {
@@ -64,6 +64,27 @@ type SubscriptContent = DecoratedContent & {
   type: 'Subscript',
 };
 
+type ListItemContent = DecoratedContent & {
+  type: 'ListItem',
+};
+
+type ListContent = {
+  type: 'List',
+  order: 'Unordered' | 'Ascending',
+  items: Array<ListItemContent>,
+};
+
+type ClaimContent = DecoratedContent & {
+  type: 'Claim',
+  claimType: 'Statement' | 'Theorem' | 'Lemma' | 'Proof' | 'Postulate' | 'Hypothesis' | 'Proposition' | 'Corollary',
+  label?: Content,
+  title?: Content,
+};
+
+type OtherContent = {
+  type: 'CodeBlock' | 'MathFragment' | 'MediaObject' | 'Table' | 'ThematicBreak'
+};
+
 type ContentPart =
   string |
   HeadingContent |
@@ -77,6 +98,10 @@ type ContentPart =
   CiteContent |
   CiteGroupContent |
   FigureContent |
-  ImageObjectContent;
+  ImageObjectContent |
+  ListItemContent |
+  ListContent |
+  ClaimContent |
+  OtherContent;
 
 export type Content = ContentPart | Array<Content>;

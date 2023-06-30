@@ -1,5 +1,5 @@
 import { createArticleRepository, StoreType } from './create-article-repository';
-import { Reference, EnhancedArticle } from './model';
+import { Reference, EnhancedArticle, License } from './model';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
@@ -52,10 +52,21 @@ const exampleReference: Reference = {
   url: 'https://bbc.co.uk',
 };
 
-const exampleLicenses = [
+const exampleLicenses: License[] = [
   {
     type: 'CreativeWork',
     url: 'http://creativecommons.org/licenses/by/4.0/',
+  },
+  {
+    type: 'CreativeWork',
+    content: [
+      {
+        type: 'Paragraph',
+        content: [
+          'The copyright holder for this pre-print is the author. All rights reserved. The material may not be redistributed, re-used or adapted without the author\'s permission.',
+        ],
+      },
+    ],
   },
 ];
 
@@ -71,9 +82,8 @@ describe('article-stores', () => {
         date: new Date('2008-01-01'),
         content: [],
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
-      });
+      }, 'test/article.1');
 
       expect(stored).toStrictEqual(true);
     });
@@ -88,16 +98,15 @@ describe('article-stores', () => {
         date: new Date('2008-01-01'),
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
-      const stored1 = await articleStore.storeArticle(article);
-      const retreived1 = await articleStore.getArticle(article.doi);
+      const stored1 = await articleStore.storeArticle(article, 'test/article.1');
+      const retreived1 = await articleStore.getArticle('test/article.1');
 
       const stored2 = await articleStore.storeArticle({
         ...article,
         content: '<article>content</article>',
-      });
+      }, 'test/article.1');
 
       const retreived2 = await articleStore.getArticle(article.doi);
 
@@ -119,10 +128,9 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: [],
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
-      const result = await articleStore.storeArticle(exampleArticle);
+      const result = await articleStore.storeArticle(exampleArticle, 'test/article.2');
       expect(result).toStrictEqual(true);
 
       const article = await articleStore.getArticle('test/article.2');
@@ -135,6 +143,29 @@ describe('article-stores', () => {
       expect(article.authors).toStrictEqual(exampleAuthors);
       expect(article.licenses).toStrictEqual(exampleLicenses);
       expect(article.content).toStrictEqual([]);
+    });
+
+    it('stores article content and retrieves a specific processed article by ID, different to DOI', async () => {
+      const articleStore = await createArticleRepo(store);
+
+      const exampleArticle = {
+        doi: 'test/article.2',
+        title: 'Test Article 2',
+        abstract: 'Test article 2 abstract',
+        date: new Date('2008-02-03'),
+        authors: exampleAuthors,
+        content: [],
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      };
+      const result = await articleStore.storeArticle(exampleArticle, 'test/article.2/v1');
+      expect(result).toStrictEqual(true);
+
+      const article = await articleStore.getArticle('test/article.2/v1');
+      expect(article).toBeDefined();
+      expect(article.doi).toStrictEqual('test/article.2');
+
+      expect(articleStore.getArticle('test/article.2')).rejects.toThrowError();
     });
 
     it('errors when retrieving unknown article', async () => {
@@ -152,7 +183,6 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       const exampleArticle2 = {
@@ -163,7 +193,6 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
       const exampleArticle3 = {
@@ -174,24 +203,26 @@ describe('article-stores', () => {
         authors: exampleAuthors,
         content: '<article></article>',
         licenses: exampleLicenses,
-        headings: [],
         references: [exampleReference],
       };
-      await articleStore.storeArticle(exampleArticle1);
-      await articleStore.storeArticle(exampleArticle2);
-      await articleStore.storeArticle(exampleArticle3);
+      await articleStore.storeArticle(exampleArticle1, 'test/article.4');
+      await articleStore.storeArticle(exampleArticle2, 'test/article.5');
+      await articleStore.storeArticle(exampleArticle3, 'test/article.6');
 
       const articleSummaries = await articleStore.getArticleSummaries();
 
       expect(articleSummaries).toStrictEqual(expect.arrayContaining([{
+        id: 'test/article.4',
         doi: 'test/article.4',
         title: 'Test Article 4',
         date: new Date('2008-04-01'),
       }, {
+        id: 'test/article.5',
         doi: 'test/article.5',
         title: 'Test Article 5',
         date: new Date('2008-05-01'),
       }, {
+        id: 'test/article.6',
         doi: 'test/article.6',
         title: 'Test Article 6',
         date: new Date('2008-06-01'),
@@ -222,7 +253,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -255,7 +285,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -288,7 +317,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -307,7 +335,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -343,7 +370,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -362,7 +388,6 @@ describe('article-stores', () => {
           authors: exampleAuthors,
           content: '<article></article>',
           licenses: exampleLicenses,
-          headings: [],
           references: [exampleReference],
         },
       };
@@ -379,6 +404,99 @@ describe('article-stores', () => {
           'testid4.2': inputArticle2,
         },
       });
+    });
+
+    it('stores two Versioned Articles and retreives summaries', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle1 = {
+        id: 'testid3.1',
+        msid: 'testid3',
+        doi: 'journal/testid3.1',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid3.1',
+        preprintDoi: 'preprint/article9',
+        preprintUrl: 'http://preprints.org/preprint/article9',
+        preprintPosted: new Date('2008-09-01'),
+        published: new Date('2008-10-01'),
+        article: {
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
+      };
+      const inputArticle2 = {
+        id: 'testid3.2',
+        msid: 'testid3',
+        doi: 'journal/testid3.2',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid3.2',
+        preprintDoi: 'preprint/article9v2',
+        preprintUrl: 'http://preprints.org/preprint/article9v2',
+        preprintPosted: new Date('2008-09-02'),
+        published: new Date('2008-10-02'),
+        article: {
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
+      };
+      const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
+      const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
+      const articles = await articleStore.getEnhancedArticleSummaries();
+
+      expect(result1).toStrictEqual(true);
+      expect(result2).toStrictEqual(true);
+      expect(articles).toMatchObject([
+        {
+          id: 'testid3.1',
+          doi: 'journal/testid3.1',
+          title: 'Test Article 9',
+          date: new Date('2008-10-01'),
+        },
+        {
+          id: 'testid3.2',
+          doi: 'journal/testid3.2',
+          title: 'Test Article 9',
+          date: new Date('2008-10-02'),
+        },
+      ]);
+    });
+
+    it('stores a Versioned Article and deletes successfully', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle1 = {
+        id: 'testid3.1',
+        msid: 'testid3',
+        doi: 'journal/testid3.1',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid3.1',
+        preprintDoi: 'preprint/article9',
+        preprintUrl: 'http://preprints.org/preprint/article9',
+        preprintPosted: new Date('2008-09-01'),
+        published: new Date('2008-10-01'),
+        article: {
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
+      };
+
+      await articleStore.storeEnhancedArticle(inputArticle1);
+      const result = await articleStore.deleteArticleVersion(inputArticle1.id);
+
+      expect(result).toStrictEqual(true);
     });
   });
 });

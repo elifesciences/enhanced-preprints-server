@@ -1,5 +1,4 @@
 import {
-  Doi,
   ArticleRepository,
   ProcessedArticle,
   ArticleSummary,
@@ -27,24 +26,25 @@ class InMemoryArticleRepository implements ArticleRepository {
     this.versionedStore = versionedStore;
   }
 
-  async storeArticle(article: ProcessedArticle): Promise<boolean> {
-    this.store.set(article.doi, article);
+  async storeArticle(article: ProcessedArticle, id: string): Promise<boolean> {
+    this.store.set(id, article);
 
     return true;
   }
 
-  async getArticle(doi: Doi): Promise<ProcessedArticle> {
-    const article = this.store.get(doi);
+  async getArticle(id: string): Promise<ProcessedArticle> {
+    const article = this.store.get(id);
     if (article === undefined) {
-      throw new Error(`Article with DOI "${doi}" was not found`);
+      throw new Error(`Article with ID "${id}" was not found`);
     }
 
     return article;
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    return Array.from(this.store.values())
-      .map((article) => ({
+    return Array.from(this.store.entries())
+      .map(([id, article]) => ({
+        id,
         doi: article.doi,
         title: article.title,
         date: article.date,
@@ -52,10 +52,6 @@ class InMemoryArticleRepository implements ArticleRepository {
   }
 
   async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
-    if (this.versionedStore.has(article.id)) {
-      return false;
-    }
-
     this.versionedStore.set(article.id, article);
 
     return true;
@@ -92,6 +88,20 @@ class InMemoryArticleRepository implements ArticleRepository {
         return toReturn;
       }, {}),
     };
+  }
+
+  async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
+    return Array.from(this.versionedStore.entries())
+      .map(([id, article]) => ({
+        id,
+        doi: article.doi,
+        title: article.article.title,
+        date: new Date(article.published ?? new Date()),
+      }));
+  }
+
+  async deleteArticleVersion(identifier: string): Promise<boolean> {
+    return this.versionedStore.delete(identifier);
   }
 }
 

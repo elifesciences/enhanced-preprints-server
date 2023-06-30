@@ -4,8 +4,7 @@ import {
   ArticleRepository,
   ArticleSummary,
   ArticleTitle,
-  Author, Doi,
-  Heading,
+  Author,
   License,
   ProcessedArticle,
   Reference,
@@ -23,7 +22,6 @@ type StoredArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: Content,
-  headings: Heading[],
   references: Reference[],
 };
 
@@ -41,21 +39,20 @@ class MongoDBArticleRepository implements ArticleRepository {
     this.versionedCollection = versionedCollection;
   }
 
-  async storeArticle(article: ProcessedArticle): Promise<boolean> {
+  async storeArticle(article: ProcessedArticle, id: string): Promise<boolean> {
     const response = await this.collection.updateOne(
       {
-        _id: article.doi,
+        _id: id,
       },
       {
         $set: {
-          _id: article.doi,
+          _id: id,
           title: article.title,
           abstract: article.abstract,
           authors: article.authors,
           content: article.content,
           date: article.date,
           doi: article.doi,
-          headings: article.headings,
           licenses: article.licenses,
           references: article.references,
         },
@@ -68,10 +65,10 @@ class MongoDBArticleRepository implements ArticleRepository {
     return response.acknowledged;
   }
 
-  async getArticle(doi: Doi): Promise<ProcessedArticle> {
-    const article = await this.collection.findOne({ _id: doi });
+  async getArticle(id: string): Promise<ProcessedArticle> {
+    const article = await this.collection.findOne({ _id: id });
     if (!article) {
-      throw new Error(`Article with DOI "${doi}" was not found`);
+      throw new Error(`Article with ID "${id}" was not found`);
     }
 
     return {
@@ -81,13 +78,15 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleSummaries(): Promise<ArticleSummary[]> {
-    const results = await this.collection.find({}).project<ArticleSummary>({
+    const results = await this.collection.find({}).project({
       doi: 1,
       date: 1,
       title: 1,
     });
 
     return (await results.toArray()).map<ArticleSummary>((doc) => ({
+      // eslint-disable-next-line no-underscore-dangle
+      id: doc._id,
       doi: doc.doi,
       date: new Date(doc.date),
       title: doc.title,
@@ -95,12 +94,36 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
-    const response = await this.versionedCollection.insertOne({
+    const response = await this.versionedCollection.updateOne({
       _id: article.id,
-      ...article,
+    }, {
+      $set: {
+        _id: article.id,
+        ...article,
+      },
+    }, {
+      upsert: true,
     });
 
     return response.acknowledged;
+  }
+
+  async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
+    const results = await this.versionedCollection.find({}).project({
+      doi: 1,
+      published: 1,
+      article: {
+        title: 1,
+      },
+    });
+
+    return (await results.toArray()).map<ArticleSummary>((doc) => ({
+      // eslint-disable-next-line no-underscore-dangle
+      id: doc._id,
+      doi: doc.doi,
+      date: new Date(doc.published),
+      title: doc.article.title,
+    }));
   }
 
   async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
@@ -131,6 +154,11 @@ class MongoDBArticleRepository implements ArticleRepository {
         return toReturn;
       }, {}),
     };
+  }
+
+  async deleteArticleVersion(identifier: string): Promise<boolean> {
+    const deleteResult = await this.versionedCollection.deleteOne({ _id: identifier });
+    return deleteResult.deletedCount > 0;
   }
 }
 

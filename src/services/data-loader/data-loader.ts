@@ -10,9 +10,9 @@ import { fromWebToken } from '@aws-sdk/credential-providers';
 import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
-  ArticleContent, ArticleRepository, Heading, OrcidIdentifier as OrcidModel, ProcessedArticle,
+  ArticleContent, ArticleRepository, OrcidIdentifier as OrcidModel, ProcessedArticle,
 } from '../../model/model';
-import { Content, HeadingContent } from '../../model/content';
+import { Content } from '../../model/content';
 import { logger } from '../../utils/logger';
 import { config } from '../../config';
 
@@ -140,7 +140,7 @@ const getAvailableManuscriptPaths = async (client: S3Client): Promise<string[]> 
   return manuscriptPaths;
 };
 
-const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
+const processXml = async (file: PreprintXmlFile, id: string): Promise<ArticleContent> => {
   // resolve path so that we can search for filenames reliable once encoda has converted the source
   const realFile = realpathSync(file);
   let json = await convertJatsToJson(realFile);
@@ -150,10 +150,10 @@ const processXml = async (file: PreprintXmlFile): Promise<ArticleContent> => {
   const dois = articleStruct.identifiers.filter((identifier) => identifier.name === 'doi');
   const doi = dois[0].value;
 
-  // HACK: replace all locally referenced files with a id referencing the asset path
+  // HACK: replace all locally referenced files with an id referencing the asset path
   const articleDir = dirname(realFile);
-  logger.debug(`replacing ${articleDir} in JSON with ${doi} for client to find asset path`);
-  json = json.replaceAll(articleDir, doi);
+  logger.debug(`replacing ${articleDir} in JSON with ${id} for client to find asset path`);
+  json = json.replaceAll(articleDir, id);
 
   return {
     doi,
@@ -179,40 +179,6 @@ const fetchXml = async (client: S3Client, xmlPath: string): Promise<string> => {
   await pipeline((objectRequest.Body as Readable), writeStream);
 
   return articlePath;
-};
-
-const extractHeadings = (content: Content): Heading[] => {
-  if (typeof content === 'string') {
-    return [];
-  }
-
-  if (!Array.isArray(content)) {
-    return extractHeadings([content]);
-  }
-
-  const headingContentParts = content.filter((contentPart) => {
-    if (typeof contentPart === 'string') {
-      return false;
-    }
-
-    if (Array.isArray(contentPart)) {
-      return extractHeadings(content);
-    }
-
-    if (contentPart.type !== 'Heading') {
-      return false;
-    }
-
-    return contentPart.depth <= 1;
-  });
-
-  return headingContentParts.map((contentPart) => {
-    const heading = contentPart as HeadingContent;
-    return {
-      id: heading.id,
-      text: heading.content,
-    };
-  });
 };
 
 const processArticle = (article: ArticleContent): ProcessedArticle => {
@@ -262,7 +228,6 @@ const processArticle = (article: ArticleContent): ProcessedArticle => {
     abstract,
     licenses,
     content: articleStruct.content,
-    headings: extractHeadings(articleStruct.content),
     references,
   };
 };
@@ -275,11 +240,11 @@ export const loadXmlArticlesFromS3IntoStores = async (articleRepository: Article
   return Promise.all(
     xmlFiles.map(async (xmlS3FilePath) => fetchXml(s3, xmlS3FilePath)
       .then(async (xmlFilePath) => {
-        const articleContent = await processXml(xmlFilePath);
+        const articleContent = await processXml(xmlFilePath, dirname(xmlS3FilePath).replace('data/', ''));
         rmSync(dirname(xmlFilePath), { recursive: true, force: true });
         return articleContent;
       })
       .then((articleContent) => processArticle(articleContent))
-      .then((article) => articleRepository.storeArticle(article))),
+      .then((article) => articleRepository.storeArticle(article, dirname(xmlS3FilePath).replace('data/', '')))),
   );
 };

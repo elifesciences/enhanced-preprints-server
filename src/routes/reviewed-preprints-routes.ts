@@ -2,15 +2,13 @@ import express from 'express';
 import { reviewedPreprintsController } from '../controller/reviewed-preprints-controller';
 import { ArticleRepository } from '../model/model';
 
-export const reviewedPreprintsRoutes = (repo: ArticleRepository, config: Record<string, any>) => {
+export const reviewedPreprintsRoutes = (repo: ArticleRepository) => {
   const router = express.Router();
 
-  // todo: We need to implement encoding on the doi
-  // See: https://github.com/regexhq/doi-regex#doi-regex
-  router.get('/api/reviewed-preprints/', reviewedPreprintsController(repo, config).getReviewedPreprints);
-  router.get('/api/reviewed-preprints/:doi(*)/metadata', reviewedPreprintsController(repo, config).getReviewedPreprintMetadata);
-  router.get('/api/reviewed-preprints/:doi(*)/content', reviewedPreprintsController(repo, config).getReviewedPreprintContent);
-  router.get('/api/reviewed-preprints/:doi(*)/reviews', reviewedPreprintsController(repo, config).getReviewedPreprintReviews);
+  router.get('/api/reviewed-preprints/', reviewedPreprintsController(repo).getReviewedPreprints);
+  router.get('/api/reviewed-preprints/:id(*)/metadata', reviewedPreprintsController(repo).getReviewedPreprintMetadata);
+  router.get('/api/reviewed-preprints/:id(*)/content', reviewedPreprintsController(repo).getReviewedPreprintContent);
+  router.get('/api/reviewed-preprints/:id(*)/reviews', reviewedPreprintsController(repo).getReviewedPreprintReviews);
 
   return router;
 };

@@ -8,12 +8,15 @@ import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
 import { docmapMock as docmapMock1, reviewMocks as reviewMocks1 } from './data/10.1101/123456/docmap-mock';
 import { docmapMock as docmapMock2, reviewMocks as reviewMocks2 } from './data/10.1101/654321/docmap-mock';
+import mockBody1 from './mock-data/mock-body-1.json';
+import mockBody2 from './mock-data/mock-body-2.json';
+import mockBody3 from './mock-data/mock-body-3.json';
 
 jest.mock('axios');
 
 const generateAgent = async () => {
   const repo = await createArticleRepository(StoreType.InMemory);
-  const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+  const app = await createApp(repo);
 
   return request(app);
 };
@@ -30,7 +33,7 @@ describe('server tests', () => {
       .resolves({
         Contents: [
           { Key: 'data/10.1101/123456/123456.xml' },
-          { Key: 'data/10.1101/456/789.xml' },
+          { Key: 'data/10.1101/456/789/v1/789.xml' },
           { Key: 'data/10.1101/654321/654321.xml' },
         ],
       })
@@ -38,7 +41,7 @@ describe('server tests', () => {
       .resolves({ Body: sdkStreamMixin(fooStream) })
       .on(GetObjectCommand, { Key: 'data/10.1101/654321/654321.xml' })
       .resolves({ Body: sdkStreamMixin(barStream) })
-      .on(GetObjectCommand, { Key: 'data/10.1101/456/789.xml' })
+      .on(GetObjectCommand, { Key: 'data/10.1101/456/789/v1/789.xml' })
       .resolves({ Body: sdkStreamMixin(bazStream) });
   });
 
@@ -50,7 +53,7 @@ describe('server tests', () => {
     describe('empty database', () => {
       it('should redirect from / to /api/reviewed-preprints/', async () => {
         const repo = await createArticleRepository(StoreType.InMemory);
-        await request(createApp(repo, {}))
+        await request(createApp(repo))
           .get('/')
           .expect(302)
           .expect('Location', '/api/reviewed-preprints/');
@@ -58,7 +61,7 @@ describe('server tests', () => {
 
       it('should return an empty json array with no data', async () => {
         const repo = await createArticleRepository(StoreType.InMemory);
-        await request(createApp(repo, {}))
+        await request(createApp(repo))
           .get('/api/reviewed-preprints')
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect({
@@ -84,16 +87,19 @@ describe('server tests', () => {
           .expect((response) => {
             expect(response.body.total).toBe(3);
             expect(response.body.items).toContainEqual({
+              id: '10.1101/123456',
               doi: '10.1101/123456',
               title: 'Our Pondering of World Domination!',
               date: '2021-11-19T00:00:00.000Z',
             });
             expect(response.body.items).toContainEqual({
+              id: '10.1101/654321',
               doi: '10.1101/654321',
               title: 'Dangers of roadrunners with reality warping powers.',
               date: '2021-11-19T00:00:00.000Z',
             });
             expect(response.body.items).toContainEqual({
+              id: '10.1101/456/789/v1', // This is the id from the path, rather than the DOI
               doi: '10.1101/456/789',
               title: 'The Wild Adventures of Wile E. Coyote vs Reality-Bending Roadrunners.',
               date: '2021-11-19T00:00:00.000Z',
@@ -106,7 +112,7 @@ describe('server tests', () => {
   describe('/import', () => {
     it('import the articles', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, {});
+      const app = await createApp(repo);
 
       return request(app)
         .post('/import')
@@ -119,7 +125,7 @@ describe('server tests', () => {
 
     it('import new articles', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+      const app = await createApp(repo);
 
       // set the mock for single manuscript to import
       mockClient(S3Client)
@@ -179,7 +185,7 @@ describe('server tests', () => {
 
     it('returns success on reimport and message', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo, { dataDir: './integration-tests/data/10.1101' });
+      const app = await createApp(repo);
 
       await request(app)
         .post('/import')
@@ -218,7 +224,7 @@ describe('server tests', () => {
   describe('/api/reviewed-preprints/:doi(*)/metadata', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .get('/api/reviewed-preprints/1/2/metadata')
         .expect(500);
     });
@@ -272,7 +278,6 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
           abstract: [{ type: 'Paragraph', content: ['An abstract.'] }],
           references: [],
         });
@@ -324,7 +329,111 @@ describe('server tests', () => {
           views: 1,
           citations: 2,
           tweets: 3,
-          headings: [{ id: 's1', text: ['Section'] }, { text: ['Acknowledgements'] }],
+          abstract: [{ type: 'Paragraph', content: ['Why not to mess with an agent of chaos.'] }],
+          references: [],
+        });
+    });
+
+    it('returns the correct metadata for the test article by ID', async () => {
+      const agent = await generateAgent();
+
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+
+      await agent.get('/api/reviewed-preprints/10.1101/456/789/v1/metadata')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect({
+          authors: [
+            {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'USA',
+                  },
+                  name: 'ACME Labs, New York',
+                }],
+              familyNames: ['Brain'],
+              emails: ['brain@acmelabs.edu.au'],
+            }, {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'USA',
+                  },
+                  name: 'ACME Labs, New York',
+                }],
+              familyNames: ['Pinky'],
+            }],
+          doi: '10.1101/456/789',
+          title: 'The Wild Adventures of Wile E. Coyote vs Reality-Bending Roadrunners.',
+          msas: [],
+          importance: '',
+          strengthOfEvidence: '',
+          views: 1,
+          citations: 2,
+          tweets: 3,
+          abstract: [{ type: 'Paragraph', content: ['An abstract.'] }],
+          references: [],
+        });
+
+      await agent.get('/api/reviewed-preprints/10.1101/654321/metadata')
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect({
+          authors: [
+            {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'New Zealand',
+                  },
+                  name: 'ACME Demolitions, Wellington',
+                }],
+              familyNames: ['Coyote'],
+              givenNames: ['Wile', 'E'],
+              emails: ['w.coyote@acme.demolitions.au'],
+              identifiers: [
+                { type: 'orcid', value: 'http://orcid.org/0000-0002-1234-5678' },
+              ],
+            }, {
+              type: 'Person',
+              affiliations: [
+                {
+                  type: 'Organization',
+                  address: {
+                    type: 'PostalAddress',
+                    addressCountry: 'New Zealand',
+                  },
+                  name: 'ACME Demolitions, Wellington',
+                }],
+              familyNames: ['Devil'],
+              givenNames: ['Taz'],
+              identifiers: [
+                { type: 'orcid', value: 'http://orcid.org/0000-0002-1234-5679' },
+              ],
+            }],
+          doi: '10.1101/654321',
+          title: 'Dangers of roadrunners with reality warping powers.',
+          msas: [],
+          importance: '',
+          strengthOfEvidence: '',
+          views: 1,
+          citations: 2,
+          tweets: 3,
           abstract: [{ type: 'Paragraph', content: ['Why not to mess with an agent of chaos.'] }],
           references: [],
         });
@@ -334,7 +443,7 @@ describe('server tests', () => {
   describe('/api/reviewed-preprints/:doi(*)/content', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .get('/api/reviewed-preprints/1/2/content')
         .expect(500);
     });
@@ -387,23 +496,24 @@ describe('server tests', () => {
     });
   });
 
-  describe('/api/reviewed-preprints/:doi(*)/reviews', () => {
+  describe('/api/reviewed-preprints/:msid(*)/reviews', () => {
     it('returns a 500 when it cant get a docmap', async () => {
       // Needed for jest mock of axios
       // @ts-ignore
       axios.get.mockRejectedValue({});
 
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .get('/api/reviewed-preprints/1/2/reviews')
         .expect(500);
     });
+
     it('returns a 500 when it cant fetch the html', async () => {
       // Needed for jest mock of axios
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/123456':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -412,9 +522,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(404); // TODO: why is this a 404?
     });
 
@@ -423,7 +538,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/123456':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -436,9 +551,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(404); // TODO: why is this a 404?
     });
 
@@ -447,7 +567,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/654321':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock2,
             });
@@ -462,9 +582,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/654321/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(500);
     });
 
@@ -473,7 +598,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi?preprint_doi=10.1101/123456':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -488,9 +613,14 @@ describe('server tests', () => {
         }
       });
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
-        .get('/api/reviewed-preprints/10.1101/123456/reviews')
+      const agent = await generateAgent();
+      await agent.post('/import')
+        .expect(200)
+        .expect({
+          status: true,
+          message: 'Import completed',
+        });
+      await agent.get('/api/reviewed-preprints/88888/reviews')
         .expect(200)
         .expect({
           reviews: [
@@ -521,6 +651,18 @@ describe('server tests', () => {
   });
 
   describe('/api/preprints', () => {
+    it.each([mockBody1, mockBody2, mockBody3])('passes validation on import', async (mockBody) => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      await request(createApp(repo))
+        .post('/preprints')
+        .send(mockBody)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+    });
+
     const enhancedArticle = {
       id: 'testid3',
       msid: 'testmsid',
@@ -540,7 +682,6 @@ describe('server tests', () => {
         abstract: 'This is the test abstract',
         licenses: [],
         content: 'This is some test content',
-        headings: [{ id: 'head1', text: 'Heading 1' }],
         references: [],
       },
       preprintDoi: 'preprint/testid1',
@@ -552,7 +693,7 @@ describe('server tests', () => {
 
     it('imports a valid JSON body', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo, {}))
+      await request(createApp(repo))
         .post('/preprints')
         .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
@@ -564,7 +705,7 @@ describe('server tests', () => {
 
     it('imports a valid JSON body and we are able to retrieve it', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       await request(app)
         .post('/preprints')
@@ -587,7 +728,7 @@ describe('server tests', () => {
 
     it('imports two content types and we are able to retrieve the earliest by ID, and the latest by msid', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       const exampleVersion1 = {
         ...enhancedArticle,
@@ -609,7 +750,6 @@ describe('server tests', () => {
           authors: [],
           content: '<article></article>',
           licenses: [],
-          headings: [],
           references: [],
         },
       };
@@ -650,9 +790,106 @@ describe('server tests', () => {
           },
         });
     });
+
+    it('imports content with forward slash in ID', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      const exampleVersion = {
+        ...enhancedArticle,
+        id: 'testid6/v1',
+        versionIdentifier: '1',
+        msid: 'article.3',
+      };
+
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid6/v1')
+        .expect({
+          article: exampleVersion,
+          versions: {
+            'testid6/v1': exampleVersion,
+          },
+        });
+    });
+
+    it('removes an article version with a given ID', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      const exampleVersion = {
+        ...enhancedArticle,
+        id: 'testid6/v1',
+        versionIdentifier: '1',
+        msid: 'article.3',
+      };
+
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .delete('/preprints/testid6/v1')
+        .expect(200);
+    });
+
+    it('fails to remove a non-existant article version with a given ID', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      await request(app)
+        .delete('/preprints/somethingNonExistant/v1')
+        .expect(404, 'Article not found');
+    });
+
+    it('overwrites a version when given the same id', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      const changedEnhancedArticle = { ...enhancedArticle, msid: 'foo' };
+      await request(app)
+        .post('/preprints')
+        .send(changedEnhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid3')
+        .expect(200, {
+          article: changedEnhancedArticle,
+          versions: {
+            testid3: changedEnhancedArticle,
+          },
+        });
+    });
   });
 
-  describe('/api/citations', () => {
+  describe('/api/citations/:publisherId/:articleId/bibtex', () => {
     const bibtex = `
     @article{Carberry_2008,
       doi = {10.1101/123456},
@@ -685,9 +922,9 @@ describe('server tests', () => {
     }
     `;
 
-    it('returns a bibtex file with the correct information', async () => {
+    it('returns a BibTeX file with the correct information', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -699,9 +936,9 @@ describe('server tests', () => {
         .expect('Content-Type', 'application/x-bibtex; charset=utf-8');
     });
 
-    it('returns a 400 when the crossref call fails', async () => {
+    it('returns a 400 when the crossref BibTeX call fails', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -712,9 +949,9 @@ describe('server tests', () => {
         .expect(404);
     });
 
-    it('formats the data to be URI decoded', async () => {
+    it('formats the BibTeX data to be URI decoded', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo, {});
+      const app = createApp(repo);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -724,6 +961,75 @@ describe('server tests', () => {
         .get('/api/citations/10.5555/12345678/bibtex')
         .expect(200, bibtex)
         .expect('Content-Type', 'application/x-bibtex; charset=utf-8');
+    });
+  });
+
+  describe('/api/citations/:publisherId/:articleId/ris', () => {
+    const ris = `
+    TY  - GENERIC
+    DO  - 10.7554/elife.85646.1
+    UR  - http://dx.doi.org/10.7554/eLife.85646.1
+    TI  - Parahippocampal neurons encode task-relevant information for goal-directed navigation
+    AU  - Gonzalez, Alexander
+    AU  - Giocomo, Lisa M.
+    PY  - 2023
+    DA  - 2023/03/09
+    PB  - eLife Sciences Publications, Ltd
+    ER  -
+    `;
+
+    const encodedRis = `
+    TY  - GENERIC
+    DO  - 10.7554/elife.85646.1
+    UR  - http://dx.doi.org/10.7554%2FeLife.85646.1
+    TI  - Parahippocampal neurons encode task-relevant information for goal-directed navigation
+    AU  - Gonzalez, Alexander
+    AU  - Giocomo, Lisa M.
+    PY  - 2023
+    DA  - 2023/03/09
+    PB  - eLife Sciences Publications, Ltd
+    ER  -
+    `;
+
+    it('returns an RIS file with the correct information', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation(() => Promise.resolve({ data: ris }));
+
+      await request(app)
+        .get('/api/citations/10.5555/12345678/ris')
+        .expect(200)
+        .expect('Content-Type', 'application/x-research-info-systems; charset=utf-8');
+    });
+
+    it('returns a 400 when the crossref RIS call fails', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation(() => Promise.reject());
+
+      await request(app)
+        .get('/api/citations/10.5555/12345678/ris')
+        .expect(404);
+    });
+
+    it('formats the RIS data to be URI decoded', async () => {
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation(() => Promise.resolve({ data: encodedRis }));
+
+      await request(app)
+        .get('/api/citations/10.5555/12345678/ris')
+        .expect(200, ris)
+        .expect('Content-Type', 'application/x-research-info-systems; charset=utf-8');
     });
   });
 });

@@ -17,9 +17,24 @@ const enhancedArticleExample = {
       },
     ],
     abstract: 'This is the test abstract',
-    licenses: [],
+    licenses: [
+      {
+        type: 'CreativeWork',
+        url: 'http://creativecommons.org/licenses/by/4.0/',
+      },
+      {
+        type: 'CreativeWork',
+        content: [
+          {
+            type: 'Paragraph',
+            content: [
+              'The copyright holder for this pre-print is the author. All rights reserved. The material may not be redistributed, re-used or adapted without the author\'s permission.',
+            ],
+          },
+        ],
+      },
+    ],
     content: 'This is some test content',
-    headings: [{ id: 'head1', text: 'Heading 1' }],
     references: [],
   },
   preprintDoi: 'preprint/testid1',
@@ -33,6 +48,7 @@ describe('httpschema', () => {
   it.each([
     'foo',
     ['one', 'two', { type: 'Strong', content: 'three' }],
+    ['', 'with', '', 'empty', { type: 'Strong', content: 'strings' }, ''],
     {
       type: 'Heading', depth: 1, content: 'heading', id: 'h1',
     },
@@ -72,7 +88,11 @@ describe('httpschema', () => {
     },
     {
       type: 'Figure',
-      content: 'I am a figure',
+      content: 'I am a simple figure',
+    },
+    {
+      type: 'Figure',
+      content: 'I am a figure with caption, label and id',
       caption: 'I am a caption',
       label: 'I am a label',
       id: 'id',
@@ -84,6 +104,42 @@ describe('httpschema', () => {
       meta: {
         inline: false,
       },
+    },
+    {
+      type: 'List',
+      order: 'Unordered',
+      items: [
+        {
+          type: 'ListItem',
+          content: 'one',
+        },
+        {
+          type: 'ListItem',
+          content: ['two'],
+        },
+        {
+          type: 'ListItem',
+          content: [
+            {
+              type: 'Strong',
+              content: 'three',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'Claim',
+      claimType: 'Statement',
+      label: 'This is a label',
+      title: [
+        {
+          type: 'Heading',
+          depth: 1,
+          content: 'heading',
+          id: 'h1',
+        },
+      ],
     },
     [
       [{

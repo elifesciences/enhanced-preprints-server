@@ -14,12 +14,12 @@ const getStoreTypeFromString = (repoType: string): StoreType => {
 };
 
 export const config = {
-  id: process.env.REVIEWGROUP_ID ?? 'https://elifesciences.org',
-  name: process.env.REVIEWGROUP_NAME ?? 'eLife',
+  port: process.env.PORT ?? 3000,
   repoType: process.env.REPO_TYPE ? getStoreTypeFromString(process.env.REPO_TYPE) : StoreType.InMemory,
   repoConnection: process.env.REPO_CONNECTION ?? './data.db',
   repoUserName: process.env.REPO_USERNAME ?? '',
   repoPassword: process.env.REPO_PASSWORD ?? '',
+  docmapsApi: process.env.DOCMAPS_API ?? 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=',
   s3: {
     endPoint: process.env.S3_ENDPOINT ?? 'https://s3.amazonaws.com',
     accessKey: process.env.S3_ACCESS_KEY ?? '',
