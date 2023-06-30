@@ -1,5 +1,7 @@
 import { createArticleRepository, StoreType } from './create-article-repository';
-import { Reference, EnhancedArticle, License, EnhancedArticleWithVersions } from './model';
+import {
+  Reference, EnhancedArticle, License, EnhancedArticleWithVersions,
+} from './model';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
