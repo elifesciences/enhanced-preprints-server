@@ -10,6 +10,7 @@ import {
   Reference,
   EnhancedArticle,
   EnhancedArticleWithVersions,
+  VersionSummary,
 } from '../model';
 import { Content } from '../content';
 
@@ -127,32 +128,34 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
-    const allVersions = await this.versionedCollection.find({ $or: [{ _id: identifier }, { msid: identifier }] })
-      .sort({ preprintPosted: -1 }) // sorted descending
-      .toArray();
+    const version = await this.versionedCollection.findOne(
+      { $or: [{ _id: identifier }, { msid: identifier }] },
+      { sort: { preprintPosted: -1 } },
+    );
 
-    if (allVersions.length === 0) {
-      throw Error('Cannot find a matching article Version');
+    if (!version) {
+      throw Error('Cannot find a matching article version');
     }
 
-    const askedForVersion = allVersions.filter((version) => version.id === identifier);
-    if (askedForVersion.length === 1) {
-      return {
-        article: askedForVersion[0],
-        versions: allVersions.reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
-          const toReturn = record;
-          toReturn[otherVersion.id] = otherVersion;
-          return toReturn;
-        }, {}),
-      };
-    }
+    const allVersions = await this.versionedCollection.find<VersionSummary>(
+      { msid: version.msid },
+      {
+        projection: {
+          article: 0,
+          peerReview: 0,
+        },
+      },
+    );
+
+    const indexedVersions: Record<string, VersionSummary> = (await allVersions.toArray()).reduce((indexed: Record<string, VersionSummary>, current) => {
+      const toReturn = indexed;
+      toReturn[current.id] = current;
+      return toReturn;
+    }, {});
+
     return {
-      article: allVersions.slice(-1)[0],
-      versions: allVersions.reduce((record: Record<string, EnhancedArticle>, otherVersion) => {
-        const toReturn = record;
-        toReturn[otherVersion.id] = otherVersion;
-        return toReturn;
-      }, {}),
+      article: version,
+      versions: indexedVersions,
     };
   }
 

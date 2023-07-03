@@ -111,6 +111,19 @@ export type PeerReview = {
   authorResponse?: Evaluation,
 };
 
+export type VersionSummary = {
+  id: string,
+  msid: string,
+  doi: string,
+  versionIdentifier: string,
+  versionDoi?: string,
+  preprintDoi: string,
+  preprintUrl: string,
+  preprintPosted: Date,
+  sentForReview?: Date,
+  published?: Date,
+};
+
 export type EnhancedArticle = {
   id: string,
   msid: string,
@@ -130,7 +143,7 @@ export type EnhancedArticle = {
 
 export type EnhancedArticleWithVersions = {
   article: EnhancedArticle,
-  versions: Record<string, EnhancedArticle>,
+  versions: Record<string, VersionSummary>,
 };
 
 export interface ArticleRepository {
