@@ -46,7 +46,7 @@ export const fetchReviews: FetchReviews = async (id) => {
         ({ participants, outputs }) => (
           {
             participants: participants.filter(({ role }) => role !== 'peer-reviewer'),
-            outputs: outputs.filter((output) => output.content).map((output) => ({ ...output, content: output.content.filter(isScietyContent) })),
+            outputs: outputs.filter((output) => output.content).map((output) => ({ ...output, content: output.content.filter(isScietyContent) })).filter((output) => output.content.length > 0),
           }
         ),
       )
