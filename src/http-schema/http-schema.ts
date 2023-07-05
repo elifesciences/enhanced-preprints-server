@@ -180,8 +180,8 @@ const ReferenceSchema = Joi.object({
   id: Joi.string().required(),
   title: Joi.string().required(),
   url: Joi.string().optional(),
-  pageEnd: Joi.number().optional(),
-  pageStart: Joi.number().optional(),
+  pageEnd: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
+  pageStart: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
   authors: Joi.array().items(Joi.alternatives().try(AuthorSchema, OrganisationSchema)).required(),
   datePublished: Joi.alternatives().try(
     Joi.date().optional(),
