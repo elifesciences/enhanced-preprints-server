@@ -70,7 +70,7 @@ const enhancedArticleExample = {
 describe('httpschema', () => {
   it.each([
     'foo',
-    ['one', 'two', { type: 'Strong', content: 'three' }],
+    ['one', 'two', { type: 'Strong', content: { type: 'NontextualAnnotation', content: 'three' } }],
     ['', 'with', '', 'empty', { type: 'Strong', content: 'strings' }, ''],
     {
       type: 'Heading', depth: 1, content: 'heading', id: 'h1',
