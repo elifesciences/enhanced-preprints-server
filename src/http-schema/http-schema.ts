@@ -11,6 +11,11 @@ const StrongContentSchema = Joi.object({
   content: Joi.link('#Content').required(),
 });
 
+const NontextualAnnotationContentSchema = Joi.object({
+  type: Joi.string().valid('NontextualAnnotation').required(),
+  content: Joi.link('#Content').required(),
+});
+
 const DateContentSchema = Joi.object({
   type: Joi.string().valid('Date').required(),
   content: Joi.link('#Content').required(),
@@ -101,6 +106,7 @@ const ContentPartSchema = Joi.alternatives().try(
   Joi.string().allow(''),
   ParagraphSchema,
   StrongContentSchema,
+  NontextualAnnotationContentSchema,
   DateContentSchema,
   EmphasisContentSchema,
   SuperscriptContentSchema,
