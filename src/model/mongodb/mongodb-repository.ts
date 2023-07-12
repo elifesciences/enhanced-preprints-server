@@ -146,9 +146,9 @@ class MongoDBArticleRepository implements ArticleRepository {
           peerReview: 0,
         },
       },
-    );
+    ).toArray();
 
-    const indexedVersions: Record<string, VersionSummary> = (await allVersions.toArray()).reduce((indexed: Record<string, VersionSummary>, current) => {
+    const indexedVersions: Record<string, VersionSummary> = allVersions.reduce((indexed: Record<string, VersionSummary>, current) => {
       const toReturn = indexed;
       toReturn[current.id] = current;
       return toReturn;
