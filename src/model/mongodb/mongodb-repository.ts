@@ -13,7 +13,7 @@ import {
   VersionSummary,
 } from '../model';
 import { Content } from '../content';
-import {logger} from '../../utils/logger';
+import { logger } from '../../utils/logger';
 
 type StoredArticle = {
   _id: string,
