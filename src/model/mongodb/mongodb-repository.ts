@@ -13,6 +13,7 @@ import {
   VersionSummary,
 } from '../model';
 import { Content } from '../content';
+import { logger } from '../../utils/logger';
 
 type StoredArticle = {
   _id: string,
@@ -171,5 +172,8 @@ export const createMongoDBArticleRepository = async (host: string, username: str
 
   const collection = client.db('epp').collection<StoredArticle>('articles');
   const versionedCollection = client.db('epp').collection<StoredEnhancedArticle>('versioned_articles');
+  const result = await versionedCollection.createIndex({ msid: -1 });
+  logger.info(`created index: ${result}`);
+
   return new MongoDBArticleRepository(collection, versionedCollection);
 };
