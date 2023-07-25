@@ -9,7 +9,7 @@
     "@aws-sdk/util-stream-node": "^3.292.0",
     "@tsconfig/node16": "16.1.0",
     "@types/axios": "0.14.0",
-    "@types/eslint": "8.44.0",
+    "@types/eslint": "8.44.1",
     "@types/express": "4.17.17",
     "@types/jest": "29.5.3",
     "@types/node": "16.18.39",
