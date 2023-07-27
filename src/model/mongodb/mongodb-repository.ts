@@ -10,7 +10,7 @@ import {
   Reference,
   EnhancedArticle,
   EnhancedArticleWithVersions,
-  VersionSummary,
+  VersionSummary, VersionedArticle,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -95,7 +95,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     }));
   }
 
-  async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
+  async storeEnhancedArticle(article: VersionedArticle): Promise<boolean> {
     const response = await this.versionedCollection.updateOne({
       _id: article.id,
     }, {

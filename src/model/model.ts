@@ -85,6 +85,11 @@ export type ArticleSummary = {
   date: Date,
 };
 
+export type VersionedArticleSummary = {
+  id: string,
+  doi: Doi,
+};
+
 export type ReviewText = string;
 export enum ReviewType {
   EvaluationSummary = 'evaluation-summary',
@@ -117,9 +122,9 @@ export type VersionSummary = {
   doi: string,
   versionIdentifier: string,
   versionDoi?: string,
-  preprintDoi: string,
-  preprintUrl: string,
-  preprintPosted: Date,
+  preprintDoi?: string,
+  preprintUrl?: string,
+  preprintPosted?: Date,
   sentForReview?: Date,
   published?: Date,
 };
@@ -141,8 +146,20 @@ export type EnhancedArticle = {
   published?: Date,
 };
 
+export type VorArticle = {
+  id: string,
+  msid: string,
+  doi: string,
+  versionIdentifier: string,
+  versionDoi?: string,
+  url: string,
+  published?: Date,
+};
+
+export type VersionedArticle = EnhancedArticle | VorArticle;
+
 export type EnhancedArticleWithVersions = {
-  article: EnhancedArticle,
+  article: VersionedArticle,
   versions: Record<string, VersionSummary>,
 };
 
@@ -150,8 +167,8 @@ export interface ArticleRepository {
   storeArticle(article: ProcessedArticle, id: string): Promise<boolean>;
   getArticle(id: string): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
-  storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
+  storeEnhancedArticle(article: VersionedArticle): Promise<boolean>;
   getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions>;
-  getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
+  getEnhancedArticleSummaries(): Promise<VersionedArticleSummary[]>;
   deleteArticleVersion(identifier: string): Promise<boolean>;
 }

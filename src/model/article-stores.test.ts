@@ -464,7 +464,7 @@ describe('article-stores', () => {
       });
     });
 
-    it('stores two Versioned Articles and retreives summaries', async () => {
+    it('stores two Versioned Articles and retrieves summaries', async () => {
       const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3.1',
@@ -516,13 +516,11 @@ describe('article-stores', () => {
         {
           id: 'testid3.1',
           doi: 'journal/testid3.1',
-          title: 'Test Article 9',
           date: new Date('2008-10-01'),
         },
         {
           id: 'testid3.2',
           doi: 'journal/testid3.2',
-          title: 'Test Article 9',
           date: new Date('2008-10-02'),
         },
       ]);
@@ -555,6 +553,78 @@ describe('article-stores', () => {
       const result = await articleStore.deleteArticleVersion(inputArticle1.id);
 
       expect(result).toStrictEqual(true);
+    });
+
+    it('stores a VorArticle and retrieves it', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle = {
+        id: 'testid3.vor',
+        msid: 'testid3',
+        doi: 'journal/testid3.vor',
+        versionIdentifier: '4',
+        versionDoi: 'journal/testid3.vor',
+        url: 'www.google.com',
+      };
+      const result = await articleStore.storeEnhancedArticle(inputArticle);
+      const article = await articleStore.getArticleVersion('testid3');
+
+      expect(result).toStrictEqual(true);
+      expect(article).toMatchObject({
+        article: inputArticle,
+        versions: {
+          'testid3.vor': inputArticle,
+        },
+      });
+    });
+
+    it('stores an enhanced and vor article and returns them in a summary', async () => {
+      const articleStore = await createArticleRepo(store);
+      const inputArticle1 = {
+        id: 'testid3.1',
+        msid: 'testid3',
+        doi: 'journal/testid3.1',
+        versionIdentifier: '1',
+        versionDoi: 'journal/testid3.1',
+        preprintDoi: 'preprint/article9',
+        preprintUrl: 'http://preprints.org/preprint/article9',
+        preprintPosted: new Date('2008-09-01'),
+        published: new Date('2008-10-01'),
+        article: {
+          title: 'Test Article 9',
+          abstract: 'Test article 9 abstract',
+          authors: exampleAuthors,
+          content: '<article></article>',
+          licenses: exampleLicenses,
+          headings: [],
+          references: [exampleReference],
+        },
+      };
+      const inputArticle2 = {
+        id: 'testid3.vor',
+        msid: 'testid3',
+        doi: 'journal/testid3.vor',
+        versionIdentifier: '4',
+        versionDoi: 'journal/testid3.vor',
+        url: 'www.google.com',
+      };
+
+      const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
+      const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
+      const articles = await articleStore.getEnhancedArticleSummaries();
+
+      expect(result1).toStrictEqual(true);
+      expect(result2).toStrictEqual(true);
+      expect(articles).toMatchObject([
+        {
+          id: 'testid3.1',
+          doi: 'journal/testid3.1',
+          date: new Date('2008-10-01'),
+        },
+        {
+          id: 'testid3.vor',
+          doi: 'journal/testid3.vor',
+        },
+      ]);
     });
   });
 });

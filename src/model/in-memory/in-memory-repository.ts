@@ -4,23 +4,13 @@ import {
   ArticleSummary,
   EnhancedArticle,
   EnhancedArticleWithVersions,
-  VersionSummary,
+  VersionSummary, VorArticle, VersionedArticleSummary, VersionedArticle,
 } from '../model';
-
-const comparePreprintPostedDates = (a: EnhancedArticle, b: EnhancedArticle): number => {
-  if (a.preprintPosted < b.preprintPosted) {
-    return -1;
-  }
-  if (a.preprintPosted > b.preprintPosted) {
-    return 1;
-  }
-  return 0;
-};
 
 class InMemoryArticleRepository implements ArticleRepository {
   store: Map<string, ProcessedArticle>;
 
-  versionedStore: Map<string, EnhancedArticle>;
+  versionedStore: Map<string, EnhancedArticle | VorArticle>;
 
   constructor(store: Map<string, ProcessedArticle>, versionedStore: Map<string, EnhancedArticle>) {
     this.store = store;
@@ -52,7 +42,7 @@ class InMemoryArticleRepository implements ArticleRepository {
       }));
   }
 
-  async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
+  async storeEnhancedArticle(article: VersionedArticle): Promise<boolean> {
     this.versionedStore.set(article.id, article);
 
     return true;
@@ -86,7 +76,6 @@ class InMemoryArticleRepository implements ArticleRepository {
 
     const versions = Array.from(this.versionedStore.values())
       .filter((article) => article.msid === identifier)
-      .sort(comparePreprintPostedDates)
       .reverse();
     if (!versions.length) throw Error(`Unable to locate versions with id/msid ${identifier}`);
     return {
@@ -108,12 +97,11 @@ class InMemoryArticleRepository implements ArticleRepository {
     };
   }
 
-  async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
+  async getEnhancedArticleSummaries(): Promise<VersionedArticleSummary[]> {
     return Array.from(this.versionedStore.entries())
       .map(([id, article]) => ({
         id,
         doi: article.doi,
-        title: article.article.title,
         date: new Date(article.published ?? new Date()),
       }));
   }
