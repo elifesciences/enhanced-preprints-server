@@ -128,6 +128,8 @@ export type EnhancedArticle = {
   id: string,
   msid: string,
   doi: string,
+  volume?: string,
+  eLocationId?: string,
   versionIdentifier: string,
   versionDoi?: string,
   // When we drop the old article schema from the DB,
