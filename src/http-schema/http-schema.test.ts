@@ -215,4 +215,28 @@ describe('httpschema', () => {
     expect(enhancedArticle.value?.sentForReview).toStrictEqual(new Date('2023-01-03'));
     expect(enhancedArticle.value?.published).toStrictEqual(new Date('2023-01-23'));
   });
+
+  it('parses optional values', () => {
+    const articleWithOptionals = {
+      ...enhancedArticleExample,
+      volume: '1',
+      eLocationId: 'RP12356',
+      versionDoi: '10.7554/123456',
+      sentForReview: '2023-07-31',
+      peerReview: {
+        evaluationSummary: {
+          date: '2023-08-01',
+          reviewType: 'evaluation-summary',
+          text: 'This is a great paper',
+          participants: [],
+        },
+        reviews: [],
+      },
+      published: '2023-08-02',
+    };
+
+    const enhancedArticle = EnhancedArticleSchema.validate(articleWithOptionals);
+
+    expect(enhancedArticle.error).toBeUndefined();
+  });
 });

@@ -667,6 +667,8 @@ describe('server tests', () => {
       id: 'testid3',
       msid: 'testmsid',
       doi: 'doi1',
+      volume: '1',
+      eLocationId: 'RPtestid3',
       versionIdentifier: '1',
       versionDoi: 'publisher/testid1',
       article: {
@@ -695,6 +697,8 @@ describe('server tests', () => {
       id: 'testid3',
       msid: 'testmsid',
       doi: 'doi1',
+      volume: '1',
+      eLocationId: 'RPtestid3',
       versionIdentifier: '1',
       versionDoi: 'publisher/testid1',
       preprintDoi: 'preprint/testid1',
