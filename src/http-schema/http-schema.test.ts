@@ -222,6 +222,7 @@ describe('httpschema', () => {
       volume: '1',
       eLocationId: 'RP12356',
       versionDoi: '10.7554/123456',
+      publishedYear: '2023',
       sentForReview: '2023-07-31',
       peerReview: {
         evaluationSummary: {

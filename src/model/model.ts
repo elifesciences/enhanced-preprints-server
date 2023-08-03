@@ -141,6 +141,7 @@ export type EnhancedArticle = {
   sentForReview?: Date,
   peerReview?: PeerReview,
   published?: Date,
+  publishedYear?: string,
 };
 
 export type EnhancedArticleWithVersions = {
