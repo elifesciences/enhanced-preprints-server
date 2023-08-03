@@ -5,9 +5,9 @@ import { mkdtemp } from 'fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join } from 'path';
 import { tmpdir } from 'os';
+import { Readable } from 'stream';
 import { S3Client, GetObjectCommand, paginateListObjectsV2 } from '@aws-sdk/client-s3';
 import { fromWebToken } from '@aws-sdk/credential-providers';
-import { Readable } from 'stream';
 import { convertJatsToJson, PreprintXmlFile } from './conversion/encode';
 import {
   ArticleContent, ArticleRepository, OrcidIdentifier as OrcidModel, ProcessedArticle,

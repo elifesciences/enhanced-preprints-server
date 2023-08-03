@@ -1,9 +1,9 @@
+import { createReadStream } from 'fs';
 import request from 'supertest';
 import axios from 'axios';
 import { mockClient } from 'aws-sdk-client-mock';
 import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { sdkStreamMixin } from '@aws-sdk/util-stream-node';
-import { createReadStream } from 'fs';
 import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
 import { docmapMock as docmapMock1, reviewMocks as reviewMocks1 } from './data/10.1101/123456/docmap-mock';
