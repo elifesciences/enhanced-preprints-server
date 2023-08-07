@@ -691,6 +691,7 @@ describe('server tests', () => {
       preprintPosted: '2023-01-02T00:00:00.000Z',
       sentForReview: '2023-01-03T00:00:00.000Z',
       published: '2023-01-23T00:00:00.000Z',
+      publishedYear: '2023',
     };
 
     const versionSummary = {
@@ -706,6 +707,7 @@ describe('server tests', () => {
       preprintPosted: '2023-01-02T00:00:00.000Z',
       sentForReview: '2023-01-03T00:00:00.000Z',
       published: '2023-01-23T00:00:00.000Z',
+      publishedYear: '2023',
     };
 
     it('imports a valid JSON body', async () => {
