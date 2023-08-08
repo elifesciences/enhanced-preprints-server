@@ -226,7 +226,7 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   sentForReview: Joi.date().optional(),
   peerReview: PeerReviewSchema.optional(),
   published: Joi.date().optional(),
-  publishedYear: Joi.string()
-    .regex(/^[1-9][0-9]{3}$/)
+  publishedYear: Joi.number()
+    .integer()
     .optional(),
 });
