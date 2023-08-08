@@ -198,6 +198,9 @@ describe('httpschema', () => {
   it.each([
     [{}, allRequiredFieldValidationMessages],
     [{ id: '12345', msid: 1 }, [{ message: '"msid" must be a string' }, ...sampleRequiredFieldValidationMessages]],
+    [{ publishedYear: 'one' }, [...allRequiredFieldValidationMessages, { message: '"publishedYear" must be a number' }]],
+    // Verify that publishedYear can also be a numeric string.
+    [{ publishedYear: '2023' }, [...allRequiredFieldValidationMessages]],
     [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown" is not allowed' }]],
     [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
   ])('handles validation error', (value, errorDetails) => {
@@ -214,6 +217,17 @@ describe('httpschema', () => {
     expect(enhancedArticle.value?.preprintPosted).toStrictEqual(new Date('2023-01-02'));
     expect(enhancedArticle.value?.sentForReview).toStrictEqual(new Date('2023-01-03'));
     expect(enhancedArticle.value?.published).toStrictEqual(new Date('2023-01-23'));
+  });
+
+  it('will convert publishedYear to number from string', () => {
+    const enhancedArticle = EnhancedArticleSchema.validate({
+      ...enhancedArticleExample,
+      publishedYear: '2023',
+    });
+
+    expect(enhancedArticle.error).toBeUndefined();
+    expect(typeof enhancedArticle.value?.publishedYear).toStrictEqual('number');
+    expect(enhancedArticle.value?.publishedYear).toStrictEqual(2023);
   });
 
   it('parses optional values', () => {
