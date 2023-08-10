@@ -513,7 +513,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v2/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -538,7 +538,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v2/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
@@ -567,7 +567,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v2/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock2,
             });
@@ -598,7 +598,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockImplementation((url: string) => {
         switch (url) {
-          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
+          case 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v2/by-publisher/elife/get-by-manuscript-id?manuscript_id=88888':
             return Promise.resolve({
               data: docmapMock1,
             });
