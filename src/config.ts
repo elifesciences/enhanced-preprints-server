@@ -19,7 +19,7 @@ export const config = {
   repoConnection: process.env.REPO_CONNECTION ?? './data.db',
   repoUserName: process.env.REPO_USERNAME ?? '',
   repoPassword: process.env.REPO_PASSWORD ?? '',
-  docmapsApi: process.env.DOCMAPS_API ?? 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-manuscript-id?manuscript_id=',
+  docmapsApi: process.env.DOCMAPS_API ?? 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v2/by-publisher/elife/get-by-manuscript-id?manuscript_id=',
   s3: {
     endPoint: process.env.S3_ENDPOINT ?? 'https://s3.amazonaws.com',
     accessKey: process.env.S3_ACCESS_KEY ?? '',
