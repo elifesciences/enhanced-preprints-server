@@ -692,6 +692,7 @@ describe('server tests', () => {
       sentForReview: '2023-01-03T00:00:00.000Z',
       published: '2023-01-23T00:00:00.000Z',
       publishedYear: 2023,
+      subjects: ['subject 1', 'subject 2'],
     };
 
     const versionSummary = {
@@ -708,6 +709,7 @@ describe('server tests', () => {
       sentForReview: '2023-01-03T00:00:00.000Z',
       published: '2023-01-23T00:00:00.000Z',
       publishedYear: 2023,
+      subjects: ['subject 1', 'subject 2'],
     };
 
     it('imports a valid JSON body', async () => {
