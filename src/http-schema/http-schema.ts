@@ -211,10 +211,12 @@ const ProcessedArticleSchema = Joi.object({
   references: Joi.array().items(ReferenceSchema).required(),
 });
 
+export const SubjectsSchema = Joi.array().items(Joi.string()).unique();
+
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   id: Joi.string().required(),
   msid: Joi.string().required(),
-  subjects: Joi.array().items(Joi.string()).unique().optional(),
+  subjects: SubjectsSchema.optional(),
   doi: Joi.string().required(),
   volume: Joi.string().optional(),
   eLocationId: Joi.string().optional(),
