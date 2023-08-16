@@ -214,6 +214,7 @@ const ProcessedArticleSchema = Joi.object({
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   id: Joi.string().required(),
   msid: Joi.string().required(),
+  subjects: Joi.array().items(Joi.string()).unique().optional(),
   doi: Joi.string().required(),
   volume: Joi.string().optional(),
   eLocationId: Joi.string().optional(),

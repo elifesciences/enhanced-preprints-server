@@ -127,6 +127,7 @@ export type VersionSummary = {
 export type EnhancedArticle = {
   id: string,
   msid: string,
+  subjects?: string[],
   doi: string,
   volume?: string,
   eLocationId?: string,

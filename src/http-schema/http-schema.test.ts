@@ -233,6 +233,10 @@ describe('httpschema', () => {
   it('parses optional values', () => {
     const articleWithOptionals = {
       ...enhancedArticleExample,
+      subjects: [
+        'subject 1',
+        'subject 2',
+      ],
       volume: '1',
       eLocationId: 'RP12356',
       versionDoi: '10.7554/123456',
