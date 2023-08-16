@@ -1,4 +1,4 @@
-import { EnhancedArticleSchema } from './http-schema';
+import { EnhancedArticleSchema, SubjectsSchema } from './http-schema';
 
 const enhancedArticleExample = {
   id: 'testid1',
@@ -233,6 +233,10 @@ describe('httpschema', () => {
   it('parses optional values', () => {
     const articleWithOptionals = {
       ...enhancedArticleExample,
+      subjects: [
+        'subject 1',
+        'subject 2',
+      ],
       volume: '1',
       eLocationId: 'RP12356',
       versionDoi: '10.7554/123456',
@@ -253,5 +257,20 @@ describe('httpschema', () => {
     const enhancedArticle = EnhancedArticleSchema.validate(articleWithOptionals);
 
     expect(enhancedArticle.error).toBeUndefined();
+  });
+
+  it.each([
+    [['subject1', 'subject2'], ''],
+    [['subject1', 'subject1'], '"[1]" contains a duplicate value'],
+    [['', 'subject1'], '"[0]" is not allowed to be empty'],
+    [['subject1', ['subject2']], '"[1]" must be a string'],
+  ])('validate subjects array: %s', (input, message?) => {
+    const result = SubjectsSchema.validate(input);
+    if (message) {
+      expect(result.error).toBeDefined();
+      expect(result.error?.message).toStrictEqual(message);
+    } else {
+      expect(result.error).toBeUndefined();
+    }
   });
 });
