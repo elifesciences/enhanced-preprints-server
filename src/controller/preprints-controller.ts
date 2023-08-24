@@ -53,13 +53,13 @@ export const preprintsController = (repo: ArticleRepository) => {
       const { msid, versionIdentifier } = version.article;
       const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
       try {
-        await axios.get(pdfUrl).then(({ status }) => {
-          if (status === 200) {
-            version.article.pdfUrl = pdfUrl;
-          }
-        });
-      } catch {}
-      res.send(version);
+        const { status } = await axios.get(pdfUrl);
+        if (status === 200) {
+          version.article.pdfUrl = pdfUrl;
+        }
+      } finally {
+        res.send(version);
+      }
     } catch (err) {
       next(err);
     }

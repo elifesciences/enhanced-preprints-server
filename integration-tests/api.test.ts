@@ -751,6 +751,7 @@ describe('server tests', () => {
       const pdfUrl = 'https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/testmsid/v1/testmsid-v1.pdf';
       // Needed for jest mock of axios
       // @ts-ignore
+      // eslint-disable-next-line consistent-return
       axios.get.mockImplementation((url: string) => {
         if (url === pdfUrl) {
           return Promise.resolve({
@@ -773,9 +774,9 @@ describe('server tests', () => {
       await request(app)
         .get('/api/preprints/testid3')
         .expect(200, {
-          article: { 
-          ...enhancedArticle,
-          pdfUrl: pdfUrl,
+          article: {
+            ...enhancedArticle,
+            pdfUrl,
           },
           versions: {
             testid3: versionSummary,
