@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import axios from 'axios';
 import { EnhancedArticleSchema } from '../http-schema/http-schema';
 import { ArticleRepository } from '../model/model';
 import { logger } from '../utils/logger';
@@ -49,6 +50,15 @@ export const preprintsController = (repo: ArticleRepository) => {
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const version = await repo.getArticleVersion(req.params.identifier);
+      const { msid, versionIdentifier } = version.article;
+      const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
+      try {
+        await axios.get(pdfUrl).then(({ status }) => {
+          if (status === 200) {
+            version.article.pdfUrl = pdfUrl;
+          }
+        });
+      } catch {}
       res.send(version);
     } catch (err) {
       next(err);

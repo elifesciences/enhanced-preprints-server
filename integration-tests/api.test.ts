@@ -747,6 +747,42 @@ describe('server tests', () => {
         });
     });
 
+    it('adds the pdf url when the file is found', async () => {
+      const pdfUrl = 'https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/testmsid/v1/testmsid-v1.pdf';
+      // Needed for jest mock of axios
+      // @ts-ignore
+      axios.get.mockImplementation((url: string) => {
+        if (url === pdfUrl) {
+          return Promise.resolve({
+            status: 200,
+          });
+        }
+      });
+      const repo = await createArticleRepository(StoreType.InMemory);
+      const app = createApp(repo);
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid3')
+        .expect(200, {
+          article: { 
+          ...enhancedArticle,
+          pdfUrl: pdfUrl,
+          },
+          versions: {
+            testid3: versionSummary,
+          },
+        });
+    });
+
     it('imports two content types and we are able to retrieve the earliest by ID, and the latest by msid', async () => {
       const repo = await createArticleRepository(StoreType.InMemory);
       const app = createApp(repo);

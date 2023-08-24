@@ -143,6 +143,7 @@ export type EnhancedArticle = {
   peerReview?: PeerReview,
   published?: Date,
   publishedYear?: number,
+  pdfUrl?: string,
 };
 
 export type EnhancedArticleWithVersions = {
