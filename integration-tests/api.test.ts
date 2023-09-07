@@ -6,7 +6,6 @@ import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/clien
 import { sdkStreamMixin } from '@aws-sdk/util-stream-node';
 import { MongoClient } from 'mongodb';
 import { createApp } from '../src/app';
-import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
 import { docmapMock as docmapMock1, reviewMocks as reviewMocks1 } from './data/10.1101/123456/docmap-mock';
 import { docmapMock as docmapMock2, reviewMocks as reviewMocks2 } from './data/10.1101/654321/docmap-mock';
 import mockBody1 from './mock-data/mock-body-1.json';
@@ -25,7 +24,7 @@ const generateAgent = async (articleStore: ArticleRepository) => {
 
 describe('server tests', () => {
   let articleStore: ArticleRepository;
-  let connection: MongoClient | null;
+  let connection: MongoClient;
 
   beforeEach(async () => {
     // mock the s3 client
@@ -49,8 +48,8 @@ describe('server tests', () => {
       .on(GetObjectCommand, { Key: 'data/10.1101/456/789/v1/789.xml' })
       .resolves({ Body: sdkStreamMixin(bazStream) });
 
-    if (process.env.MONGO_URL !== undefined) {
-      throw Error(`Cannot connect to jest-mongodb`);
+    if (process.env.MONGO_URL === undefined) {
+      throw Error('Cannot connect to jest-mongodb');
     }
     connection = await MongoClient.connect(process.env.MONGO_URL);
     await connection.db('epp').collection('articles').deleteMany({});
