@@ -264,6 +264,7 @@ describe('server tests', () => {
                 }],
               familyNames: ['Brain'],
               emails: ['brain@acmelabs.edu.au'],
+              identifiers: null,
             }, {
               type: 'Person',
               affiliations: [
@@ -276,6 +277,7 @@ describe('server tests', () => {
                   name: 'ACME Labs, New York',
                 }],
               familyNames: ['Pinky'],
+              identifiers: null,
             }],
           doi: '10.1101/123456',
           title: 'Our Pondering of World Domination!',
@@ -369,6 +371,7 @@ describe('server tests', () => {
                 }],
               familyNames: ['Brain'],
               emails: ['brain@acmelabs.edu.au'],
+              identifiers: null,
             }, {
               type: 'Person',
               affiliations: [
@@ -381,6 +384,7 @@ describe('server tests', () => {
                   name: 'ACME Labs, New York',
                 }],
               familyNames: ['Pinky'],
+              identifiers: null,
             }],
           doi: '10.1101/456/789',
           title: 'The Wild Adventures of Wile E. Coyote vs Reality-Bending Roadrunners.',

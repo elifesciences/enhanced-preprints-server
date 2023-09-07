@@ -131,7 +131,12 @@ class MongoDBArticleRepository implements ArticleRepository {
   async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
     const version = await this.versionedCollection.findOne(
       { $or: [{ _id: identifier }, { msid: identifier }] },
-      { sort: { preprintPosted: -1 } },
+      {
+        sort: { preprintPosted: -1 },
+        projection: {
+          _id: 0,
+        },
+      },
     );
 
     if (!version) {
@@ -144,6 +149,7 @@ class MongoDBArticleRepository implements ArticleRepository {
         projection: {
           article: 0,
           peerReview: 0,
+          _id: 0,
         },
       },
     ).toArray();
