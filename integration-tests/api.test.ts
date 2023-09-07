@@ -4,6 +4,7 @@ import axios from 'axios';
 import { mockClient } from 'aws-sdk-client-mock';
 import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { sdkStreamMixin } from '@aws-sdk/util-stream-node';
+import { MongoClient } from 'mongodb';
 import { createApp } from '../src/app';
 import { createArticleRepository, StoreType } from '../src/model/create-article-repository';
 import { docmapMock as docmapMock1, reviewMocks as reviewMocks1 } from './data/10.1101/123456/docmap-mock';
@@ -11,18 +12,22 @@ import { docmapMock as docmapMock2, reviewMocks as reviewMocks2 } from './data/1
 import mockBody1 from './mock-data/mock-body-1.json';
 import mockBody2 from './mock-data/mock-body-2.json';
 import mockBody3 from './mock-data/mock-body-3.json';
+import { ArticleRepository } from '../src/model/model';
+import { createMongoDBArticleRepositoryFromMongoClient } from '../src/model/mongodb/mongodb-repository';
 
 jest.mock('axios');
 
-const generateAgent = async () => {
-  const repo = await createArticleRepository(StoreType.InMemory);
-  const app = await createApp(repo);
+const generateAgent = async (articleStore: ArticleRepository) => {
+  const app = await createApp(articleStore);
 
   return request(app);
 };
 
 describe('server tests', () => {
-  beforeEach(() => {
+  let articleStore: ArticleRepository;
+  let connection: MongoClient | null;
+
+  beforeEach(async () => {
     // mock the s3 client
     const fooStream = createReadStream('./integration-tests/data/10.1101/123456/123456.xml');
     const barStream = createReadStream('./integration-tests/data/10.1101/654321/654321.xml');
@@ -43,25 +48,32 @@ describe('server tests', () => {
       .resolves({ Body: sdkStreamMixin(barStream) })
       .on(GetObjectCommand, { Key: 'data/10.1101/456/789/v1/789.xml' })
       .resolves({ Body: sdkStreamMixin(bazStream) });
+
+    if (process.env.MONGO_URL !== undefined) {
+      throw Error(`Cannot connect to jest-mongodb`);
+    }
+    connection = await MongoClient.connect(process.env.MONGO_URL);
+    await connection.db('epp').collection('articles').deleteMany({});
+    await connection.db('epp').collection('versioned_articles').deleteMany({});
+    articleStore = await createMongoDBArticleRepositoryFromMongoClient(connection);
   });
 
   afterEach(() => {
     mockClient(S3Client).reset();
+    connection.close();
   });
 
   describe('/api/reviewed-preprints', () => {
     describe('empty database', () => {
       it('should redirect from / to /api/reviewed-preprints/', async () => {
-        const repo = await createArticleRepository(StoreType.InMemory);
-        await request(createApp(repo))
+        await request(createApp(articleStore))
           .get('/')
           .expect(302)
           .expect('Location', '/api/reviewed-preprints/');
       });
 
       it('should return an empty json array with no data', async () => {
-        const repo = await createArticleRepository(StoreType.InMemory);
-        await request(createApp(repo))
+        await request(createApp(articleStore))
           .get('/api/reviewed-preprints')
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect({
@@ -73,7 +85,7 @@ describe('server tests', () => {
 
     describe('after import', () => {
       it('should return a json array with the correct summaries', async () => {
-        const agent = await generateAgent();
+        const agent = await generateAgent(articleStore);
 
         await agent.post('/import')
           .expect(200)
@@ -111,8 +123,7 @@ describe('server tests', () => {
 
   describe('/import', () => {
     it('import the articles', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo);
+      const app = await createApp(articleStore);
 
       return request(app)
         .post('/import')
@@ -124,8 +135,7 @@ describe('server tests', () => {
     });
 
     it('import new articles', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo);
+      const app = await createApp(articleStore);
 
       // set the mock for single manuscript to import
       mockClient(S3Client)
@@ -184,8 +194,7 @@ describe('server tests', () => {
     });
 
     it('returns success on reimport and message', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = await createApp(repo);
+      const app = await createApp(articleStore);
 
       await request(app)
         .post('/import')
@@ -223,14 +232,13 @@ describe('server tests', () => {
 
   describe('/api/reviewed-preprints/:doi(*)/metadata', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo))
+      await request(createApp(articleStore))
         .get('/api/reviewed-preprints/1/2/metadata')
         .expect(500);
     });
 
     it('returns the correct metadata for the test articles', async () => {
-      const agent = await generateAgent();
+      const agent = await generateAgent(articleStore);
 
       await agent.post('/import')
         .expect(200)
@@ -335,7 +343,7 @@ describe('server tests', () => {
     });
 
     it('returns the correct metadata for the test article by ID', async () => {
-      const agent = await generateAgent();
+      const agent = await generateAgent(articleStore);
 
       await agent.post('/import')
         .expect(200)
@@ -442,14 +450,13 @@ describe('server tests', () => {
 
   describe('/api/reviewed-preprints/:doi(*)/content', () => {
     it('returns a 500 when an incorrect doi is provided', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo))
+      await request(createApp(articleStore))
         .get('/api/reviewed-preprints/1/2/content')
         .expect(500);
     });
 
     it('returns a 200 with the article content for the two test articles', async () => {
-      const agent = await generateAgent();
+      const agent = await generateAgent(articleStore);
 
       await agent.post('/import')
         .expect(200)
@@ -502,8 +509,7 @@ describe('server tests', () => {
       // @ts-ignore
       axios.get.mockRejectedValue({});
 
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo))
+      await request(createApp(articleStore))
         .get('/api/reviewed-preprints/1/2/reviews')
         .expect(500);
     });
@@ -522,7 +528,7 @@ describe('server tests', () => {
         }
       });
 
-      const agent = await generateAgent();
+      const agent = await generateAgent(articleStore);
       await agent.post('/import')
         .expect(200)
         .expect({
@@ -551,7 +557,7 @@ describe('server tests', () => {
         }
       });
 
-      const agent = await generateAgent();
+      const agent = await generateAgent(articleStore);
       await agent.post('/import')
         .expect(200)
         .expect({
@@ -582,7 +588,7 @@ describe('server tests', () => {
         }
       });
 
-      const agent = await generateAgent();
+      const agent = await generateAgent(articleStore);
       await agent.post('/import')
         .expect(200)
         .expect({
@@ -613,7 +619,7 @@ describe('server tests', () => {
         }
       });
 
-      const agent = await generateAgent();
+      const agent = await generateAgent(articleStore);
       await agent.post('/import')
         .expect(200)
         .expect({
@@ -652,8 +658,7 @@ describe('server tests', () => {
 
   describe('/api/preprints', () => {
     it.each([mockBody1, mockBody2, mockBody3])('passes validation on import', async (mockBody) => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo))
+      await request(createApp(articleStore))
         .post('/preprints')
         .send(mockBody)
         .expect('Content-Type', 'application/json; charset=utf-8')
@@ -713,8 +718,7 @@ describe('server tests', () => {
     };
 
     it('imports a valid JSON body', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      await request(createApp(repo))
+      await request(createApp(articleStore))
         .post('/preprints')
         .send(enhancedArticle)
         .expect('Content-Type', 'application/json; charset=utf-8')
@@ -725,8 +729,7 @@ describe('server tests', () => {
     });
 
     it('imports a valid JSON body and we are able to retrieve it', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       await request(app)
         .post('/preprints')
@@ -759,8 +762,7 @@ describe('server tests', () => {
           });
         }
       });
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       await request(app)
         .post('/preprints')
@@ -785,8 +787,7 @@ describe('server tests', () => {
     });
 
     it('imports two content types and we are able to retrieve the earliest by ID, and the latest by msid', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       const exampleVersion1 = {
         ...enhancedArticle,
@@ -867,8 +868,7 @@ describe('server tests', () => {
     });
 
     it('imports content with forward slash in ID', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       const exampleVersion = {
         ...enhancedArticle,
@@ -902,8 +902,7 @@ describe('server tests', () => {
     });
 
     it('removes an article version with a given ID', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       const exampleVersion = {
         ...enhancedArticle,
@@ -927,8 +926,7 @@ describe('server tests', () => {
     });
 
     it('fails to remove a non-existant article version with a given ID', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       await request(app)
         .delete('/preprints/somethingNonExistant/v1')
@@ -936,8 +934,7 @@ describe('server tests', () => {
     });
 
     it('overwrites a version when given the same id', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       await request(app)
         .post('/preprints')
@@ -1005,8 +1002,7 @@ describe('server tests', () => {
     `;
 
     it('returns a BibTeX file with the correct information', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -1019,8 +1015,7 @@ describe('server tests', () => {
     });
 
     it('returns a 400 when the crossref BibTeX call fails', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -1032,8 +1027,7 @@ describe('server tests', () => {
     });
 
     it('formats the BibTeX data to be URI decoded', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -1074,8 +1068,7 @@ describe('server tests', () => {
     `;
 
     it('returns an RIS file with the correct information', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -1088,8 +1081,7 @@ describe('server tests', () => {
     });
 
     it('returns a 400 when the crossref RIS call fails', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       // Needed for jest mock of axios
       // @ts-ignore
@@ -1101,8 +1093,7 @@ describe('server tests', () => {
     });
 
     it('formats the RIS data to be URI decoded', async () => {
-      const repo = await createArticleRepository(StoreType.InMemory);
-      const app = createApp(repo);
+      const app = createApp(articleStore);
 
       // Needed for jest mock of axios
       // @ts-ignore
