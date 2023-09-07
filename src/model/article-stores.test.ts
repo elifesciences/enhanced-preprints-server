@@ -1,11 +1,23 @@
+import { MongoClient } from 'mongodb';
 import { createArticleRepository, StoreType } from './create-article-repository';
 import {
   Reference, EnhancedArticle, License, EnhancedArticleWithVersions,
 } from './model';
+import { createMongoDBArticleRepositoryFromMongoDb } from './mongodb/mongodb-repository';
 
 const createArticleRepo = async (type: StoreType) => {
   if (type === StoreType.InMemory) {
     return createArticleRepository(StoreType.InMemory);
+  }
+  if (type === StoreType.MongoDB) {
+    if (process.env.MONGO_URL === undefined) {
+      throw Error('jest Mongo is not setup');
+    }
+    const connection = await MongoClient.connect(process.env.MONGO_URL);
+    const db = await connection.db();
+    await db.collection('articles').deleteMany({});
+    await db.collection('versioned_articles').deleteMany({});
+    return createMongoDBArticleRepositoryFromMongoDb(db);
   }
   throw Error('Article store not supported on test suite');
 };
@@ -73,7 +85,7 @@ const exampleLicenses: License[] = [
 ];
 
 describe('article-stores', () => {
-  describe.each([StoreType.InMemory])('Test article store backed by %s', (store) => {
+  describe.each([StoreType.InMemory, StoreType.MongoDB])('Test article store backed by %s', (store) => {
     it('stores article', async () => {
       const articleStore = await createArticleRepo(store);
       const stored = await articleStore.storeArticle({

@@ -1,4 +1,4 @@
-import { Collection, MongoClient } from 'mongodb';
+import { Collection, Db, MongoClient } from 'mongodb';
 import {
   ArticleAbstract,
   ArticleRepository,
@@ -170,8 +170,12 @@ export const createMongoDBArticleRepository = async (host: string, username: str
   const connectionUrl = `mongodb://${username}:${password}@${host}`;
   const client = new MongoClient(connectionUrl);
 
-  const collection = client.db('epp').collection<StoredArticle>('articles');
-  const versionedCollection = client.db('epp').collection<StoredEnhancedArticle>('versioned_articles');
+  return createMongoDBArticleRepositoryFromMongoDb(client.db('epp'));
+};
+
+export const createMongoDBArticleRepositoryFromMongoDb = async (db: Db) => {
+  const collection = db.collection<StoredArticle>('articles');
+  const versionedCollection = db.collection<StoredEnhancedArticle>('versioned_articles');
   const result = await versionedCollection.createIndex({ msid: -1 });
   logger.info(`created index: ${result}`);
 
