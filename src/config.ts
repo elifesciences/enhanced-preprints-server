@@ -1,22 +1,6 @@
-import { StoreType } from './model/create-article-repository';
-import { logger } from './utils/logger';
-
-const getStoreTypeFromString = (repoType: string): StoreType => {
-  if (repoType === 'MongoDB') {
-    return StoreType.MongoDB;
-  }
-  if (repoType === 'InMemory') {
-    return StoreType.InMemory;
-  }
-
-  logger.error(`Cannot find article repository type of ${repoType}, defaulting to InMemory`);
-  return StoreType.InMemory;
-};
-
 export const config = {
   port: process.env.PORT ?? 3000,
-  repoType: process.env.REPO_TYPE ? getStoreTypeFromString(process.env.REPO_TYPE) : StoreType.InMemory,
-  repoConnection: process.env.REPO_CONNECTION ?? './data.db',
+  repoConnection: process.env.REPO_CONNECTION ?? '',
   repoUserName: process.env.REPO_USERNAME ?? '',
   repoPassword: process.env.REPO_PASSWORD ?? '',
   docmapsApi: process.env.DOCMAPS_API ?? 'https://data-hub-api.elifesciences.org/enhanced-preprints/docmaps/v2/by-publisher/elife/get-by-manuscript-id?manuscript_id=',
