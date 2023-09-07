@@ -1,26 +1,9 @@
 import { MongoClient } from 'mongodb';
 import { createArticleRepository, StoreType } from './create-article-repository';
 import {
-  Reference, EnhancedArticle, License, EnhancedArticleWithVersions,
+  Reference, EnhancedArticle, License, EnhancedArticleWithVersions, ArticleRepository,
 } from './model';
-import { createMongoDBArticleRepositoryFromMongoDb } from './mongodb/mongodb-repository';
-
-const createArticleRepo = async (type: StoreType) => {
-  if (type === StoreType.InMemory) {
-    return createArticleRepository(StoreType.InMemory);
-  }
-  if (type === StoreType.MongoDB) {
-    if (process.env.MONGO_URL === undefined) {
-      throw Error('jest Mongo is not setup');
-    }
-    const connection = await MongoClient.connect(process.env.MONGO_URL);
-    const db = await connection.db();
-    await db.collection('articles').deleteMany({});
-    await db.collection('versioned_articles').deleteMany({});
-    return createMongoDBArticleRepositoryFromMongoDb(db);
-  }
-  throw Error('Article store not supported on test suite');
-};
+import { createMongoDBArticleRepositoryFromMongoClient } from './mongodb/mongodb-repository';
 
 const exampleAuthors = [
   {
@@ -86,8 +69,31 @@ const exampleLicenses: License[] = [
 
 describe('article-stores', () => {
   describe.each([StoreType.InMemory, StoreType.MongoDB])('Test article store backed by %s', (store) => {
+    let articleStore: ArticleRepository;
+    let connection: MongoClient | null;
+    beforeEach(async () => {
+      if (store === StoreType.InMemory) {
+        articleStore = await createArticleRepository(StoreType.InMemory);
+        return;
+      }
+      if (store === StoreType.MongoDB && process.env.MONGO_URL !== undefined) {
+        connection = await MongoClient.connect(process.env.MONGO_URL);
+        await connection.db('epp').collection('articles').deleteMany({});
+        await connection.db('epp').collection('versioned_articles').deleteMany({});
+        articleStore = await createMongoDBArticleRepositoryFromMongoClient(connection);
+        return;
+      }
+      throw Error(`Article store "${store}" not supported on test suite`);
+    });
+
+    afterEach(async () => {
+      if (connection) {
+        connection.close();
+        connection = null;
+      }
+    });
+
     it('stores article', async () => {
-      const articleStore = await createArticleRepo(store);
       const stored = await articleStore.storeArticle({
         doi: 'test/article.1',
         title: 'Test Article 1',
@@ -103,7 +109,6 @@ describe('article-stores', () => {
     });
 
     it('overrides the article if already stored', async () => {
-      const articleStore = await createArticleRepo(store);
       const article = {
         doi: 'test/article.1',
         title: 'Test Article 1',
@@ -132,8 +137,6 @@ describe('article-stores', () => {
     });
 
     it('stores article content and retrieves a specific processed article by ID', async () => {
-      const articleStore = await createArticleRepo(store);
-
       const exampleArticle = {
         doi: 'test/article.2',
         title: 'Test Article 2',
@@ -160,8 +163,6 @@ describe('article-stores', () => {
     });
 
     it('stores article content and retrieves a specific processed article by ID, different to DOI', async () => {
-      const articleStore = await createArticleRepo(store);
-
       const exampleArticle = {
         doi: 'test/article.2',
         title: 'Test Article 2',
@@ -183,12 +184,10 @@ describe('article-stores', () => {
     });
 
     it('errors when retrieving unknown article', async () => {
-      const articleStore = await createArticleRepo(store);
       await expect(articleStore.getArticle('test/article.3')).rejects.toThrowError();
     });
 
     it('gets articles summaries', async () => {
-      const articleStore = await createArticleRepo(store);
       const exampleArticle1 = {
         doi: 'test/article.4',
         title: 'Test Article 4',
@@ -244,12 +243,10 @@ describe('article-stores', () => {
     });
 
     it('throws an error with unknown identifier', async () => {
-      const articleStore = await createArticleRepo(store);
       expect(async () => articleStore.getArticleVersion('not-an-id')).rejects.toThrow();
     });
 
     it('stores and retrieves a Versioned Article by id with all fields', async () => {
-      const articleStore = await createArticleRepo(store);
       const inputArticle: EnhancedArticle = {
         id: 'testid1.1',
         msid: 'testid1',
@@ -294,7 +291,6 @@ describe('article-stores', () => {
     });
 
     it('stores and retrieves a Versioned Article by msid', async () => {
-      const articleStore = await createArticleRepo(store);
       const inputArticle = {
         id: 'testid2.2',
         msid: 'testid2',
@@ -335,7 +331,6 @@ describe('article-stores', () => {
     });
 
     it('stores two Versioned Articles with the same msid and retreives them by id', async () => {
-      const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3.1',
         msid: 'testid3',
@@ -406,7 +401,6 @@ describe('article-stores', () => {
     });
 
     it('stores two Versioned Articles with the same msid and retreives the latest by msid', async () => {
-      const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid4.1',
         msid: 'testid4',
@@ -477,7 +471,6 @@ describe('article-stores', () => {
     });
 
     it('stores two Versioned Articles and retreives summaries', async () => {
-      const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3.1',
         msid: 'testid3',
@@ -541,7 +534,6 @@ describe('article-stores', () => {
     });
 
     it('stores a Versioned Article and deletes successfully', async () => {
-      const articleStore = await createArticleRepo(store);
       const inputArticle1 = {
         id: 'testid3.1',
         msid: 'testid3',

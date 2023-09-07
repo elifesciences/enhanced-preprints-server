@@ -1,4 +1,4 @@
-import { Collection, Db, MongoClient } from 'mongodb';
+import { Collection, MongoClient } from 'mongodb';
 import {
   ArticleAbstract,
   ArticleRepository,
@@ -166,18 +166,13 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 }
 
-export const createMongoDBArticleRepositoryFromMongoDb = async (db: Db) => {
-  const collection = db.collection<StoredArticle>('articles');
-  const versionedCollection = db.collection<StoredEnhancedArticle>('versioned_articles');
+export const createMongoDBArticleRepositoryFromMongoClient = async (client: MongoClient) => {
+  const collection = client.db('epp').collection<StoredArticle>('articles');
+  const versionedCollection = client.db('epp').collection<StoredEnhancedArticle>('versioned_articles');
   const result = await versionedCollection.createIndex({ msid: -1 });
   logger.info(`created index: ${result}`);
 
   return new MongoDBArticleRepository(collection, versionedCollection);
 };
 
-export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => {
-  const connectionUrl = `mongodb://${username}:${password}@${host}`;
-  const client = new MongoClient(connectionUrl);
-
-  return createMongoDBArticleRepositoryFromMongoDb(client.db('epp'));
-};
+export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => createMongoDBArticleRepositoryFromMongoClient(new MongoClient(`mongodb://${username}:${password}@${host}`));
