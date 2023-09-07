@@ -166,13 +166,6 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 }
 
-export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => {
-  const connectionUrl = `mongodb://${username}:${password}@${host}`;
-  const client = new MongoClient(connectionUrl);
-
-  return createMongoDBArticleRepositoryFromMongoDb(client.db('epp'));
-};
-
 export const createMongoDBArticleRepositoryFromMongoDb = async (db: Db) => {
   const collection = db.collection<StoredArticle>('articles');
   const versionedCollection = db.collection<StoredEnhancedArticle>('versioned_articles');
@@ -180,4 +173,11 @@ export const createMongoDBArticleRepositoryFromMongoDb = async (db: Db) => {
   logger.info(`created index: ${result}`);
 
   return new MongoDBArticleRepository(collection, versionedCollection);
+};
+
+export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => {
+  const connectionUrl = `mongodb://${username}:${password}@${host}`;
+  const client = new MongoClient(connectionUrl);
+
+  return createMongoDBArticleRepositoryFromMongoDb(client.db('epp'));
 };
