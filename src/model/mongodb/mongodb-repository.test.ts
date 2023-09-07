@@ -1,8 +1,8 @@
 import { MongoClient } from 'mongodb';
 import {
   Reference, EnhancedArticle, License, EnhancedArticleWithVersions, ArticleRepository,
-} from './model';
-import { createMongoDBArticleRepositoryFromMongoClient } from './mongodb/mongodb-repository';
+} from '../model';
+import { createMongoDBArticleRepositoryFromMongoClient } from './mongodb-repository';
 
 const exampleAuthors = [
   {
