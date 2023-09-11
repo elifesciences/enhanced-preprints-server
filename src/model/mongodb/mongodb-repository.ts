@@ -131,7 +131,12 @@ class MongoDBArticleRepository implements ArticleRepository {
   async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
     const version = await this.versionedCollection.findOne(
       { $or: [{ _id: identifier }, { msid: identifier }] },
-      { sort: { preprintPosted: -1 } },
+      {
+        sort: { preprintPosted: -1 },
+        projection: {
+          _id: 0,
+        },
+      },
     );
 
     if (!version) {
@@ -144,6 +149,7 @@ class MongoDBArticleRepository implements ArticleRepository {
         projection: {
           article: 0,
           peerReview: 0,
+          _id: 0,
         },
       },
     ).toArray();
@@ -166,10 +172,7 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 }
 
-export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => {
-  const connectionUrl = `mongodb://${username}:${password}@${host}`;
-  const client = new MongoClient(connectionUrl);
-
+export const createMongoDBArticleRepositoryFromMongoClient = async (client: MongoClient) => {
   const collection = client.db('epp').collection<StoredArticle>('articles');
   const versionedCollection = client.db('epp').collection<StoredEnhancedArticle>('versioned_articles');
   const result = await versionedCollection.createIndex({ msid: -1 });
@@ -177,3 +180,5 @@ export const createMongoDBArticleRepository = async (host: string, username: str
 
   return new MongoDBArticleRepository(collection, versionedCollection);
 };
+
+export const createMongoDBArticleRepository = async (host: string, username: string, password: string) => createMongoDBArticleRepositoryFromMongoClient(new MongoClient(`mongodb://${username}:${password}@${host}`));
