@@ -249,6 +249,12 @@ describe('httpschema', () => {
           text: 'This is a great paper',
           participants: [],
         },
+        authorResponse: {
+          date: '2023-08-01',
+          reviewType: 'author-response',
+          text: 'I know',
+          participants: [],
+        },
         reviews: [],
       },
       published: '2023-08-02',

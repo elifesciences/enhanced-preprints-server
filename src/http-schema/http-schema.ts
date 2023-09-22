@@ -135,7 +135,7 @@ const ParticipantSchema = Joi.object({
 });
 const EvaluationSchema = Joi.object({
   date: Joi.date().required(),
-  reviewType: Joi.string().valid('evaluation-summary', 'review-article', 'reply').required(), // TODO get this from ENUM?
+  reviewType: Joi.string().valid('evaluation-summary', 'review-article', 'author-response').required(), // TODO get this from ENUM?
   text: Joi.string().required(),
   participants: Joi.array().items(ParticipantSchema).required(),
 });
