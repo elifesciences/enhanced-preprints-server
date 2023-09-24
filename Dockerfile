@@ -27,3 +27,6 @@ COPY src/ src/
 
 EXPOSE 3000
 CMD [ "yarn", "start" ]
+
+FROM prod as dev
+CMD [ "yarn", "start:dev" ]

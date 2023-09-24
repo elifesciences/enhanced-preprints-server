@@ -235,8 +235,8 @@ describe('article-stores', () => {
     }]));
   });
 
-  it('throws an error with unknown identifier', async () => {
-    expect(async () => articleStore.getArticleVersion('not-an-id')).rejects.toThrow();
+  it('returns null with unknown identifier', async () => {
+    expect(await articleStore.getArticleVersion('not-an-id')).toBeNull();
   });
 
   it('stores and retrieves a Versioned Article by id with all fields', async () => {

@@ -128,7 +128,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     }));
   }
 
-  async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions> {
+  async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null> {
     const version = await this.versionedCollection.findOne(
       { $or: [{ _id: identifier }, { msid: identifier }] },
       {
@@ -140,7 +140,8 @@ class MongoDBArticleRepository implements ArticleRepository {
     );
 
     if (!version) {
-      throw Error('Cannot find a matching article version');
+      logger.info(`Cannot find a matching article version (${identifier})`);
+      return null;
     }
 
     const allVersions = await this.versionedCollection.find<VersionSummary>(

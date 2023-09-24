@@ -50,15 +50,22 @@ export const preprintsController = (repo: ArticleRepository) => {
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const version = await repo.getArticleVersion(req.params.identifier);
-      const { msid, versionIdentifier } = version.article;
-      const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
-      try {
-        const { status } = await axios.get(pdfUrl);
-        if (status === 200) {
-          version.article.pdfUrl = pdfUrl;
+      if (!version) {
+        res.status(404).send({
+          result: false,
+          message: `no result found for: (${req.params.identifier})`,
+        });
+      } else {
+        const { msid, versionIdentifier } = version.article;
+        const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
+        try {
+          const { status } = await axios.get(pdfUrl);
+          if (status === 200) {
+            version.article.pdfUrl = pdfUrl;
+          }
+        } finally {
+          res.send(version);
         }
-      } finally {
-        res.send(version);
       }
     } catch (err) {
       next(err);
