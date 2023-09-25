@@ -969,6 +969,15 @@ describe('server tests', () => {
           },
         });
     });
+
+    it('returns a 404 when an invalid identifier is uses', async () => {
+      const app = createApp(articleStore);
+      await request(app)
+        .get('/api/preprints/thisisnotanid')
+        .expect(404, {
+          message: 'no result found for: (thisisnotanid)',
+        });
+    });
   });
 
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
