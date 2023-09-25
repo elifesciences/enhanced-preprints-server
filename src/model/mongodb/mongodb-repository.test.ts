@@ -236,7 +236,7 @@ describe('article-stores', () => {
   });
 
   it('returns null with unknown identifier', async () => {
-    expect(await articleStore.getArticleVersion('not-an-id')).toBeNull();
+    expect(await articleStore.findArticleVersion('not-an-id')).toBeNull();
   });
 
   it('stores and retrieves a Versioned Article by id with all fields', async () => {
@@ -261,7 +261,7 @@ describe('article-stores', () => {
       },
     };
     const result = await articleStore.storeEnhancedArticle(inputArticle);
-    const article = await articleStore.getArticleVersion('testid1');
+    const article = await articleStore.findArticleVersion('testid1');
 
     expect(result).toStrictEqual(true);
     expect(article).toMatchObject({
@@ -303,7 +303,7 @@ describe('article-stores', () => {
       },
     };
     const result = await articleStore.storeEnhancedArticle(inputArticle);
-    const article = await articleStore.getArticleVersion('testid2');
+    const article = await articleStore.findArticleVersion('testid2');
 
     expect(result).toStrictEqual(true);
     expect(article).toMatchObject({
@@ -362,7 +362,7 @@ describe('article-stores', () => {
     };
     const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
     const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
-    const article = await articleStore.getArticleVersion('testid3.1');
+    const article = await articleStore.findArticleVersion('testid3.1');
 
     expect(result1).toStrictEqual(true);
     expect(result2).toStrictEqual(true);
@@ -432,7 +432,7 @@ describe('article-stores', () => {
     };
     const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
     const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
-    const article = await articleStore.getArticleVersion('testid4');
+    const article = await articleStore.findArticleVersion('testid4');
 
     expect(result1).toStrictEqual(true);
     expect(result2).toStrictEqual(true);

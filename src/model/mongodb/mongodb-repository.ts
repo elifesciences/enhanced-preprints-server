@@ -128,7 +128,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     }));
   }
 
-  async getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null> {
+  async findArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null> {
     const version = await this.versionedCollection.findOne(
       { $or: [{ _id: identifier }, { msid: identifier }] },
       {

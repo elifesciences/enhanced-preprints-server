@@ -156,7 +156,7 @@ export interface ArticleRepository {
   getArticle(id: string): Promise<ProcessedArticle>;
   getArticleSummaries(): Promise<ArticleSummary[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
-  getArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null>;
+  findArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
   deleteArticleVersion(identifier: string): Promise<boolean>;
 }
