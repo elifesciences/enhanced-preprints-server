@@ -60,8 +60,7 @@ services:
   api:
     build:
       context: .
-      target: prod
-    command: yarn start:dev
+      target: dev
     healthcheck:
       test: ["CMD-SHELL", "sh -c 'apk add curl; curl http://api:3000/'"]
       interval: 5s
