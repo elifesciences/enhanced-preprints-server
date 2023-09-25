@@ -51,6 +51,7 @@ export const preprintsController = (repo: ArticleRepository) => {
     try {
       const version = await repo.findArticleVersion(req.params.identifier);
       if (!version) {
+        logger.info(`Cannot find a matching article version (${req.params.identifier})`);
         res.status(404).send({
           result: false,
           message: `no result found for: (${req.params.identifier})`,

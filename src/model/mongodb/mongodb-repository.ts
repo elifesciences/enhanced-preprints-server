@@ -140,7 +140,6 @@ class MongoDBArticleRepository implements ArticleRepository {
     );
 
     if (!version) {
-      logger.info(`Cannot find a matching article version (${identifier})`);
       return null;
     }
 
