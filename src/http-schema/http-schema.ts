@@ -232,4 +232,5 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   publishedYear: Joi.number()
     .integer()
     .optional(),
+  license: Joi.string().optional(),
 });

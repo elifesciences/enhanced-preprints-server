@@ -144,6 +144,7 @@ export type EnhancedArticle = {
   published?: Date,
   publishedYear?: number,
   pdfUrl?: string,
+  license?: string,
 };
 
 export type EnhancedArticleWithVersions = {

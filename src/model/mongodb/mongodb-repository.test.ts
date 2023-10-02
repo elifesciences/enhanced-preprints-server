@@ -259,6 +259,7 @@ describe('article-stores', () => {
         licenses: exampleLicenses,
         references: [exampleReference],
       },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
     };
     const result = await articleStore.storeEnhancedArticle(inputArticle);
     const article = await articleStore.findArticleVersion('testid1');
@@ -278,6 +279,7 @@ describe('article-stores', () => {
           preprintPosted: new Date('2008-07-01'),
           sentForReview: new Date('2008-07-02'),
           published: new Date('2008-11-02'),
+          license: 'https://creativecommons.org/licenses/by/4.0/',
         },
       },
     });
