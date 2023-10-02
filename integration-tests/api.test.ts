@@ -701,6 +701,7 @@ describe('server tests', () => {
       published: '2023-01-23T00:00:00.000Z',
       publishedYear: 2023,
       subjects: ['subject 1', 'subject 2'],
+      license: 'https://creativecommons.org/licenses/by/4.0/',
     };
 
     const versionSummary = {
@@ -718,6 +719,7 @@ describe('server tests', () => {
       published: '2023-01-23T00:00:00.000Z',
       publishedYear: 2023,
       subjects: ['subject 1', 'subject 2'],
+      license: 'https://creativecommons.org/licenses/by/4.0/',
     };
 
     it('imports a valid JSON body', async () => {
