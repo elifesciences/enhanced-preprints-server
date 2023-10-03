@@ -121,7 +121,7 @@ export type VersionSummary = {
   preprintUrl: string,
   preprintPosted: Date,
   sentForReview?: Date,
-  published?: Date,
+  published: Date | null,
 };
 
 export type EnhancedArticle = {
