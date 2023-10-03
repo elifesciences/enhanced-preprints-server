@@ -141,7 +141,7 @@ export type EnhancedArticle = {
   preprintPosted: Date,
   sentForReview?: Date,
   peerReview?: PeerReview,
-  published?: Date,
+  published: Date | null,
   publishedYear?: number,
   pdfUrl?: string,
   license?: string,

@@ -228,7 +228,7 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   preprintPosted: Joi.date().required(),
   sentForReview: Joi.date().optional(),
   peerReview: PeerReviewSchema.optional(),
-  published: Joi.date().optional(),
+  published: Joi.date().required().allow(null),
   publishedYear: Joi.number()
     .integer()
     .optional(),
