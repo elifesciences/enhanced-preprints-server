@@ -53,5 +53,5 @@
     "lint": "eslint --ext .ts src/ integration-tests/ test-utils/",
     "lint:fix": "eslint --fix --ext .ts src/ integration-tests/ test-utils/"
   },
-  "packageManager": "yarn@3.6.3"
+  "packageManager": "yarn@3.6.4"
 }
