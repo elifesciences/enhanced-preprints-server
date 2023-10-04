@@ -295,6 +295,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article8',
       preprintUrl: 'http://preprints.org/preprint/article8',
       preprintPosted: new Date('2008-08-02'),
+      published: null,
       article: {
         title: 'Test Article 8',
         abstract: 'Test article 8 abstract',
@@ -320,6 +321,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article8',
           preprintUrl: 'http://preprints.org/preprint/article8',
           preprintPosted: new Date('2008-08-02'),
+          published: null,
         },
       },
     });
@@ -335,6 +337,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article9',
       preprintUrl: 'http://preprints.org/preprint/article9',
       preprintPosted: new Date('2008-09-01'),
+      published: null,
       article: {
         title: 'Test Article 9',
         abstract: 'Test article 9 abstract',
@@ -353,6 +356,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article9v2',
       preprintUrl: 'http://preprints.org/preprint/article9v2',
       preprintPosted: new Date('2008-09-02'),
+      published: null,
       article: {
         title: 'Test Article 9',
         abstract: 'Test article 9 abstract',
@@ -380,6 +384,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article9',
           preprintUrl: 'http://preprints.org/preprint/article9',
           preprintPosted: new Date('2008-09-01'),
+          published: null,
         },
         'testid3.2': {
           id: 'testid3.2',
@@ -390,6 +395,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article9v2',
           preprintUrl: 'http://preprints.org/preprint/article9v2',
           preprintPosted: new Date('2008-09-02'),
+          published: null,
         },
       },
     });
@@ -405,6 +411,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article10',
       preprintUrl: 'http://preprints.org/preprint/article10',
       preprintPosted: new Date('2008-10-01'),
+      published: null,
       article: {
         title: 'Test Article 10',
         abstract: 'Test article 10 abstract',
@@ -423,6 +430,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article10v2',
       preprintUrl: 'http://preprints.org/preprint/article10v2',
       preprintPosted: new Date('2008-10-02'),
+      published: null,
       article: {
         title: 'Test Article 10',
         abstract: 'Test article 10 abstract',
@@ -450,6 +458,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article10',
           preprintUrl: 'http://preprints.org/preprint/article10',
           preprintPosted: new Date('2008-10-01'),
+          published: null,
         },
         'testid4.2': {
           id: 'testid4.2',
@@ -460,6 +469,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article10v2',
           preprintUrl: 'http://preprints.org/preprint/article10v2',
           preprintPosted: new Date('2008-10-02'),
+          published: null,
         },
       },
     });

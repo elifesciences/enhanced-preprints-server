@@ -121,7 +121,7 @@ export type VersionSummary = {
   preprintUrl: string,
   preprintPosted: Date,
   sentForReview?: Date,
-  published?: Date,
+  published: Date | null,
 };
 
 export type EnhancedArticle = {
@@ -141,7 +141,7 @@ export type EnhancedArticle = {
   preprintPosted: Date,
   sentForReview?: Date,
   peerReview?: PeerReview,
-  published?: Date,
+  published: Date | null,
   publishedYear?: number,
   pdfUrl?: string,
   license?: string,
