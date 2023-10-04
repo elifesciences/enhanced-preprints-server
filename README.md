@@ -13,12 +13,16 @@ You will find it helpful to install local dependencies, by running `yarn`, so th
 This will build and run the application on port `8080` and will rebuild any `ts` and `scss` files when they change.
 
 ## Testing
-To test the application run:
+To perform the unit tests:
 ```shell
 yarn test
 ```
 
-> to run in watch mode add `-w` to the previous command.
+> to run in watch mode add `-w` to the previous command. 
+
+To perform the integration tests:
+```shell
+yarn test:integration
 
 and to lint:
 ```shell
