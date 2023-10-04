@@ -209,8 +209,6 @@ describe('httpschema', () => {
     const invalidateEnhancedArticle = EnhancedArticleSchema.validate(value, { abortEarly: false });
 
     expect(invalidateEnhancedArticle.error).toBeDefined();
-    console.log('wtf');
-    console.log(invalidateEnhancedArticle.error?.details);
     expect(invalidateEnhancedArticle.error?.details).toMatchObject(errorDetails);
   });
 
