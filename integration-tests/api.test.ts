@@ -816,6 +816,7 @@ describe('server tests', () => {
           licenses: [],
           references: [],
         },
+        published: null,
       };
 
       const versionSummary1 = {
@@ -833,6 +834,7 @@ describe('server tests', () => {
         preprintDoi: 'preprint/testdoi5',
         preprintUrl: 'http://preprints.org/preprint/testdoi5',
         preprintPosted: '2023-02-02T00:00:00.000Z',
+        published: null,
       };
 
       await request(app)
