@@ -177,7 +177,12 @@ const LicenseSchema = Joi.object({
 const PublicationSchema = Joi.object({
   type: Joi.string().valid('CreativeWork', 'Periodical', 'PublicationIssue', 'PublicationVolume').required(),
   name: Joi.string().optional(), // this seems wrong but required to pass the test document
-  volumeNumber: Joi.number().optional(),
+  volumeNumber: Joi.any().custom((value, helpers) => {
+    if (typeof value !== 'number') {
+      return helpers.error('any.invalid');
+    }
+    return value.toString();
+  }, 'Custom validation').optional(),
   isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
 

@@ -41,6 +41,10 @@ const enhancedArticleExample = {
         id: 'ref1',
         title: 'Reference 1',
         authors: [],
+        isPartOf: {
+          type: 'CreativeWork',
+          volumeNumber: 1,
+        },
       },
       {
         type: 'Article',
@@ -49,6 +53,10 @@ const enhancedArticleExample = {
         authors: [],
         pageStart: 1,
         pageEnd: 2,
+        isPartOf: {
+          type: 'PublicationVolume',
+          volumeNumber: '10738584221112336',
+        },
       },
       {
         type: 'Article',
