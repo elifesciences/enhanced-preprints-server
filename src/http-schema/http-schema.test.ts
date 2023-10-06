@@ -55,7 +55,7 @@ const enhancedArticleExample = {
         pageEnd: 2,
         isPartOf: {
           type: 'PublicationVolume',
-          volumeNumber: '10738584221112336',
+          volumeNumber: 10738584221112336,
         },
       },
       {
@@ -65,6 +65,10 @@ const enhancedArticleExample = {
         authors: [],
         pageStart: 'one',
         pageEnd: 'two',
+        isPartOf: {
+          type: 'Periodical',
+          volumeNumber: 'one',
+        },
       },
     ],
   },

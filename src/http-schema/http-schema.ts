@@ -178,11 +178,12 @@ const PublicationSchema = Joi.object({
   type: Joi.string().valid('CreativeWork', 'Periodical', 'PublicationIssue', 'PublicationVolume').required(),
   name: Joi.string().optional(), // this seems wrong but required to pass the test document
   volumeNumber: Joi.any().custom((value, helpers) => {
-    if (typeof value !== 'number') {
+    if (typeof value !== 'number' && typeof value !== 'string') {
       return helpers.error('any.invalid');
     }
-    return value.toString();
-  }, 'Custom validation').optional(),
+    // Convert unsafe number to string.
+    return (typeof value === 'number' && !Number.isSafeInteger(value)) ? value.toString() : value;
+  }, 'Safe integer or string').optional(),
   isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
 
