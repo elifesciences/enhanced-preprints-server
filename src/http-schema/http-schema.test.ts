@@ -164,6 +164,16 @@ describe('httpschema', () => {
         },
       ],
     },
+    {
+      type: 'Claim',
+      label: 'This is a label',
+      content: [
+        {
+          type: 'paragraph',
+          content: 'This is a claim',
+        },
+      ],
+    },
     [
       [{
         type: 'Heading', depth: 1, content: 'heading', id: 'h1',

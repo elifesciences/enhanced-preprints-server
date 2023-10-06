@@ -1029,6 +1029,28 @@
         "text": "train_test_split()"
       },
       {
+        "type": "Claim",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              "This is a claim"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "QuoteBlock",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              "This is a quote block"
+            ]
+          }
+        ]
+      },
+      {
         "type": "Paragraph",
         "content": [
           " function in the "

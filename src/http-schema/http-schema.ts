@@ -49,9 +49,10 @@ const ListContentSchema = Joi.object({
 
 const ClaimContentSchema = Joi.object({
   type: Joi.string().valid('Claim').required(),
-  claimType: Joi.string().valid('Statement', 'Theorem', 'Lemma', 'Proof', 'Postulate', 'Hypothesis', 'Proposition', 'Corollary').required(),
+  claimType: Joi.string().valid('Statement', 'Theorem', 'Lemma', 'Proof', 'Postulate', 'Hypothesis', 'Proposition', 'Corollary').optional(),
   label: Joi.link('#Content').optional(),
   title: Joi.link('#Content').optional(),
+  content: Joi.link('#Content').optional(),
 });
 
 const LinkContentSchema = Joi.object({
@@ -98,7 +99,7 @@ const ImageObjectContent = Joi.object({
 
 // These are not imported yet
 const OtherContent = Joi.object({
-  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'Table', 'ThematicBreak'),
+  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'QuoteBlock', 'Table', 'ThematicBreak'),
 });
 // end block
 
