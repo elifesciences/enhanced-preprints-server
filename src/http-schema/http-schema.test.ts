@@ -175,6 +175,9 @@ describe('httpschema', () => {
           id: 'h1',
         },
       ],
+      content: [
+        'Claim content',
+      ],
     },
     [
       [{
