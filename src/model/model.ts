@@ -43,7 +43,7 @@ export type PublicationType = 'CreativeWork' | 'Periodical' | 'PublicationIssue'
 export type Publication = {
   type: PublicationType,
   name?: string,
-  volumeNumber?: number,
+  volumeNumber?: number | string,
   isPartOf?: Publication,
 };
 export type Reference = {
