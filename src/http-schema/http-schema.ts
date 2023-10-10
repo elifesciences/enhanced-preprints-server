@@ -52,7 +52,7 @@ const ClaimContentSchema = Joi.object({
   claimType: Joi.string().valid('Statement', 'Theorem', 'Lemma', 'Proof', 'Postulate', 'Hypothesis', 'Proposition', 'Corollary').optional(),
   label: Joi.link('#Content').optional(),
   title: Joi.link('#Content').optional(),
-  content: Joi.link('#Content').optional(),
+  content: Joi.link('#Content').required(),
 });
 
 const LinkContentSchema = Joi.object({
