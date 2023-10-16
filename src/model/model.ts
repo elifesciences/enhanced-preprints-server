@@ -100,6 +100,7 @@ export type Participant = {
 
 export type Evaluation = {
   date: Date,
+  doi: string,
   reviewType: ReviewType,
   text: ReviewText,
   participants: Participant[],
