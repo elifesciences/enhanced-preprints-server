@@ -262,12 +262,14 @@ describe('httpschema', () => {
       peerReview: {
         evaluationSummary: {
           date: '2023-08-01',
+          doi: '10.7554/eLife.81090.sa0',
           reviewType: 'evaluation-summary',
           text: 'This is a great paper',
           participants: [],
         },
         authorResponse: {
           date: '2023-08-01',
+          doi: '10.7554/eLife.81090.sa1',
           reviewType: 'author-response',
           text: 'I know',
           participants: [],
