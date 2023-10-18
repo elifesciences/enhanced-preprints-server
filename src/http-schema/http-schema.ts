@@ -216,7 +216,7 @@ const ProcessedArticleSchema = Joi.object({
   abstract: ContentSchema,
   licenses: Joi.array().items(LicenseSchema).required(),
   content: ContentSchema,
-  references: Joi.array().items(ReferenceSchema).required(),
+  references: Joi.array().items(ReferenceSchema).optional(),
 });
 
 export const SubjectsSchema = Joi.array().items(Joi.string()).unique();
