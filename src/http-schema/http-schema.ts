@@ -198,9 +198,9 @@ const ReferenceSchema = Joi.object({
   pageStart: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
   authors: Joi.array().items(Joi.alternatives().try(AuthorSchema, OrganisationSchema)).required(),
   datePublished: Joi.alternatives().try(
-    Joi.date().optional(),
-    Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().required() }),
-  ),
+    Joi.date().iso(),
+    Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().iso() }),
+  ).optional(),
   isPartOf: PublicationSchema.optional(),
   identifiers: Joi.array().items(Joi.object({
     type: Joi.string().required(),
