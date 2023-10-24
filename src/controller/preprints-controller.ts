@@ -64,9 +64,11 @@ export const preprintsController = (repo: ArticleRepository) => {
           if (status === 200) {
             version.article.pdfUrl = pdfUrl;
           }
-        } finally {
-          res.send(version);
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.log('no PDF found or fetch failed');
         }
+        res.send(version);
       }
     } catch (err) {
       next(err);
