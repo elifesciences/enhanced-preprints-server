@@ -23,6 +23,7 @@ yarn test
 To perform the integration tests:
 ```shell
 yarn test:integration
+```
 
 and to lint:
 ```shell
