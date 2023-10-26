@@ -985,6 +985,61 @@ describe('server tests', () => {
     });
   });
 
+  describe('/api/preprints-no-content', () => {
+    const enhancedArticle = {
+      id: 'testid3',
+      msid: 'testmsid',
+      doi: 'doi1',
+      volume: '1',
+      eLocationId: 'RPtestid3',
+      versionIdentifier: '1',
+      versionDoi: 'publisher/testid1',
+      article: {
+        title: 'test article',
+        authors: [
+          {
+            familyNames: ['Daffy'],
+            givenNames: ['Duck'],
+            affiliations: [{ name: 'ACME Labs' }],
+            emails: ['daffy.duck@acme.org'],
+          },
+        ],
+        abstract: 'This is the test abstract',
+        licenses: [],
+        content: 'This is some test content',
+        references: [],
+      },
+      preprintDoi: 'preprint/testid1',
+      preprintUrl: 'doi.org/preprint/testid1',
+      preprintPosted: '2023-01-02T00:00:00.000Z',
+      sentForReview: '2023-01-03T00:00:00.000Z',
+      published: '2023-01-23T00:00:00.000Z',
+      publishedYear: 2023,
+      subjects: ['subject 1', 'subject 2'],
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+
+    it('imports a valid JSON body and we are able to retrieve it', async () => {
+      const app = createApp(articleStore);
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content')
+        .expect(200, (response) => {
+          //expect(response.body.total).toBe(2);
+          console.log(response.body);
+        });
+    });
+  });
+
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
     const bibtex = `
     @article{Carberry_2008,
