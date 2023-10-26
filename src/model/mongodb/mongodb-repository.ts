@@ -168,7 +168,7 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async getEnhancedArticlesNoContent(): Promise<EnhancedArticleNoContent[]> {
-     const allVersions = await this.versionedCollection.find<EnhancedArticleNoContent>(
+    const allVersions = await this.versionedCollection.find<EnhancedArticleNoContent>(
       {},
       {
         projection: {

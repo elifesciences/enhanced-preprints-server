@@ -90,10 +90,9 @@ export const preprintsController = (repo: ArticleRepository) => {
       const articles = await repo.getEnhancedArticlesNoContent();
       res.send(articles);
     } catch (err) {
-      console.log('Unable to fetch EnhancedArticleNoContent', err);
       next(err);
     }
-  }
+  };
 
   return {
     postPreprints,
