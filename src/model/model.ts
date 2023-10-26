@@ -43,7 +43,7 @@ export type PublicationType = 'CreativeWork' | 'Periodical' | 'PublicationIssue'
 export type Publication = {
   type: PublicationType,
   name?: string,
-  volumeNumber?: number,
+  volumeNumber?: number | string,
   isPartOf?: Publication,
 };
 export type Reference = {
@@ -100,6 +100,7 @@ export type Participant = {
 
 export type Evaluation = {
   date: Date,
+  doi?: string,
   reviewType: ReviewType,
   text: ReviewText,
   participants: Participant[],
@@ -109,19 +110,6 @@ export type PeerReview = {
   evaluationSummary: Evaluation,
   reviews: Evaluation[],
   authorResponse?: Evaluation,
-};
-
-export type VersionSummary = {
-  id: string,
-  msid: string,
-  doi: string,
-  versionIdentifier: string,
-  versionDoi?: string,
-  preprintDoi: string,
-  preprintUrl: string,
-  preprintPosted: Date,
-  sentForReview?: Date,
-  published: Date | null,
 };
 
 export type EnhancedArticle = {
@@ -147,6 +135,12 @@ export type EnhancedArticle = {
   license?: string,
 };
 
+export type VersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
+
+export type EnhancedArticleNoContent = VersionSummary & {
+  article: Omit<ProcessedArticle, 'doi' | 'date' | 'content' | 'abstract'>,
+};
+
 export type EnhancedArticleWithVersions = {
   article: EnhancedArticle,
   versions: Record<string, VersionSummary>,
@@ -159,5 +153,6 @@ export interface ArticleRepository {
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   findArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
+  getEnhancedArticlesNoContent(): Promise<EnhancedArticleNoContent[]>;
   deleteArticleVersion(identifier: string): Promise<boolean>;
 }

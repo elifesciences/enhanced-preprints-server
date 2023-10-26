@@ -985,6 +985,140 @@ describe('server tests', () => {
     });
   });
 
+  describe('/api/preprints-no-content', () => {
+    const enhancedArticle = {
+      id: 'testid3',
+      msid: 'testmsid',
+      doi: 'doi1',
+      volume: '1',
+      eLocationId: 'RPtestid3',
+      versionIdentifier: '1',
+      versionDoi: 'publisher/testid1',
+      article: {
+        title: 'test article',
+        authors: [
+          {
+            familyNames: ['Daffy'],
+            givenNames: ['Duck'],
+            affiliations: [{ name: 'ACME Labs' }],
+            emails: ['daffy.duck@acme.org'],
+          },
+        ],
+        abstract: 'This is the test abstract',
+        licenses: [],
+        content: 'This is some test content',
+        references: [],
+      },
+      preprintDoi: 'preprint/testid1',
+      preprintUrl: 'doi.org/preprint/testid1',
+      preprintPosted: '2023-01-02T00:00:00.000Z',
+      sentForReview: '2023-01-03T00:00:00.000Z',
+      published: '2023-01-23T00:00:00.000Z',
+      publishedYear: 2023,
+      subjects: ['subject 1', 'subject 2'],
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+
+    it('fetches a list of versions without content', async () => {
+      const app = createApp(articleStore);
+
+      const exampleVersion1 = {
+        ...enhancedArticle,
+        id: 'testid4',
+        versionIdentifier: '1',
+        msid: 'article.2',
+      };
+      const exampleVersion2 = {
+        id: 'testid5',
+        versionIdentifier: '2',
+        msid: 'article.2',
+        doi: 'test/article.2',
+        preprintDoi: 'preprint/testdoi5',
+        preprintUrl: 'http://preprints.org/preprint/testdoi5',
+        preprintPosted: '2023-02-02T00:00:00.000Z',
+        article: {
+          title: 'Test Article 2',
+          abstract: 'Test article 2 abstract',
+          authors: [],
+          content: '<article></article>',
+          licenses: [],
+          references: [],
+        },
+        published: null,
+      };
+
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion1)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((200), {
+          result: true,
+          message: 'OK',
+        });
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion2)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((200), {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content')
+        .expect(200)
+        .expect((response) => {
+          expect(response.body.length).toBe(2);
+          expect(response.body[0]).toEqual({
+            id: 'testid4',
+            msid: 'article.2',
+            doi: 'doi1',
+            volume: '1',
+            eLocationId: 'RPtestid3',
+            versionIdentifier: '1',
+            versionDoi: 'publisher/testid1',
+            article: {
+              title: 'test article',
+              authors: [
+                {
+                  familyNames: ['Daffy'],
+                  givenNames: ['Duck'],
+                  affiliations: [{ name: 'ACME Labs' }],
+                  emails: ['daffy.duck@acme.org'],
+                },
+              ],
+              licenses: [],
+              references: [],
+            },
+            preprintDoi: 'preprint/testid1',
+            preprintUrl: 'doi.org/preprint/testid1',
+            preprintPosted: '2023-01-02T00:00:00.000Z',
+            sentForReview: '2023-01-03T00:00:00.000Z',
+            published: '2023-01-23T00:00:00.000Z',
+            publishedYear: 2023,
+            subjects: ['subject 1', 'subject 2'],
+            license: 'https://creativecommons.org/licenses/by/4.0/',
+          });
+          expect(response.body[1]).toEqual({
+            id: 'testid5',
+            versionIdentifier: '2',
+            msid: 'article.2',
+            doi: 'test/article.2',
+            preprintDoi: 'preprint/testdoi5',
+            preprintUrl: 'http://preprints.org/preprint/testdoi5',
+            preprintPosted: '2023-02-02T00:00:00.000Z',
+            article: {
+              title: 'Test Article 2',
+              authors: [],
+              licenses: [],
+              references: [],
+            },
+            published: null,
+          });
+        });
+    });
+  });
+
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
     const bibtex = `
     @article{Carberry_2008,

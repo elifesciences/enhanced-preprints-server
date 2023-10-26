@@ -11,6 +11,7 @@ import {
   EnhancedArticle,
   EnhancedArticleWithVersions,
   VersionSummary,
+  EnhancedArticleNoContent,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -164,6 +165,26 @@ class MongoDBArticleRepository implements ArticleRepository {
       article: version,
       versions: indexedVersions,
     };
+  }
+
+  async getEnhancedArticlesNoContent(): Promise<EnhancedArticleNoContent[]> {
+    const allVersions = await this.versionedCollection.find<EnhancedArticleNoContent>(
+      {},
+      {
+        projection: {
+          article: {
+            content: 0,
+            abstract: 0,
+            doi: 0,
+            date: 0,
+          },
+          peerReview: 0,
+          _id: 0,
+        },
+      },
+    ).toArray();
+
+    return allVersions;
   }
 
   async deleteArticleVersion(identifier: string): Promise<boolean> {

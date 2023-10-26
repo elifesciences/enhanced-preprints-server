@@ -41,6 +41,10 @@ const enhancedArticleExample = {
         id: 'ref1',
         title: 'Reference 1',
         authors: [],
+        isPartOf: {
+          type: 'CreativeWork',
+          volumeNumber: 1,
+        },
       },
       {
         type: 'Article',
@@ -49,6 +53,10 @@ const enhancedArticleExample = {
         authors: [],
         pageStart: 1,
         pageEnd: 2,
+        isPartOf: {
+          type: 'PublicationVolume',
+          volumeNumber: 10738584221112336,
+        },
       },
       {
         type: 'Article',
@@ -57,6 +65,10 @@ const enhancedArticleExample = {
         authors: [],
         pageStart: 'one',
         pageEnd: 'two',
+        isPartOf: {
+          type: 'Periodical',
+          volumeNumber: 'one',
+        },
       },
     ],
   },
@@ -163,6 +175,9 @@ describe('httpschema', () => {
           id: 'h1',
         },
       ],
+      content: [
+        'Claim content',
+      ],
     },
     [
       [{
@@ -247,12 +262,14 @@ describe('httpschema', () => {
       peerReview: {
         evaluationSummary: {
           date: '2023-08-01',
+          doi: '10.7554/eLife.81090.sa0',
           reviewType: 'evaluation-summary',
           text: 'This is a great paper',
           participants: [],
         },
         authorResponse: {
           date: '2023-08-01',
+          doi: '10.7554/eLife.81090.sa1',
           reviewType: 'author-response',
           text: 'I know',
           participants: [],

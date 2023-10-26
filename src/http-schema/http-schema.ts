@@ -49,9 +49,10 @@ const ListContentSchema = Joi.object({
 
 const ClaimContentSchema = Joi.object({
   type: Joi.string().valid('Claim').required(),
-  claimType: Joi.string().valid('Statement', 'Theorem', 'Lemma', 'Proof', 'Postulate', 'Hypothesis', 'Proposition', 'Corollary').required(),
+  claimType: Joi.string().valid('Statement', 'Theorem', 'Lemma', 'Proof', 'Postulate', 'Hypothesis', 'Proposition', 'Corollary').optional(),
   label: Joi.link('#Content').optional(),
   title: Joi.link('#Content').optional(),
+  content: Joi.link('#Content').required(),
 });
 
 const LinkContentSchema = Joi.object({
@@ -98,7 +99,7 @@ const ImageObjectContent = Joi.object({
 
 // These are not imported yet
 const OtherContent = Joi.object({
-  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'Table', 'ThematicBreak'),
+  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'QuoteBlock', 'Table', 'ThematicBreak'),
 });
 // end block
 
@@ -135,6 +136,7 @@ const ParticipantSchema = Joi.object({
 });
 const EvaluationSchema = Joi.object({
   date: Joi.date().required(),
+  doi: Joi.string().optional(),
   reviewType: Joi.string().valid('evaluation-summary', 'review-article', 'author-response').required(), // TODO get this from ENUM?
   text: Joi.string().required(),
   participants: Joi.array().items(ParticipantSchema).required(),
@@ -177,7 +179,13 @@ const LicenseSchema = Joi.object({
 const PublicationSchema = Joi.object({
   type: Joi.string().valid('CreativeWork', 'Periodical', 'PublicationIssue', 'PublicationVolume').required(),
   name: Joi.string().optional(), // this seems wrong but required to pass the test document
-  volumeNumber: Joi.number().optional(),
+  volumeNumber: Joi.any().custom((value, helpers) => {
+    if (typeof value !== 'number' && typeof value !== 'string') {
+      return helpers.error('any.invalid');
+    }
+    // Convert unsafe number to string.
+    return (typeof value === 'number' && !Number.isSafeInteger(value)) ? value.toString() : value;
+  }, 'Safe integer or string').optional(),
   isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
 
@@ -190,9 +198,9 @@ const ReferenceSchema = Joi.object({
   pageStart: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
   authors: Joi.array().items(Joi.alternatives().try(AuthorSchema, OrganisationSchema)).required(),
   datePublished: Joi.alternatives().try(
-    Joi.date().optional(),
-    Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().required() }),
-  ),
+    Joi.date().iso(),
+    Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().iso() }),
+  ).optional(),
   isPartOf: PublicationSchema.optional(),
   identifiers: Joi.array().items(Joi.object({
     type: Joi.string().required(),
@@ -208,7 +216,7 @@ const ProcessedArticleSchema = Joi.object({
   abstract: ContentSchema,
   licenses: Joi.array().items(LicenseSchema).required(),
   content: ContentSchema,
-  references: Joi.array().items(ReferenceSchema).required(),
+  references: Joi.array().items(ReferenceSchema).optional(),
 });
 
 export const SubjectsSchema = Joi.array().items(Joi.string()).unique();
