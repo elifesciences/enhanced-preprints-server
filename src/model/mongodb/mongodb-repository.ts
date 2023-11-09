@@ -131,7 +131,7 @@ class MongoDBArticleRepository implements ArticleRepository {
 
   async findArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null> {
     const version = await this.versionedCollection.findOne(
-      { $or: [{ _id: identifier }, { msid: identifier }] },
+      { $or: [{ _id: identifier }, { msid: identifier }, { published: { $lte: new Date() }}] },
       {
         sort: { preprintPosted: -1 },
         projection: {
