@@ -1,4 +1,4 @@
-import { Collection, Filter, MongoClient } from 'mongodb';
+import { Collection, MongoClient } from 'mongodb';
 import {
   ArticleAbstract,
   ArticleRepository,
