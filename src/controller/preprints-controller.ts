@@ -49,7 +49,7 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const version = await repo.findArticleVersion(req.params.identifier);
+      const version = await repo.findArticleVersion(req.params.identifier, req.query.previews !== undefined);
       if (!version) {
         logger.info(`Cannot find a matching article version (${req.params.identifier})`);
         res.status(404).send({

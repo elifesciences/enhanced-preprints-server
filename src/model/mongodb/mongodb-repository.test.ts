@@ -295,7 +295,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article8',
       preprintUrl: 'http://preprints.org/preprint/article8',
       preprintPosted: new Date('2008-08-02'),
-      published: null,
+      published: new Date('2008-09-02'),
       article: {
         title: 'Test Article 8',
         abstract: 'Test article 8 abstract',
@@ -321,7 +321,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article8',
           preprintUrl: 'http://preprints.org/preprint/article8',
           preprintPosted: new Date('2008-08-02'),
-          published: null,
+          published: new Date('2008-09-02'),
         },
       },
     });
@@ -337,7 +337,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article9',
       preprintUrl: 'http://preprints.org/preprint/article9',
       preprintPosted: new Date('2008-09-01'),
-      published: null,
+      published: new Date('2008-10-01'),
       article: {
         title: 'Test Article 9',
         abstract: 'Test article 9 abstract',
@@ -356,7 +356,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article9v2',
       preprintUrl: 'http://preprints.org/preprint/article9v2',
       preprintPosted: new Date('2008-09-02'),
-      published: null,
+      published: new Date('2008-10-02'),
       article: {
         title: 'Test Article 9',
         abstract: 'Test article 9 abstract',
@@ -384,7 +384,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article9',
           preprintUrl: 'http://preprints.org/preprint/article9',
           preprintPosted: new Date('2008-09-01'),
-          published: null,
+          published: new Date('2008-10-01'),
         },
         'testid3.2': {
           id: 'testid3.2',
@@ -395,7 +395,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article9v2',
           preprintUrl: 'http://preprints.org/preprint/article9v2',
           preprintPosted: new Date('2008-09-02'),
-          published: null,
+          published: new Date('2008-10-02'),
         },
       },
     });
@@ -411,7 +411,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article10',
       preprintUrl: 'http://preprints.org/preprint/article10',
       preprintPosted: new Date('2008-10-01'),
-      published: null,
+      published: new Date('2008-11-01'),
       article: {
         title: 'Test Article 10',
         abstract: 'Test article 10 abstract',
@@ -430,7 +430,7 @@ describe('article-stores', () => {
       preprintDoi: 'preprint/article10v2',
       preprintUrl: 'http://preprints.org/preprint/article10v2',
       preprintPosted: new Date('2008-10-02'),
-      published: null,
+      published: new Date('2008-11-02'),
       article: {
         title: 'Test Article 10',
         abstract: 'Test article 10 abstract',
@@ -458,7 +458,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article10',
           preprintUrl: 'http://preprints.org/preprint/article10',
           preprintPosted: new Date('2008-10-01'),
-          published: null,
+          published: new Date('2008-11-01'),
         },
         'testid4.2': {
           id: 'testid4.2',
@@ -469,7 +469,7 @@ describe('article-stores', () => {
           preprintDoi: 'preprint/article10v2',
           preprintUrl: 'http://preprints.org/preprint/article10v2',
           preprintPosted: new Date('2008-10-02'),
-          published: null,
+          published: new Date('2008-11-02'),
         },
       },
     });
@@ -564,5 +564,150 @@ describe('article-stores', () => {
     const result = await articleStore.deleteArticleVersion(inputArticle1.id);
 
     expect(result).toStrictEqual(true);
+  });
+
+  it('does not retrieve non-published articles by default', async () => {
+    const inputArticle: EnhancedArticle = {
+      id: 'testid1.1',
+      msid: 'testid1',
+      doi: 'journal/testid1',
+      versionIdentifier: '1',
+      versionDoi: 'journal/testid1.1',
+      preprintDoi: 'preprint/article7',
+      preprintUrl: 'http://preprints.org/preprint/article7',
+      preprintPosted: new Date('2008-07-01'),
+      sentForReview: new Date('2008-07-02'),
+      published: null,
+      article: {
+        title: 'Test Article 7',
+        abstract: 'Test article 7 abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+    const result = await articleStore.storeEnhancedArticle(inputArticle);
+    const article = await articleStore.findArticleVersion('testid1');
+
+    expect(result).toStrictEqual(true);
+    expect(article).toBeNull();
+  });
+
+  it('does not retrieve future-published articles by default', async () => {
+    const published = new Date();
+    published.setDate(new Date().getDate() + 1); // published tomorrow
+    const inputArticle: EnhancedArticle = {
+      id: 'testid1.1',
+      msid: 'testid1',
+      doi: 'journal/testid1',
+      versionIdentifier: '1',
+      versionDoi: 'journal/testid1.1',
+      preprintDoi: 'preprint/article7',
+      preprintUrl: 'http://preprints.org/preprint/article7',
+      preprintPosted: new Date('2008-07-01'),
+      sentForReview: new Date('2008-07-02'),
+      published,
+      article: {
+        title: 'Test Article 7',
+        abstract: 'Test article 7 abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+    const result = await articleStore.storeEnhancedArticle(inputArticle);
+    const article = await articleStore.findArticleVersion('testid1');
+
+    expect(result).toStrictEqual(true);
+    expect(article).toBeNull();
+  });
+
+  it('will retrieve non-published and future published articles when asked', async () => {
+    const published = new Date();
+    published.setDate(new Date().getDate() + 1); // published tomorrow
+    const inputArticle1: EnhancedArticle = {
+      id: 'testid1.1',
+      msid: 'testid1',
+      doi: 'journal/testid1',
+      versionIdentifier: '1',
+      versionDoi: 'journal/testid1.1',
+      preprintDoi: 'preprint/article7',
+      preprintUrl: 'http://preprints.org/preprint/article7',
+      preprintPosted: new Date('2008-07-01'),
+      sentForReview: new Date('2008-07-02'),
+      published,
+      article: {
+        title: 'Test Article 7',
+        abstract: 'Test article 7 abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+    const inputArticle2: EnhancedArticle = {
+      id: 'testid1.2',
+      msid: 'testid1',
+      doi: 'journal/testid1',
+      versionIdentifier: '1',
+      versionDoi: 'journal/testid1.2',
+      preprintDoi: 'preprint/article7',
+      preprintUrl: 'http://preprints.org/preprint/article7',
+      preprintPosted: new Date('2008-07-01'),
+      sentForReview: new Date('2008-07-02'),
+      published: null,
+      article: {
+        title: 'Test Article 7',
+        abstract: 'Test article 7 abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+    const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
+    const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
+    const articleWithoutPreviews = await articleStore.findArticleVersion('testid1', false);
+    const articleWithPreviews = await articleStore.findArticleVersion('testid1', true);
+
+    expect(result1).toStrictEqual(true);
+    expect(result2).toStrictEqual(true);
+    expect(articleWithoutPreviews).toBeNull();
+    expect(articleWithPreviews).toMatchObject({
+      article: inputArticle1,
+      versions: {
+        'testid1.2': {
+          id: 'testid1.2',
+          msid: 'testid1',
+          doi: 'journal/testid1',
+          versionIdentifier: '1',
+          versionDoi: 'journal/testid1.2',
+          preprintDoi: 'preprint/article7',
+          preprintUrl: 'http://preprints.org/preprint/article7',
+          preprintPosted: new Date('2008-07-01'),
+          sentForReview: new Date('2008-07-02'),
+          license: 'https://creativecommons.org/licenses/by/4.0/',
+        },
+        'testid1.1': {
+          id: 'testid1.1',
+          msid: 'testid1',
+          doi: 'journal/testid1',
+          versionIdentifier: '1',
+          versionDoi: 'journal/testid1.1',
+          preprintDoi: 'preprint/article7',
+          preprintUrl: 'http://preprints.org/preprint/article7',
+          preprintPosted: new Date('2008-07-01'),
+          sentForReview: new Date('2008-07-02'),
+          published,
+          license: 'https://creativecommons.org/licenses/by/4.0/',
+        },
+      },
+    });
   });
 });

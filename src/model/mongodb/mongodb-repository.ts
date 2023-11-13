@@ -129,9 +129,10 @@ class MongoDBArticleRepository implements ArticleRepository {
     }));
   }
 
-  async findArticleVersion(identifier: string): Promise<EnhancedArticleWithVersions | null> {
+  async findArticleVersion(identifier: string, previews: boolean = false): Promise<EnhancedArticleWithVersions | null> {
+    const previewFilter = previews ? {} : { published: { $lte: new Date() } };
     const version = await this.versionedCollection.findOne(
-      { $or: [{ _id: identifier }, { msid: identifier }] },
+      { $or: [{ _id: identifier }, { msid: identifier }], ...previewFilter },
       {
         sort: { preprintPosted: -1 },
         projection: {
@@ -145,7 +146,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     }
 
     const allVersions = await this.versionedCollection.find<VersionSummary>(
-      { msid: version.msid },
+      { msid: version.msid, ...previewFilter },
       {
         projection: {
           article: 0,
