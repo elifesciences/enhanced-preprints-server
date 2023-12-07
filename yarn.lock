@@ -4317,10 +4317,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.18.67":
-  version: 16.18.67
-  resolution: "@types/node@npm:16.18.67"
-  checksum: 36a763d1fe4d36ac75a28d1925f7e92808724f41b5a6d336c604554952a95a1eb8005fb4d57ad1ce2ba5c081f54b1ea2824ad8f0ede193d01b60b96ce807179c
+"@types/node@npm:16.18.68":
+  version: 16.18.68
+  resolution: "@types/node@npm:16.18.68"
+  checksum: 094ae9ed80eed2af4bd34d551467e307f2ecb6efb0f8b872feebfb9da5ea4b446c5883c9abe2349f8ea2b78bdacd8726a946c27c2a246676c4c330e41ccb9284
   languageName: node
   linkType: hard
 
@@ -7556,7 +7556,7 @@ __metadata:
     "@types/eslint": 8.44.8
     "@types/express": 4.17.21
     "@types/jest": 29.5.11
-    "@types/node": 16.18.67
+    "@types/node": 16.18.68
     "@types/supertest": ^2.0.12
     "@typescript-eslint/eslint-plugin": 6.13.2
     "@typescript-eslint/parser": 6.13.2
