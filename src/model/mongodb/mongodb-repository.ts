@@ -163,7 +163,10 @@ class MongoDBArticleRepository implements ArticleRepository {
     }, {});
 
     return {
-      article: version,
+      // Temporary hack to bring in line with current prod.
+      // See: https://github.com/elifesciences/enhanced-preprints-server/blob/276bf4e39607d3cbceb2cb18cadfdd00c2ba695b/src/services/reviews/fetch-reviews.ts#L91-L92
+      // See: https://github.com/elifesciences/enhanced-preprints-issues/issues/939
+      article: version.peerReview ? { ...version, peerReview: { ...version.peerReview, reviews: version.peerReview.reviews.reverse() } } : version,
       versions: indexedVersions,
     };
   }
