@@ -1150,7 +1150,8 @@ describe('server tests', () => {
         .get('/api/preprints-no-content')
         .expect(200)
         .expect((response) => {
-          expect(response.header.get('X-Total-Count')).toBe('1');
+          expect(response.header.has('x-total-count')).toBe(true);
+          expect(response.header['x-total-count']).toBe('1');
           expect(response.body.length).toBe(1);
           expect(response.body[0]).toEqual({
             id: 'testid4',
