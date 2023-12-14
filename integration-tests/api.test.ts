@@ -1128,6 +1128,28 @@ describe('server tests', () => {
         },
         published: null,
       };
+      const exampleVersion3 = {
+        ...enhancedArticle,
+        id: 'testid6',
+        versionIdentifier: '1',
+        msid: 'article.3',
+        published: '2023-01-24T00:00:00.000Z',
+      };
+      const exampleVersion4 = {
+        ...enhancedArticle,
+        id: 'testid7',
+        versionIdentifier: '1',
+        msid: 'article.4',
+        published: `${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}T00:00:00.000Z`,
+      };
+      const exampleVersion5 = {
+        ...enhancedArticle,
+        id: 'testid8',
+        versionIdentifier: '1',
+        msid: 'article.5',
+        published: '2023-01-22T00:00:00.000Z',
+        subjects: ['subject 3'],
+      };
 
       await request(app)
         .post('/preprints')
@@ -1145,14 +1167,68 @@ describe('server tests', () => {
           result: true,
           message: 'OK',
         });
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion3)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((200), {
+          result: true,
+          message: 'OK',
+        });
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion4)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((200), {
+          result: true,
+          message: 'OK',
+        });
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion5)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((200), {
+          result: true,
+          message: 'OK',
+        });
 
       await request(app)
         .get('/api/preprints-no-content')
         .expect(200)
         .expect((response) => {
-          expect(response.header['x-total-count']).toBe('1');
-          expect(response.body.length).toBe(1);
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(3);
           expect(response.body[0]).toEqual({
+            id: 'testid6',
+            msid: 'article.3',
+            doi: 'doi1',
+            volume: '1',
+            eLocationId: 'RPtestid3',
+            versionIdentifier: '1',
+            versionDoi: 'publisher/testid1',
+            article: {
+              title: 'test article',
+              authors: [
+                {
+                  familyNames: ['Daffy'],
+                  givenNames: ['Duck'],
+                  affiliations: [{ name: 'ACME Labs' }],
+                  emails: ['daffy.duck@acme.org'],
+                },
+              ],
+              licenses: [],
+              references: [],
+            },
+            preprintDoi: 'preprint/testid1',
+            preprintUrl: 'doi.org/preprint/testid1',
+            preprintPosted: '2023-01-02T00:00:00.000Z',
+            sentForReview: '2023-01-03T00:00:00.000Z',
+            published: '2023-01-24T00:00:00.000Z',
+            publishedYear: 2023,
+            subjects: ['subject 1', 'subject 2'],
+            license: 'https://creativecommons.org/licenses/by/4.0/',
+          });
+          expect(response.body[1]).toEqual({
             id: 'testid4',
             msid: 'article.2',
             doi: 'doi1',
@@ -1182,6 +1258,90 @@ describe('server tests', () => {
             subjects: ['subject 1', 'subject 2'],
             license: 'https://creativecommons.org/licenses/by/4.0/',
           });
+          expect(response.body[2]).toEqual({
+            id: 'testid8',
+            msid: 'article.5',
+            doi: 'doi1',
+            volume: '1',
+            eLocationId: 'RPtestid3',
+            versionIdentifier: '1',
+            versionDoi: 'publisher/testid1',
+            article: {
+              title: 'test article',
+              authors: [
+                {
+                  familyNames: ['Daffy'],
+                  givenNames: ['Duck'],
+                  affiliations: [{ name: 'ACME Labs' }],
+                  emails: ['daffy.duck@acme.org'],
+                },
+              ],
+              licenses: [],
+              references: [],
+            },
+            preprintDoi: 'preprint/testid1',
+            preprintUrl: 'doi.org/preprint/testid1',
+            preprintPosted: '2023-01-02T00:00:00.000Z',
+            sentForReview: '2023-01-03T00:00:00.000Z',
+            published: '2023-01-22T00:00:00.000Z',
+            publishedYear: 2023,
+            subjects: ['subject 3'],
+            license: 'https://creativecommons.org/licenses/by/4.0/',
+          });
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content?per-page=1&page=1')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(1);
+          expect(response.body[0].id).toBe('testid6');
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content?per-page=1&page=2')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(1);
+          expect(response.body[0].id).toBe('testid4');
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content?per-page=1&page=3')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(1);
+          expect(response.body[0].id).toBe('testid8');
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content?per-page=2&page=1&order=asc')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(2);
+          expect(response.body[0].id).toBe('testid8');
+          expect(response.body[1].id).toBe('testid4');
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content?per-page=2&page=2&order=asc')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(1);
+          expect(response.body[0].id).toBe('testid6');
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content?per-page=2&page=3&order=asc')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(0);
         });
     });
   });
