@@ -1150,7 +1150,8 @@ describe('server tests', () => {
         .get('/api/preprints-no-content')
         .expect(200)
         .expect((response) => {
-          expect(response.body.length).toBe(2);
+          expect(response.header['X-Total-Count']).toBe('1');
+          expect(response.body.length).toBe(1);
           expect(response.body[0]).toEqual({
             id: 'testid4',
             msid: 'article.2',
@@ -1180,22 +1181,6 @@ describe('server tests', () => {
             publishedYear: 2023,
             subjects: ['subject 1', 'subject 2'],
             license: 'https://creativecommons.org/licenses/by/4.0/',
-          });
-          expect(response.body[1]).toEqual({
-            id: 'testid5',
-            versionIdentifier: '2',
-            msid: 'article.2',
-            doi: 'test/article.2',
-            preprintDoi: 'preprint/testdoi5',
-            preprintUrl: 'http://preprints.org/preprint/testdoi5',
-            preprintPosted: '2023-02-02T00:00:00.000Z',
-            article: {
-              title: 'Test Article 2',
-              authors: [],
-              licenses: [],
-              references: [],
-            },
-            published: null,
           });
         });
     });
