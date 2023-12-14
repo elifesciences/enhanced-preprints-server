@@ -12,6 +12,7 @@ import {
   EnhancedArticleWithVersions,
   VersionSummary,
   EnhancedArticleNoContent,
+  EnhancedArticleNoContentTotal,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -207,7 +208,7 @@ class MongoDBArticleRepository implements ArticleRepository {
           _id: 0,
         },
       },
-      ...(page !== null && perPage !== null) ? [
+      ...(typeof page === 'number' && typeof perPage === 'number') ? [
         {
           $skip: (page - 1) * perPage,
         },
@@ -218,6 +219,34 @@ class MongoDBArticleRepository implements ArticleRepository {
     ]).toArray();
 
     return allVersions;
+  }
+
+  async getEnhancedArticlesNoContentTotal(): Promise<number> {
+    const count = await this.versionedCollection.aggregate<EnhancedArticleNoContentTotal>([
+      {
+        $match: {
+          $and: [
+            { published: { $ne: null } },
+            { published: { $lte: new Date() } },
+          ],
+        },
+      },
+      {
+        $sort: { published: -1 },
+      },
+      {
+        $group: {
+          _id: '$msid',
+          mostRecentDocument: { $first: '$$ROOT' },
+          publishedDate: { $max: '$published' },
+        },
+      },
+      {
+        $count: 'total',
+      },
+    ]).next();
+
+    return count?.total || 0;
   }
 
   async deleteArticleVersion(identifier: string): Promise<boolean> {

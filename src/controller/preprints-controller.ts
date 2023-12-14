@@ -92,6 +92,10 @@ export const preprintsController = (repo: ArticleRepository) => {
       const perPage = parseInt(req.query['per-page'] as string, 10) || null;
 
       const articles = await repo.getEnhancedArticlesNoContent(page, perPage, order);
+      const total = await repo.getEnhancedArticlesNoContentTotal();
+
+      res.set('X-Total-Count', total.toString());
+
       res.send(articles);
     } catch (err) {
       next(err);
