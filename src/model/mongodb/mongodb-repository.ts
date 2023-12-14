@@ -12,6 +12,7 @@ import {
   EnhancedArticleWithVersions,
   VersionSummary,
   EnhancedArticleNoContent,
+  EnhancedArticleNoContentTotal,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -171,24 +172,81 @@ class MongoDBArticleRepository implements ArticleRepository {
     };
   }
 
-  async getEnhancedArticlesNoContent(): Promise<EnhancedArticleNoContent[]> {
-    const allVersions = await this.versionedCollection.find<EnhancedArticleNoContent>(
-      {},
+  async getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc'): Promise<EnhancedArticleNoContent[]> {
+    const allVersions = await this.versionedCollection.aggregate<EnhancedArticleNoContent>([
       {
-        projection: {
-          article: {
-            content: 0,
-            abstract: 0,
-            doi: 0,
-            date: 0,
-          },
+        $match: {
+          $and: [
+            { published: { $ne: null } },
+            { published: { $lte: new Date() } },
+          ],
+        },
+      },
+      {
+        $sort: { published: -1 },
+      },
+      {
+        $group: {
+          _id: '$msid',
+          mostRecentDocument: { $first: '$$ROOT' },
+          publishedDate: { $max: '$published' },
+        },
+      },
+      {
+        $sort: { publishedDate: (order === 'asc') ? 1 : -1 },
+      },
+      {
+        $replaceRoot: { newRoot: '$mostRecentDocument' },
+      },
+      {
+        $project: {
+          'article.content': 0,
+          'article.abstract': 0,
+          'article.doi': 0,
+          'article.date': 0,
           peerReview: 0,
           _id: 0,
         },
       },
-    ).toArray();
+      ...(typeof page === 'number' && typeof perPage === 'number') ? [
+        {
+          $skip: (page - 1) * perPage,
+        },
+        {
+          $limit: perPage,
+        },
+      ] : [],
+    ]).toArray();
 
     return allVersions;
+  }
+
+  async getEnhancedArticlesNoContentTotal(): Promise<number> {
+    const count = await this.versionedCollection.aggregate<EnhancedArticleNoContentTotal>([
+      {
+        $match: {
+          $and: [
+            { published: { $ne: null } },
+            { published: { $lte: new Date() } },
+          ],
+        },
+      },
+      {
+        $sort: { published: -1 },
+      },
+      {
+        $group: {
+          _id: '$msid',
+          mostRecentDocument: { $first: '$$ROOT' },
+          publishedDate: { $max: '$published' },
+        },
+      },
+      {
+        $count: 'total',
+      },
+    ]).next();
+
+    return count?.total || 0;
   }
 
   async deleteArticleVersion(identifier: string): Promise<boolean> {

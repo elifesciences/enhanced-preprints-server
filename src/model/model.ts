@@ -141,6 +141,10 @@ export type EnhancedArticleNoContent = VersionSummary & {
   article: Omit<ProcessedArticle, 'doi' | 'date' | 'content' | 'abstract'>,
 };
 
+export type EnhancedArticleNoContentTotal = {
+  total: number,
+};
+
 export type EnhancedArticleWithVersions = {
   article: EnhancedArticle,
   versions: Record<string, VersionSummary>,
@@ -153,6 +157,7 @@ export interface ArticleRepository {
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   findArticleVersion(identifier: string, previews?: boolean): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
-  getEnhancedArticlesNoContent(): Promise<EnhancedArticleNoContent[]>;
+  getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc'): Promise<EnhancedArticleNoContent[]>;
+  getEnhancedArticlesNoContentTotal(): Promise<number>;
   deleteArticleVersion(identifier: string): Promise<boolean>;
 }
