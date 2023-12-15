@@ -190,6 +190,12 @@ class MongoDBArticleRepository implements ArticleRepository {
           _id: '$msid',
           mostRecentDocument: { $first: '$$ROOT' },
           publishedDate: { $max: '$published' },
+          firstPublished: { $min: '$published' },
+        },
+      },
+      {
+        $addFields: {
+          'mostRecentDocument.firstPublished': '$firstPublished',
         },
       },
       {
