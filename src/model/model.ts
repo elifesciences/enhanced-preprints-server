@@ -139,6 +139,7 @@ export type VersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
 
 export type EnhancedArticleNoContent = VersionSummary & {
   article: Omit<ProcessedArticle, 'doi' | 'date' | 'content' | 'abstract'>,
+  firstPublished: Date,
 };
 
 export type EnhancedArticleNoContentTotal = {

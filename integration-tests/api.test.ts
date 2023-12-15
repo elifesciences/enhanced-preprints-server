@@ -1101,7 +1101,7 @@ describe('server tests', () => {
       license: 'https://creativecommons.org/licenses/by/4.0/',
     };
 
-    it('fetches a list of versions without content', async () => {
+    it.only('fetches a list of versions without content', async () => {
       const app = createApp(articleStore);
 
       const exampleVersion1 = {
@@ -1133,16 +1133,23 @@ describe('server tests', () => {
         id: 'testid6',
         versionIdentifier: '1',
         msid: 'article.3',
-        published: '2023-01-24T00:00:00.000Z',
+        published: '2023-01-23T00:00:00.000Z',
       };
       const exampleVersion4 = {
+        ...enhancedArticle,
+        id: 'testid6.2',
+        versionIdentifier: '2',
+        msid: 'article.3',
+        published: '2023-01-24T00:00:00.000Z',
+      };
+      const exampleVersion5 = {
         ...enhancedArticle,
         id: 'testid7',
         versionIdentifier: '1',
         msid: 'article.4',
         published: `${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}T00:00:00.000Z`,
       };
-      const exampleVersion5 = {
+      const exampleVersion6 = {
         ...enhancedArticle,
         id: 'testid8',
         versionIdentifier: '1',
@@ -1191,6 +1198,14 @@ describe('server tests', () => {
           result: true,
           message: 'OK',
         });
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion6)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((200), {
+          result: true,
+          message: 'OK',
+        });
 
       await request(app)
         .get('/api/preprints-no-content')
@@ -1199,12 +1214,12 @@ describe('server tests', () => {
           expect(response.header['x-total-count']).toBe('3');
           expect(response.body.length).toBe(3);
           expect(response.body[0]).toEqual({
-            id: 'testid6',
+            id: 'testid6.2',
             msid: 'article.3',
             doi: 'doi1',
             volume: '1',
             eLocationId: 'RPtestid3',
-            versionIdentifier: '1',
+            versionIdentifier: '2',
             versionDoi: 'publisher/testid1',
             article: {
               title: 'test article',
@@ -1227,6 +1242,7 @@ describe('server tests', () => {
             publishedYear: 2023,
             subjects: ['subject 1', 'subject 2'],
             license: 'https://creativecommons.org/licenses/by/4.0/',
+            firstPublished: '2023-01-23T00:00:00.000Z',
           });
           expect(response.body[1]).toEqual({
             id: 'testid4',
@@ -1257,6 +1273,7 @@ describe('server tests', () => {
             publishedYear: 2023,
             subjects: ['subject 1', 'subject 2'],
             license: 'https://creativecommons.org/licenses/by/4.0/',
+            firstPublished: '2023-01-23T00:00:00.000Z',
           });
           expect(response.body[2]).toEqual({
             id: 'testid8',
@@ -1287,6 +1304,7 @@ describe('server tests', () => {
             publishedYear: 2023,
             subjects: ['subject 3'],
             license: 'https://creativecommons.org/licenses/by/4.0/',
+            firstPublished: '2023-01-22T00:00:00.000Z',
           });
         });
 
@@ -1296,7 +1314,7 @@ describe('server tests', () => {
         .expect((response) => {
           expect(response.header['x-total-count']).toBe('3');
           expect(response.body.length).toBe(1);
-          expect(response.body[0].id).toBe('testid6');
+          expect(response.body[0].id).toBe('testid6.2');
         });
 
       await request(app)
@@ -1333,7 +1351,7 @@ describe('server tests', () => {
         .expect((response) => {
           expect(response.header['x-total-count']).toBe('3');
           expect(response.body.length).toBe(1);
-          expect(response.body[0].id).toBe('testid6');
+          expect(response.body[0].id).toBe('testid6.2');
         });
 
       await request(app)
