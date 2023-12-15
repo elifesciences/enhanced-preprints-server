@@ -1101,7 +1101,7 @@ describe('server tests', () => {
       license: 'https://creativecommons.org/licenses/by/4.0/',
     };
 
-    it.only('fetches a list of versions without content', async () => {
+    it('fetches a list of versions without content', async () => {
       const app = createApp(articleStore);
 
       const exampleVersion1 = {
