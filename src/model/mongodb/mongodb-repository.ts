@@ -125,7 +125,7 @@ class MongoDBArticleRepository implements ArticleRepository {
       // eslint-disable-next-line no-underscore-dangle
       id: doc._id,
       doi: doc.doi,
-      date: new Date(doc.published),
+      date: doc.published ? new Date(doc.published) : null,
       title: doc.article.title,
     }));
   }
