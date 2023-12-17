@@ -183,6 +183,16 @@ class MongoDBArticleRepository implements ArticleRepository {
         },
       },
       {
+        $project: {
+          'article.content': 0,
+          'article.abstract': 0,
+          'article.doi': 0,
+          'article.date': 0,
+          peerReview: 0,
+          _id: 0,
+        },
+      },
+      {
         $sort: { published: -1 },
       },
       {
@@ -203,16 +213,6 @@ class MongoDBArticleRepository implements ArticleRepository {
       },
       {
         $replaceRoot: { newRoot: '$mostRecentDocument' },
-      },
-      {
-        $project: {
-          'article.content': 0,
-          'article.abstract': 0,
-          'article.doi': 0,
-          'article.date': 0,
-          peerReview: 0,
-          _id: 0,
-        },
       },
       ...(typeof page === 'number' && typeof perPage === 'number') ? [
         {
