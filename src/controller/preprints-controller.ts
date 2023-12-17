@@ -91,7 +91,21 @@ export const preprintsController = (repo: ArticleRepository) => {
       const page = parseInt(req.query.page as string, 10) || null;
       const perPage = parseInt(req.query['per-page'] as string, 10) || null;
 
-      const articles = await repo.getEnhancedArticlesNoContent(page, perPage, order);
+      const articles = await Promise.all((await repo.getEnhancedArticlesNoContent(page, perPage, order)).map(async (version) => {
+        const { msid, versionIdentifier } = version;
+        const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
+        try {
+          const { status } = await axios.get(pdfUrl);
+          if (status === 200) {
+            // eslint-disable-next-line no-param-reassign
+            version.pdfUrl = pdfUrl;
+          }
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.log('no PDF found or fetch failed');
+        }
+        return version;
+      }));
       const total = await repo.getEnhancedArticlesNoContentTotal();
 
       res.set('X-Total-Count', total.toString());
