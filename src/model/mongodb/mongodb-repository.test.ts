@@ -525,12 +525,14 @@ describe('article-stores', () => {
     expect(articles).toMatchObject([
       {
         id: 'testid3.1',
+        msid: 'testid3',
         doi: 'journal/testid3.1',
         title: 'Test Article 9',
         date: new Date('2008-10-01'),
       },
       {
         id: 'testid3.2',
+        msid: 'testid3',
         doi: 'journal/testid3.2',
         title: 'Test Article 9',
         date: new Date('2008-10-02'),

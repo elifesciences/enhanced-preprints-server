@@ -80,10 +80,12 @@ export type ProcessedArticle = {
 
 export type ArticleSummary = {
   id: string,
-  doi: Doi
+  doi: Doi,
+  msid: string,
   title: ArticleTitle,
   date: Date | null,
 };
+export type ArticleSummaryWithoutMSID = Omit<ArticleSummary, 'msid'>;
 
 export type ReviewText = string;
 export enum ReviewType {
@@ -154,7 +156,7 @@ export type EnhancedArticleWithVersions = {
 export interface ArticleRepository {
   storeArticle(article: ProcessedArticle, id: string): Promise<boolean>;
   getArticle(id: string): Promise<ProcessedArticle>;
-  getArticleSummaries(): Promise<ArticleSummary[]>;
+  getArticleSummaries(): Promise<ArticleSummaryWithoutMSID[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   findArticleVersion(identifier: string, previews?: boolean): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
