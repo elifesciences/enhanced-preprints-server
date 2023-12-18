@@ -13,6 +13,7 @@ import {
   VersionSummary,
   EnhancedArticleNoContent,
   EnhancedArticleNoContentTotal,
+  ArticleSummaryWithoutMSID,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -81,14 +82,14 @@ class MongoDBArticleRepository implements ArticleRepository {
     };
   }
 
-  async getArticleSummaries(): Promise<ArticleSummary[]> {
+  async getArticleSummaries(): Promise<ArticleSummaryWithoutMSID[]> {
     const results = await this.collection.find({}).project({
       doi: 1,
       date: 1,
       title: 1,
     });
 
-    return (await results.toArray()).map<ArticleSummary>((doc) => ({
+    return (await results.toArray()).map<ArticleSummaryWithoutMSID>((doc) => ({
       // eslint-disable-next-line no-underscore-dangle
       id: doc._id,
       doi: doc.doi,
@@ -115,6 +116,7 @@ class MongoDBArticleRepository implements ArticleRepository {
   async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
     const results = await this.versionedCollection.find({}).project({
       doi: 1,
+      msid: 1,
       published: 1,
       article: {
         title: 1,
@@ -125,6 +127,7 @@ class MongoDBArticleRepository implements ArticleRepository {
       // eslint-disable-next-line no-underscore-dangle
       id: doc._id,
       doi: doc.doi,
+      msid: doc.msid,
       date: doc.published ? new Date(doc.published) : null,
       title: doc.article.title,
     }));
