@@ -186,6 +186,16 @@ class MongoDBArticleRepository implements ArticleRepository {
         },
       },
       {
+        $project: {
+          'article.content': 0,
+          'article.abstract': 0,
+          'article.doi': 0,
+          'article.date': 0,
+          peerReview: 0,
+          _id: 0,
+        },
+      },
+      {
         $sort: { published: -1 },
       },
       {
@@ -206,16 +216,6 @@ class MongoDBArticleRepository implements ArticleRepository {
       },
       {
         $replaceRoot: { newRoot: '$mostRecentDocument' },
-      },
-      {
-        $project: {
-          'article.content': 0,
-          'article.abstract': 0,
-          'article.doi': 0,
-          'article.date': 0,
-          peerReview: 0,
-          _id: 0,
-        },
       },
       ...(typeof page === 'number' && typeof perPage === 'number') ? [
         {
@@ -267,8 +267,9 @@ class MongoDBArticleRepository implements ArticleRepository {
 export const createMongoDBArticleRepositoryFromMongoClient = async (client: MongoClient) => {
   const collection = client.db('epp').collection<StoredArticle>('articles');
   const versionedCollection = client.db('epp').collection<StoredEnhancedArticle>('versioned_articles');
-  const result = await versionedCollection.createIndex({ msid: -1 });
-  logger.info(`created index: ${result}`);
+  const result1 = await versionedCollection.createIndex({ msid: -1 });
+  const result2 = await versionedCollection.createIndex({ published: -1 });
+  logger.info(`created index: ${result1} and ${result2}`);
 
   return new MongoDBArticleRepository(collection, versionedCollection);
 };
