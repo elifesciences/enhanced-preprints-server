@@ -7,14 +7,16 @@ import { logger } from '../utils/logger';
 export const preprintsController = (repo: ArticleRepository) => {
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { value, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false, allowUnknown: true });
+      const { value, warning, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false, allowUnknown: true });
       if (error) {
         res.status(400).send({
           result: false,
-          message: `body sent failed validation: (${error.name}): ${error.message}`,
+          message: 'validation failed',
+          error,
+          warning,
         });
 
-        logger.error('validation failed for preprint', error);
+        logger.error('validation failed for preprint', { error, warning });
         return;
       }
       const result = await repo.storeEnhancedArticle(value);
@@ -25,9 +27,14 @@ export const preprintsController = (repo: ArticleRepository) => {
         });
         return;
       }
+
+      if (warning) {
+        logger.warn('validation had warnings for preprint', warning);
+      }
       res.status(200).send({
         result: true,
         message: 'OK',
+        warning,
       });
     } catch (err) {
       next(err);
