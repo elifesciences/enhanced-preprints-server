@@ -86,7 +86,7 @@ type ClaimContent = DecoratedContent & {
 };
 
 type OtherContent = {
-  type: 'CodeBlock' | 'MathFragment' | 'MediaObject' | 'Table' | 'ThematicBreak'
+  type: 'CodeBlock' | 'MathFragment' | 'MediaObject' | 'QuoteBlock' | 'Table' | 'ThematicBreak' | 'Note'
 };
 
 type ContentPart =
