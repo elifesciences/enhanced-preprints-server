@@ -99,7 +99,7 @@ const ImageObjectContent = Joi.object({
 
 // These are not imported yet
 const OtherContent = Joi.object({
-  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'QuoteBlock', 'Table', 'ThematicBreak'),
+  type: Joi.string().valid('CodeBlock', 'MathFragment', 'MediaObject', 'QuoteBlock', 'Table', 'ThematicBreak', 'Note'),
 });
 // end block
 

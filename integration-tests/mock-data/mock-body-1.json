@@ -8056,6 +8056,35 @@
             }
           }
         ]
+      },
+      {
+        "type": "Paragraph",
+        "content": [
+          {
+            "type": "Note",
+            "id": "fn1",
+            "noteType": "Footnote",
+            "content": [
+              {
+                "type": "Paragraph",
+                "content": [
+                  {
+                    "type": "Superscript",
+                    "content": [
+                      "1"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "Paragraph",
+                "content": [
+                  "We avoid the term ‘place cell’ here because (1) that term has a technical meaning in the rodent hippocampus, whereas the arguments here extend to species that don’t have a hippocampus; (2) all the cells in this network have a place field, but it is smallest for the point cells."
+                ]
+              }
+            ]
+          }
+        ]
       }
     ],
     "references": [
