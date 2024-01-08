@@ -208,6 +208,14 @@ class MongoDBArticleRepository implements ArticleRepository {
           firstPublished: { $min: '$published' },
         },
       },
+      ...(typeof page === 'number' && typeof perPage === 'number') ? [
+        {
+          $skip: (page - 1) * perPage,
+        },
+        {
+          $limit: perPage,
+        },
+      ] : [],
       {
         $addFields: {
           'mostRecentDocument.firstPublished': '$firstPublished',
