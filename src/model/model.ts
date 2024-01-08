@@ -140,7 +140,7 @@ export type EnhancedArticle = {
 export type VersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
 
 export type EnhancedArticleNoContent = VersionSummary & {
-  article: Omit<ProcessedArticle, 'doi' | 'date' | 'content' | 'abstract'>,
+  article: Omit<ProcessedArticle, 'doi' | 'date' | 'content' | 'abstract' | 'licenses' | 'references'>,
   firstPublished: Date,
 };
 

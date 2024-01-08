@@ -191,6 +191,8 @@ class MongoDBArticleRepository implements ArticleRepository {
           'article.abstract': 0,
           'article.doi': 0,
           'article.date': 0,
+          'article.licenses': 0,
+          'article.references': 0,
           peerReview: 0,
           _id: 0,
         },
@@ -207,15 +209,7 @@ class MongoDBArticleRepository implements ArticleRepository {
         },
       },
       {
-        $addFields: {
-          'mostRecentDocument.firstPublished': '$firstPublished',
-        },
-      },
-      {
         $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
-      },
-      {
-        $replaceRoot: { newRoot: '$mostRecentDocument' },
       },
       ...(typeof page === 'number' && typeof perPage === 'number') ? [
         {
@@ -225,6 +219,14 @@ class MongoDBArticleRepository implements ArticleRepository {
           $limit: perPage,
         },
       ] : [],
+      {
+        $addFields: {
+          'mostRecentDocument.firstPublished': '$firstPublished',
+        },
+      },
+      {
+        $replaceRoot: { newRoot: '$mostRecentDocument' },
+      },
     ]).toArray();
 
     return allVersions;
