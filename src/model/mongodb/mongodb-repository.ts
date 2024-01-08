@@ -208,6 +208,9 @@ class MongoDBArticleRepository implements ArticleRepository {
           firstPublished: { $min: '$published' },
         },
       },
+      {
+        $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
+      },
       ...(typeof page === 'number' && typeof perPage === 'number') ? [
         {
           $skip: (page - 1) * perPage,
