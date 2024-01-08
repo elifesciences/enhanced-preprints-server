@@ -225,9 +225,6 @@ class MongoDBArticleRepository implements ArticleRepository {
         },
       },
       {
-        $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
-      },
-      {
         $replaceRoot: { newRoot: '$mostRecentDocument' },
       },
     ]).toArray();
