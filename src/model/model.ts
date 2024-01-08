@@ -144,13 +144,14 @@ export type EnhancedArticleNoContent = VersionSummary & {
   firstPublished: Date,
 };
 
-export type EnhancedArticleNoContentTotal = {
-  total: number,
-};
-
 export type EnhancedArticleWithVersions = {
   article: EnhancedArticle,
   versions: Record<string, VersionSummary>,
+};
+
+export type EnhancedArticlesNoContentWithTotal = {
+  totalCount: number,
+  articles: EnhancedArticleNoContent[],
 };
 
 export interface ArticleRepository {
@@ -160,7 +161,6 @@ export interface ArticleRepository {
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   findArticleVersion(identifier: string, previews?: boolean): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
-  getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc'): Promise<EnhancedArticleNoContent[]>;
-  getEnhancedArticlesNoContentTotal(): Promise<number>;
+  getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc'): Promise<EnhancedArticlesNoContentWithTotal>;
   deleteArticleVersion(identifier: string): Promise<boolean>;
 }

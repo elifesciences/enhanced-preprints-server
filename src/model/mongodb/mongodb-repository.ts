@@ -12,8 +12,8 @@ import {
   EnhancedArticleWithVersions,
   VersionSummary,
   EnhancedArticleNoContent,
-  EnhancedArticleNoContentTotal,
   ArticleSummaryWithoutMSID,
+  EnhancedArticlesNoContentWithTotal,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -175,8 +175,8 @@ class MongoDBArticleRepository implements ArticleRepository {
     };
   }
 
-  async getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc'): Promise<EnhancedArticleNoContent[]> {
-    const allVersions = await this.versionedCollection.aggregate<EnhancedArticleNoContent>([
+  async getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc'): Promise<EnhancedArticlesNoContentWithTotal> {
+    const allVersions = await this.versionedCollection.aggregate<{ totalCount: { _id: null, totalCount: number }[], articles: [EnhancedArticleNoContent] }>([
       {
         $match: {
           $and: [
@@ -184,6 +184,9 @@ class MongoDBArticleRepository implements ArticleRepository {
             { published: { $lte: new Date() } },
           ],
         },
+      },
+      {
+        $sort: { published: -1 },
       },
       {
         $project: {
@@ -198,9 +201,6 @@ class MongoDBArticleRepository implements ArticleRepository {
         },
       },
       {
-        $sort: { published: -1 },
-      },
-      {
         $group: {
           _id: '$msid',
           mostRecentDocument: { $first: '$$ROOT' },
@@ -209,58 +209,47 @@ class MongoDBArticleRepository implements ArticleRepository {
         },
       },
       {
-        $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
-      },
-      ...(typeof page === 'number' && typeof perPage === 'number') ? [
-        {
-          $skip: (page - 1) * perPage,
-        },
-        {
-          $limit: perPage,
-        },
-      ] : [],
-      {
-        $addFields: {
-          'mostRecentDocument.firstPublished': '$firstPublished',
-        },
-      },
-      {
-        $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
-      },
-      {
-        $replaceRoot: { newRoot: '$mostRecentDocument' },
-      },
-    ]).toArray();
-
-    return allVersions;
-  }
-
-  async getEnhancedArticlesNoContentTotal(): Promise<number> {
-    const count = await this.versionedCollection.aggregate<EnhancedArticleNoContentTotal>([
-      {
-        $match: {
-          $and: [
-            { published: { $ne: null } },
-            { published: { $lte: new Date() } },
+        $facet: {
+          totalCount: [
+            {
+              $group: {
+                _id: null,
+                totalCount: { $sum: 1 },
+              },
+            },
+          ],
+          articles: [
+            {
+              $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
+            },
+            ...(typeof page === 'number' && typeof perPage === 'number') ? [
+              {
+                $skip: (page - 1) * perPage,
+              },
+              {
+                $limit: perPage,
+              },
+            ] : [],
+            {
+              $addFields: {
+                'mostRecentDocument.firstPublished': '$firstPublished',
+              },
+            },
+            {
+              $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
+            },
+            {
+              $replaceRoot: { newRoot: '$mostRecentDocument' },
+            },
           ],
         },
       },
-      {
-        $sort: { published: -1 },
-      },
-      {
-        $group: {
-          _id: '$msid',
-          mostRecentDocument: { $first: '$$ROOT' },
-          publishedDate: { $max: '$published' },
-        },
-      },
-      {
-        $count: 'total',
-      },
-    ]).next();
+    ]).toArray();
 
-    return count?.total || 0;
+    return {
+      totalCount: allVersions[0].totalCount[0].totalCount,
+      articles: allVersions[0].articles,
+    };
   }
 
   async deleteArticleVersion(identifier: string): Promise<boolean> {
