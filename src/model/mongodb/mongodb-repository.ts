@@ -191,6 +191,8 @@ class MongoDBArticleRepository implements ArticleRepository {
           'article.abstract': 0,
           'article.doi': 0,
           'article.date': 0,
+          'article.licenses': 0,
+          'article.references': 0,
           peerReview: 0,
           _id: 0,
         },
