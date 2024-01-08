@@ -227,14 +227,6 @@ class MongoDBArticleRepository implements ArticleRepository {
       {
         $replaceRoot: { newRoot: '$mostRecentDocument' },
       },
-      ...(typeof page === 'number' && typeof perPage === 'number') ? [
-        {
-          $skip: (page - 1) * perPage,
-        },
-        {
-          $limit: perPage,
-        },
-      ] : [],
     ]).toArray();
 
     return allVersions;
