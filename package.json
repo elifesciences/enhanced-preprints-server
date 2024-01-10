@@ -49,8 +49,8 @@
     "start:dev": "nodemon src/server.ts",
     "test": "jest",
     "test:integration": "jest -c jest.config.integration.ts",
-    "lint": "eslint --ext .ts src/ integration-tests/ test-utils/",
-    "lint:fix": "eslint --fix --ext .ts src/ integration-tests/ test-utils/"
+    "lint": "eslint --ext .ts src/ integration-tests/",
+    "lint:fix": "eslint --fix --ext .ts src/ integration-tests/"
   },
   "packageManager": "yarn@3.7.0"
 }

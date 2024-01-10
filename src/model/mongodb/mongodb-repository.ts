@@ -6,13 +6,11 @@ import {
   ArticleTitle,
   Author,
   License,
-  ProcessedArticle,
   Reference,
   EnhancedArticle,
   EnhancedArticleWithVersions,
   VersionSummary,
   EnhancedArticleNoContent,
-  ArticleSummaryWithoutMSID,
   EnhancedArticlesNoContentWithTotal,
 } from '../model';
 import { Content } from '../content';
