@@ -155,6 +155,9 @@ export type EnhancedArticlesNoContentWithTotal = {
 };
 
 export interface ArticleRepository {
+  storeArticle(article: ProcessedArticle, id: string): Promise<boolean>;
+  getArticle(id: string): Promise<ProcessedArticle>;
+  getArticleSummaries(): Promise<ArticleSummaryWithoutMSID[]>;
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   findArticleVersion(identifier: string, previews?: boolean): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;

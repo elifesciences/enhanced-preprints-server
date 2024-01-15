@@ -8,6 +8,9 @@ WORKDIR /opt/epp
 
 FROM base as build
 
+# install packages needed to build node_modules
+RUN apk add git python3 make gcc musl-dev g++
+
 COPY package.json package.json
 COPY yarn.lock yarn.lock
 COPY .yarnrc.yml .yarnrc.yml

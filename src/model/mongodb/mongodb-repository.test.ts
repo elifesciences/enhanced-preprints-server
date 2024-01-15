@@ -86,6 +86,155 @@ describe('article-stores', () => {
     }
   });
 
+  it('stores article', async () => {
+    const stored = await articleStore.storeArticle({
+      doi: 'test/article.1',
+      title: 'Test Article 1',
+      abstract: 'Test article 1 abstract',
+      authors: exampleAuthors,
+      date: new Date('2008-01-01'),
+      content: [],
+      licenses: exampleLicenses,
+      references: [exampleReference],
+    }, 'test/article.1');
+
+    expect(stored).toStrictEqual(true);
+  });
+
+  it('overrides the article if already stored', async () => {
+    const article = {
+      doi: 'test/article.1',
+      title: 'Test Article 1',
+      abstract: 'Test article 1 abstract',
+      authors: exampleAuthors,
+      date: new Date('2008-01-01'),
+      content: '<article></article>',
+      licenses: exampleLicenses,
+      references: [exampleReference],
+    };
+    const stored1 = await articleStore.storeArticle(article, 'test/article.1');
+    const retreived1 = await articleStore.getArticle('test/article.1');
+
+    const stored2 = await articleStore.storeArticle({
+      ...article,
+      content: '<article>content</article>',
+    }, 'test/article.1');
+
+    const retreived2 = await articleStore.getArticle(article.doi);
+
+    expect(stored1).toStrictEqual(true);
+    expect(stored2).toStrictEqual(true);
+
+    expect(retreived1.content).toStrictEqual('<article></article>');
+    expect(retreived2.content).toStrictEqual('<article>content</article>');
+  });
+
+  it('stores article content and retrieves a specific processed article by ID', async () => {
+    const exampleArticle = {
+      doi: 'test/article.2',
+      title: 'Test Article 2',
+      abstract: 'Test article 2 abstract',
+      date: new Date('2008-02-03'),
+      authors: exampleAuthors,
+      content: [],
+      licenses: exampleLicenses,
+      references: [exampleReference],
+    };
+    const result = await articleStore.storeArticle(exampleArticle, 'test/article.2');
+    expect(result).toStrictEqual(true);
+
+    const article = await articleStore.getArticle('test/article.2');
+
+    expect(article).toBeDefined();
+    expect(article.doi).toStrictEqual('test/article.2');
+    expect(article.title).toStrictEqual('Test Article 2');
+    expect(article.abstract).toStrictEqual('Test article 2 abstract');
+    expect(article.date).toStrictEqual(new Date('2008-02-03'));
+    expect(article.authors).toStrictEqual(exampleAuthors);
+    expect(article.licenses).toStrictEqual(exampleLicenses);
+    expect(article.content).toStrictEqual([]);
+  });
+
+  it('stores article content and retrieves a specific processed article by ID, different to DOI', async () => {
+    const exampleArticle = {
+      doi: 'test/article.2',
+      title: 'Test Article 2',
+      abstract: 'Test article 2 abstract',
+      date: new Date('2008-02-03'),
+      authors: exampleAuthors,
+      content: [],
+      licenses: exampleLicenses,
+      references: [exampleReference],
+    };
+    const result = await articleStore.storeArticle(exampleArticle, 'test/article.2/v1');
+    expect(result).toStrictEqual(true);
+
+    const article = await articleStore.getArticle('test/article.2/v1');
+    expect(article).toBeDefined();
+    expect(article.doi).toStrictEqual('test/article.2');
+
+    expect(articleStore.getArticle('test/article.2')).rejects.toThrowError();
+  });
+
+  it('errors when retrieving unknown article', async () => {
+    await expect(articleStore.getArticle('test/article.3')).rejects.toThrowError();
+  });
+
+  it('gets articles summaries', async () => {
+    const exampleArticle1 = {
+      doi: 'test/article.4',
+      title: 'Test Article 4',
+      abstract: 'Test article 4 abstract',
+      date: new Date('2008-04-01'),
+      authors: exampleAuthors,
+      content: '<article></article>',
+      licenses: exampleLicenses,
+      references: [exampleReference],
+    };
+    const exampleArticle2 = {
+      doi: 'test/article.5',
+      title: 'Test Article 5',
+      abstract: 'Test article 5 abstract',
+      date: new Date('2008-05-01'),
+      authors: exampleAuthors,
+      content: '<article></article>',
+      licenses: exampleLicenses,
+      references: [exampleReference],
+    };
+    const exampleArticle3 = {
+      doi: 'test/article.6',
+      title: 'Test Article 6',
+      abstract: 'Test article 6 abstract',
+      date: new Date('2008-06-01'),
+      authors: exampleAuthors,
+      content: '<article></article>',
+      licenses: exampleLicenses,
+      references: [exampleReference],
+    };
+    await articleStore.storeArticle(exampleArticle1, 'test/article.4');
+    await articleStore.storeArticle(exampleArticle2, 'test/article.5');
+    await articleStore.storeArticle(exampleArticle3, 'test/article.6');
+
+    const articleSummaries = await articleStore.getArticleSummaries();
+
+    expect(articleSummaries).toStrictEqual(expect.arrayContaining([{
+      id: 'test/article.4',
+      doi: 'test/article.4',
+      title: 'Test Article 4',
+      date: new Date('2008-04-01'),
+    }, {
+      id: 'test/article.5',
+      doi: 'test/article.5',
+      title: 'Test Article 5',
+      date: new Date('2008-05-01'),
+    }, {
+      id: 'test/article.6',
+      doi: 'test/article.6',
+      title: 'Test Article 6',
+      date: new Date('2008-06-01'),
+    }]));
+  });
+
   it('returns null with unknown identifier', async () => {
     expect(await articleStore.findArticleVersion('not-an-id')).toBeNull();
   });
