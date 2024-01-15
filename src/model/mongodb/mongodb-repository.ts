@@ -6,13 +6,11 @@ import {
   ArticleTitle,
   Author,
   License,
-  ProcessedArticle,
   Reference,
   EnhancedArticle,
   EnhancedArticleWithVersions,
   VersionSummary,
   EnhancedArticleNoContent,
-  ArticleSummaryWithoutMSID,
   EnhancedArticlesNoContentWithTotal,
 } from '../model';
 import { Content } from '../content';
@@ -42,60 +40,6 @@ class MongoDBArticleRepository implements ArticleRepository {
   constructor(collection: Collection<StoredArticle>, versionedCollection: Collection<StoredEnhancedArticle>) {
     this.collection = collection;
     this.versionedCollection = versionedCollection;
-  }
-
-  async storeArticle(article: ProcessedArticle, id: string): Promise<boolean> {
-    const response = await this.collection.updateOne(
-      {
-        _id: id,
-      },
-      {
-        $set: {
-          _id: id,
-          title: article.title,
-          abstract: article.abstract,
-          authors: article.authors,
-          content: article.content,
-          date: article.date,
-          doi: article.doi,
-          licenses: article.licenses,
-          references: article.references,
-        },
-      },
-      {
-        upsert: true,
-      },
-    );
-
-    return response.acknowledged;
-  }
-
-  async getArticle(id: string): Promise<ProcessedArticle> {
-    const article = await this.collection.findOne({ _id: id });
-    if (!article) {
-      throw new Error(`Article with ID "${id}" was not found`);
-    }
-
-    return {
-      ...article,
-      date: new Date(article.date),
-    };
-  }
-
-  async getArticleSummaries(): Promise<ArticleSummaryWithoutMSID[]> {
-    const results = await this.collection.find({}).project({
-      doi: 1,
-      date: 1,
-      title: 1,
-    });
-
-    return (await results.toArray()).map<ArticleSummaryWithoutMSID>((doc) => ({
-      // eslint-disable-next-line no-underscore-dangle
-      id: doc._id,
-      doi: doc.doi,
-      date: new Date(doc.date),
-      title: doc.title,
-    }));
   }
 
   async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {

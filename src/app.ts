@@ -1,8 +1,5 @@
 import express from 'express';
 import { ArticleRepository } from './model/model';
-import { baseRoutes } from './routes/base-routes';
-import { reviewedPreprintsRoutes } from './routes/reviewed-preprints-routes';
-import { importRoutes } from './routes/import-routes';
 import { preprintsRoutes } from './routes/preprints-routes';
 import { citationsRoutes } from './routes/citations-routes';
 
@@ -24,10 +21,7 @@ export const createApp = (repo: ArticleRepository) => {
   };
   app.use(errorHandler);
 
-  app.use(baseRoutes());
-  app.use(reviewedPreprintsRoutes(repo));
   app.use(preprintsRoutes(repo));
-  app.use(importRoutes(repo));
   app.use(citationsRoutes());
 
   return app;
