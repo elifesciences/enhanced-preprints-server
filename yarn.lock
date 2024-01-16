@@ -3006,15 +3006,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/axios@npm:0.14.0":
-  version: 0.14.0
-  resolution: "@types/axios@npm:0.14.0"
-  dependencies:
-    axios: "*"
-  checksum: 12a230b9404055d81804cb57fe4739b2317111b28a39e2477b2513250e8b85725e6f6ce509fc2a9494a6da60facb8d80df875fcd747f62f6c3abebc7db60ae66
-  languageName: node
-  linkType: hard
-
 "@types/babel__core@npm:^7.1.14":
   version: 7.1.19
   resolution: "@types/babel__core@npm:7.1.19"
@@ -3854,17 +3845,6 @@ __metadata:
     sinon: ^14.0.2
     tslib: ^2.1.0
   checksum: 6298de923260bc824d0c2788196f8839a20da8d64ed82e662913f19417ab872c6cb4c029c5f8f2782da0a4c16e37a8ac077da0bdb19c4e0c82707cf286f7c5d3
-  languageName: node
-  linkType: hard
-
-"axios@npm:*":
-  version: 1.4.0
-  resolution: "axios@npm:1.4.0"
-  dependencies:
-    follow-redirects: ^1.15.0
-    form-data: ^4.0.0
-    proxy-from-env: ^1.1.0
-  checksum: 7fb6a4313bae7f45e89d62c70a800913c303df653f19eafec88e56cea2e3821066b8409bc68be1930ecca80e861c52aa787659df0ffec6ad4d451c7816b9386b
   languageName: node
   linkType: hard
 
@@ -4774,7 +4754,6 @@ __metadata:
     "@aws-sdk/util-stream-node": ^3.292.0
     "@shelf/jest-mongodb": ^4.1.7
     "@tsconfig/node16": 16.1.1
-    "@types/axios": 0.14.0
     "@types/eslint": 8.56.2
     "@types/express": 4.17.21
     "@types/jest": 29.5.11
@@ -5577,7 +5556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.0, follow-redirects@npm:^1.15.3, follow-redirects@npm:^1.15.4":
+"follow-redirects@npm:^1.15.3, follow-redirects@npm:^1.15.4":
   version: 1.15.5
   resolution: "follow-redirects@npm:1.15.5"
   peerDependenciesMeta:
