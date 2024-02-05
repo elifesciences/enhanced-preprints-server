@@ -675,7 +675,7 @@ describe('server tests', () => {
         });
     });
 
-    it('fetches a list of versions without content (with query parameters)', async () => {
+    it('fetches a list of versions without content (with per-page query parameter)', async () => {
       await request(app)
         .get('/api/preprints-no-content?per-page=1&page=1')
         .expect(200)
@@ -702,7 +702,9 @@ describe('server tests', () => {
           expect(response.body.length).toBe(1);
           expect(response.body[0].id).toBe('testid8');
         });
+    });
 
+    it('fetches a list of versions without content (with order query parameter)', async () => {
       await request(app)
         .get('/api/preprints-no-content?per-page=2&page=1&order=asc')
         .expect(200)
@@ -729,7 +731,9 @@ describe('server tests', () => {
           expect(response.header['x-total-count']).toBe('3');
           expect(response.body.length).toBe(0);
         });
+    });
 
+    it('fetches a list of versions without content (with start-date query parameter)', async () => {
       await request(app)
         .get('/api/preprints-no-content?start-date=2023-01-24')
         .expect(200)
