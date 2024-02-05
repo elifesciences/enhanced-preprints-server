@@ -729,10 +729,18 @@ describe('server tests', () => {
         .get('/api/preprints-no-content?start-date=2023-01-24')
         .expect(200)
         .expect((response) => {
-          expect(response.header['x-total-count']).toBe('2');
-          expect(response.body.length).toBe(2);
+          expect(response.header['x-total-count']).toBe('1');
+          expect(response.body.length).toBe(1);
           expect(response.body[0].id).toBe('testid6.2');
-          expect(response.body[1].id).toBe('testid7');
+        });
+
+      await request(app)
+        .get('/api/preprints-no-content?start-date=2023-01-23&order=asc&per-page=1&page=2')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('2');
+          expect(response.body.length).toBe(1);
+          expect(response.body[0].id).toBe('testid6.2');
         });
     });
   });
