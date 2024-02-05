@@ -119,7 +119,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     };
   }
 
-  async getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc', startDate: string | null): Promise<EnhancedArticlesNoContentWithTotal> {
+  async getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc', startDate: string | null, endDate: string | null): Promise<EnhancedArticlesNoContentWithTotal> {
     const allVersions = await this.versionedCollection.aggregate<{ totalCount: { _id: null, totalCount: number }[], articles: [EnhancedArticleNoContent] }>([
       {
         $match: {
@@ -127,6 +127,7 @@ class MongoDBArticleRepository implements ArticleRepository {
             { published: { $ne: null } },
             { published: { $lte: new Date() } },
             ...(startDate ? [{ published: { $gte: new Date(startDate) } }] : []),
+            ...(endDate ? [{ published: { $lte: new Date(endDate) } }] : []),
           ],
         },
       },

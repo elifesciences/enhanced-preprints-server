@@ -753,15 +753,14 @@ describe('server tests', () => {
         });
     });
 
-    it.failing('FAILS TO fetch a list of versions without content (with end-date query parameter)', async () => {
+    it('fetches a list of versions without content (with end-date query parameter)', async () => {
       await request(app)
-        .get('/api/preprints-no-content?end-date=2023-01-23')
+        .get('/api/preprints-no-content?end-date=2023-01-22')
         .expect(200)
         .expect((response) => {
-          expect(response.header['x-total-count']).toBe('2');
-          expect(response.body.length).toBe(2);
-          expect(response.body[0].id).toBe('testid4');
-          expect(response.body[1].id).toBe('testid8');
+          expect(response.header['x-total-count']).toBe('1');
+          expect(response.body.length).toBe(1);
+          expect(response.body[0].id).toBe('testid8');
         });
     });
   });

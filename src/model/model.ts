@@ -158,6 +158,6 @@ export interface ArticleRepository {
   storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
   findArticleVersion(identifier: string, previews?: boolean): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
-  getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc', startDate: string | null): Promise<EnhancedArticlesNoContentWithTotal>;
+  getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc', startDate: string | null, endDate: string | null): Promise<EnhancedArticlesNoContentWithTotal>;
   deleteArticleVersion(identifier: string): Promise<boolean>;
 }
