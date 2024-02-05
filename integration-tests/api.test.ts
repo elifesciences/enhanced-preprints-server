@@ -1,6 +1,7 @@
 import request from 'supertest';
 import axios from 'axios';
 import { MongoClient } from 'mongodb';
+import { Express } from 'express';
 import { createApp } from '../src/app';
 import mockBody1 from './mock-data/mock-body-1.json';
 import mockBody2 from './mock-data/mock-body-2.json';
@@ -437,6 +438,7 @@ describe('server tests', () => {
   });
 
   describe('/api/preprints-no-content', () => {
+    let app: Express;
     const enhancedArticle = {
       id: 'testid3',
       msid: 'testmsid',
@@ -469,63 +471,62 @@ describe('server tests', () => {
       subjects: ['subject 1', 'subject 2'],
       license: 'https://creativecommons.org/licenses/by/4.0/',
     };
+    const exampleVersion1 = {
+      ...enhancedArticle,
+      id: 'testid4',
+      versionIdentifier: '1',
+      msid: 'article.2',
+    };
+    const exampleVersion2 = {
+      id: 'testid5',
+      versionIdentifier: '2',
+      msid: 'article.2',
+      doi: 'test/article.2',
+      preprintDoi: 'preprint/testdoi5',
+      preprintUrl: 'http://preprints.org/preprint/testdoi5',
+      preprintPosted: '2023-02-02T00:00:00.000Z',
+      article: {
+        title: 'Test Article 2',
+        abstract: 'Test article 2 abstract',
+        authors: [],
+        content: '<article></article>',
+        licenses: [],
+        references: [],
+      },
+      published: null,
+    };
+    const exampleVersion3 = {
+      ...enhancedArticle,
+      id: 'testid6',
+      versionIdentifier: '1',
+      msid: 'article.3',
+      published: '2023-01-23T00:00:00.000Z',
+    };
+    const exampleVersion4 = {
+      ...enhancedArticle,
+      id: 'testid6.2',
+      versionIdentifier: '2',
+      msid: 'article.3',
+      published: '2023-01-24T00:00:00.000Z',
+    };
+    const exampleVersion5 = {
+      ...enhancedArticle,
+      id: 'testid7',
+      versionIdentifier: '1',
+      msid: 'article.4',
+      published: `${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}T00:00:00.000Z`,
+    };
+    const exampleVersion6 = {
+      ...enhancedArticle,
+      id: 'testid8',
+      versionIdentifier: '1',
+      msid: 'article.5',
+      published: '2023-01-22T00:00:00.000Z',
+      subjects: ['subject 3'],
+    };
 
-    it('fetches a list of versions without content', async () => {
-      const app = createApp(articleStore);
-
-      const exampleVersion1 = {
-        ...enhancedArticle,
-        id: 'testid4',
-        versionIdentifier: '1',
-        msid: 'article.2',
-      };
-      const exampleVersion2 = {
-        id: 'testid5',
-        versionIdentifier: '2',
-        msid: 'article.2',
-        doi: 'test/article.2',
-        preprintDoi: 'preprint/testdoi5',
-        preprintUrl: 'http://preprints.org/preprint/testdoi5',
-        preprintPosted: '2023-02-02T00:00:00.000Z',
-        article: {
-          title: 'Test Article 2',
-          abstract: 'Test article 2 abstract',
-          authors: [],
-          content: '<article></article>',
-          licenses: [],
-          references: [],
-        },
-        published: null,
-      };
-      const exampleVersion3 = {
-        ...enhancedArticle,
-        id: 'testid6',
-        versionIdentifier: '1',
-        msid: 'article.3',
-        published: '2023-01-23T00:00:00.000Z',
-      };
-      const exampleVersion4 = {
-        ...enhancedArticle,
-        id: 'testid6.2',
-        versionIdentifier: '2',
-        msid: 'article.3',
-        published: '2023-01-24T00:00:00.000Z',
-      };
-      const exampleVersion5 = {
-        ...enhancedArticle,
-        id: 'testid7',
-        versionIdentifier: '1',
-        msid: 'article.4',
-        published: `${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}T00:00:00.000Z`,
-      };
-      const exampleVersion6 = {
-        ...enhancedArticle,
-        id: 'testid8',
-        versionIdentifier: '1',
-        msid: 'article.5',
-        published: '2023-01-22T00:00:00.000Z',
-        subjects: ['subject 3'],
-      };
+    beforeEach(async () => {
+      app = createApp(articleStore);
 
       await request(app)
         .post('/preprints')
@@ -575,7 +576,9 @@ describe('server tests', () => {
           result: true,
           message: 'OK',
         });
+    });
 
+    it('fetches a list of versions without content', async () => {
       await request(app)
         .get('/api/preprints-no-content')
         .expect(200)
