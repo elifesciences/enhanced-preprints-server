@@ -126,8 +126,6 @@ class MongoDBArticleRepository implements ArticleRepository {
           $and: [
             { published: { $ne: null } },
             { published: { $lte: new Date() } },
-            ...(startDate ? [{ published: { $gte: new Date(startDate) } }] : []),
-            ...(endDate ? [{ published: { $lte: new Date(endDate) } }] : []),
           ],
         },
       },
@@ -154,6 +152,16 @@ class MongoDBArticleRepository implements ArticleRepository {
           firstPublished: { $min: '$published' },
         },
       },
+      ...(startDate || endDate) ? [
+        {
+          $match: {
+            $and: [
+              ...(startDate ? [{ publishedDate: { $gte: new Date(startDate) } }] : []),
+              ...(endDate ? [{ publishedDate: { $lte: new Date(endDate) } }] : []),
+            ],
+          },
+        },
+      ] : [],
       {
         $facet: {
           totalCount: [
