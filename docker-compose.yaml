@@ -31,6 +31,12 @@ services:
         condition: service_healthy
     ports:
       - 8081:8081
+    healthcheck:
+      test: wget --quiet --tries=3 --spider http://mongo-express:8081 || exit 1
+      interval: 7s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
 
   # EPP API
   api:
