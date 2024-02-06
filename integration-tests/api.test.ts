@@ -741,6 +741,7 @@ describe('server tests', () => {
           expect(response.header['x-total-count']).toBe('1');
           expect(response.body.length).toBe(1);
           expect(response.body[0].id).toBe('testid6.2');
+          expect(response.body[0].firstPublished).toBe('2023-01-23T00:00:00.000Z');
         });
 
       await request(app)
@@ -755,12 +756,13 @@ describe('server tests', () => {
 
     it('fetches a list of versions without content (with end-date query parameter)', async () => {
       await request(app)
-        .get('/api/preprints-no-content?end-date=2023-01-22')
+        .get('/api/preprints-no-content?end-date=2023-01-23')
         .expect(200)
         .expect((response) => {
-          expect(response.header['x-total-count']).toBe('1');
-          expect(response.body.length).toBe(1);
-          expect(response.body[0].id).toBe('testid8');
+          expect(response.header['x-total-count']).toBe('2');
+          expect(response.body.length).toBe(2);
+          expect(response.body[0].id).toBe('testid4');
+          expect(response.body[1].id).toBe('testid8');
         });
     });
   });
