@@ -765,6 +765,16 @@ describe('server tests', () => {
           expect(response.body[1].id).toBe('testid8');
         });
     });
+
+    it('returns 200 if there is no content found', async () => {
+      await request(app)
+        .get('/api/preprints-no-content?start-end=2022-01-01&end-date=2022-01-02')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('0');
+          expect(response.body.length).toBe(0);
+        });
+    });
   });
 
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
