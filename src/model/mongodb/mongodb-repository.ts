@@ -198,7 +198,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     ]).toArray();
 
     return {
-      totalCount: allVersions[0].totalCount[0].totalCount,
+      totalCount: allVersions[0].totalCount[0] ? allVersions[0].totalCount[0].totalCount : 0,
       articles: allVersions[0].articles,
     };
   }
