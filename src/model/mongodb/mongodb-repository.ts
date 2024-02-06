@@ -119,7 +119,8 @@ class MongoDBArticleRepository implements ArticleRepository {
     };
   }
 
-  async getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc', startDate: string | null, endDate: string | null): Promise<EnhancedArticlesNoContentWithTotal> {
+  async getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc', startDate: string | null, endDate: string | null, useDate: 'firstPublished' | null): Promise<EnhancedArticlesNoContentWithTotal> {
+    const useDateField = useDate ?? 'statusDate';
     const allVersions = await this.versionedCollection.aggregate<{ totalCount: { _id: null, totalCount: number }[], articles: [EnhancedArticleNoContent] }>([
       {
         $match: {
@@ -148,7 +149,7 @@ class MongoDBArticleRepository implements ArticleRepository {
         $group: {
           _id: '$msid',
           mostRecentDocument: { $first: '$$ROOT' },
-          publishedDate: { $max: '$published' },
+          statusDate: { $max: '$published' },
           firstPublished: { $min: '$published' },
         },
       },
@@ -156,8 +157,8 @@ class MongoDBArticleRepository implements ArticleRepository {
         {
           $match: {
             $and: [
-              ...(startDate ? [{ publishedDate: { $gte: new Date(startDate) } }] : []),
-              ...(endDate ? [{ publishedDate: { $lte: new Date(endDate) } }] : []),
+              ...(startDate ? [{ [useDateField]: { $gte: new Date(startDate) } }] : []),
+              ...(endDate ? [{ [useDateField]: { $lt: new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1)) } }] : []),
             ],
           },
         },
@@ -174,7 +175,7 @@ class MongoDBArticleRepository implements ArticleRepository {
           ],
           articles: [
             {
-              $sort: { publishedDate: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
+              $sort: { [useDateField]: (order === 'asc') ? 1 : -1, _id: (order === 'asc') ? 1 : -1 },
             },
             ...(typeof page === 'number' && typeof perPage === 'number') ? [
               {
