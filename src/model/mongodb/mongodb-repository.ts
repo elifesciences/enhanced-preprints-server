@@ -158,7 +158,7 @@ class MongoDBArticleRepository implements ArticleRepository {
           $match: {
             $and: [
               ...(startDate ? [{ [useDateField]: { $gte: new Date(startDate) } }] : []),
-              ...(endDate ? [{ [useDateField]: { $lt: new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1)) } }] : []),
+              ...(endDate ? [{ [useDateField]: { $lte: new Date(new Date(endDate)) } }] : []),
             ],
           },
         },
