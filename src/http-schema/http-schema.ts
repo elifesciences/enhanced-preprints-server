@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { EnhancedArticle } from '../model/model';
+import { listType } from '../model/content';
 
 const ParagraphSchema = Joi.object({
   type: Joi.string().valid('Paragraph').required(),
@@ -45,6 +46,9 @@ const ListContentSchema = Joi.object({
   type: Joi.string().valid('List').required(),
   order: Joi.string().valid('Unordered', 'Ascending').required(),
   items: Joi.array().items(ListItemContentSchema).required(),
+  meta: Joi.object({
+    listType: Joi.string().valid(...listType).required(),
+  }).optional(),
 });
 
 const ClaimContentSchema = Joi.object({

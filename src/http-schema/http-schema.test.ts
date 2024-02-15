@@ -162,6 +162,7 @@ describe('httpschema', () => {
           ],
         },
       ],
+      meta: { listType: 'alpha-upper' },
     },
     {
       type: 'Claim',

@@ -72,10 +72,14 @@ type ListItemContent = DecoratedContent & {
   type: 'ListItem',
 };
 
+export const listType = ['order', 'bullet', 'alpha-lower', 'alpha-upper', 'roman-lower', 'roman-upper', 'simple', 'custom'] as const;
 type ListContent = {
   type: 'List',
   order: 'Unordered' | 'Ascending',
   items: Array<ListItemContent>,
+  meta?: {
+    listType: typeof listType[number],
+  }
 };
 
 type ClaimContent = DecoratedContent & {
