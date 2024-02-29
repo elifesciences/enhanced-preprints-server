@@ -38,7 +38,7 @@
     "@aws-sdk/client-s3": "^3.292.0",
     "@aws-sdk/credential-providers": "^3.292.0",
     "axios": "1.6.7",
-    "express": "4.18.2",
+    "express": "4.18.3",
     "joi": "^17.7.0",
     "mongodb": "6.3.0",
     "winston": "3.11.0"
