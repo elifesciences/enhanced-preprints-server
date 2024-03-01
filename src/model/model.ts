@@ -120,7 +120,7 @@ type RelatedContent = {
   url: string,
   content?: string,
   imageUrl?: string,
-};
+}
 
 export type EnhancedArticle = {
   id: string,
@@ -139,11 +139,11 @@ export type EnhancedArticle = {
   preprintPosted: Date,
   sentForReview?: Date,
   peerReview?: PeerReview,
-  relatedContent?: RelatedContent[],
   published: Date | null,
   publishedYear?: number,
   pdfUrl?: string,
   license?: string,
+  relatedContent?: RelatedContent[]
 };
 
 export type VersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
