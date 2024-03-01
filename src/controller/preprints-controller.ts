@@ -81,7 +81,7 @@ export const preprintsController = (repo: ArticleRepository) => {
             content: 'Régis Nouvian',
             type: 'Related Insight',
             url: 'https://elifesciences.org/articles/96139',
-          }]
+          }];
         }
         res.send(version);
       }

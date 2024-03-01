@@ -120,7 +120,7 @@ type RelatedContent = {
   url: string,
   content?: string,
   imageUrl?: string,
-}
+};
 
 export type EnhancedArticle = {
   id: string,
