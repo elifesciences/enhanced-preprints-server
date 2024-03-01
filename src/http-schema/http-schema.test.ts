@@ -277,6 +277,20 @@ describe('httpschema', () => {
         },
         reviews: [],
       },
+      relatedContent: [
+        {
+          type: 'insight',
+          title: 'Summary of this article',
+          content: 'Author line',
+          url: 'https://elifesciences.org/articles/123456',
+        },
+        {
+          type: 'podcast',
+          title: 'Podcast related to this article',
+          url: 'https://elifesciences.org/podcast/episode123456',
+          imageUrl: 'http://placekitten.com/200/150',
+        },
+      ],
       published: '2023-08-02',
     };
 

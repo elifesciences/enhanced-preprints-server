@@ -152,6 +152,14 @@ const PeerReviewSchema = Joi.object({
   authorResponse: EvaluationSchema.optional(),
 });
 
+const RelatedContentSchema = Joi.object({
+  type: Joi.string().required(),
+  title: Joi.string().required(),
+  url: Joi.string().required(),
+  content: Joi.string().optional(),
+  imageUrl: Joi.string().optional(),
+});
+
 const AddressSchema = Joi.object({
   addressCountry: Joi.string().optional(),
 });
@@ -240,6 +248,7 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   preprintPosted: Joi.date().required(),
   sentForReview: Joi.date().optional(),
   peerReview: PeerReviewSchema.optional(),
+  relatedContent: Joi.array().items(RelatedContentSchema).optional(),
   published: Joi.date().required().allow(null),
   publishedYear: Joi.number()
     .integer()
