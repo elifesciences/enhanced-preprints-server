@@ -114,6 +114,14 @@ export type PeerReview = {
   authorResponse?: Evaluation,
 };
 
+type RelatedContent = {
+  type: string,
+  title: string,
+  url: string,
+  content?: string,
+  imageUrl?: string,
+}
+
 export type EnhancedArticle = {
   id: string,
   msid: string,
@@ -135,6 +143,7 @@ export type EnhancedArticle = {
   publishedYear?: number,
   pdfUrl?: string,
   license?: string,
+  relatedContent?: RelatedContent[]
 };
 
 export type VersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
