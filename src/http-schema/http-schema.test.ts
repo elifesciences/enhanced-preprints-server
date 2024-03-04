@@ -1,4 +1,4 @@
-import { EnhancedArticleSchema, SubjectsSchema } from './http-schema';
+import { EnhancedArticleSchema, RelatedContentSchema, SubjectsSchema } from './http-schema';
 
 const enhancedArticleExample = {
   id: 'testid1',
@@ -278,11 +278,68 @@ describe('httpschema', () => {
         reviews: [],
       },
       published: '2023-08-02',
+      relatedContent: [
+        {
+          type: 'Related Insight',
+          title: 'Insight Title',
+          url: 'https://doi.org/10.7554/eLife.11111',
+          content: 'Insight article about this article',
+          imageUrl: 'http://placekitten.com/200/150',
+        },
+        {
+          type: 'Related Insight',
+          title: 'Insight Title 2',
+          url: 'https://doi.org/10.7554/eLife.22222',
+        },
+      ],
     };
 
     const enhancedArticle = EnhancedArticleSchema.validate(articleWithOptionals);
 
     expect(enhancedArticle.error).toBeUndefined();
+  });
+
+  it.each([
+    [[{ type: 'type', title: 'title', url: 'http://url.com' }], ''],
+    [[{
+      type: 'type',
+      title: 'title',
+      url: 'http://url.com',
+      content: 'content',
+      imageUrl: 'http://image.url',
+    }], ''],
+    [[{
+      type: 'type',
+      title: 'title',
+      url: 'http://url.com',
+      unknown: 'unknown',
+    }], '"[0].unknown" is not allowed'],
+    [[{ title: 'title', url: 'http://url.com' }], '"[0].type" is required'],
+    [[{ type: 0, title: 'title', url: 'http://url.com' }], '"[0].type" must be a string'],
+    [[{ type: 'type', url: 'http://url.com' }], '"[0].title" is required'],
+    [[{ type: 'type', title: {}, url: 'http://url.com' }], '"[0].title" must be a string'],
+    [[{ type: 'type', title: 'title' }], '"[0].url" is required'],
+    [[{ type: 'type', title: 'title', url: false }], '"[0].url" must be a string'],
+    [[{
+      type: 'type',
+      title: 'title',
+      url: 'http://url.com',
+      content: '',
+    }], '"[0].content" is not allowed to be empty'],
+    [[{
+      type: 'type',
+      title: 'title',
+      url: 'http://url.com',
+      imageUrl: 1,
+    }], '"[0].imageUrl" must be a string'],
+  ])('validate relatedContent array: %s', (input, message?) => {
+    const result = RelatedContentSchema.validate(input);
+    if (message) {
+      expect(result.error).toBeDefined();
+      expect(result.error?.message).toStrictEqual(message);
+    } else {
+      expect(result.error).toBeUndefined();
+    }
   });
 
   it.each([

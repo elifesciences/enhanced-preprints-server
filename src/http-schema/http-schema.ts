@@ -225,6 +225,14 @@ const ProcessedArticleSchema = Joi.object({
 
 export const SubjectsSchema = Joi.array().items(Joi.string()).unique();
 
+export const RelatedContentSchema = Joi.array().items({
+  type: Joi.string().required(),
+  title: Joi.string().required(),
+  url: Joi.string().required(),
+  content: Joi.string().optional(),
+  imageUrl: Joi.string().optional(),
+});
+
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   id: Joi.string().required(),
   msid: Joi.string().required(),
@@ -245,4 +253,5 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
     .integer()
     .optional(),
   license: Joi.string().optional(),
+  relatedContent: RelatedContentSchema.optional(),
 });
