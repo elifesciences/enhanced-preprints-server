@@ -11,6 +11,17 @@ import { createMongoDBArticleRepositoryFromMongoClient } from '../src/model/mong
 
 jest.mock('axios');
 
+const referenceMock = {
+  type: 'Article',
+  id: 'ref1',
+  title: 'Reference 1',
+  authors: [],
+  isPartOf: {
+    type: 'CreativeWork',
+    volumeNumber: 1,
+  },
+};
+
 describe('server tests', () => {
   let articleStore: ArticleRepository;
   let connection: MongoClient;
@@ -62,7 +73,9 @@ describe('server tests', () => {
         abstract: 'This is the test abstract',
         licenses: [],
         content: 'This is some test content',
-        references: [],
+        references: [
+          referenceMock,
+        ],
       },
       preprintDoi: 'preprint/testid1',
       preprintUrl: 'doi.org/preprint/testid1',
@@ -184,7 +197,9 @@ describe('server tests', () => {
           authors: [],
           content: '<article></article>',
           licenses: [],
-          references: [],
+          references: [
+            referenceMock,
+          ],
         },
         published: '2023-02-03T00:00:00.000Z',
       };
@@ -267,7 +282,9 @@ describe('server tests', () => {
           authors: [],
           content: '<article></article>',
           licenses: [],
-          references: [],
+          references: [
+            referenceMock,
+          ],
         },
         published: null,
       };
@@ -460,7 +477,9 @@ describe('server tests', () => {
         abstract: 'This is the test abstract',
         licenses: [],
         content: 'This is some test content',
-        references: [],
+        references: [
+          referenceMock,
+        ],
       },
       preprintDoi: 'preprint/testid1',
       preprintUrl: 'doi.org/preprint/testid1',
@@ -492,7 +511,9 @@ describe('server tests', () => {
         authors: [],
         content: '<article></article>',
         licenses: [],
-        references: [],
+        references: [
+          referenceMock,
+        ],
       },
       published: null,
     };

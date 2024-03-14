@@ -356,4 +356,29 @@ describe('httpschema', () => {
       expect(result.error).toBeUndefined();
     }
   });
+
+  it('Fails on empty or missing article.references', () => {
+    const emptyReferencesErrorMessage = '"article.references" must contain at least 1 items';
+    const articleWithEmptyReferences = {
+      ...enhancedArticleExample,
+      article: {
+        ...enhancedArticleExample.article,
+        references: [],
+      },
+    };
+
+    const result = EnhancedArticleSchema.validate(articleWithEmptyReferences);
+
+    expect(result.error).toBeDefined();
+    expect(result.error?.message).toStrictEqual(emptyReferencesErrorMessage);
+
+    const missingReferencesErrorMessage = '"article.references" is required';
+    const articleWithNoReferences = ({ ...articleWithEmptyReferences } as any);
+    delete articleWithNoReferences.article.references;
+
+    const result2 = EnhancedArticleSchema.validate(articleWithNoReferences);
+
+    expect(result2.error).toBeDefined();
+    expect(result2.error?.message).toStrictEqual(missingReferencesErrorMessage);
+  });
 });
