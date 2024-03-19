@@ -79,7 +79,7 @@ export const preprintsController = (repo: ArticleRepository) => {
           version.article.relatedContent = [{
             title: 'Hearing: Letting the calcium flow',
             content: 'Régis Nouvian',
-            type: 'Related Insight',
+            type: 'insight',
             url: 'https://elifesciences.org/articles/96139',
           }];
         }
