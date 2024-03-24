@@ -2927,10 +2927,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/node16@npm:16.1.1":
-  version: 16.1.1
-  resolution: "@tsconfig/node16@npm:16.1.1"
-  checksum: 10c0/0660087773cd67654a676280f88e77433d54c915994fe4aa47b0d535366edaf9413df69ebc54ba8e271874c59cfa046c961d6a1dea0ed1eaf104ffeb4f78de46
+"@tsconfig/node16@npm:16.1.2":
+  version: 16.1.2
+  resolution: "@tsconfig/node16@npm:16.1.2"
+  checksum: 10c0/c7011da10a5a45f061fa1eccacd801a7f3ab9243d3814f70378ef5803481a39215a099c114c40e7776ce73dc56c4e4f77b93bb2f46026ccf359ac2e4aec5b2bb
   languageName: node
   linkType: hard
 
@@ -4699,7 +4699,7 @@ __metadata:
     "@aws-sdk/types": "npm:^3.292.0"
     "@aws-sdk/util-stream-node": "npm:^3.292.0"
     "@shelf/jest-mongodb": "npm:^4.1.7"
-    "@tsconfig/node16": "npm:16.1.1"
+    "@tsconfig/node16": "npm:16.1.2"
     "@types/eslint": "npm:8.56.6"
     "@types/express": "npm:4.17.21"
     "@types/jest": "npm:29.5.12"
