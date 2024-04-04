@@ -143,7 +143,7 @@ export type EnhancedArticle = {
   publishedYear?: number,
   pdfUrl?: string,
   license?: string,
-  relatedContent?: RelatedContent[]
+  relatedContent?: RelatedContent[],
 };
 
 export type VersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
@@ -153,8 +153,15 @@ export type EnhancedArticleNoContent = VersionSummary & {
   firstPublished: Date,
 };
 
+type Metrics = {
+  views: number,
+  downloads: number,
+  citations: number,
+};
+
 export type EnhancedArticleWithVersions = {
   article: EnhancedArticle,
+  metrics?: Metrics,
   versions: Record<string, VersionSummary>,
 };
 
