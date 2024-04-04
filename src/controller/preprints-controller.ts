@@ -3,6 +3,7 @@ import axios from 'axios';
 import { EnhancedArticleSchema } from '../http-schema/http-schema';
 import { ArticleRepository } from '../model/model';
 import { logger } from '../utils/logger';
+import { config } from '../config';
 
 export const preprintsController = (repo: ArticleRepository) => {
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
@@ -82,6 +83,21 @@ export const preprintsController = (repo: ArticleRepository) => {
             type: 'insight',
             url: 'https://elifesciences.org/articles/96139',
           }];
+        }
+
+        if (config.elifeMetricsUrl) {
+          const metricsSummaryUrl = `${config.elifeMetricsUrl}/metrics/article/${msid}/summary`;
+          try {
+            const { data } = await axios.get(metricsSummaryUrl);
+            const metrics = data.items[0];
+            version.metrics = {
+              views: metrics.views,
+              downloads: metrics.downloads,
+              citations: Math.max(metrics.crossref, metrics.pubmed, metrics.scopus),
+            };
+          } catch (err) {
+            logger.error(`USE_ELIFE_METRICS configured, but request for ${metricsSummaryUrl} failed`);
+          }
         }
         res.send(version);
       }
