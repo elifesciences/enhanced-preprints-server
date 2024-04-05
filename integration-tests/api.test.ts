@@ -2,6 +2,7 @@ import request from 'supertest';
 import axios from 'axios';
 import { MongoClient } from 'mongodb';
 import { Express } from 'express';
+import { config } from '../src/config';
 import { createApp } from '../src/app';
 import mockBody1 from './mock-data/mock-body-1.json';
 import mockBody2 from './mock-data/mock-body-2.json';
@@ -451,6 +452,60 @@ describe('server tests', () => {
           result: false,
           message: 'no result found for: (thisisnotanid)',
         });
+    });
+
+    it('adds the metrics when they are configured and return values', async () => {
+      const metricsSummaryUrl = 'http://elife-metrics/metrics/article/testmsid/summary';
+
+      const metrics = {
+        views: 123,
+        downloads: 456,
+        crossref: 787,
+        pubmed: 788,
+        scopus: 789,
+      };
+      // Needed for jest mock of axios
+      // @ts-ignore
+      // eslint-disable-next-line consistent-return
+      axios.get.mockImplementation((url: string) => {
+        if (url === metricsSummaryUrl) {
+          return Promise.resolve({
+            status: 200,
+            data: {
+              items: [metrics],
+            },
+          });
+        }
+      });
+
+      // override config to trigger mock axios
+      const originalElifeMetricsUrl = config.elifeMetricsUrl;
+      config.elifeMetricsUrl = 'http://elife-metrics';
+      const app = createApp(articleStore);
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid3')
+        .expect(200, {
+          article: {
+            ...enhancedArticle,
+          },
+          versions: {
+            testid3: versionSummary,
+          },
+          metrics: { views: 123, downloads: 456, citations: 789 },
+        });
+
+      // reset config
+      config.elifeMetricsUrl = originalElifeMetricsUrl;
     });
   });
 
