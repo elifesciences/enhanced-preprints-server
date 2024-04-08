@@ -76,14 +76,6 @@ export const preprintsController = (repo: ArticleRepository) => {
           // eslint-disable-next-line no-console
           console.log('no PDF found or fetch failed');
         }
-        if (msid === '93646') {
-          version.article.relatedContent = [{
-            title: 'Hearing: Letting the calcium flow',
-            content: 'Régis Nouvian',
-            type: 'insight',
-            url: 'https://elifesciences.org/articles/96139',
-          }];
-        }
 
         if (config.elifeMetricsUrl) {
           const metricsSummaryUrl = `${config.elifeMetricsUrl}/metrics/article/${msid}/summary`;
