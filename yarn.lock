@@ -2171,15 +2171,15 @@ __metadata:
   linkType: hard
 
 "@shelf/jest-mongodb@npm:^4.1.7":
-  version: 4.2.0
-  resolution: "@shelf/jest-mongodb@npm:4.2.0"
+  version: 4.3.1
+  resolution: "@shelf/jest-mongodb@npm:4.3.1"
   dependencies:
     debug: "npm:4.3.4"
     mongodb-memory-server: "npm:9.1.1"
   peerDependencies:
-    jest-environment-node: 27.x.x || 28.x || 29.x
+    jest-environment-node: 28.x || 29.x
     mongodb: 3.x.x || 4.x || 5.x || 6.x
-  checksum: 10c0/892f7af9bdae178f7d582d3bd6792066f8ff59e2455b3655edf226644e1ec55e1a31b010c61d3c94c35f558d6dfb4453c640dd796e93e9da79ef0b6d8b0f405d
+  checksum: 10c0/d82f211cb13c551ca5a420360201bfda13104916e896231d2cbb203b67dde8f45eef78d01d4fd3b75920b4f5e2d8520e501e1c76b87111051ab39d5ade5bd94f
   languageName: node
   linkType: hard
 
