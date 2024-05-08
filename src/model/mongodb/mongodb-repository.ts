@@ -86,7 +86,7 @@ class MongoDBArticleRepository implements ArticleRepository {
   async findArticleVersion(identifier: string, previews: boolean = false): Promise<EnhancedArticleWithVersions | null> {
     const previewFilter = previews ? {} : { published: { $lte: new Date() } };
     const version = await this.versionedCollection.findOne<StoredEnhancedArticle>(
-      { $or: [{ _id: identifier }, { msid: identifier }], ...previewFilter },
+      { article: { $exists: true }, $or: [{ _id: identifier }, { msid: identifier }], ...previewFilter },
       {
         sort: { preprintPosted: -1 },
         projection: {
@@ -131,6 +131,7 @@ class MongoDBArticleRepository implements ArticleRepository {
       {
         $match: {
           $and: [
+            { article: { $exists: true } },
             { published: { $ne: null } },
             { published: { $lte: new Date() } },
           ],
