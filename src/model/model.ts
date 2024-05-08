@@ -146,7 +146,17 @@ export type EnhancedArticle = {
   relatedContent?: RelatedContent[],
 };
 
-export type VersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
+type PreprintVersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
+
+type ExternalVersionSummary = {
+  id: string,
+  msid: string,
+  versionIdentifier: string,
+  published?: Date,
+  url: string,
+};
+
+export type VersionSummary = PreprintVersionSummary | ExternalVersionSummary;
 
 export type EnhancedArticleNoContent = VersionSummary & {
   article: Omit<ProcessedArticle, 'doi' | 'date' | 'content' | 'abstract' | 'licenses' | 'references'>,

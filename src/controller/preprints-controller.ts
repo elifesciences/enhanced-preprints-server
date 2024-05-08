@@ -91,6 +91,19 @@ export const preprintsController = (repo: ArticleRepository) => {
             logger.error(`USE_ELIFE_METRICS configured, but request for ${metricsSummaryUrl} failed`);
           }
         }
+
+        if (version.article.msid === '85111') {
+          version.versions = {
+            '85111v3': {
+              id: '85111v3',
+              msid: '85111',
+              versionIdentifier: '3',
+              published: new Date('2023-06-07T00:00:00.000Z'),
+              url: 'https://elifesciences.org/articles/85111v1',
+            },
+            ...version.versions,
+          };
+        }
         res.send(version);
       }
     } catch (err) {
