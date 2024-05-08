@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { EnhancedArticle } from '../model/model';
+import { EnhancedArticle, VersionSummary } from '../model/model';
 import { listType } from '../model/content';
 
 const ParagraphSchema = Joi.object({
@@ -233,6 +233,14 @@ export const RelatedContentSchema = Joi.array().items({
   imageUrl: Joi.string().optional(),
 });
 
+export const ExternalVersionSummarySchema = Joi.object<VersionSummary>({
+  id: Joi.string().required(),
+  msid: Joi.string().required(),
+  url: Joi.string().required(),
+  versionIdentifier: Joi.string().required(),
+  published: Joi.date().required().allow(null),
+});
+
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   id: Joi.string().required(),
   msid: Joi.string().required(),
@@ -255,3 +263,8 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   license: Joi.string().optional(),
   relatedContent: RelatedContentSchema.optional(),
 });
+
+export const PreprintsControllerSchema = Joi.alternatives().try(
+  EnhancedArticleSchema,
+  ExternalVersionSummarySchema,
+);

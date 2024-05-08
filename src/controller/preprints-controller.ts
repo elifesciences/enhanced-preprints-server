@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
-import { EnhancedArticleSchema } from '../http-schema/http-schema';
+import { PreprintsControllerSchema } from '../http-schema/http-schema';
 import { ArticleRepository } from '../model/model';
 import { logger } from '../utils/logger';
 import { config } from '../config';
@@ -8,7 +8,7 @@ import { config } from '../config';
 export const preprintsController = (repo: ArticleRepository) => {
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { value, warning, error } = EnhancedArticleSchema.validate(req.body, { abortEarly: false, allowUnknown: true });
+      const { value, warning, error } = PreprintsControllerSchema.validate(req.body, { abortEarly: false, allowUnknown: true });
       if (error) {
         res.status(400).send({
           result: false,
