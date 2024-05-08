@@ -32,12 +32,16 @@ type StoredEnhancedArticle = EnhancedArticle & {
   _id: string,
 };
 
+type StoredExternalVersionSummary = VersionSummary & {
+  _id: string,
+};
+
 class MongoDBArticleRepository implements ArticleRepository {
   private collection: Collection<StoredArticle>;
 
-  private versionedCollection: Collection<StoredEnhancedArticle>;
+  private versionedCollection: Collection<StoredEnhancedArticle | StoredExternalVersionSummary>;
 
-  constructor(collection: Collection<StoredArticle>, versionedCollection: Collection<StoredEnhancedArticle>) {
+  constructor(collection: Collection<StoredArticle>, versionedCollection: Collection<StoredEnhancedArticle | StoredExternalVersionSummary>) {
     this.collection = collection;
     this.versionedCollection = versionedCollection;
   }
@@ -58,7 +62,9 @@ class MongoDBArticleRepository implements ArticleRepository {
   }
 
   async getEnhancedArticleSummaries(): Promise<ArticleSummary[]> {
-    const results = await this.versionedCollection.find({}).project({
+    const results = await this.versionedCollection.find<StoredEnhancedArticle>({
+      article: { $exists: true },
+    }).project({
       doi: 1,
       msid: 1,
       published: 1,
@@ -79,7 +85,7 @@ class MongoDBArticleRepository implements ArticleRepository {
 
   async findArticleVersion(identifier: string, previews: boolean = false): Promise<EnhancedArticleWithVersions | null> {
     const previewFilter = previews ? {} : { published: { $lte: new Date() } };
-    const version = await this.versionedCollection.findOne(
+    const version = await this.versionedCollection.findOne<StoredEnhancedArticle>(
       { $or: [{ _id: identifier }, { msid: identifier }], ...previewFilter },
       {
         sort: { preprintPosted: -1 },
@@ -212,7 +218,7 @@ class MongoDBArticleRepository implements ArticleRepository {
 
 export const createMongoDBArticleRepositoryFromMongoClient = async (client: MongoClient) => {
   const collection = client.db('epp').collection<StoredArticle>('articles');
-  const versionedCollection = client.db('epp').collection<StoredEnhancedArticle>('versioned_articles');
+  const versionedCollection = client.db('epp').collection<StoredEnhancedArticle | StoredExternalVersionSummary>('versioned_articles');
   const result1 = await versionedCollection.createIndex({ msid: -1 });
   const result2 = await versionedCollection.createIndex({ published: -1 });
   logger.info(`created index: ${result1} and ${result2}`);
