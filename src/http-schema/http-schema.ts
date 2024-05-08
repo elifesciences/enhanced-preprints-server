@@ -263,8 +263,3 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   license: Joi.string().optional(),
   relatedContent: RelatedContentSchema.optional(),
 });
-
-export const PreprintsControllerSchema = Joi.alternatives().try(
-  EnhancedArticleSchema,
-  ExternalVersionSummarySchema,
-);

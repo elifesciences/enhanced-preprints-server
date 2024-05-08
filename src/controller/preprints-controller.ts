@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
-import { PreprintsControllerSchema } from '../http-schema/http-schema';
+import Joi from 'joi';
+import { EnhancedArticleSchema, ExternalVersionSummarySchema } from '../http-schema/http-schema';
 import { ArticleRepository } from '../model/model';
 import { logger } from '../utils/logger';
 import { config } from '../config';
@@ -8,7 +9,8 @@ import { config } from '../config';
 export const preprintsController = (repo: ArticleRepository) => {
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { value, warning, error } = PreprintsControllerSchema.validate(req.body, { abortEarly: false, allowUnknown: true });
+      // Combining the EnhancedArticleSchema and ExternalVersionSummarySchema validation works but makes the error messages less helpful.
+      const { value, warning, error } = Joi.alternatives().try(EnhancedArticleSchema, ExternalVersionSummarySchema).validate(req.body, { abortEarly: false, allowUnknown: true });
       if (error) {
         res.status(400).send({
           result: false,

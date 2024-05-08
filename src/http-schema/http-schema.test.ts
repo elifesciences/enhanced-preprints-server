@@ -1,4 +1,9 @@
-import { EnhancedArticleSchema, RelatedContentSchema, SubjectsSchema } from './http-schema';
+import {
+  EnhancedArticleSchema,
+  ExternalVersionSummarySchema,
+  RelatedContentSchema,
+  SubjectsSchema,
+} from './http-schema';
 
 const enhancedArticleExample = {
   id: 'testid1',
@@ -79,7 +84,15 @@ const enhancedArticleExample = {
   published: '2023-01-23',
 };
 
-describe('httpschema', () => {
+const externalVersionSummaryExample = {
+  id: 'testid2',
+  msid: 'testmsid1',
+  url: 'https://doi.org/doi2',
+  versionIdentifier: '2',
+  published: '2023-02-28',
+};
+
+describe('httpschema (EnhancedArticleSchema)', () => {
   it.each([
     'foo',
     ['one', 'two', { type: 'Strong', content: { type: 'NontextualAnnotation', content: 'three' } }],
@@ -380,5 +393,39 @@ describe('httpschema', () => {
 
     expect(result2.error).toBeDefined();
     expect(result2.error?.message).toStrictEqual(missingReferencesErrorMessage);
+  });
+});
+
+describe('httpschema (ExternalVersionSummarySchema)', () => {
+  const sampleRequiredFieldValidationMessages = [
+    { message: '"url" is required' },
+    { message: '"versionIdentifier" is required' },
+  ];
+
+  const allRequiredFieldValidationMessages = [
+    { message: '"id" is required' },
+    { message: '"msid" is required' },
+    ...sampleRequiredFieldValidationMessages,
+    { message: '"published" is required' },
+  ];
+
+  it.each([
+    [{}, allRequiredFieldValidationMessages],
+    [{ id: '12345', msid: 1, published: null }, [{ message: '"msid" must be a string' }, ...sampleRequiredFieldValidationMessages]],
+    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, { message: '"published" must be a valid date' }]],
+    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown" is not allowed' }]],
+    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
+  ])('handles validation error', (value, errorDetails) => {
+    const invalidateExternalVersionSummary = ExternalVersionSummarySchema.validate(value, { abortEarly: false });
+
+    expect(invalidateExternalVersionSummary.error).toBeDefined();
+    expect(invalidateExternalVersionSummary.error?.details).toMatchObject(errorDetails);
+  });
+
+  it('coerces dates', () => {
+    const externalVersionSummary = ExternalVersionSummarySchema.validate(externalVersionSummaryExample);
+
+    expect(externalVersionSummary.error).toBeUndefined();
+    expect(externalVersionSummary.value?.published).toStrictEqual(new Date('2023-02-28'));
   });
 });
