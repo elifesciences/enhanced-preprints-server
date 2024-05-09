@@ -9,7 +9,6 @@ import { config } from '../config';
 export const preprintsController = (repo: ArticleRepository) => {
   const postPreprints = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Combining the EnhancedArticleSchema and ExternalVersionSummarySchema validation works but makes the error messages less helpful.
       const { value, warning, error } = Joi.alternatives().try(EnhancedArticleSchema, ExternalVersionSummarySchema).validate(req.body, { abortEarly: false, allowUnknown: true });
       if (error) {
         res.status(400).send({
