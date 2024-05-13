@@ -89,7 +89,10 @@ export const preprintsController = (repo: ArticleRepository) => {
               citations: Math.max(metrics.crossref, metrics.pubmed, metrics.scopus),
             };
           } catch (err) {
-            logger.error(`USE_ELIFE_METRICS configured, but request for ${metricsSummaryUrl} failed`);
+            if ((err as any)?.response?.status !== 404) {
+              throw err;
+            }
+            logger.info(`USE_ELIFE_METRICS configured, but request for ${metricsSummaryUrl} return 404`);
           }
         }
 
