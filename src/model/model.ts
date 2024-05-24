@@ -181,7 +181,7 @@ export type EnhancedArticlesNoContentWithTotal = {
 };
 
 export interface ArticleRepository {
-  storeEnhancedArticle(article: EnhancedArticle): Promise<boolean>;
+  storeEnhancedArticle(article: EnhancedArticle | VersionSummary): Promise<boolean>;
   findArticleVersion(identifier: string, previews?: boolean): Promise<EnhancedArticleWithVersions | null>;
   getEnhancedArticleSummaries(): Promise<ArticleSummary[]>;
   getEnhancedArticlesNoContent(page: number | null, perPage: number | null, order: 'asc' | 'desc', startDate: string | null, endDate: string | null, useDate: 'firstPublished' | null): Promise<EnhancedArticlesNoContentWithTotal>;
