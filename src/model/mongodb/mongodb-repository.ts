@@ -46,15 +46,10 @@ class MongoDBArticleRepository implements ArticleRepository {
     this.versionedCollection = versionedCollection;
   }
 
-  async storeEnhancedArticle(article: EnhancedArticle): Promise<boolean> {
-    const response = await this.versionedCollection.updateOne({
+  async storeEnhancedArticle(article: EnhancedArticle | VersionSummary): Promise<boolean> {
+    const response = await this.versionedCollection.replaceOne({
       _id: article.id,
-    }, {
-      $set: {
-        _id: article.id,
-        ...article,
-      },
-    }, {
+    }, article, {
       upsert: true,
     });
 
