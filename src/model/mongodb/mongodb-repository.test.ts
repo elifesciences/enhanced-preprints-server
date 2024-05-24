@@ -178,7 +178,7 @@ describe('article-stores', () => {
     });
   });
 
-  it('stores two Versioned Articles with the same msid and retreives them by id', async () => {
+  it('stores two Versioned Articles with the same msid and retrieves them by id', async () => {
     const inputArticle1 = {
       id: 'testid3.1',
       msid: 'testid3',
@@ -252,7 +252,7 @@ describe('article-stores', () => {
     });
   });
 
-  it('stores two Versioned Articles with the same msid and retreives the latest by msid', async () => {
+  it('stores two Versioned Articles with the same msid and retrieves the latest by msid', async () => {
     const inputArticle1 = {
       id: 'testid4.1',
       msid: 'testid4',
