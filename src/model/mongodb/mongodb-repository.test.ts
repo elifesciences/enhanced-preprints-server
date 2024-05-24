@@ -448,7 +448,7 @@ describe('article-stores', () => {
     expect(result1).toStrictEqual(true);
     expect(result2).toStrictEqual(true);
     expect(result3).toStrictEqual(true);
-    expect(article).toMatchObject({
+    expect(article).toStrictEqual({
       article: inputArticle1,
       versions: {
         'testid3.3': {
@@ -469,6 +469,89 @@ describe('article-stores', () => {
           preprintUrl: 'http://preprints.org/preprint/article9v2',
           preprintPosted: new Date('2008-09-02'),
           published: new Date('2008-10-02'),
+        },
+        'testid3.1': {
+          id: 'testid3.1',
+          msid: 'testid3',
+          doi: 'journal/testid3.1',
+          versionIdentifier: '1',
+          versionDoi: 'journal/testid3.1',
+          preprintDoi: 'preprint/article9',
+          preprintUrl: 'http://preprints.org/preprint/article9',
+          preprintPosted: new Date('2008-09-01'),
+          published: new Date('2008-10-01'),
+        },
+      },
+    });
+  });
+
+  it('stores two Versioned Articles and overwrite with external version summary and retrieves them by id', async () => {
+    const inputArticle1 = {
+      id: 'testid3.1',
+      msid: 'testid3',
+      doi: 'journal/testid3.1',
+      versionIdentifier: '1',
+      versionDoi: 'journal/testid3.1',
+      preprintDoi: 'preprint/article9',
+      preprintUrl: 'http://preprints.org/preprint/article9',
+      preprintPosted: new Date('2008-09-01'),
+      published: new Date('2008-10-01'),
+      article: {
+        title: 'Test Article 9',
+        abstract: 'Test article 9 abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      },
+    };
+    const inputArticle2 = {
+      id: 'testid3.2',
+      msid: 'testid3',
+      doi: 'journal/testid3.2',
+      versionIdentifier: '2',
+      versionDoi: 'journal/testid3.2',
+      preprintDoi: 'preprint/article9v2',
+      preprintUrl: 'http://preprints.org/preprint/article9v2',
+      preprintPosted: new Date('2008-09-02'),
+      published: new Date('2008-10-02'),
+      article: {
+        title: 'Test Article 9',
+        abstract: 'Test article 9 abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        headings: [],
+        references: [exampleReference],
+      },
+    };
+    const inputSummary1 = {
+      id: 'testid3.2',
+      msid: 'testid3',
+      doi: 'journal/testid3.2',
+      versionIdentifier: '2',
+      published: new Date('2008-11-02'),
+      url: 'http://version-of-record.com/testid3.2',
+    };
+    const result1 = await articleStore.storeEnhancedArticle(inputArticle1);
+    const result2 = await articleStore.storeEnhancedArticle(inputArticle2);
+    const result3 = await articleStore.storeEnhancedArticle(inputSummary1);
+    const article = await articleStore.findArticleVersion('testid3.1');
+
+    expect(result1).toStrictEqual(true);
+    expect(result2).toStrictEqual(true);
+    expect(result3).toStrictEqual(true);
+    expect(article).toStrictEqual({
+      article: inputArticle1,
+      versions: {
+        'testid3.2': {
+          id: 'testid3.2',
+          msid: 'testid3',
+          doi: 'journal/testid3.2',
+          versionIdentifier: '2',
+          published: new Date('2008-11-02'),
+          url: 'http://version-of-record.com/testid3.2',
         },
         'testid3.1': {
           id: 'testid3.1',
