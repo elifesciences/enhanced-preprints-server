@@ -326,7 +326,7 @@ describe('article-stores', () => {
     });
   });
 
-  it('stores two Versioned Articles and retreives summaries', async () => {
+  it('stores two Versioned Articles and retrieves summaries', async () => {
     const inputArticle1 = {
       id: 'testid3.1',
       msid: 'testid3',
