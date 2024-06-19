@@ -23,6 +23,59 @@ const referenceMock = {
   },
 };
 
+const enhancedArticle = {
+  id: 'testid3',
+  msid: 'testmsid',
+  doi: 'doi1',
+  volume: '1',
+  eLocationId: 'RPtestid3',
+  versionIdentifier: '1',
+  versionDoi: 'publisher/testid1',
+  article: {
+    title: 'test article',
+    authors: [
+      {
+        familyNames: ['Daffy'],
+        givenNames: ['Duck'],
+        affiliations: [{ name: 'ACME Labs' }],
+        emails: ['daffy.duck@acme.org'],
+      },
+    ],
+    abstract: 'This is the test abstract',
+    licenses: [],
+    content: 'This is some test content',
+    references: [
+      referenceMock,
+    ],
+  },
+  preprintDoi: 'preprint/testid1',
+  preprintUrl: 'doi.org/preprint/testid1',
+  preprintPosted: '2023-01-02T00:00:00.000Z',
+  sentForReview: '2023-01-03T00:00:00.000Z',
+  published: '2023-01-23T00:00:00.000Z',
+  publishedYear: 2023,
+  subjects: ['subject 1', 'subject 2'],
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+};
+
+const versionSummary = {
+  id: 'testid3',
+  msid: 'testmsid',
+  doi: 'doi1',
+  volume: '1',
+  eLocationId: 'RPtestid3',
+  versionIdentifier: '1',
+  versionDoi: 'publisher/testid1',
+  preprintDoi: 'preprint/testid1',
+  preprintUrl: 'doi.org/preprint/testid1',
+  preprintPosted: '2023-01-02T00:00:00.000Z',
+  sentForReview: '2023-01-03T00:00:00.000Z',
+  published: '2023-01-23T00:00:00.000Z',
+  publishedYear: 2023,
+  subjects: ['subject 1', 'subject 2'],
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+};
+
 describe('server tests', () => {
   let articleStore: ArticleRepository;
   let connection: MongoClient;
@@ -52,59 +105,6 @@ describe('server tests', () => {
           message: 'OK',
         });
     });
-
-    const enhancedArticle = {
-      id: 'testid3',
-      msid: 'testmsid',
-      doi: 'doi1',
-      volume: '1',
-      eLocationId: 'RPtestid3',
-      versionIdentifier: '1',
-      versionDoi: 'publisher/testid1',
-      article: {
-        title: 'test article',
-        authors: [
-          {
-            familyNames: ['Daffy'],
-            givenNames: ['Duck'],
-            affiliations: [{ name: 'ACME Labs' }],
-            emails: ['daffy.duck@acme.org'],
-          },
-        ],
-        abstract: 'This is the test abstract',
-        licenses: [],
-        content: 'This is some test content',
-        references: [
-          referenceMock,
-        ],
-      },
-      preprintDoi: 'preprint/testid1',
-      preprintUrl: 'doi.org/preprint/testid1',
-      preprintPosted: '2023-01-02T00:00:00.000Z',
-      sentForReview: '2023-01-03T00:00:00.000Z',
-      published: '2023-01-23T00:00:00.000Z',
-      publishedYear: 2023,
-      subjects: ['subject 1', 'subject 2'],
-      license: 'https://creativecommons.org/licenses/by/4.0/',
-    };
-
-    const versionSummary = {
-      id: 'testid3',
-      msid: 'testmsid',
-      doi: 'doi1',
-      volume: '1',
-      eLocationId: 'RPtestid3',
-      versionIdentifier: '1',
-      versionDoi: 'publisher/testid1',
-      preprintDoi: 'preprint/testid1',
-      preprintUrl: 'doi.org/preprint/testid1',
-      preprintPosted: '2023-01-02T00:00:00.000Z',
-      sentForReview: '2023-01-03T00:00:00.000Z',
-      published: '2023-01-23T00:00:00.000Z',
-      publishedYear: 2023,
-      subjects: ['subject 1', 'subject 2'],
-      license: 'https://creativecommons.org/licenses/by/4.0/',
-    };
 
     it('imports a valid JSON body', async () => {
       await request(createApp(articleStore))
@@ -960,6 +960,31 @@ describe('server tests', () => {
           expect(response.header['x-total-count']).toBe('0');
           expect(response.body.length).toBe(0);
         });
+    });
+  });
+
+  describe('/api/files/:identifier(*)/:fileId(*)', () => {
+    it('returns an not found when id does not exist', async () => {
+      const app = createApp(articleStore);
+
+      await request(app)
+        .get('/api/files/notreal/afile.txt')
+        .expect(400);
+    });
+
+    it('imports a valid JSON body and we are able to retrieve it', async () => {
+      const app = createApp(articleStore);
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200);
+
+      const response = await request(app)
+        .get('/api/files/testid3/something');
+      expect(response.statusCode).toBe(302);
+      expect(response.header.location).toMatch(/^https:\/\/s3.us-east-1.amazonaws.com\/epp\/automation\/testmsid\/v1\/something\?X-Amz-Algorithm=AWS4-HMAC-SHA256.*/);
     });
   });
 
