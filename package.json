@@ -35,8 +35,9 @@
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.292.0",
-    "@aws-sdk/credential-providers": "^3.292.0",
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@aws-sdk/credential-providers": "^3.600.0",
+    "@aws-sdk/s3-request-presigner": "^3.600.0",
     "axios": "1.7.2",
     "express": "4.19.2",
     "joi": "^17.7.0",

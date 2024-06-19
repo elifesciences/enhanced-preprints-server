@@ -1,8 +1,9 @@
 import { createWriteStream, readFileSync } from 'fs';
-import { S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { fromWebToken, fromTemporaryCredentials } from '@aws-sdk/credential-providers';
 import { Readable } from 'stream';
 import { S3Config, config } from '../config';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const getAWSCredentials = (s3config: S3Config) => {
   if (s3config.webIdentityTokenFile !== undefined && s3config.awsAssumeRoleArn !== undefined) {
@@ -55,4 +56,4 @@ const constructEPPS3FilePath = (filename: string): S3File => ({
 
 export const constructEPPVersionS3FilePath = (filename: string, msid: string, versionIdentifier: string): S3File => constructEPPS3FilePath(`${msid}/v${versionIdentifier}/${filename}`);
 
-export const getPresignedDownloadUrl = async (client: S3Client, file: S3File): Promise<string> => `${file.Key}`;
+export const getPresignedDownloadUrl = async (client: S3Client, file: S3File): Promise<string> => getSignedUrl(client, new GetObjectCommand(file), { expiresIn: 3600 });
