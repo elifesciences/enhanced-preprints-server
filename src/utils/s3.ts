@@ -1,9 +1,8 @@
-import { createWriteStream, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { fromWebToken, fromTemporaryCredentials } from '@aws-sdk/credential-providers';
-import { Readable } from 'stream';
-import { S3Config, config } from '../config';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { S3Config, config } from '../config';
 
 const getAWSCredentials = (s3config: S3Config) => {
   if (s3config.webIdentityTokenFile !== undefined && s3config.awsAssumeRoleArn !== undefined) {

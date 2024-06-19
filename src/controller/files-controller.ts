@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { NextFunction, Request, Response } from 'express';
 import { ArticleRepository } from '../model/model';
 import { constructEPPVersionS3FilePath, getPresignedDownloadUrl, getS3Client } from '../utils/s3';
