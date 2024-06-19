@@ -15,6 +15,7 @@ export const filesController = (repo: ArticleRepository) => {
     const article = await repo.findArticleVersion(identifier, true);
     if (!article) {
       res.status(400);
+      res.send({ message: `Article Version ${identifier} not found`, status: false });
       return;
     }
 
