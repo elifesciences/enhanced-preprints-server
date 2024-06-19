@@ -19,7 +19,7 @@ export const filesController = (repo: ArticleRepository) => {
       return;
     }
 
-    // construct filePath
+    // construct a presigned URL for the requested file
     try {
       const s3Client = getS3Client(config.eppS3);
       const s3File = constructEPPVersionS3FilePath(fileId, article.article.msid, article.article.versionIdentifier);
