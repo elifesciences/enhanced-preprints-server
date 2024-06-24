@@ -153,7 +153,11 @@ type ExternalVersionSummary = {
   msid: string,
   versionIdentifier: string,
   published?: Date,
-  url: string,
+  url: string
+  corrections?: {
+    content: string[],
+    correctedDate: Date,
+  }[]
 };
 
 export type VersionSummary = PreprintVersionSummary | ExternalVersionSummary;

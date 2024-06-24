@@ -428,4 +428,51 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
     expect(externalVersionSummary.error).toBeUndefined();
     expect(externalVersionSummary.value?.published).toStrictEqual(new Date('2023-02-28'));
   });
+
+  it('validates vor corrections', () => {
+    const corrections1Entry = [{
+      content: ['https://elifesciences.org/reviewed-preprints/85111/'],
+      correctedDate: '2024-01-14',
+    }];
+
+    const input = {
+      id: 'id',
+      msid: 'msid',
+      versionIdentifier: 'v42',
+      published: '2008-11-02',
+      url: 'www.google.com',
+      corrections: corrections1Entry,
+    };
+    const { value, error } = ExternalVersionSummarySchema.validate(input);
+
+    expect(error).toBeUndefined();
+    expect(value.corrections).toBeTruthy();
+
+    const corrections2Entries = [
+      {
+        content: ['https://elifesciences.org/reviewed-preprints/85111/'],
+        correctedDate: '2024-01-14',
+      },
+      {
+        content: ['https://elifesciences.org/reviewed-preprints/85111v2/'],
+        correctedDate: '2024-02-25',
+      },
+    ];
+
+    const input2 = {
+      id: 'id',
+      msid: 'msid',
+      versionIdentifier: 'v42',
+      published: '2008-11-02',
+      url: 'www.google.com',
+      corrections: corrections2Entries,
+    };
+
+    const { value: value2, error: error2 } = ExternalVersionSummarySchema.validate(input2);
+
+    expect(error2).toBeUndefined();
+    expect(value2.corrections).toBeTruthy();
+    expect(value2.corrections).toHaveLength(2);
+    expect(value2.corrections[1].correctedDate).toStrictEqual(new Date('2024-02-25'));
+  });
 });

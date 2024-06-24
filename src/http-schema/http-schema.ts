@@ -239,6 +239,10 @@ export const ExternalVersionSummarySchema = Joi.object<VersionSummary>({
   url: Joi.string().required(),
   versionIdentifier: Joi.string().required(),
   published: Joi.date().required().allow(null),
+  corrections: Joi.array().items(Joi.object({
+    content: Joi.array().items(Joi.string()),
+    correctedDate: Joi.date().iso(),
+  })).optional(),
 });
 
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
