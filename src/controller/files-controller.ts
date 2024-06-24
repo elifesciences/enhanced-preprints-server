@@ -1,27 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { ArticleRepository } from '../model/model';
-import { constructEPPVersionS3FilePath, getPresignedDownloadUrl, getS3Client } from '../utils/s3';
+import { constructEPPS3File, getPresignedDownloadUrl, getS3Client } from '../utils/s3';
 import { config } from '../config';
 
-export const filesController = (repo: ArticleRepository) => {
+export const filesController = () => {
   const downloadSupplementaryFile = async (req: Request, res: Response, next: NextFunction) => {
-    const {
-      identifier,
-      fileId,
-    } = req.params;
-
-    // Check for valid preprint
-    const article = await repo.findArticleVersion(identifier, true);
-    if (!article) {
-      res.status(400);
-      res.send({ message: `Article Version ${identifier} not found`, status: false });
-      return;
-    }
+    const { fileId } = req.params;
 
     // construct a presigned URL for the requested file
     try {
       const s3Client = getS3Client(config.eppS3);
-      const s3File = constructEPPVersionS3FilePath(fileId, article.article.msid, article.article.versionIdentifier);
+      const s3File = constructEPPS3File(fileId);
       const redirectUrl = await getPresignedDownloadUrl(s3Client, s3File);
 
       res.redirect(redirectUrl);

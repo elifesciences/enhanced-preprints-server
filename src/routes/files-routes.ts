@@ -1,11 +1,10 @@
 import express from 'express';
 import { filesController } from '../controller/files-controller';
-import { ArticleRepository } from '../model/model';
 
-export const filesRoutes = (repo: ArticleRepository) => {
+export const filesRoutes = () => {
   const router = express.Router();
 
-  router.get('/api/files/:identifier(*)/:fileId(*)', filesController(repo).downloadSupplementaryFile);
+  router.get('/api/files/:fileId(*)', filesController().downloadSupplementaryFile);
 
   return router;
 };

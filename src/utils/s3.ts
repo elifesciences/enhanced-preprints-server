@@ -48,11 +48,9 @@ export type S3File = {
   Key: string,
 };
 
-const constructEPPS3FilePath = (filename: string): S3File => ({
+export const constructEPPS3File = (filename: string): S3File => ({
   Bucket: config.eppBucketName,
   Key: `${config.eppBucketPrefix}${filename}`,
 });
-
-export const constructEPPVersionS3FilePath = (filename: string, msid: string, versionIdentifier: string): S3File => constructEPPS3FilePath(`${msid}/v${versionIdentifier}/${filename}`);
 
 export const getPresignedDownloadUrl = async (client: S3Client, file: S3File): Promise<string> => getSignedUrl(client, new GetObjectCommand(file), { expiresIn: 3600 });

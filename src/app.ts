@@ -23,7 +23,7 @@ export const createApp = (repo: ArticleRepository) => {
   app.use(errorHandler);
 
   app.use(preprintsRoutes(repo));
-  app.use(filesRoutes(repo));
+  app.use(filesRoutes());
   app.use(citationsRoutes());
 
   return app;
