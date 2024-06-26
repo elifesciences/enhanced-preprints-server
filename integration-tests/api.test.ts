@@ -507,6 +507,40 @@ describe('server tests', () => {
       // reset config
       config.elifeMetricsUrl = originalElifeMetricsUrl;
     });
+
+    it.failing('adds the corrections to VORs', async () => {
+      const app = createApp(articleStore);
+
+      const correctionsVersionSummary = {
+        ...versionSummary,
+        corrections: [
+          {
+            date: new Date('2023-02-10'),
+            content: 'https://doi.org/doi-123v3',
+          },
+        ],
+      };
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid3')
+        .expect(200, {
+          article: {
+            ...enhancedArticle,
+          },
+          versions: {
+            testid3: correctionsVersionSummary,
+          },
+        });
+    });
   });
 
   describe('/api/preprints-no-content', () => {
