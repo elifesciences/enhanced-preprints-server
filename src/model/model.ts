@@ -155,7 +155,7 @@ type ExternalVersionSummary = {
   published?: Date,
   url: string
   corrections?: {
-    content: string[],
+    content: string,
     correctedDate: Date,
   }[]
 };
