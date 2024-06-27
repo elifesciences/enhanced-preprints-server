@@ -508,15 +508,19 @@ describe('server tests', () => {
       config.elifeMetricsUrl = originalElifeMetricsUrl;
     });
 
-    it.failing('adds the corrections to VORs', async () => {
+    it('adds the corrections to VORs', async () => {
       const app = createApp(articleStore);
 
       const correctionsVersionSummary = {
-        ...versionSummary,
+        id: 'testid3.2',
+        msid: 'testmsid',
+        versionIdentifier: '2',
+        published: '2023-01-23T00:00:00.000Z',
+        url: 'http://www.google.com',
         corrections: [
           {
-            date: new Date('2023-02-10'),
-            content: 'https://doi.org/doi-123v3',
+            date: '2023-02-10T00:00:00.000Z',
+            content: ['https://doi.org/doi-123v3'],
           },
         ],
       };
@@ -531,13 +535,23 @@ describe('server tests', () => {
         });
 
       await request(app)
+        .post('/preprints')
+        .send(correctionsVersionSummary)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
         .get('/api/preprints/testid3')
         .expect(200, {
           article: {
             ...enhancedArticle,
           },
           versions: {
-            testid3: correctionsVersionSummary,
+            testid3: versionSummary,
+            'testid3.2': correctionsVersionSummary,
           },
         });
     });
