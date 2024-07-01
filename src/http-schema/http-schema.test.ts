@@ -423,12 +423,12 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
   });
 
   it.each([
-    [[{}], ['"corrections[0].content" is required', '"corrections[0].correctedDate" is required']],
-    [[{ content: 'content', correctedDate: '2024-01-14' }, {}], ['"corrections[1].content" is required', '"corrections[1].correctedDate" is required']],
-    [[{ content: 'content' }], ['"corrections[0].correctedDate" is required']],
-    [[{ correctedDate: '2024-01-14' }], ['"corrections[0].content" is required']],
-    [[{ content: {}, correctedDate: '2024-01-14' }], ['"corrections[0].content" must be a string']],
-    [[{ content: 'content', correctedDate: 'date' }], ['"corrections[0].correctedDate" must be in ISO 8601 date format']],
+    [[{}], ['"corrections[0].content" is required', '"corrections[0].date" is required']],
+    [[{ content: 'content', date: '2024-01-14' }, {}], ['"corrections[1].content" is required', '"corrections[1].date" is required']],
+    [[{ content: 'content' }], ['"corrections[0].date" is required']],
+    [[{ date: '2024-01-14' }], ['"corrections[0].content" is required']],
+    [[{ content: {}, date: '2024-01-14' }], ['"corrections[0].content" must be a string']],
+    [[{ content: 'content', date: 'date' }], ['"corrections[0].date" must be in ISO 8601 date format']],
   ])('handles validation error with corrections', (corrections, expectedMessages) => {
     const invalidateCorrections = ExternalVersionSummarySchema.validate({
       id: 'id',
@@ -453,7 +453,7 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
   it('validates vor corrections', () => {
     const corrections1Entry = [{
       content: 'https://elifesciences.org/reviewed-preprints/85111/',
-      correctedDate: '2024-01-14',
+      date: '2024-01-14',
     }];
 
     const input = {

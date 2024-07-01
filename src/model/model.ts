@@ -156,7 +156,7 @@ type ExternalVersionSummary = {
   url: string
   corrections?: {
     content: string,
-    correctedDate: Date,
+    date: Date,
   }[]
 };
 
