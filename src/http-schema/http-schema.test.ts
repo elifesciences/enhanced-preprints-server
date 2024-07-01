@@ -210,35 +210,35 @@ describe('httpschema (EnhancedArticleSchema)', () => {
   });
 
   const sampleRequiredFieldValidationMessages = [
-    { message: '"doi" is required' },
-    { message: '"versionIdentifier" is required' },
-    { message: '"article" is required' },
-    { message: '"preprintDoi" is required' },
-    { message: '"preprintUrl" is required' },
-    { message: '"preprintPosted" is required' },
+    '"doi" is required',
+    '"versionIdentifier" is required',
+    '"article" is required',
+    '"preprintDoi" is required',
+    '"preprintUrl" is required',
+    '"preprintPosted" is required',
   ];
 
   const allRequiredFieldValidationMessages = [
-    { message: '"id" is required' },
-    { message: '"msid" is required' },
+    '"id" is required',
+    '"msid" is required',
     ...sampleRequiredFieldValidationMessages,
-    { message: '"published" is required' },
+    '"published" is required',
   ];
 
   it.each([
     [{}, allRequiredFieldValidationMessages],
-    [{ id: '12345', msid: 1, published: null }, [{ message: '"msid" must be a string' }, ...sampleRequiredFieldValidationMessages]],
-    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, { message: '"published" must be a valid date' }]],
-    [{ publishedYear: 'one' }, [...allRequiredFieldValidationMessages, { message: '"publishedYear" must be a number' }]],
+    [{ id: '12345', msid: 1, published: null }, ['"msid" must be a string', ...sampleRequiredFieldValidationMessages]],
+    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, '"published" must be a valid date']],
+    [{ publishedYear: 'one' }, [...allRequiredFieldValidationMessages, '"publishedYear" must be a number']],
     // Verify that publishedYear can also be a numeric string.
     [{ publishedYear: '2023' }, [...allRequiredFieldValidationMessages]],
-    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown" is not allowed' }]],
-    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
+    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown" is not allowed']],
+    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown1" is not allowed', '"unknown2" is not allowed']],
   ])('handles validation error', (value, errorDetails) => {
     const invalidateEnhancedArticle = EnhancedArticleSchema.validate(value, { abortEarly: false });
 
     expect(invalidateEnhancedArticle.error).toBeDefined();
-    expect(invalidateEnhancedArticle.error?.details).toMatchObject(errorDetails);
+    expect(invalidateEnhancedArticle.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
   });
 
   it('coerces dates', () => {
@@ -398,28 +398,28 @@ describe('httpschema (EnhancedArticleSchema)', () => {
 
 describe('httpschema (ExternalVersionSummarySchema)', () => {
   const sampleRequiredFieldValidationMessages = [
-    { message: '"url" is required' },
-    { message: '"versionIdentifier" is required' },
+    '"url" is required',
+    '"versionIdentifier" is required',
   ];
 
   const allRequiredFieldValidationMessages = [
-    { message: '"id" is required' },
-    { message: '"msid" is required' },
+    '"id" is required',
+    '"msid" is required',
     ...sampleRequiredFieldValidationMessages,
-    { message: '"published" is required' },
+    '"published" is required',
   ];
 
   it.each([
     [{}, allRequiredFieldValidationMessages],
-    [{ id: '12345', msid: 1, published: null }, [{ message: '"msid" must be a string' }, ...sampleRequiredFieldValidationMessages]],
-    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, { message: '"published" must be a valid date' }]],
-    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown" is not allowed' }]],
-    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
+    [{ id: '12345', msid: 1, published: null }, ['"msid" must be a string', ...sampleRequiredFieldValidationMessages]],
+    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, '"published" must be a valid date']],
+    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown" is not allowed']],
+    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown1" is not allowed', '"unknown2" is not allowed']],
   ])('handles validation error', (value, errorDetails) => {
     const invalidateExternalVersionSummary = ExternalVersionSummarySchema.validate(value, { abortEarly: false });
 
     expect(invalidateExternalVersionSummary.error).toBeDefined();
-    expect(invalidateExternalVersionSummary.error?.details).toMatchObject(errorDetails);
+    expect(invalidateExternalVersionSummary.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
   });
 
   it.each([
@@ -440,8 +440,7 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
     }, { abortEarly: false });
 
     expect(invalidateCorrections.error).toBeDefined();
-    const actualMessages = invalidateCorrections.error?.details.map((detail) => detail.message);
-    expect(actualMessages).toStrictEqual(expectedMessages);
+    expect(invalidateCorrections.error?.details.map((detail) => detail.message)).toStrictEqual(expectedMessages);
   });
 
   it('coerces dates', () => {
