@@ -422,6 +422,28 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
     expect(invalidateExternalVersionSummary.error?.details).toMatchObject(errorDetails);
   });
 
+  it.each([
+    [[{}], ['"corrections[0].content" is required', '"corrections[0].correctedDate" is required']],
+    [[{ content: 'content', correctedDate: '2024-01-14' }, {}], ['"corrections[1].content" is required', '"corrections[1].correctedDate" is required']],
+    [[{ content: 'content' }], ['"corrections[0].correctedDate" is required']],
+    [[{ correctedDate: '2024-01-14' }], ['"corrections[0].content" is required']],
+    [[{ content: {}, correctedDate: '2024-01-14' }], ['"corrections[0].content" must be a string']],
+    [[{ content: 'content', correctedDate: 'date' }], ['"corrections[0].correctedDate" must be in ISO 8601 date format']],
+  ])('handles validation error with corrections', (corrections, expectedMessages) => {
+    const invalidateCorrections = ExternalVersionSummarySchema.validate({
+      id: 'id',
+      msid: 'msid',
+      versionIdentifier: 'v42',
+      published: '2008-11-02',
+      url: 'www.google.com',
+      corrections,
+    }, { abortEarly: false });
+
+    expect(invalidateCorrections.error).toBeDefined();
+    const actualMessages = invalidateCorrections.error?.details.map((detail) => detail.message);
+    expect(actualMessages).toStrictEqual(expectedMessages);
+  });
+
   it('coerces dates', () => {
     const externalVersionSummary = ExternalVersionSummarySchema.validate(externalVersionSummaryExample);
 
