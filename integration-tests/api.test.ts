@@ -520,7 +520,7 @@ describe('server tests', () => {
         corrections: [
           {
             date: '2023-02-10T00:00:00.000Z',
-            content: 'https://doi.org/doi-123v3',
+            url: 'https://doi.org/doi-123v3',
           },
         ],
       };

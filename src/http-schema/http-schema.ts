@@ -240,7 +240,7 @@ export const ExternalVersionSummarySchema = Joi.object<VersionSummary>({
   versionIdentifier: Joi.string().required(),
   published: Joi.date().required().allow(null),
   corrections: Joi.array().items(Joi.object({
-    content: Joi.string().required(),
+    url: Joi.string().required(),
     date: Joi.date().iso().required(),
   })).optional(),
 });
