@@ -87,6 +87,7 @@ const enhancedArticleExample = {
 const externalVersionSummaryExample = {
   id: 'testid2',
   msid: 'testmsid1',
+  doi: 'doi2',
   url: 'https://doi.org/doi2',
   versionIdentifier: '2',
   published: '2023-02-28',
@@ -398,6 +399,7 @@ describe('httpschema (EnhancedArticleSchema)', () => {
 
 describe('httpschema (ExternalVersionSummarySchema)', () => {
   const sampleRequiredFieldValidationMessages = [
+    '"doi" is required',
     '"url" is required',
     '"versionIdentifier" is required',
   ];
@@ -433,6 +435,7 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
     const invalidateCorrections = ExternalVersionSummarySchema.validate({
       id: 'id',
       msid: 'msid',
+      doi: 'doi',
       versionIdentifier: 'v42',
       published: '2008-11-02',
       url: 'www.google.com',
@@ -459,6 +462,7 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
     const input = {
       id: 'id',
       msid: 'msid',
+      doi: 'doi',
       versionIdentifier: 'v42',
       published: '2008-11-02',
       url: 'www.google.com',

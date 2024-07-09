@@ -151,13 +151,14 @@ type PreprintVersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
 type ExternalVersionSummary = {
   id: string,
   msid: string,
+  doi: string,
   versionIdentifier: string,
   published?: Date,
-  url: string
+  url: string,
   corrections?: {
     url: string,
     date: Date,
-  }[]
+  }[],
 };
 
 export type VersionSummary = PreprintVersionSummary | ExternalVersionSummary;

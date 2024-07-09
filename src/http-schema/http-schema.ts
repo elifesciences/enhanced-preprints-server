@@ -236,6 +236,7 @@ export const RelatedContentSchema = Joi.array().items({
 export const ExternalVersionSummarySchema = Joi.object<VersionSummary>({
   id: Joi.string().required(),
   msid: Joi.string().required(),
+  doi: Joi.string().required(),
   url: Joi.string().required(),
   versionIdentifier: Joi.string().required(),
   published: Joi.date().required().allow(null),
