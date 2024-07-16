@@ -514,6 +514,7 @@ describe('server tests', () => {
       const correctionsVersionSummary = {
         id: 'testid3.2',
         msid: 'testmsid',
+        doi: '10.1101/1234546',
         versionIdentifier: '2',
         published: '2023-01-23T00:00:00.000Z',
         url: 'http://www.google.com',
