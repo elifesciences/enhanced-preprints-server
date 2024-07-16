@@ -29,3 +29,9 @@ and to lint:
 ```shell
 yarn lint
 ```
+
+# Clone staging database
+
+To clone the staging database (as long as you have k8s access) run `scripts/clone-staging-db.sh` to make a dump of the database.
+start the application with a `docker compose up --wait`
+when the containers have all started run `scripts/use-staging-db.sh`
