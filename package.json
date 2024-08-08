@@ -41,7 +41,7 @@
     "express": "4.19.2",
     "joi": "^17.7.0",
     "mongodb": "6.8.0",
-    "winston": "3.13.1"
+    "winston": "3.14.0"
   },
   "scripts": {
     "start": "ts-node src/server.ts",
