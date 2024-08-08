@@ -104,16 +104,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/abort-controller@npm:3.370.0":
-  version: 3.370.0
-  resolution: "@aws-sdk/abort-controller@npm:3.370.0"
-  dependencies:
-    "@aws-sdk/types": "npm:3.370.0"
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/1f476447405ff41434fc68ccf972422f90a8615155933322b6842b5598b771690f5da1cfad3975c5531dac7c0a0a263c808e9c35b6f3b0f4ddb695dcd44ce1c5
-  languageName: node
-  linkType: hard
-
 "@aws-sdk/client-cognito-identity@npm:3.624.0":
   version: 3.624.0
   resolution: "@aws-sdk/client-cognito-identity@npm:3.624.0"
@@ -538,15 +528,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/is-array-buffer@npm:3.310.0":
-  version: 3.310.0
-  resolution: "@aws-sdk/is-array-buffer@npm:3.310.0"
-  dependencies:
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/9e409bbdcf40aba872cdaa573adebd1bfebd0af4afedd1645d6782a8e0f942aeb53cb65da510ec52a8291682187f6b7091fd7d2631193a747c211ef6efae7960
-  languageName: node
-  linkType: hard
-
 "@aws-sdk/middleware-bucket-endpoint@npm:3.620.0":
   version: 3.620.0
   resolution: "@aws-sdk/middleware-bucket-endpoint@npm:3.620.0"
@@ -682,40 +663,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/node-http-handler@npm:3.370.0":
-  version: 3.370.0
-  resolution: "@aws-sdk/node-http-handler@npm:3.370.0"
-  dependencies:
-    "@aws-sdk/abort-controller": "npm:3.370.0"
-    "@aws-sdk/protocol-http": "npm:3.370.0"
-    "@aws-sdk/querystring-builder": "npm:3.370.0"
-    "@aws-sdk/types": "npm:3.370.0"
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/d4d43b96e9d4d956f01c7e400713f58761d572fbb0d03890b91a26364df5eba5c5e87c56c6616db794752ca63959163bdf57e64f21167c171769f8260d5b193a
-  languageName: node
-  linkType: hard
-
-"@aws-sdk/protocol-http@npm:3.370.0":
-  version: 3.370.0
-  resolution: "@aws-sdk/protocol-http@npm:3.370.0"
-  dependencies:
-    "@aws-sdk/types": "npm:3.370.0"
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/50ef3ac827c8fdedb3714e4e0338ccc4876a26d278cf265b51d3c00f727909ba8d503bd0ecd216f9864a31dfb1b608381e65a6818803eef55fa8c9f276acaa47
-  languageName: node
-  linkType: hard
-
-"@aws-sdk/querystring-builder@npm:3.370.0":
-  version: 3.370.0
-  resolution: "@aws-sdk/querystring-builder@npm:3.370.0"
-  dependencies:
-    "@aws-sdk/types": "npm:3.370.0"
-    "@aws-sdk/util-uri-escape": "npm:3.310.0"
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/434d8bdccea1b3718b13c8862e4e36b1af569f433ab38e40a32f12d8d980d8a1856192d6fc6416633c96f949b8894ae7b75473a7107441b5bb60e873f61d9cdd
-  languageName: node
-  linkType: hard
-
 "@aws-sdk/region-config-resolver@npm:3.614.0":
   version: 3.614.0
   resolution: "@aws-sdk/region-config-resolver@npm:3.614.0"
@@ -759,16 +706,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/types@npm:3.370.0":
-  version: 3.370.0
-  resolution: "@aws-sdk/types@npm:3.370.0"
-  dependencies:
-    "@smithy/types": "npm:^1.1.0"
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/6a9d94014a83b4e1682529a36ef98f177ece93d2a738559c5bfc670df65c63315d183dcb7aa6c36dd0981a830094d83aa20e3c15afa8a4651fcbdf8f9f669184
-  languageName: node
-  linkType: hard
-
 "@aws-sdk/types@npm:3.609.0, @aws-sdk/types@npm:^3.222.0, @aws-sdk/types@npm:^3.292.0":
   version: 3.609.0
   resolution: "@aws-sdk/types@npm:3.609.0"
@@ -785,16 +722,6 @@ __metadata:
   dependencies:
     tslib: "npm:^2.6.2"
   checksum: 10c0/4e6168b86a1ff4509f25b56e473c95bdcc0ecbaedcded29cbbd500eb7c156de63f2426282cd50489ac7f321a990056349974730f9e27ac3fe872ba3573b09fb6
-  languageName: node
-  linkType: hard
-
-"@aws-sdk/util-buffer-from@npm:3.310.0":
-  version: 3.310.0
-  resolution: "@aws-sdk/util-buffer-from@npm:3.310.0"
-  dependencies:
-    "@aws-sdk/is-array-buffer": "npm:3.310.0"
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/48b7aa3041607527c0f0b0e27ede2522b3f79555bd541b62ed44dea64ac443442139040d3a7d65cc3f81210567e8e7b1a77a5bd7bfecf70564b51b8d2a9fd972
   languageName: node
   linkType: hard
 
@@ -816,27 +743,6 @@ __metadata:
   dependencies:
     tslib: "npm:^2.3.1"
   checksum: 10c0/7ed278b7b1acae0c2dacc27ac7955b848b34fb3df0ac7c901f60286b6a0ea2d513a5baddbc8aa66b5138dc6b0caafa9f9de8277bf9e14eaf89ad125b1170c6c1
-  languageName: node
-  linkType: hard
-
-"@aws-sdk/util-stream-node@npm:^3.292.0":
-  version: 3.370.0
-  resolution: "@aws-sdk/util-stream-node@npm:3.370.0"
-  dependencies:
-    "@aws-sdk/node-http-handler": "npm:3.370.0"
-    "@aws-sdk/types": "npm:3.370.0"
-    "@aws-sdk/util-buffer-from": "npm:3.310.0"
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/58586a4e6d41edd3811cf6cb4d991b571e8b6cc26bd22ae792b3e7136f777c83e00663b545f394454f6403c405718bff6c25cb2ec1d51513193ab2a9f221da41
-  languageName: node
-  linkType: hard
-
-"@aws-sdk/util-uri-escape@npm:3.310.0":
-  version: 3.310.0
-  resolution: "@aws-sdk/util-uri-escape@npm:3.310.0"
-  dependencies:
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/ce2eb2dcd0dc86629cfa5f36dd908e3a20915667d0abde4ceef602cc55238ed95d5fa02f19b4f7bf316c371860e957cd5ce67c0c6c16903a465cd52558ae69dd
   languageName: node
   linkType: hard
 
@@ -2684,15 +2590,6 @@ __metadata:
     "@smithy/util-stream": "npm:^3.1.3"
     tslib: "npm:^2.6.2"
   checksum: 10c0/da7300f35d197b16fc7d72060b40bdbfc72b3c903fc95e46c97898b6bc2a3c703618499bc7cf262971f116cc363bdfa62eac299f85f4fc078ae6f0c4353adfa3
-  languageName: node
-  linkType: hard
-
-"@smithy/types@npm:^1.1.0":
-  version: 1.2.0
-  resolution: "@smithy/types@npm:1.2.0"
-  dependencies:
-    tslib: "npm:^2.5.0"
-  checksum: 10c0/fd82b07fe9e3d6fe0877a3bba7d4e93aa0d9d2b64762509ef8235a8b0d0e41631a2eb0c55678aad1d6ff1c59a443fe9647d1b79bf0ec52f78c46040bb1d8ffb9
   languageName: node
   linkType: hard
 
@@ -4633,8 +4530,8 @@ __metadata:
     "@aws-sdk/client-s3": "npm:^3.292.0"
     "@aws-sdk/credential-providers": "npm:^3.292.0"
     "@aws-sdk/types": "npm:^3.292.0"
-    "@aws-sdk/util-stream-node": "npm:^3.292.0"
     "@shelf/jest-mongodb": "npm:^4.1.7"
+    "@smithy/util-stream": "npm:^3.1.3"
     "@tsconfig/node16": "npm:16.1.3"
     "@types/eslint": "npm:8.56.11"
     "@types/express": "npm:4.17.21"
@@ -9073,7 +8970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.5.0":
+"tslib@npm:^2.1.0, tslib@npm:^2.3.1":
   version: 2.6.0
   resolution: "tslib@npm:2.6.0"
   checksum: 10c0/8d18020a8b9e70ecc529a744c883c095f177805efdbc9786bd50bd82a46c17547923133c5444fbcaf1f7f1c44e0e29c89f73ecf6d8fd1039668024a073a81dc6
