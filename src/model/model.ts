@@ -76,6 +76,14 @@ export type ProcessedArticle = {
   licenses: License[],
   content: Content,
   references: Reference[],
+  meta?: {
+    authorNotes?: {
+      type: string,
+      id: string,
+      label: string,
+      text: string,
+    }[]
+  }
 };
 
 export type ArticleSummary = {
