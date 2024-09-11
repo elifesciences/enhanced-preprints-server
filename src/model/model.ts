@@ -8,6 +8,13 @@ export type ArticleContent = {
   document: ArticleDocument,
 };
 
+type AuthorMeta = {
+  notes?: {
+    type: string,
+    rid: string,
+    label?: string,
+  }[],
+};
 export type ArticleTitle = Content;
 export type ArticleAbstract = Content;
 export type Address = {
@@ -16,6 +23,7 @@ export type Address = {
 export type Organisation = {
   name: string,
   address?: Address,
+  meta?: AuthorMeta,
 };
 
 export type OrcidIdentifier = {
@@ -31,6 +39,7 @@ export type Author = {
   affiliations?: Organisation[],
   emails?: string[],
   identifiers?: Identifier[],
+  meta?: AuthorMeta,
 };
 
 export type License = {
@@ -67,6 +76,15 @@ export type Reference = {
   },
 };
 
+type ArticleMeta = {
+  authorNotes?: {
+    type: string,
+    id: string,
+    text: string,
+    label?: string,
+  }[],
+};
+
 export type ProcessedArticle = {
   doi: string,
   title: ArticleTitle,
@@ -76,6 +94,7 @@ export type ProcessedArticle = {
   licenses: License[],
   content: Content,
   references: Reference[],
+  meta?: ArticleMeta,
 };
 
 export type ArticleSummary = {

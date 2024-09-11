@@ -156,9 +156,18 @@ const AddressSchema = Joi.object({
   addressCountry: Joi.string().optional(),
 });
 
+const AuthorMeta = Joi.object({
+  notes: Joi.array().min(1).items(Joi.object({
+    type: Joi.string().required(),
+    rid: Joi.string().required(),
+    label: Joi.string().optional(),
+  })).optional(),
+});
+
 const OrganisationSchema = Joi.object({
   name: Joi.string().required(),
   address: AddressSchema.optional(),
+  meta: AuthorMeta.optional(),
 });
 
 const IdentifierSchema = Joi.object({
@@ -172,6 +181,7 @@ const AuthorSchema = Joi.object({
   affiliations: Joi.array().items(OrganisationSchema).optional(),
   emails: Joi.array().items(Joi.string()).optional(),
   identifiers: Joi.array().items(IdentifierSchema).optional(),
+  meta: AuthorMeta.optional(),
 });
 
 const LicenseSchema = Joi.object({
@@ -214,6 +224,15 @@ const ReferenceSchema = Joi.object({
   })).optional(),
 });
 
+export const ArticleMetaSchema = Joi.object({
+  authorNotes: Joi.array().min(1).items(Joi.object({
+    type: Joi.string().required(),
+    id: Joi.string().required(),
+    text: Joi.string().required(),
+    label: Joi.string().optional(),
+  })).optional(),
+});
+
 const ProcessedArticleSchema = Joi.object({
   title: ContentSchema,
   authors: Joi.array().items(AuthorSchema).required(),
@@ -221,6 +240,7 @@ const ProcessedArticleSchema = Joi.object({
   licenses: Joi.array().items(LicenseSchema).required(),
   content: ContentSchema,
   references: Joi.array().min(1).items(ReferenceSchema).required(),
+  meta: ArticleMetaSchema.optional(),
 });
 
 export const SubjectsSchema = Joi.array().items(Joi.string()).unique();

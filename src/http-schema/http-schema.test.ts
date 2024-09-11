@@ -1,4 +1,5 @@
 import {
+  ArticleMetaSchema,
   EnhancedArticleSchema,
   ExternalVersionSummarySchema,
   RelatedContentSchema,
@@ -366,6 +367,174 @@ describe('httpschema (EnhancedArticleSchema)', () => {
     if (message) {
       expect(result.error).toBeDefined();
       expect(result.error?.message).toStrictEqual(message);
+    } else {
+      expect(result.error).toBeUndefined();
+    }
+  });
+
+  it.each([
+    [
+      {
+        authorNotes: 'not valid',
+      },
+      ['"authorNotes" must be an array'],
+    ],
+    [
+      {
+        authorNotes: [],
+      },
+      ['"authorNotes" must contain at least 1 items'],
+    ],
+    [
+      {
+        authorNotes: [
+          {},
+        ],
+      },
+      [
+        '"authorNotes[0].type" is required',
+        '"authorNotes[0].id" is required',
+        '"authorNotes[0].text" is required',
+      ],
+    ],
+    [
+      {
+        authorNotes: [
+          {
+            type: 'type',
+            id: 'id',
+            text: 'text',
+          },
+          {
+            type: 'type',
+            id: 'id',
+            text: 'text',
+            label: 'label',
+          },
+          {
+            type: 'type',
+            id: 'id',
+            text: 'text',
+            unknown: 'unknown',
+          },
+        ],
+      },
+      ['"authorNotes[2].unknown" is not allowed'],
+    ],
+    [
+      {
+        authorNotes: [
+          {
+            type: 'type',
+            id: 'id',
+            text: 'text',
+          },
+          {
+            type: 'type',
+            id: 'id',
+            text: 'text',
+            label: 'label',
+          },
+        ],
+      },
+      [],
+    ],
+    [{}, []],
+  ])('validate article meta schema: %s', (input, errorDetails) => {
+    const result = ArticleMetaSchema.validate(input, { abortEarly: false });
+    if (errorDetails.length > 0) {
+      expect(result.error).toBeDefined();
+      expect(result.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
+    } else {
+      expect(result.error).toBeUndefined();
+    }
+  });
+
+  it.each([
+    [
+      {
+        notes: 'not valid',
+      },
+      ['"article.authors[0].meta.notes" must be an array'],
+    ],
+    [
+      {
+        notes: [],
+      },
+      ['"article.authors[0].meta.notes" must contain at least 1 items'],
+    ],
+    [
+      {
+        notes: [
+          {},
+        ],
+      },
+      [
+        '"article.authors[0].meta.notes[0].type" is required',
+        '"article.authors[0].meta.notes[0].rid" is required',
+      ],
+    ],
+    [
+      {
+        notes: [
+          {
+            type: 'type',
+            rid: 'rid',
+          },
+          {
+            type: 'type',
+            rid: 'rid',
+            label: 'label',
+          },
+          {
+            type: 'type',
+            rid: 'rid',
+            unknown: 'unknown',
+          },
+        ],
+      },
+      [
+        '"article.authors[0].meta.notes[2].unknown" is not allowed',
+      ],
+    ],
+    [
+      {
+        notes: [
+          {
+            type: 'type',
+            rid: 'rid',
+          },
+          {
+            type: 'type',
+            rid: 'rid',
+            label: 'label',
+          },
+        ],
+      },
+      [],
+    ],
+    [
+      {},
+      [],
+    ],
+  ])('validates author meta %s', (meta, errorDetails) => {
+    const enhancedArticle = {
+      ...enhancedArticleExample,
+      article: {
+        ...enhancedArticleExample.article,
+        authors: [
+          {
+            ...enhancedArticleExample.article.authors[0],
+            meta,
+          },
+          ...enhancedArticleExample.article.authors.slice(1),
+        ],
+      },
+    };
+    const result = EnhancedArticleSchema.validate(enhancedArticle, { abortEarly: false });
+    if (errorDetails.length > 0) {
+      expect(result.error).toBeDefined();
+      expect(result.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
     } else {
       expect(result.error).toBeUndefined();
     }
