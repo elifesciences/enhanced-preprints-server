@@ -393,7 +393,6 @@ describe('httpschema (EnhancedArticleSchema)', () => {
       },
       [
         '"authorNotes[0].type" is required',
-        '"authorNotes[0].id" is required',
         '"authorNotes[0].text" is required',
       ],
     ],
@@ -402,7 +401,6 @@ describe('httpschema (EnhancedArticleSchema)', () => {
         authorNotes: [
           {
             type: 'type',
-            id: 'id',
             text: 'text',
           },
           {
@@ -413,7 +411,6 @@ describe('httpschema (EnhancedArticleSchema)', () => {
           },
           {
             type: 'type',
-            id: 'id',
             text: 'text',
             unknown: 'unknown',
           },
@@ -426,7 +423,6 @@ describe('httpschema (EnhancedArticleSchema)', () => {
         authorNotes: [
           {
             type: 'type',
-            id: 'id',
             text: 'text',
           },
           {

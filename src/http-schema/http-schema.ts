@@ -227,8 +227,8 @@ const ReferenceSchema = Joi.object({
 export const ArticleMetaSchema = Joi.object({
   authorNotes: Joi.array().min(1).items(Joi.object({
     type: Joi.string().required(),
-    id: Joi.string().required(),
     text: Joi.string().required(),
+    id: Joi.string().optional(),
     label: Joi.string().optional(),
   })).optional(),
 });
