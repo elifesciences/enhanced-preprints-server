@@ -14,7 +14,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     -r|--remote)
       if [ "$REMOTE" != "staging" ] && [ "$REMOTE" != "prod" ]; then
-        echo "Error: Invalid value for remote. Allowed values are 'staging' or 'prod'."
+        printf "Error: Invalid value for remote. Allowed values are 'staging' or 'prod'."
         exit 1
       fi
       REMOTE="$2"
@@ -22,16 +22,14 @@ while [[ $# -gt 0 ]]; do
       shift # past value
       ;;
     -h|--help)
-      echo "This script will clone the mongodb data on either staging or prod so it can be used locally."
-      echo "kubectl will need to be setup and authenticated to access the cluster"
-      echo
-      echo "options:"
-      echo -e "${G}-o --output      The output path for the database dump including the filename (default: ./database.dump)"
-      echo -e "${G}-r --remote      Which remote to use, must be either 'staging' or 'prod' (default: staging)"
+      printf "This script will clone the mongodb data on either staging or prod so it can be used locally.\nkubectl will need to be setup and authenticated to access the cluster\n\n"
+      printf "options:\n"
+      printf "${G}-o --output      The output path for the database dump including the filename (default: ./database.dump)\n"
+      printf "${G}-r --remote      Which remote to use, must be either 'staging' or 'prod' (default: staging)\n"
       exit 0
       ;;
     -*|--*)
-      echo -e "${R}Unknown option $1"
+      printf -e "${R}Unknown option $1"
       exit 1
       ;;
   esac
