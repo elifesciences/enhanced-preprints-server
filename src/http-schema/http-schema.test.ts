@@ -149,6 +149,7 @@ describe('httpschema (EnhancedArticleSchema)', () => {
     },
     {
       type: 'ImageObject',
+      id: 'img',
       contentUrl: 'https://placekitten.com/500/300',
       content: [],
       meta: {

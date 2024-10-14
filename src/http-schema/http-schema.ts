@@ -94,6 +94,7 @@ const FigureContentSchema = Joi.object({
 
 const ImageObjectContent = Joi.object({
   type: Joi.string().valid('ImageObject').required(),
+  id: Joi.string().optional(),
   contentUrl: Joi.string().optional(),
   content: Joi.link('#Content').optional(),
   meta: Joi.object({
