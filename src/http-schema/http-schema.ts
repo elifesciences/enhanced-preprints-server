@@ -204,6 +204,15 @@ const PublicationSchema = Joi.object({
   isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
 
+const PublisherSchema = Joi.object({
+  type: Joi.string().valid('Organization').required(),
+  name: Joi.string().required(),
+  address: Joi.object({
+    type: Joi.string().valid('PostalAddress').required(),
+    addressLocality: Joi.string().required(),
+  }).optional(),
+});
+
 const ReferenceSchema = Joi.object({
   type: Joi.string().valid('Article').required(),
   id: Joi.string().required(),
@@ -217,6 +226,7 @@ const ReferenceSchema = Joi.object({
     Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().iso() }),
   ).optional(),
   isPartOf: PublicationSchema.optional(),
+  publisher: PublisherSchema.optional(),
   identifiers: Joi.array().items(Joi.object({
     type: Joi.string().required(),
     name: Joi.string().required(),

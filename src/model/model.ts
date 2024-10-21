@@ -55,6 +55,14 @@ export type Publication = {
   volumeNumber?: number | string,
   isPartOf?: Publication,
 };
+type Publisher = {
+  type: 'Organization',
+  name: string,
+  address?: {
+    type: 'PostalAddress',
+    addressLocality?: string,
+  },
+};
 export type Reference = {
   type: 'Article',
   id: string,
@@ -65,6 +73,7 @@ export type Reference = {
   authors: Array<Author | Organisation>,
   datePublished?: Date,
   isPartOf?: Publication,
+  publisher?: Publisher,
   identifiers?: {
     type: string,
     name: string,

@@ -8142,6 +8142,14 @@
           },
           "volumeNumber": 34
         },
+        "publisher": {
+          "type": "Organization",
+          "name": "Publisher",
+          "address": {
+            "type": "PostalAddress",
+            "addressLocality": "Locality"
+          }
+        },
         "pageEnd": 6,
         "pageStart": 1,
         "title": "Deep learning-based multiple animal pose estimation"

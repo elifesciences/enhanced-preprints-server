@@ -76,6 +76,20 @@ const enhancedArticleExample = {
           volumeNumber: 'one',
         },
       },
+      {
+        type: 'Article',
+        id: 'ref4',
+        title: 'Reference 4',
+        authors: [],
+        publisher: {
+          type: 'Organization',
+          name: 'Publisher',
+          address: {
+            type: 'PostalAddress',
+            addressLocality: 'Address Locality',
+          },
+        },
+      },
     ],
   },
   preprintDoi: 'preprint/testid1',
