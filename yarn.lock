@@ -4756,7 +4756,7 @@ __metadata:
     jest: "npm:29.7.0"
     jest-mock: "npm:29.7.0"
     joi: "npm:^17.7.0"
-    mongodb: "npm:6.9.0"
+    mongodb: "npm:6.10.0"
     nodemon: "npm:3.1.7"
     supertest: "npm:^7.0.0"
     ts-jest: "npm:29.2.5"
@@ -7750,9 +7750,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:6.9.0":
-  version: 6.9.0
-  resolution: "mongodb@npm:6.9.0"
+"mongodb@npm:6.10.0":
+  version: 6.10.0
+  resolution: "mongodb@npm:6.10.0"
   dependencies:
     "@mongodb-js/saslprep": "npm:^1.1.5"
     bson: "npm:^6.7.0"
@@ -7780,7 +7780,7 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: 10c0/2b6c241a3361d014464a2c446fc9a71bae7270a9d8f777ffb8d69f0decfc6047f7dd6315c76caaa301fd61476948c3570b4b54a0866af5968e89b3cf5afa218e
+  checksum: 10c0/8a92b1a5f0a30b88b80d09a0718ecfb18a4a7f7e77c4b2a7047b57babfec6a29ece09dd375a4f528f0712f1282b39e27f194e75d89a3039fbfda4b1c4f7d3095
   languageName: node
   linkType: hard
 
