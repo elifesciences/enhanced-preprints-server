@@ -223,6 +223,10 @@ const ReferenceSchema = Joi.object({
     propertyID: Joi.string().optional(),
     value: Joi.string().required(),
   })).optional(),
+  meta: Joi.object({
+    label: Joi.string().optional(),
+    yearPublished: Joi.string().optional(),
+  }).optional(),
 });
 
 export const ArticleMetaSchema = Joi.object({

@@ -72,6 +72,7 @@ export type Reference = {
     value: string,
   }[],
   meta?: {
+    yearPublished?: string,
     label?: string,
   },
 };
