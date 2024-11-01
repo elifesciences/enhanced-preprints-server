@@ -137,7 +137,7 @@ export type Evaluation = {
 };
 
 export type PeerReview = {
-  evaluationSummary: Evaluation,
+  evaluationSummary?: Evaluation,
   reviews: Evaluation[],
   authorResponse?: Evaluation,
 };

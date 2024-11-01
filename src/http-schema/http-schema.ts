@@ -148,7 +148,7 @@ const EvaluationSchema = Joi.object({
 });
 
 const PeerReviewSchema = Joi.object({
-  evaluationSummary: EvaluationSchema.required(),
+  evaluationSummary: EvaluationSchema.optional(),
   reviews: Joi.array().items(EvaluationSchema).required(),
   authorResponse: EvaluationSchema.optional(),
 });
