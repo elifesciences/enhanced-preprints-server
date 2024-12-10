@@ -34,7 +34,7 @@ yarn lint
 
 To clone one of the cluster databases (as long as you have k8s access) run `scripts/clone-cluster-db.sh` to make a dump of the database.
 
-Use `-o` or `--output` (defaults to `./database.dump`) to change the name of the dump and `-r` or `--remote` to change which remote to use (only accepts `staging` or `prod` and defalts to `staging`).
+Use `-o` or `--output` (defaults to `./database.dump`) to change the name of the dump and `-r` or `--remote` to change which remote to use (only accepts `staging` or `prod` and defaults to `staging`).
 
 Start the application with a `docker compose up --wait`.
 
