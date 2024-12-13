@@ -4686,7 +4686,7 @@ __metadata:
     jest-mock: "npm:29.7.0"
     joi: "npm:^17.7.0"
     mongodb: "npm:6.12.0"
-    nodemon: "npm:3.1.7"
+    nodemon: "npm:3.1.9"
     supertest: "npm:^7.0.0"
     ts-jest: "npm:29.2.5"
     ts-node: "npm:10.9.2"
@@ -7823,9 +7823,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemon@npm:3.1.7":
-  version: 3.1.7
-  resolution: "nodemon@npm:3.1.7"
+"nodemon@npm:3.1.9":
+  version: 3.1.9
+  resolution: "nodemon@npm:3.1.9"
   dependencies:
     chokidar: "npm:^3.5.2"
     debug: "npm:^4"
@@ -7839,7 +7839,7 @@ __metadata:
     undefsafe: "npm:^2.0.5"
   bin:
     nodemon: bin/nodemon.js
-  checksum: 10c0/e0b46939abdbce251b1d6281005a5763cee57db295bb00bc4a753b0f5320dac00fe53547fb6764c70a086cf6d1238875cccb800fbc71544b3ecbd3ef71183c87
+  checksum: 10c0/dbd6fab40e6be18929ac02366bfdc2203c1688f45186d9468f6bdeb192f0666d044500dfb729d825526715196456e6a17509a13de019b058cbce428d72d04eb5
   languageName: node
   linkType: hard
 
