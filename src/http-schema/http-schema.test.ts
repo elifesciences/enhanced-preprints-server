@@ -1,4 +1,5 @@
 import {
+  ArticleMetaSchema,
   EnhancedArticleSchema,
   ExternalVersionSummarySchema,
   RelatedContentSchema,
@@ -75,6 +76,20 @@ const enhancedArticleExample = {
           volumeNumber: 'one',
         },
       },
+      {
+        type: 'Article',
+        id: 'ref4',
+        title: 'Reference 4',
+        authors: [],
+        publisher: {
+          type: 'Organization',
+          name: 'Publisher',
+          address: {
+            type: 'PostalAddress',
+            addressLocality: 'Address Locality',
+          },
+        },
+      },
     ],
   },
   preprintDoi: 'preprint/testid1',
@@ -87,6 +102,7 @@ const enhancedArticleExample = {
 const externalVersionSummaryExample = {
   id: 'testid2',
   msid: 'testmsid1',
+  doi: 'doi2',
   url: 'https://doi.org/doi2',
   versionIdentifier: '2',
   published: '2023-02-28',
@@ -147,6 +163,7 @@ describe('httpschema (EnhancedArticleSchema)', () => {
     },
     {
       type: 'ImageObject',
+      id: 'img',
       contentUrl: 'https://placekitten.com/500/300',
       content: [],
       meta: {
@@ -210,35 +227,35 @@ describe('httpschema (EnhancedArticleSchema)', () => {
   });
 
   const sampleRequiredFieldValidationMessages = [
-    { message: '"doi" is required' },
-    { message: '"versionIdentifier" is required' },
-    { message: '"article" is required' },
-    { message: '"preprintDoi" is required' },
-    { message: '"preprintUrl" is required' },
-    { message: '"preprintPosted" is required' },
+    '"doi" is required',
+    '"versionIdentifier" is required',
+    '"article" is required',
+    '"preprintDoi" is required',
+    '"preprintUrl" is required',
+    '"preprintPosted" is required',
   ];
 
   const allRequiredFieldValidationMessages = [
-    { message: '"id" is required' },
-    { message: '"msid" is required' },
+    '"id" is required',
+    '"msid" is required',
     ...sampleRequiredFieldValidationMessages,
-    { message: '"published" is required' },
+    '"published" is required',
   ];
 
   it.each([
     [{}, allRequiredFieldValidationMessages],
-    [{ id: '12345', msid: 1, published: null }, [{ message: '"msid" must be a string' }, ...sampleRequiredFieldValidationMessages]],
-    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, { message: '"published" must be a valid date' }]],
-    [{ publishedYear: 'one' }, [...allRequiredFieldValidationMessages, { message: '"publishedYear" must be a number' }]],
+    [{ id: '12345', msid: 1, published: null }, ['"msid" must be a string', ...sampleRequiredFieldValidationMessages]],
+    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, '"published" must be a valid date']],
+    [{ publishedYear: 'one' }, [...allRequiredFieldValidationMessages, '"publishedYear" must be a number']],
     // Verify that publishedYear can also be a numeric string.
     [{ publishedYear: '2023' }, [...allRequiredFieldValidationMessages]],
-    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown" is not allowed' }]],
-    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
+    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown" is not allowed']],
+    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown1" is not allowed', '"unknown2" is not allowed']],
   ])('handles validation error', (value, errorDetails) => {
     const invalidateEnhancedArticle = EnhancedArticleSchema.validate(value, { abortEarly: false });
 
     expect(invalidateEnhancedArticle.error).toBeDefined();
-    expect(invalidateEnhancedArticle.error?.details).toMatchObject(errorDetails);
+    expect(invalidateEnhancedArticle.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
   });
 
   it('coerces dates', () => {
@@ -370,6 +387,170 @@ describe('httpschema (EnhancedArticleSchema)', () => {
     }
   });
 
+  it.each([
+    [
+      {
+        authorNotes: 'not valid',
+      },
+      ['"authorNotes" must be an array'],
+    ],
+    [
+      {
+        authorNotes: [],
+      },
+      ['"authorNotes" must contain at least 1 items'],
+    ],
+    [
+      {
+        authorNotes: [
+          {},
+        ],
+      },
+      [
+        '"authorNotes[0].type" is required',
+        '"authorNotes[0].text" is required',
+      ],
+    ],
+    [
+      {
+        authorNotes: [
+          {
+            type: 'type',
+            text: 'text',
+          },
+          {
+            type: 'type',
+            id: 'id',
+            text: 'text',
+            label: 'label',
+          },
+          {
+            type: 'type',
+            text: 'text',
+            unknown: 'unknown',
+          },
+        ],
+      },
+      ['"authorNotes[2].unknown" is not allowed'],
+    ],
+    [
+      {
+        authorNotes: [
+          {
+            type: 'type',
+            text: 'text',
+          },
+          {
+            type: 'type',
+            id: 'id',
+            text: 'text',
+            label: 'label',
+          },
+        ],
+      },
+      [],
+    ],
+    [{}, []],
+  ])('validate article meta schema: %s', (input, errorDetails) => {
+    const result = ArticleMetaSchema.validate(input, { abortEarly: false });
+    if (errorDetails.length > 0) {
+      expect(result.error).toBeDefined();
+      expect(result.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
+    } else {
+      expect(result.error).toBeUndefined();
+    }
+  });
+
+  it.each([
+    [
+      {
+        notes: 'not valid',
+      },
+      ['"article.authors[0].meta.notes" must be an array'],
+    ],
+    [
+      {
+        notes: [],
+      },
+      ['"article.authors[0].meta.notes" must contain at least 1 items'],
+    ],
+    [
+      {
+        notes: [
+          {},
+        ],
+      },
+      [
+        '"article.authors[0].meta.notes[0].type" is required',
+        '"article.authors[0].meta.notes[0].rid" is required',
+      ],
+    ],
+    [
+      {
+        notes: [
+          {
+            type: 'type',
+            rid: 'rid',
+          },
+          {
+            type: 'type',
+            rid: 'rid',
+            label: 'label',
+          },
+          {
+            type: 'type',
+            rid: 'rid',
+            unknown: 'unknown',
+          },
+        ],
+      },
+      [
+        '"article.authors[0].meta.notes[2].unknown" is not allowed',
+      ],
+    ],
+    [
+      {
+        notes: [
+          {
+            type: 'type',
+            rid: 'rid',
+          },
+          {
+            type: 'type',
+            rid: 'rid',
+            label: 'label',
+          },
+        ],
+      },
+      [],
+    ],
+    [
+      {},
+      [],
+    ],
+  ])('validates author meta %s', (meta, errorDetails) => {
+    const enhancedArticle = {
+      ...enhancedArticleExample,
+      article: {
+        ...enhancedArticleExample.article,
+        authors: [
+          {
+            ...enhancedArticleExample.article.authors[0],
+            meta,
+          },
+          ...enhancedArticleExample.article.authors.slice(1),
+        ],
+      },
+    };
+    const result = EnhancedArticleSchema.validate(enhancedArticle, { abortEarly: false });
+    if (errorDetails.length > 0) {
+      expect(result.error).toBeDefined();
+      expect(result.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
+    } else {
+      expect(result.error).toBeUndefined();
+    }
+  });
+
   it('Fails on empty or missing article.references', () => {
     const emptyReferencesErrorMessage = '"article.references" must contain at least 1 items';
     const articleWithEmptyReferences = {
@@ -398,28 +579,51 @@ describe('httpschema (EnhancedArticleSchema)', () => {
 
 describe('httpschema (ExternalVersionSummarySchema)', () => {
   const sampleRequiredFieldValidationMessages = [
-    { message: '"url" is required' },
-    { message: '"versionIdentifier" is required' },
+    '"doi" is required',
+    '"url" is required',
+    '"versionIdentifier" is required',
   ];
 
   const allRequiredFieldValidationMessages = [
-    { message: '"id" is required' },
-    { message: '"msid" is required' },
+    '"id" is required',
+    '"msid" is required',
     ...sampleRequiredFieldValidationMessages,
-    { message: '"published" is required' },
+    '"published" is required',
   ];
 
   it.each([
     [{}, allRequiredFieldValidationMessages],
-    [{ id: '12345', msid: 1, published: null }, [{ message: '"msid" must be a string' }, ...sampleRequiredFieldValidationMessages]],
-    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, { message: '"published" must be a valid date' }]],
-    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown" is not allowed' }]],
-    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, { message: '"unknown1" is not allowed' }, { message: '"unknown2" is not allowed' }]],
+    [{ id: '12345', msid: 1, published: null }, ['"msid" must be a string', ...sampleRequiredFieldValidationMessages]],
+    [{ id: '12345', msid: 'id', published: 'not a date' }, [...sampleRequiredFieldValidationMessages, '"published" must be a valid date']],
+    [{ unknown: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown" is not allowed']],
+    [{ unknown1: 'unknown', unknown2: 'unknown' }, [...allRequiredFieldValidationMessages, '"unknown1" is not allowed', '"unknown2" is not allowed']],
   ])('handles validation error', (value, errorDetails) => {
     const invalidateExternalVersionSummary = ExternalVersionSummarySchema.validate(value, { abortEarly: false });
 
     expect(invalidateExternalVersionSummary.error).toBeDefined();
-    expect(invalidateExternalVersionSummary.error?.details).toMatchObject(errorDetails);
+    expect(invalidateExternalVersionSummary.error?.details.map((detail) => detail.message)).toStrictEqual(errorDetails);
+  });
+
+  it.each([
+    [[{}], ['"corrections[0].url" is required', '"corrections[0].date" is required']],
+    [[{ url: 'url', date: '2024-01-14' }, {}], ['"corrections[1].url" is required', '"corrections[1].date" is required']],
+    [[{ url: 'url' }], ['"corrections[0].date" is required']],
+    [[{ date: '2024-01-14' }], ['"corrections[0].url" is required']],
+    [[{ url: {}, date: '2024-01-14' }], ['"corrections[0].url" must be a string']],
+    [[{ url: 'url', date: 'date' }], ['"corrections[0].date" must be in ISO 8601 date format']],
+  ])('handles validation error with corrections', (corrections, expectedMessages) => {
+    const invalidateCorrections = ExternalVersionSummarySchema.validate({
+      id: 'id',
+      msid: 'msid',
+      doi: 'doi',
+      versionIdentifier: 'v42',
+      published: '2008-11-02',
+      url: 'www.google.com',
+      corrections,
+    }, { abortEarly: false });
+
+    expect(invalidateCorrections.error).toBeDefined();
+    expect(invalidateCorrections.error?.details.map((detail) => detail.message)).toStrictEqual(expectedMessages);
   });
 
   it('coerces dates', () => {
@@ -427,5 +631,26 @@ describe('httpschema (ExternalVersionSummarySchema)', () => {
 
     expect(externalVersionSummary.error).toBeUndefined();
     expect(externalVersionSummary.value?.published).toStrictEqual(new Date('2023-02-28'));
+  });
+
+  it('validates vor corrections', () => {
+    const corrections1Entry = [{
+      url: 'https://elifesciences.org/reviewed-preprints/85111/',
+      date: '2024-01-14',
+    }];
+
+    const input = {
+      id: 'id',
+      msid: 'msid',
+      doi: 'doi',
+      versionIdentifier: 'v42',
+      published: '2008-11-02',
+      url: 'www.google.com',
+      corrections: corrections1Entry,
+    };
+    const { value, error } = ExternalVersionSummarySchema.validate(input);
+
+    expect(error).toBeUndefined();
+    expect(value.corrections).toBeTruthy();
   });
 });

@@ -90,7 +90,7 @@ export const preprintsController = (repo: ArticleRepository) => {
             };
           } catch (err) {
             if ((err as any)?.response?.status !== 404) {
-              throw err;
+              logger.error(err);
             }
             logger.info(`USE_ELIFE_METRICS configured, but request for ${metricsSummaryUrl} return 404`);
           }

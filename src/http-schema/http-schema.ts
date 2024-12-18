@@ -94,6 +94,7 @@ const FigureContentSchema = Joi.object({
 
 const ImageObjectContent = Joi.object({
   type: Joi.string().valid('ImageObject').required(),
+  id: Joi.string().optional(),
   contentUrl: Joi.string().optional(),
   content: Joi.link('#Content').optional(),
   meta: Joi.object({
@@ -147,7 +148,7 @@ const EvaluationSchema = Joi.object({
 });
 
 const PeerReviewSchema = Joi.object({
-  evaluationSummary: EvaluationSchema.required(),
+  evaluationSummary: EvaluationSchema.optional(),
   reviews: Joi.array().items(EvaluationSchema).required(),
   authorResponse: EvaluationSchema.optional(),
 });
@@ -156,9 +157,18 @@ const AddressSchema = Joi.object({
   addressCountry: Joi.string().optional(),
 });
 
+const AuthorMeta = Joi.object({
+  notes: Joi.array().min(1).items(Joi.object({
+    type: Joi.string().required(),
+    rid: Joi.string().required(),
+    label: Joi.string().optional(),
+  })).optional(),
+});
+
 const OrganisationSchema = Joi.object({
   name: Joi.string().required(),
   address: AddressSchema.optional(),
+  meta: AuthorMeta.optional(),
 });
 
 const IdentifierSchema = Joi.object({
@@ -172,6 +182,7 @@ const AuthorSchema = Joi.object({
   affiliations: Joi.array().items(OrganisationSchema).optional(),
   emails: Joi.array().items(Joi.string()).optional(),
   identifiers: Joi.array().items(IdentifierSchema).optional(),
+  meta: AuthorMeta.optional(),
 });
 
 const LicenseSchema = Joi.object({
@@ -193,6 +204,15 @@ const PublicationSchema = Joi.object({
   isPartOf: Joi.link('#Publication').optional(),
 }).id('Publication');
 
+const PublisherSchema = Joi.object({
+  type: Joi.string().valid('Organization').required(),
+  name: Joi.string().required(),
+  address: Joi.object({
+    type: Joi.string().valid('PostalAddress').required(),
+    addressLocality: Joi.string().required(),
+  }).optional(),
+});
+
 const ReferenceSchema = Joi.object({
   type: Joi.string().valid('Article').required(),
   id: Joi.string().required(),
@@ -206,11 +226,21 @@ const ReferenceSchema = Joi.object({
     Joi.object({ type: Joi.string().valid('Date'), value: Joi.date().iso() }),
   ).optional(),
   isPartOf: PublicationSchema.optional(),
+  publisher: PublisherSchema.optional(),
   identifiers: Joi.array().items(Joi.object({
     type: Joi.string().required(),
     name: Joi.string().required(),
     propertyID: Joi.string().optional(),
     value: Joi.string().required(),
+  })).optional(),
+});
+
+export const ArticleMetaSchema = Joi.object({
+  authorNotes: Joi.array().min(1).items(Joi.object({
+    type: Joi.string().required(),
+    text: Joi.string().required(),
+    id: Joi.string().optional(),
+    label: Joi.string().optional(),
   })).optional(),
 });
 
@@ -221,6 +251,7 @@ const ProcessedArticleSchema = Joi.object({
   licenses: Joi.array().items(LicenseSchema).required(),
   content: ContentSchema,
   references: Joi.array().min(1).items(ReferenceSchema).required(),
+  meta: ArticleMetaSchema.optional(),
 });
 
 export const SubjectsSchema = Joi.array().items(Joi.string()).unique();
@@ -236,9 +267,14 @@ export const RelatedContentSchema = Joi.array().items({
 export const ExternalVersionSummarySchema = Joi.object<VersionSummary>({
   id: Joi.string().required(),
   msid: Joi.string().required(),
+  doi: Joi.string().required(),
   url: Joi.string().required(),
   versionIdentifier: Joi.string().required(),
   published: Joi.date().required().allow(null),
+  corrections: Joi.array().items(Joi.object({
+    url: Joi.string().required(),
+    date: Joi.date().iso().required(),
+  })).optional(),
 });
 
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({

@@ -29,3 +29,17 @@ and to lint:
 ```shell
 yarn lint
 ```
+
+# Clone cluster databases
+
+To clone one of the cluster databases (as long as you have k8s access) run `scripts/clone-cluster-db.sh` to make a dump of the database.
+
+Use `-o` or `--output` (defaults to `./database.dump`) to change the name of the dump and `-r` or `--remote` to change which remote to use (only accepts `staging` or `prod` and defaults to `staging`).
+
+Start the application with a `docker compose up --wait`.
+
+When the containers have all started run `scripts/use-cluster-db.sh`, use `-i` or `--input` (defaults to `./database.dump`) to change the name of the dump to be used.
+
+To see the options on either script run them with `-h`
+
+To check that the db has been imported correctly go to `localhost:8081` and click through to /epp folder.

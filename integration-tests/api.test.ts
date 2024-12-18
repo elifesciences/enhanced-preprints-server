@@ -507,6 +507,55 @@ describe('server tests', () => {
       // reset config
       config.elifeMetricsUrl = originalElifeMetricsUrl;
     });
+
+    it('adds the corrections to VORs', async () => {
+      const app = createApp(articleStore);
+
+      const correctionsVersionSummary = {
+        id: 'testid3.2',
+        msid: 'testmsid',
+        doi: '10.1101/1234546',
+        versionIdentifier: '2',
+        published: '2023-01-23T00:00:00.000Z',
+        url: 'http://www.google.com',
+        corrections: [
+          {
+            date: '2023-02-10T00:00:00.000Z',
+            url: 'https://doi.org/doi-123v3',
+          },
+        ],
+      };
+
+      await request(app)
+        .post('/preprints')
+        .send(enhancedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .post('/preprints')
+        .send(correctionsVersionSummary)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid3')
+        .expect(200, {
+          article: {
+            ...enhancedArticle,
+          },
+          versions: {
+            testid3: versionSummary,
+            'testid3.2': correctionsVersionSummary,
+          },
+        });
+    });
   });
 
   describe('/api/preprints-no-content', () => {
