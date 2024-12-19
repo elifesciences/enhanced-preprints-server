@@ -16,7 +16,7 @@ while [[ $# -gt 0 ]]; do
       printf "This script will restore a mongodb data dump into a local mongodb docker container."
       printf
       printf "options:"
-      printf -e "${G}-i --input      The input path for the database dump including the filename (default: ./database.dump)"
+      printf -e "${G}-i --input      The input path for the database dump including the filename (default: ./versioned_articles.bson.gz)"
       exit 0
       ;;
 
@@ -27,10 +27,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-INPUTPATH="${INPUTPATH:-./database.dump}"
+INPUTPATH="${INPUTPATH:-./versioned_articles.bson.gz}"
 
 # push local file to docker container
 mongo_container_id=$(docker ps -f 'name=mongodb' -q)
-docker cp ${INPUTPATH} $mongo_container_id:/tmp/database.dump
+docker cp ${INPUTPATH} $mongo_container_id:/tmp/versioned_articles.bson.gz
 
-docker compose exec mongodb mongorestore --uri="mongodb://admin:testtest@localhost:27017" --authenticationDatabase=admin --drop --nsInclude=epp.versioned_articles /tmp/database.dump
+docker compose exec mongodb mongorestore --uri="mongodb://admin:testtest@localhost:27017" --authenticationDatabase=admin --db=epp --gzip --drop --nsInclude=epp.versioned_articles /tmp/versioned_articles.bson.gz
