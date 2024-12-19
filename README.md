@@ -32,6 +32,10 @@ yarn lint
 
 # Download cluster databases
 
+Prerequisites:
+- kubectl (https://kubernetes.io/docs/reference/kubectl/ - installed and configured to access cluster)
+- yq (https://github.com/mikefarah/yq)
+
 To download the prod cluster database (as long as you have k8s access) run `scripts/download-cluster-db.sh`.
 
 Use `-o` or `--output` (defaults to `./versioned_articles.bson.gz`) to change the name of the dump.
