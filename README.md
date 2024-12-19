@@ -32,9 +32,9 @@ yarn lint
 
 # Download cluster databases
 
-To download one of the cluster databases (as long as you have k8s access) run `scripts/download-cluster-db.sh`.
+To download the prod cluster database (as long as you have k8s access) run `scripts/download-cluster-db.sh`.
 
-Use `-o` or `--output` (defaults to `./versioned_articles.bson.gz`) to change the name of the dump and `-r` or `--remote` to change which remote to use (only accepts `staging` or `prod` and defaults to `prod`).
+Use `-o` or `--output` (defaults to `./versioned_articles.bson.gz`) to change the name of the dump.
 
 Start the application with a `docker compose up --wait`.
 
@@ -42,4 +42,4 @@ When the containers have all started run `scripts/use-cluster-db.sh`, use `-i` o
 
 To see the options on either script run them with `-h`
 
-To check that the db has been imported correctly go to `localhost:8081` and click through to /epp folder.
+To check that the db has been imported correctly go to http://localhost:8081 and click through to `/epp` folder.

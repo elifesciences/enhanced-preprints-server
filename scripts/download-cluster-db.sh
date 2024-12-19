@@ -12,20 +12,10 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       shift # past value
       ;;
-    -r|--remote)
-      if [ "$REMOTE" != "staging" ] && [ "$REMOTE" != "prod" ]; then
-        printf "Error: Invalid value for remote. Allowed values are 'staging' or 'prod'."
-        exit 1
-      fi
-      REMOTE="$2"
-      shift # past argument
-      shift # past value
-      ;;
     -h|--help)
-      printf "This script will clone the mongodb data on either staging or prod so it can be used locally.\nkubectl will need to be setup and authenticated to access the cluster\n\n"
+      printf "This script will download the mongodb data from prod so it can be used locally.\nkubectl will need to be setup and authenticated to access the cluster\n\n"
       printf "options:\n"
       printf "${G}-o --output      The output path for the database dump including the filename (default: ./versioned_articles.bson.gz)\n"
-      printf "${G}-r --remote      Which remote to use, must be either 'prod' or 'staging' (default: prod)\n"
       exit 0
       ;;
     -*|--*)
@@ -36,9 +26,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 OUTPUTPATH="${OUTPUTPATH:-./versioned_articles.bson.gz}"
-REMOTE="${REMOTE:-prod}"
 
-backup_folder=$(kubectl get perconaservermongodbs.psmdb.percona.com -n epp--${REMOTE} epp-database-psmdb-db -o yaml | yq '.spec.backup.storages["epp-prod-backups"].s3|(.bucket + "/" + .prefix + "/")')
+backup_folder=$(kubectl get perconaservermongodbs.psmdb.percona.com -n epp--prod epp-database-psmdb-db -o yaml | yq '.spec.backup.storages["epp-prod-backups"].s3|(.bucket + "/" + .prefix + "/")')
 recent_folder=$(aws s3 ls ${backup_folder} | awk '{print $2}' | sort | tail -n 1)
 recent_backup="s3://${backup_folder}${recent_folder}replicaset/epp.versioned_articles.gz"
 
