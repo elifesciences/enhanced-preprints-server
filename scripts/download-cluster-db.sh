@@ -27,7 +27,7 @@ done
 
 OUTPUTPATH="${OUTPUTPATH:-./versioned_articles.bson.gz}"
 
-backup_folder=$(kubectl get perconaservermongodbs.psmdb.percona.com -n epp--prod epp-database-psmdb-db -o yaml | yq '.spec.backup.storages["epp-prod-backups"].s3|(.bucket + "/" + .prefix + "/")')
+backup_folder=$(kubectl get perconaservermongodbs.psmdb.percona.com -n epp--prod epp-database-psmdb-db -o yaml | yq '.spec.backup.storages["epp-prod-backups"].s3|(.bucket + "/" + .prefix + "/")' | tr -d '"')
 recent_folder=$(aws s3 ls ${backup_folder} | awk '{print $2}' | sort | tail -n 1)
 recent_backup="s3://${backup_folder}${recent_folder}replicaset/epp.versioned_articles.gz"
 
