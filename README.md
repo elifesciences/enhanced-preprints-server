@@ -30,7 +30,7 @@ and to lint:
 yarn lint
 ```
 
-# Clone cluster databases
+# Download cluster databases
 
 To download one of the cluster databases (as long as you have k8s access) run `scripts/download-cluster-db.sh`.
 

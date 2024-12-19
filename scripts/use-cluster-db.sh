@@ -33,4 +33,4 @@ INPUTPATH="${INPUTPATH:-./versioned_articles.bson.gz}"
 mongo_container_id=$(docker ps -f 'name=mongodb' -q)
 docker cp ${INPUTPATH} $mongo_container_id:/tmp/versioned_articles.bson.gz
 
-docker compose exec mongodb mongorestore --uri="mongodb://admin:testtest@localhost:27017" --authenticationDatabase=admin --db=epp --gzip --drop --nsInclude=epp.versioned_articles /tmp/versioned_articles.bson.gz
+docker compose exec mongodb mongorestore --uri="mongodb://admin:testtest@localhost:27017" --authenticationDatabase=admin --db=epp --gzip --drop --collection=versioned_articles /tmp/versioned_articles.bson.gz
