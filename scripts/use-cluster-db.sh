@@ -13,15 +13,14 @@ while [[ $# -gt 0 ]]; do
       shift # past value
       ;;
     -h|--help)
-      printf "This script will restore a mongodb data dump into a local mongodb docker container."
-      printf
-      printf "options:"
-      printf -e "${G}-i --input      The input path for the database dump including the filename (default: ./versioned_articles.bson.gz)"
+      printf "This script will restore a mongodb data dump into a local mongodb docker container.\n\n"
+      printf "options:\n"
+      printf "${G}-i --input      The input path for the database dump including the filename (default: ./versioned_articles.bson.gz)\n"
       exit 0
       ;;
 
     -*|--*)
-      printf -e "${R}Unknown option $1"
+      printf "${R}Unknown option $1"
       exit 1
       ;;
   esac
