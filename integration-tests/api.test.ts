@@ -1028,7 +1028,8 @@ describe('server tests', () => {
 
       await request(app)
         .get('/api/files/ping')
-        .expect(200);
+        .expect(200)
+        .expect('Content-Type', 'image/svg+xml; charset=utf-8');
     });
   });
 
