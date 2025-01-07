@@ -1022,6 +1022,16 @@ describe('server tests', () => {
     });
   });
 
+  describe('/api/files/ping', () => {
+    it('returns OK for svg file', async () => {
+      const app = createApp(articleStore);
+
+      await request(app)
+        .get('/api/files/ping')
+        .expect(200);
+    });
+  });
+
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
     const bibtex = `
     @article{Carberry_2008,
