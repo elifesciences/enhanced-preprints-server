@@ -89,16 +89,16 @@ services:
       REPO_CONNECTION: mongodb:27017
       REPO_USERNAME: admin
       REPO_PASSWORD: testtest
+
+      # EPP S3 bucket
+      S3_ENDPOINT: http://minio:9000
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: miniotest
+      BUCKET_NAME: epp
     ports:
       - 3000:3000
     volumes:
       - ./src:/opt/epp/src
-
-    # EPP S3 bucket
-    S3_ENDPOINT: http://minio:9000
-    AWS_ACCESS_KEY_ID: minio
-    AWS_SECRET_ACCESS_KEY: miniotest
-    BUCKET_NAME: epp
 
   # expose API and client via proxy
   nginx:
