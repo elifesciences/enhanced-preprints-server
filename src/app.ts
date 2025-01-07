@@ -2,6 +2,7 @@ import express from 'express';
 import { ArticleRepository } from './model/model';
 import { preprintsRoutes } from './routes/preprints-routes';
 import { citationsRoutes } from './routes/citations-routes';
+import { filesRoutes } from './routes/files-routes';
 
 export const createApp = (repo: ArticleRepository) => {
   const app = express();
@@ -23,6 +24,7 @@ export const createApp = (repo: ArticleRepository) => {
 
   app.use(preprintsRoutes(repo));
   app.use(citationsRoutes());
+  app.use(filesRoutes());
 
   return app;
 };

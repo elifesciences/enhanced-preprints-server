@@ -1012,6 +1012,16 @@ describe('server tests', () => {
     });
   });
 
+  describe('/api/files/:fileId(*)', () => {
+    it('returns 404 if file not known', async () => {
+      const app = createApp(articleStore);
+
+      await request(app)
+        .get('/api/files/unknown')
+        .expect(404, 'File not found');
+    });
+  });
+
   describe('/api/citations/:publisherId/:articleId/bibtex', () => {
     const bibtex = `
     @article{Carberry_2008,
