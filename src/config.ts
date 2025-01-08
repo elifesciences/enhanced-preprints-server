@@ -32,6 +32,7 @@ export const config: Config = {
     secretKey: process.env.AWS_SECRET_ACCESS_KEY || undefined,
     region: process.env.S3_REGION || 'us-east-1',
     endPoint: process.env.S3_ENDPOINT || undefined,
+    presignEndPoint: process.env.PRESIGN_S3_ENDPOINT || undefined,
     webIdentityTokenFile: process.env.AWS_WEB_IDENTITY_TOKEN_FILE || undefined,
     awsAssumeRoleArn: process.env.AWS_ROLE_ARN || undefined,
   },

@@ -1,0 +1,4 @@
+services:
+  api:
+    environment:
+      PRESIGN_S3_ENDPOINT: http://localhost:9000

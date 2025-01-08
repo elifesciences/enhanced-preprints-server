@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { constructEPPS3File, getPresignedDownloadUrl, getS3Client } from '../utils/s3';
+import { constructEPPS3File, getPresignedDownloadUrl, getPresignS3Client } from '../utils/s3';
 import { config } from '../config';
 
 export const filesController = () => {
@@ -8,7 +8,7 @@ export const filesController = () => {
 
     // construct a presigned URL for the requested file
     try {
-      const s3Client = getS3Client(config.eppS3);
+      const s3Client = getPresignS3Client(config.eppS3);
       const s3File = constructEPPS3File(fileId);
       const redirectUrl = await getPresignedDownloadUrl(s3Client, s3File);
 

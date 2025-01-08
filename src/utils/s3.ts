@@ -43,6 +43,13 @@ export const getS3Client = (s3config: S3Config) => new S3Client({
   region: s3config.region,
 });
 
+export const getPresignS3Client = (s3config: S3Config) => getS3Client({
+  ...s3config,
+  ...(s3config.presignEndPoint ? {
+    endPoint: s3config.presignEndPoint,
+  } : {}),
+});
+
 export type S3File = {
   Bucket: string,
   Key: string,

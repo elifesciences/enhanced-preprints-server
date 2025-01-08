@@ -8,7 +8,7 @@ Repository for the Enhanced Preprints API server.
 
 You will find it helpful to install local dependencies, by running `yarn`, so that local type-checking and linting tools work.
 
-You will need to add an entry to the `/etc/hosts` (we are considering an approach which may avoid this):
+If you want to use docker-compose.yml without docker-compose.override.yaml you will want to add the following to your `/etc/hosts` file for the file redirects to work on your host machine:
 
 ```shell
 127.0.0.1 minio
