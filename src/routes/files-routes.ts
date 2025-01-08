@@ -1,4 +1,5 @@
 import { Response, Request, Router } from 'express';
+import { filesController } from '../controller/files-controller';
 
 export const filesRoutes = () => {
   const router = Router();
@@ -17,9 +18,7 @@ export const filesRoutes = () => {
     res.status(200).send(svgContent);
   });
 
-  router.get('/api/files/:fileId(*)', async (req: Request, res: Response) => {
-    res.status(404).send('File not found');
-  });
+  router.get('/api/files/:fileId(*)', filesController().downloadSupplementaryFile);
 
   return router;
 };
