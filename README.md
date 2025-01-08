@@ -8,6 +8,12 @@ Repository for the Enhanced Preprints API server.
 
 You will find it helpful to install local dependencies, by running `yarn`, so that local type-checking and linting tools work.
 
+You will need to add an entry to the `/etc/hosts` (we are considering an approach which may avoid this):
+
+```shell
+127.0.0.1 minio
+```
+
 ## Development build - `docker-compose up` or `make start-dev`
 
 This will build and run the application on port `8080` and will rebuild any `ts` files when they change.
@@ -29,6 +35,11 @@ and to lint:
 ```shell
 yarn lint
 ```
+
+# To access the files in the mock s3 visit:
+
+- http://localhost:3000/api/files/100254/v1/content/supplements/596941_file02.pdf
+- http://localhost:3000/api/files/100254/v1/content/supplements/596941_file04.xlsx
 
 # Download cluster databases
 
