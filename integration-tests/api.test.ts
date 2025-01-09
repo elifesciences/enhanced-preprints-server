@@ -1013,12 +1013,15 @@ describe('server tests', () => {
   });
 
   describe('/api/files/:fileId(*)', () => {
-    it('returns 404 if file not known', async () => {
+    it('returns redirect to presigned url', async () => {
       const app = createApp(articleStore);
 
       await request(app)
-        .get('/api/files/unknown')
-        .expect(404, 'File not found');
+        .get('/api/files/path/to/something')
+        .expect(302)
+        .expect((response) => {
+          expect(response.header.location).toMatch(/^https:\/\/s3.us-east-1.amazonaws.com\/epp\/automation\/path\/to\/something\?X-Amz-Algorithm=AWS4-HMAC-SHA256.*/);
+        });
     });
   });
 
