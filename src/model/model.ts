@@ -14,6 +14,7 @@ type AuthorMeta = {
     rid: string,
     label?: string,
   }[],
+  personGroupAuthor?: string,
 };
 export type ArticleTitle = Content;
 export type ArticleAbstract = Content;

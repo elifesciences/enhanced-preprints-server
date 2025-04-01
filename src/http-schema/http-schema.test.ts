@@ -521,8 +521,17 @@ describe('httpschema (EnhancedArticleSchema)', () => {
             label: 'label',
           },
         ],
+        personGroupAuthor: 'editor',
       },
       [],
+    ],
+    [
+      {
+        personGroupAuthor: ['not valid'],
+      },
+      [
+        '"article.authors[0].meta.personGroupAuthor" must be a string',
+      ],
     ],
     [
       {},

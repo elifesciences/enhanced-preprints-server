@@ -163,6 +163,7 @@ const AuthorMeta = Joi.object({
     rid: Joi.string().required(),
     label: Joi.string().optional(),
   })).optional(),
+  personGroupAuthor: Joi.string().optional(),
 });
 
 const OrganisationSchema = Joi.object({
