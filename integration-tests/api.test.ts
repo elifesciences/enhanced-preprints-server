@@ -61,6 +61,7 @@ describe('server tests', () => {
       eLocationId: 'RPtestid3',
       versionIdentifier: '1',
       versionDoi: 'publisher/testid1',
+      umbrellaDoi: 'publisher/testid',
       article: {
         title: 'test article',
         authors: [
@@ -96,6 +97,7 @@ describe('server tests', () => {
       eLocationId: 'RPtestid3',
       versionIdentifier: '1',
       versionDoi: 'publisher/testid1',
+      umbrellaDoi: 'publisher/testid',
       preprintDoi: 'preprint/testid1',
       preprintUrl: 'doi.org/preprint/testid1',
       preprintPosted: '2023-01-02T00:00:00.000Z',
@@ -568,6 +570,7 @@ describe('server tests', () => {
       eLocationId: 'RPtestid3',
       versionIdentifier: '1',
       versionDoi: 'publisher/testid1',
+      umbrellaDoi: 'publisher/testid',
       article: {
         title: 'test article',
         authors: [
@@ -719,6 +722,7 @@ describe('server tests', () => {
             eLocationId: 'RPtestid3',
             versionIdentifier: '2',
             versionDoi: 'publisher/testid1',
+            umbrellaDoi: 'publisher/testid',
             article: {
               title: 'test article',
               authors: [
@@ -748,6 +752,7 @@ describe('server tests', () => {
             eLocationId: 'RPtestid3',
             versionIdentifier: '1',
             versionDoi: 'publisher/testid1',
+            umbrellaDoi: 'publisher/testid',
             article: {
               title: 'test article',
               authors: [
@@ -777,6 +782,7 @@ describe('server tests', () => {
             eLocationId: 'RPtestid3',
             versionIdentifier: '1',
             versionDoi: 'publisher/testid1',
+            umbrellaDoi: 'publisher/testid',
             article: {
               title: 'test article',
               authors: [
@@ -816,6 +822,7 @@ describe('server tests', () => {
             eLocationId: 'RPtestid3',
             versionIdentifier: '1',
             versionDoi: 'publisher/testid1',
+            umbrellaDoi: 'publisher/testid',
             article: {
               title: 'test article',
               authors: [
@@ -845,6 +852,7 @@ describe('server tests', () => {
             eLocationId: 'RPtestid3',
             versionIdentifier: '2',
             versionDoi: 'publisher/testid1',
+            umbrellaDoi: 'publisher/testid',
             article: {
               title: 'test article',
               authors: [
@@ -874,6 +882,7 @@ describe('server tests', () => {
             eLocationId: 'RPtestid3',
             versionIdentifier: '1',
             versionDoi: 'publisher/testid1',
+            umbrellaDoi: 'publisher/testid',
             article: {
               title: 'test article',
               authors: [

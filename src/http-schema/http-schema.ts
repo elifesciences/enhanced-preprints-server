@@ -287,6 +287,7 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
   eLocationId: Joi.string().optional(),
   versionIdentifier: Joi.string().required(),
   versionDoi: Joi.string().optional(),
+  umbrellaDoi: Joi.string().optional(),
   article: ProcessedArticleSchema.required(),
   preprintDoi: Joi.string().required(),
   preprintUrl: Joi.string().required(),

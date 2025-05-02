@@ -160,6 +160,7 @@ export type EnhancedArticle = {
   eLocationId?: string,
   versionIdentifier: string,
   versionDoi?: string,
+  umbrellaDoi?: string,
   // When we drop the old article schema from the DB,
   // we can change ProcessedArticle to exclude these properties and drop `Omit` here
   article: Omit<ProcessedArticle, 'doi' | 'date'>,
