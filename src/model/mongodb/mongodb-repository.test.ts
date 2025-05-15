@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import {
-  Reference, EnhancedArticle, License, EnhancedArticleWithVersions, ArticleRepository,
+  Reference, EnhancedArticle, License, EnhancedArticleWithVersions, ArticleRepository, ReviewType,
 } from '../model';
 import { createMongoDBArticleRepositoryFromMongoClient } from './mongodb-repository';
 
@@ -654,6 +654,103 @@ describe('article-stores', () => {
 
     expect(result).toStrictEqual(true);
     expect(article).toBeNull();
+  });
+
+  it('adds withEvaluationSummary property to versions that have peerReview.evaluationSummary', async () => {
+    const inputArticleWithEvaluationSummary: EnhancedArticle = {
+      id: 'testid-eval-1',
+      msid: 'testid-eval',
+      doi: 'journal/testid-eval-1',
+      versionIdentifier: '1',
+      versionDoi: 'journal/testid-eval-1',
+      preprintDoi: 'preprint/article-eval',
+      preprintUrl: 'http://preprints.org/preprint/article-eval',
+      preprintPosted: new Date('2008-07-01'),
+      sentForReview: new Date('2008-07-02'),
+      published: new Date('2008-10-01'),
+      peerReview: {
+        evaluationSummary: {
+          date: new Date('2008-08-01'),
+          reviewType: ReviewType.EvaluationSummary,
+          text: 'This is an evaluation summary',
+          participants: [{ name: 'John Doe', role: 'editor' }],
+        },
+        reviews: [],
+      },
+      article: {
+        title: 'Test Article with Evaluation Summary',
+        abstract: 'Test article with evaluation summary abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+
+    const inputArticleWithoutEvaluationSummary: EnhancedArticle = {
+      id: 'testid-eval-2',
+      msid: 'testid-eval',
+      doi: 'journal/testid-eval-2',
+      versionIdentifier: '2',
+      versionDoi: 'journal/testid-eval-2',
+      preprintDoi: 'preprint/article-eval-2',
+      preprintUrl: 'http://preprints.org/preprint/article-eval-2',
+      preprintPosted: new Date('2008-07-02'),
+      sentForReview: new Date('2008-07-03'),
+      published: new Date('2008-10-02'),
+      article: {
+        title: 'Test Article without Evaluation Summary',
+        abstract: 'Test article without evaluation summary abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+
+    const inputArticleWithReviewsButNoEvaluationSummary: EnhancedArticle = {
+      id: 'testid-eval-3',
+      msid: 'testid-eval',
+      doi: 'journal/testid-eval-3',
+      versionIdentifier: '3',
+      versionDoi: 'journal/testid-eval-3',
+      preprintDoi: 'preprint/article-eval-3',
+      preprintUrl: 'http://preprints.org/preprint/article-eval-3',
+      preprintPosted: new Date('2008-07-03'),
+      sentForReview: new Date('2008-07-04'),
+      published: new Date('2008-10-03'),
+      peerReview: {
+        reviews: [
+          {
+            date: new Date('2008-08-15'),
+            reviewType: ReviewType.Review,
+            text: 'This is a review without an evaluation summary',
+            participants: [{ name: 'Jane Smith', role: 'reviewer' }],
+          },
+        ],
+      },
+      article: {
+        title: 'Test Article with Reviews but no Evaluation Summary',
+        abstract: 'Test article with reviews but no evaluation summary abstract',
+        authors: exampleAuthors,
+        content: '<article></article>',
+        licenses: exampleLicenses,
+        references: [exampleReference],
+      },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+    };
+
+    await articleStore.storeEnhancedArticle(inputArticleWithEvaluationSummary);
+    await articleStore.storeEnhancedArticle(inputArticleWithoutEvaluationSummary);
+    await articleStore.storeEnhancedArticle(inputArticleWithReviewsButNoEvaluationSummary);
+
+    const article = await articleStore.findArticleVersion('testid-eval-1');
+    expect(article).not.toBeNull();
+    expect(article?.versions['testid-eval-1']).toHaveProperty('withEvaluationSummary', true);
+    expect(article?.versions['testid-eval-2']).not.toHaveProperty('withEvaluationSummary');
+    expect(article?.versions['testid-eval-3']).not.toHaveProperty('withEvaluationSummary');
   });
 
   it('will retrieve non-published and future published articles when asked', async () => {

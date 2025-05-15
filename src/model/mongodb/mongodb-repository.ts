@@ -11,7 +11,7 @@ import {
   EnhancedArticleWithVersions,
   VersionSummary,
   EnhancedArticleNoContent,
-  EnhancedArticlesNoContentWithTotal,
+  EnhancedArticlesNoContentWithTotal, VersionSummaryWithPeerReview, PreprintVersionSummaryWithPeerReview,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -94,20 +94,31 @@ class MongoDBArticleRepository implements ArticleRepository {
       return null;
     }
 
-    const allVersions = await this.versionedCollection.find<VersionSummary>(
+    const allVersions = await this.versionedCollection.find<VersionSummaryWithPeerReview>(
       { msid: version.msid, ...previewFilter },
       {
         projection: {
           article: 0,
-          peerReview: 0,
+          'peerReview.reviews': 0,
+          'peerReview.authorResponse': 0,
           _id: 0,
         },
       },
     ).toArray();
+    const isPreprintVersionSummaryWithPeerReview = (versionSummary: VersionSummaryWithPeerReview): versionSummary is PreprintVersionSummaryWithPeerReview => Object.prototype.hasOwnProperty.call(versionSummary, 'peerReview');
 
-    const indexedVersions: Record<string, VersionSummary> = allVersions.reduce((indexed: Record<string, VersionSummary>, current) => {
+    const indexedVersions: Record<string, VersionSummaryWithPeerReview> = allVersions.reduce((indexed: Record<string, VersionSummary>, current) => {
       const toReturn = indexed;
-      toReturn[current.id] = current;
+      const currentWithEvaluationSummary = {
+        ...current,
+        withEvaluationSummary: (isPreprintVersionSummaryWithPeerReview(current) && current.peerReview?.evaluationSummary),
+      };
+      const { withEvaluationSummary, ...currentWithoutEvaluationSummary } = currentWithEvaluationSummary;
+      toReturn[current.id] = {
+        ...currentWithoutEvaluationSummary,
+        ...(withEvaluationSummary ? { withEvaluationSummary: true } : {}),
+      };
+
       return toReturn;
     }, {});
 

@@ -176,7 +176,8 @@ export type EnhancedArticle = {
   relatedContent?: RelatedContent[],
 };
 
-type PreprintVersionSummary = Omit<EnhancedArticle, 'article' | 'peerReview'>;
+export type PreprintVersionSummaryWithPeerReview = Omit<EnhancedArticle, 'article'>;
+type PreprintVersionSummary = Omit<PreprintVersionSummaryWithPeerReview, 'peerReview'> & { withEvaluationSummary?: true };
 
 type ExternalVersionSummary = {
   id: string,
@@ -191,6 +192,7 @@ type ExternalVersionSummary = {
   }[],
 };
 
+export type VersionSummaryWithPeerReview = PreprintVersionSummaryWithPeerReview | ExternalVersionSummary;
 export type VersionSummary = PreprintVersionSummary | ExternalVersionSummary;
 
 export type EnhancedArticleNoContent = VersionSummary & {
