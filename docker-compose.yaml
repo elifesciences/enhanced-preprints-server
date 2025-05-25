@@ -56,7 +56,7 @@ services:
       start_period: 2s
 
   createbucket:
-    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    image: minio/mc:RELEASE.2025-05-21T01-59-54Z
     depends_on:
       minio:
         condition: service_healthy
