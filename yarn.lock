@@ -3173,12 +3173,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.17.52":
-  version: 20.17.52
-  resolution: "@types/node@npm:20.17.52"
+"@types/node@npm:20.17.54":
+  version: 20.17.54
+  resolution: "@types/node@npm:20.17.54"
   dependencies:
     undici-types: "npm:~6.19.2"
-  checksum: 10c0/564d8655d9eb0cdc28b015afe9fd2b38e30c55a6e1a19cd1b67864afe8227513b77a54f84c1c0f9b236fae9cb3c23414d7f9be7c1f78a25e49ee9076eee8a4ba
+  checksum: 10c0/8106b576de1d19285d9d78b99c7e2fd096a2269f7924b1a26d2dd8c1d291da8a3dfe46dd6eaf43ed5d9849113a81a50b0a9870b72b3fda2e5aafa79323682ca4
   languageName: node
   linkType: hard
 
@@ -4798,7 +4798,7 @@ __metadata:
     "@types/eslint": "npm:8.56.12"
     "@types/express": "npm:4.17.22"
     "@types/jest": "npm:29.5.14"
-    "@types/node": "npm:20.17.52"
+    "@types/node": "npm:20.17.54"
     "@types/supertest": "npm:^6.0.0"
     "@typescript-eslint/eslint-plugin": "npm:7.18.0"
     "@typescript-eslint/parser": "npm:7.18.0"
