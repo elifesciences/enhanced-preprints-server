@@ -79,21 +79,37 @@ export const preprintsController = (repo: ArticleRepository) => {
         }
 
         if (config.elifeMetricsUrl) {
-          const metricsSummaryUrl = `${config.elifeMetricsUrl}/metrics/article/${msid}/summary`;
-          try {
-            const { data } = await axios.get(metricsSummaryUrl);
-            const metrics = data.items[0];
-            version.metrics = {
-              views: metrics.views,
-              downloads: metrics.downloads,
-              citations: Math.max(metrics.crossref, metrics.pubmed, metrics.scopus),
-            };
-          } catch (err) {
-            if ((err as any)?.response?.status !== 404) {
-              logger.error(err);
+          const fetchMetric = async <T>(url: string): Promise<T | null> => {
+            try {
+              const { data } = await axios.get<T>(url);
+              return data;
+            } catch (err) {
+              if ((err as any)?.response?.status !== 404) {
+                logger.error(err);
+              }
+              logger.info(`USE_ELIFE_METRICS configured, but request for ${url} return 404`);
+              return null;
             }
-            logger.info(`USE_ELIFE_METRICS configured, but request for ${metricsSummaryUrl} return 404`);
-          }
+          };
+
+          const metricsBasepath = `${config.elifeMetricsUrl}/metrics/article/${msid}/`;
+          const [citations, downloads, views] = await Promise.all([
+            fetchMetric<{ service: 'Crossref' | 'PubMed Central' | 'Scopus', citations: number }[]>(`${metricsBasepath}citations`)
+              .then((data) => {
+                const crossrefData = data?.find((d) => d.service === 'Crossref');
+                return crossrefData ? crossrefData.citations : 0;
+              }),
+            fetchMetric<{ totalValue: number }>(`${metricsBasepath}downloads`)
+              .then((data) => (data !== null ? data.totalValue : 0)),
+            fetchMetric<{ totalValue: number }>(`${metricsBasepath}page-views`)
+              .then((data) => (data !== null ? data.totalValue : 0)),
+          ]);
+
+          version.metrics = {
+            views,
+            downloads,
+            citations,
+          };
         }
 
         res.send(version);
