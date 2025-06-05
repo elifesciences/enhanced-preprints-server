@@ -94,11 +94,8 @@ export const preprintsController = (repo: ArticleRepository) => {
 
           const metricsBasepath = `${config.elifeMetricsUrl}/metrics/article/${msid}/`;
           const [citations, downloads, views] = await Promise.all([
-            fetchMetric<{ service: 'Crossref' | 'PubMed Central' | 'Scopus', citations: number }[]>(`${metricsBasepath}citations`)
-              .then((data) => {
-                const crossrefData = data?.find((d) => d.service === 'Crossref');
-                return crossrefData ? crossrefData.citations : 0;
-              }),
+            fetchMetric<{ citations: number }[]>(`${metricsBasepath}citations`)
+              .then((data) => (data !== null ? data.reduce((m, c) => Math.max(m, c.citations), 0) : 0)),
             fetchMetric<{ totalValue: number }>(`${metricsBasepath}downloads`)
               .then((data) => (data !== null ? data.totalValue : 0)),
             fetchMetric<{ totalValue: number }>(`${metricsBasepath}page-views`)

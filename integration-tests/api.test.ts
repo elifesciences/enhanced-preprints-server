@@ -457,25 +457,48 @@ describe('server tests', () => {
     });
 
     it('adds the metrics when they are configured and return values', async () => {
-      const metricsSummaryUrl = 'http://elife-metrics/metrics/article/testmsid/summary';
-
-      const metrics = {
-        views: 123,
-        downloads: 456,
-        crossref: 787,
-        pubmed: 788,
-        scopus: 789,
+      const metricsBasepath = 'http://elife-metrics/metrics/article/testmsid/';
+      const citations = [
+        {
+          service: 'Crossref',
+          citations: 787,
+        },
+        {
+          service: 'Pubmed Central',
+          citations: 788,
+        },
+        {
+          service: 'Scopus',
+          citations: 789,
+        },
+      ];
+      const downloads = {
+        totalValue: 456,
       };
+      const pageViews = {
+        totalValue: 123,
+      };
+
       // Needed for jest mock of axios
       // @ts-ignore
       // eslint-disable-next-line consistent-return
       axios.get.mockImplementation((url: string) => {
-        if (url === metricsSummaryUrl) {
+        if (url === `${metricsBasepath}citations`) {
           return Promise.resolve({
             status: 200,
-            data: {
-              items: [metrics],
-            },
+            data: citations,
+          });
+        }
+        if (url === `${metricsBasepath}downloads`) {
+          return Promise.resolve({
+            status: 200,
+            data: downloads,
+          });
+        }
+        if (url === `${metricsBasepath}page-views`) {
+          return Promise.resolve({
+            status: 200,
+            data: pageViews,
           });
         }
       });
