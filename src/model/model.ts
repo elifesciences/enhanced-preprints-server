@@ -164,9 +164,9 @@ export type EnhancedArticle = {
   // When we drop the old article schema from the DB,
   // we can change ProcessedArticle to exclude these properties and drop `Omit` here
   article: Omit<ProcessedArticle, 'doi' | 'date'>,
-  preprintDoi: string,
-  preprintUrl: string,
-  preprintPosted: Date,
+  preprintDoi?: string,
+  preprintUrl?: string,
+  preprintPosted?: Date,
   sentForReview?: Date,
   peerReview?: PeerReview,
   published: Date | null,

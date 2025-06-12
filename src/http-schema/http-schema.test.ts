@@ -230,9 +230,6 @@ describe('httpschema (EnhancedArticleSchema)', () => {
     '"doi" is required',
     '"versionIdentifier" is required',
     '"article" is required',
-    '"preprintDoi" is required',
-    '"preprintUrl" is required',
-    '"preprintPosted" is required',
   ];
 
   const allRequiredFieldValidationMessages = [
