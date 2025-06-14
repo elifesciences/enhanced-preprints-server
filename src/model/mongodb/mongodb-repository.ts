@@ -83,7 +83,7 @@ class MongoDBArticleRepository implements ArticleRepository {
     const version = await this.versionedCollection.findOne<StoredEnhancedArticle>(
       { article: { $exists: true }, $or: [{ _id: identifier }, { msid: identifier }], ...previewFilter },
       {
-        sort: { preprintPosted: -1 },
+        sort: { published: -1, preprintPosted: -1 },
         projection: {
           _id: 0,
         },
