@@ -80,15 +80,19 @@ class MongoDBArticleRepository implements ArticleRepository {
 
   async findArticleVersion(identifier: string, previews: boolean = false): Promise<EnhancedArticleWithVersions | null> {
     const previewFilter = previews ? {} : { published: { $lte: new Date() } };
-    const version = await this.versionedCollection.findOne<StoredEnhancedArticle>(
-      { article: { $exists: true }, $or: [{ _id: identifier }, { msid: identifier }], ...previewFilter },
-      {
-        sort: { published: -1, preprintPosted: -1 },
-        projection: {
-          _id: 0,
-        },
-      },
-    );
+    const version = await this.versionedCollection.aggregate<StoredEnhancedArticle>([
+      // Match documents that have article content and match the identifier (either by _id or msid)
+      // Apply preview filter (if previews=false, only include published articles)
+      { $match: { article: { $exists: true }, $or: [{ _id: identifier }, { msid: identifier }], ...previewFilter } },
+      // Add a computed field that uses published date if available, otherwise falls back to preprintPosted
+      { $addFields: { sortDate: { $ifNull: ['$published', '$preprintPosted'] } } },
+      // Sort by the computed sort date in descending order (most recent first)
+      { $sort: { sortDate: -1 } },
+      // Remove the _id field and the temporary sortDate field from the output
+      { $project: { _id: 0, sortDate: 0 } },
+      // Only return the first (most recent) result
+      { $limit: 1 },
+    ]).next();
 
     if (!version) {
       return null;
