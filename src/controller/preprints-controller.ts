@@ -67,10 +67,6 @@ export const preprintsController = (repo: ArticleRepository) => {
         });
       } else {
         const { msid, versionIdentifier } = version.article;
-        const { siteName, ...articleWithoutSitename } = version.article;
-        if (siteName) {
-          version.siteName = siteName;
-        }
         const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
         try {
           const { status } = await axios.get(pdfUrl);
@@ -111,6 +107,10 @@ export const preprintsController = (repo: ArticleRepository) => {
             downloads,
             citations,
           };
+        }
+        const { siteName, ...articleWithoutSitename } = version.article;
+        if (siteName) {
+          version.siteName = siteName;
         }
 
         res.send({
