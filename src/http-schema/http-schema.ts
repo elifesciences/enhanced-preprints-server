@@ -279,6 +279,7 @@ export const ExternalVersionSummarySchema = Joi.object<VersionSummary>({
 });
 
 export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
+  siteName: Joi.string().optional(),
   id: Joi.string().required(),
   msid: Joi.string().required(),
   subjects: SubjectsSchema.optional(),

@@ -152,6 +152,7 @@ type RelatedContent = {
 };
 
 export type EnhancedArticle = {
+  siteName?: string,
   id: string,
   msid: string,
   subjects?: string[],
@@ -176,7 +177,7 @@ export type EnhancedArticle = {
   relatedContent?: RelatedContent[],
 };
 
-export type PreprintVersionSummaryWithPeerReview = Omit<EnhancedArticle, 'article'>;
+export type PreprintVersionSummaryWithPeerReview = Omit<EnhancedArticle, 'article' | 'siteName'>;
 type PreprintVersionSummary = Omit<PreprintVersionSummaryWithPeerReview, 'peerReview'> & { withEvaluationSummary?: true };
 
 type ExternalVersionSummary = {
@@ -210,6 +211,7 @@ export type EnhancedArticleWithVersions = {
   article: EnhancedArticle,
   metrics?: Metrics,
   versions: Record<string, VersionSummary>,
+  siteName?: string,
 };
 
 export type EnhancedArticlesNoContentWithTotal = {

@@ -11,7 +11,9 @@ import {
   EnhancedArticleWithVersions,
   VersionSummary,
   EnhancedArticleNoContent,
-  EnhancedArticlesNoContentWithTotal, VersionSummaryWithPeerReview, PreprintVersionSummaryWithPeerReview,
+  EnhancedArticlesNoContentWithTotal,
+  VersionSummaryWithPeerReview,
+  PreprintVersionSummaryWithPeerReview,
 } from '../model';
 import { Content } from '../content';
 import { logger } from '../../utils/logger';
@@ -103,6 +105,7 @@ class MongoDBArticleRepository implements ArticleRepository {
       {
         projection: {
           article: 0,
+          siteName: 0,
           'peerReview.reviews': 0,
           'peerReview.authorResponse': 0,
           _id: 0,
