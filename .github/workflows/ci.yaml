@@ -52,6 +52,11 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - name: Get current date
@@ -72,6 +77,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v5
+        id: build-push
         with:
           target: prod
           push: true
@@ -81,3 +87,8 @@ jobs:
             ghcr.io/elifesciences/enhanced-preprints-server:latest
             ghcr.io/elifesciences/enhanced-preprints:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
             ghcr.io/elifesciences/enhanced-preprints-server:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
+      - name: Generate artefact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ghcr.io/elifesciences/enhanced-preprints-client
+          subject-digest: ${{ steps.build-push.outputs.digest }}
