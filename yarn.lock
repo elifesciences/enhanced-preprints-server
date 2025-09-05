@@ -5244,7 +5244,7 @@ __metadata:
     jest: "npm:30.1.3"
     jest-mock: "npm:30.0.5"
     joi: "npm:^17.7.0"
-    mongodb: "npm:6.17.0"
+    mongodb: "npm:6.19.0"
     nodemon: "npm:3.1.10"
     supertest: "npm:^7.0.0"
     ts-jest: "npm:29.4.1"
@@ -8619,9 +8619,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:6.17.0":
-  version: 6.17.0
-  resolution: "mongodb@npm:6.17.0"
+"mongodb@npm:6.19.0":
+  version: 6.19.0
+  resolution: "mongodb@npm:6.19.0"
   dependencies:
     "@mongodb-js/saslprep": "npm:^1.1.9"
     bson: "npm:^6.10.4"
@@ -8632,7 +8632,7 @@ __metadata:
     gcp-metadata: ^5.2.0
     kerberos: ^2.0.1
     mongodb-client-encryption: ">=6.0.0 <7"
-    snappy: ^7.2.2
+    snappy: ^7.3.2
     socks: ^2.7.1
   peerDependenciesMeta:
     "@aws-sdk/credential-providers":
@@ -8649,7 +8649,7 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: 10c0/97630cbb12a7615230f4846220acd68b82d8ae5e12eb83beb239a48c88604766a7cf2b114a20e774ada7be35175c02e23d66b05f3d180c667620a1ba8b1a52b5
+  checksum: 10c0/b25d6bedbb3d85b059fc6aa1e48d585722945b5fdf96cf6767a48069c13636e5e1d004908b1f095f580d0d03c8973c37f55325ce659a8c7f35c7414be23627fc
   languageName: node
   linkType: hard
 
