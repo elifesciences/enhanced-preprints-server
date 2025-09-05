@@ -88,7 +88,7 @@ jobs:
             ghcr.io/elifesciences/enhanced-preprints:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
             ghcr.io/elifesciences/enhanced-preprints-server:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
       - name: Generate artefact attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v3
         with:
           subject-name: ghcr.io/elifesciences/enhanced-preprints-server
           subject-digest: ${{ steps.build-push.outputs.digest }}
