@@ -141,6 +141,35 @@ describe('server tests', () => {
         });
     });
 
+    it('will accept pdfUrl in post request', async () => {
+      const pdfUrl = 'https://path.to/the.pdf';
+      const app = createApp(articleStore);
+
+      await request(app)
+        .post('/preprints')
+        .send({
+          ...enhancedArticle,
+          pdfUrl,
+        })
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testid3')
+        .expect(200, {
+          article: {
+            ...enhancedArticle,
+            pdfUrl,
+          },
+          versions: {
+            testid3: versionSummary,
+          },
+        });
+    });
+
     it('adds the pdf url when the file is found', async () => {
       const pdfUrl = 'https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/testmsid/v1/testmsid-v1.pdf';
       // Needed for jest mock of axios
@@ -676,6 +705,10 @@ describe('server tests', () => {
       published: '2023-01-22T00:00:00.000Z',
       subjects: ['subject 3'],
     };
+    const exampleVersion6WithPdfUrl = {
+      ...exampleVersion6,
+      pdfUrl: 'https://example.version/6.pdf',
+    };
 
     beforeEach(async () => {
       app = createApp(articleStore);
@@ -797,6 +830,54 @@ describe('server tests', () => {
             license: 'https://creativecommons.org/licenses/by/4.0/',
             firstPublished: '2023-01-23T01:00:00.000Z',
           });
+          expect(response.body[2]).toEqual({
+            id: 'testid8',
+            msid: 'article.5',
+            doi: 'doi1',
+            volume: '1',
+            eLocationId: 'RPtestid3',
+            versionIdentifier: '1',
+            versionDoi: 'publisher/testid1',
+            umbrellaDoi: 'publisher/testid',
+            article: {
+              title: 'test article',
+              authors: [
+                {
+                  familyNames: ['Daffy'],
+                  givenNames: ['Duck'],
+                  affiliations: [{ name: 'ACME Labs' }],
+                  emails: ['daffy.duck@acme.org'],
+                },
+              ],
+            },
+            preprintDoi: 'preprint/testid1',
+            preprintUrl: 'doi.org/preprint/testid1',
+            preprintPosted: '2023-01-02T00:00:00.000Z',
+            sentForReview: '2023-01-03T00:00:00.000Z',
+            published: '2023-01-22T00:00:00.000Z',
+            publishedYear: 2023,
+            subjects: ['subject 3'],
+            license: 'https://creativecommons.org/licenses/by/4.0/',
+            firstPublished: '2023-01-22T00:00:00.000Z',
+          });
+        });
+    });
+
+    it('does not output pdfUrl if supplied in db', async () => {
+      await request(app)
+        .post('/preprints')
+        .send(exampleVersion6WithPdfUrl)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect((200), {
+          result: true,
+          message: 'OK',
+        });
+      await request(app)
+        .get('/api/preprints-no-content')
+        .expect(200)
+        .expect((response) => {
+          expect(response.header['x-total-count']).toBe('3');
+          expect(response.body.length).toBe(3);
           expect(response.body[2]).toEqual({
             id: 'testid8',
             msid: 'article.5',

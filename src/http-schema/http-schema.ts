@@ -301,4 +301,5 @@ export const EnhancedArticleSchema = Joi.object<EnhancedArticle>({
     .optional(),
   license: Joi.string().optional(),
   relatedContent: RelatedContentSchema.optional(),
+  pdfUrl: Joi.string().optional(),
 });

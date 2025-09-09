@@ -67,15 +67,17 @@ export const preprintsController = (repo: ArticleRepository) => {
         });
       } else {
         const { msid, versionIdentifier } = version.article;
-        const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
-        try {
-          const { status } = await axios.get(pdfUrl);
-          if (status === 200) {
-            version.article.pdfUrl = pdfUrl;
+        if (version.article.pdfUrl === undefined) {
+          const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
+          try {
+            const { status } = await axios.get(pdfUrl);
+            if (status === 200) {
+              version.article.pdfUrl = pdfUrl;
+            }
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.log('no PDF found or fetch failed');
           }
-        } catch (err) {
-          // eslint-disable-next-line no-console
-          console.log('no PDF found or fetch failed');
         }
 
         if (config.elifeMetricsUrl) {
