@@ -2922,8 +2922,8 @@ __metadata:
   linkType: hard
 
 "@smithy/util-stream@npm:^4.0.0, @smithy/util-stream@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "@smithy/util-stream@npm:4.3.1"
+  version: 4.3.2
+  resolution: "@smithy/util-stream@npm:4.3.2"
   dependencies:
     "@smithy/fetch-http-handler": "npm:^5.2.1"
     "@smithy/node-http-handler": "npm:^4.2.1"
@@ -2933,7 +2933,7 @@ __metadata:
     "@smithy/util-hex-encoding": "npm:^4.1.0"
     "@smithy/util-utf8": "npm:^4.1.0"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/7fd8fde8b011fe3535799d9a60195fe8e1229c6976b76d3bf930dbb9d27204754acbf082816cdacaa00e77857ab9e4b673c331c6626aba7ef242cdb7e143b028
+  checksum: 10c0/681544c3794709ee3c56d0bdbacf8ce9046b4a08ec75656c46a9951a1d82c24617737cb25aad0703571f558d89ed3d42e335c14372e25d92eb15ec11deb613f0
   languageName: node
   linkType: hard
 
