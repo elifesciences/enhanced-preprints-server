@@ -2534,6 +2534,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/fetch-http-handler@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "@smithy/fetch-http-handler@npm:5.3.1"
+  dependencies:
+    "@smithy/protocol-http": "npm:^5.3.0"
+    "@smithy/querystring-builder": "npm:^4.2.0"
+    "@smithy/types": "npm:^4.6.0"
+    "@smithy/util-base64": "npm:^4.3.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/71e974b057343e1f32317015946c1f46a81ceafc1cad257e2f018e6aeb75f07a979a3cde9ba1a5d7883606ac64290ca14cb89eb6888e025e5498b183ca7f79cc
+  languageName: node
+  linkType: hard
+
 "@smithy/hash-blob-browser@npm:^4.2.0":
   version: 4.2.0
   resolution: "@smithy/hash-blob-browser@npm:4.2.0"
@@ -2820,6 +2833,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/util-base64@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "@smithy/util-base64@npm:4.3.0"
+  dependencies:
+    "@smithy/util-buffer-from": "npm:^4.2.0"
+    "@smithy/util-utf8": "npm:^4.2.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/02dd536b9257914cc9a595a865faac64fc96db10468d52d0cba475df78764fc25ba255707ccd061ee197fca189d7859d70af8cf89b0b0c3e27c1c693676eb6e4
+  languageName: node
+  linkType: hard
+
 "@smithy/util-body-length-browser@npm:^4.2.0":
   version: 4.2.0
   resolution: "@smithy/util-body-length-browser@npm:4.2.0"
@@ -2937,18 +2961,18 @@ __metadata:
   linkType: hard
 
 "@smithy/util-stream@npm:^4.0.0, @smithy/util-stream@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "@smithy/util-stream@npm:4.4.0"
+  version: 4.5.0
+  resolution: "@smithy/util-stream@npm:4.5.0"
   dependencies:
-    "@smithy/fetch-http-handler": "npm:^5.3.0"
+    "@smithy/fetch-http-handler": "npm:^5.3.1"
     "@smithy/node-http-handler": "npm:^4.3.0"
     "@smithy/types": "npm:^4.6.0"
-    "@smithy/util-base64": "npm:^4.2.0"
+    "@smithy/util-base64": "npm:^4.3.0"
     "@smithy/util-buffer-from": "npm:^4.2.0"
     "@smithy/util-hex-encoding": "npm:^4.2.0"
     "@smithy/util-utf8": "npm:^4.2.0"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/6328011045d4d4ed8e2bc07a07559ad64a593971c886a6699bd590bbda1cbb65fe8413f8a08de66837fbf5a2d87c60f4a3885aa5b48a884f3f50d5aaefae4128
+  checksum: 10c0/7790fc90cb76fe418f16c55179255ddaa9176605fbf6af4188572dff380905dedc2ae2461396980ac9e3cb14124049700a43ac2b01589f6c81aa5cdc63e8b5a8
   languageName: node
   linkType: hard
 
