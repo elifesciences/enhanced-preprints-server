@@ -3169,15 +3169,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:4.17.23":
-  version: 4.17.23
-  resolution: "@types/express@npm:4.17.23"
+"@types/express@npm:4.17.24":
+  version: 4.17.24
+  resolution: "@types/express@npm:4.17.24"
   dependencies:
     "@types/body-parser": "npm:*"
     "@types/express-serve-static-core": "npm:^4.17.33"
     "@types/qs": "npm:*"
     "@types/serve-static": "npm:*"
-  checksum: 10c0/60490cd4f73085007247e7d4fafad0a7abdafa34fa3caba2757512564ca5e094ece7459f0f324030a63d513f967bb86579a8682af76ae2fd718e889b0a2a4fe8
+  checksum: 10c0/664e1983e47dee6e30c3c3cad84a8e43f9da07e24bd596e8398cf3fb36bc107fc813a9bc90e3da01bc8930dc70c5729a380e4ea54998159ec1b1eba2db6ce933
   languageName: node
   linkType: hard
 
@@ -5130,7 +5130,7 @@ __metadata:
     "@smithy/util-stream": "npm:^4.0.0"
     "@tsconfig/node16": "npm:16.1.6"
     "@types/eslint": "npm:9.6.1"
-    "@types/express": "npm:4.17.23"
+    "@types/express": "npm:4.17.24"
     "@types/jest": "npm:30.0.0"
     "@types/node": "npm:20.19.23"
     "@types/supertest": "npm:^6.0.0"
