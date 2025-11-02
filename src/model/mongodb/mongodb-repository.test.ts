@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import {
-  Reference, EnhancedArticle, License, EnhancedArticleWithVersions, ArticleRepository, ReviewType,
+  type Reference, type EnhancedArticle, type License, type EnhancedArticleWithVersions, type ArticleRepository, ReviewType,
 } from '../model';
 import { createMongoDBArticleRepositoryFromMongoClient } from './mongodb-repository';
 

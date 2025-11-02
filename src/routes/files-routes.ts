@@ -1,4 +1,4 @@
-import { Response, Request, Router } from 'express';
+import { type Response, type Request, Router } from 'express';
 import { filesController } from '../controller/files-controller';
 
 export const filesRoutes = () => {

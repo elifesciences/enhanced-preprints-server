@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import { type NextFunction, type Request, type Response } from 'express';
 import axios from 'axios';
 import Joi from 'joi';
 import { EnhancedArticleSchema, ExternalVersionSummarySchema } from '../http-schema/http-schema';
-import { ArticleRepository } from '../model/model';
+import { type ArticleRepository } from '../model/model';
 import { logger } from '../utils/logger';
 import { config } from '../config';
 

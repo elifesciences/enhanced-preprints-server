@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NextFunction, Request, Response } from 'express';
+import { type NextFunction, type Request, type Response } from 'express';
 
 export const citationsController = () => {
   const downloadBibtex = async (req: Request, res: Response, next: NextFunction) => {

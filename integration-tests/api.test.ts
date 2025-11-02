@@ -1,13 +1,13 @@
 import request from 'supertest';
 import axios from 'axios';
 import { MongoClient } from 'mongodb';
-import { Express } from 'express';
+import { type Express } from 'express';
 import { config } from '../src/config';
 import { createApp } from '../src/app';
 import mockBody1 from './mock-data/mock-body-1.json';
 import mockBody2 from './mock-data/mock-body-2.json';
 import mockBody3 from './mock-data/mock-body-3.json';
-import { ArticleRepository } from '../src/model/model';
+import { type ArticleRepository } from '../src/model/model';
 import { createMongoDBArticleRepositoryFromMongoClient } from '../src/model/mongodb/mongodb-repository';
 
 jest.mock('axios');

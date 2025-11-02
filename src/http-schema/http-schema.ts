@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { EnhancedArticle, VersionSummary } from '../model/model';
+import { type EnhancedArticle, type VersionSummary } from '../model/model';
 import { listType } from '../model/content';
 
 const ParagraphSchema = Joi.object({

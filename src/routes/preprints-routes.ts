@@ -1,6 +1,6 @@
 import express from 'express';
 import { preprintsController } from '../controller/preprints-controller';
-import { ArticleRepository, EnhancedArticle } from '../model/model';
+import { type ArticleRepository, type EnhancedArticle } from '../model/model';
 
 type ResponseBodyType = { result: boolean, message: string };
 

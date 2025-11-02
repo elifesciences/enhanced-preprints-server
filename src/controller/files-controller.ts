@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { type NextFunction, type Request, type Response } from 'express';
 import { constructEPPS3File, getPresignedDownloadUrl, getPresignS3Client } from '../utils/s3';
 import { config } from '../config';
 

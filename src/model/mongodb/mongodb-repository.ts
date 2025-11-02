@@ -1,21 +1,21 @@
-import { Collection, MongoClient } from 'mongodb';
+import { type Collection, MongoClient } from 'mongodb';
 import {
-  ArticleAbstract,
-  ArticleRepository,
-  ArticleSummary,
-  ArticleTitle,
-  Author,
-  License,
-  Reference,
-  EnhancedArticle,
-  EnhancedArticleWithVersions,
-  VersionSummary,
-  EnhancedArticleNoContent,
-  EnhancedArticlesNoContentWithTotal,
-  VersionSummaryWithPeerReview,
-  PreprintVersionSummaryWithPeerReview,
+  type ArticleAbstract,
+  type ArticleRepository,
+  type ArticleSummary,
+  type ArticleTitle,
+  type Author,
+  type License,
+  type Reference,
+  type EnhancedArticle,
+  type EnhancedArticleWithVersions,
+  type VersionSummary,
+  type EnhancedArticleNoContent,
+  type EnhancedArticlesNoContentWithTotal,
+  type VersionSummaryWithPeerReview,
+  type PreprintVersionSummaryWithPeerReview,
 } from '../model';
-import { Content } from '../content';
+import { type Content } from '../content';
 import { logger } from '../../utils/logger';
 
 type StoredArticle = {

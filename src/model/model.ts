@@ -1,4 +1,4 @@
-import { Content } from './content';
+import { type Content } from './content';
 
 export type Doi = string;
 

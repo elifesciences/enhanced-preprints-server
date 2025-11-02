@@ -54,5 +54,6 @@ export default defineConfig([globalIgnores([
         "no-only-tests/no-only-tests": ["error", {
             focus: ["only"],
         }],
+        "@typescript-eslint/consistent-type-imports": ["error", { fixStyle: "inline-type-imports" }],
     },
 }]);

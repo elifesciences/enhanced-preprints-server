@@ -1,5 +1,5 @@
 import express from 'express';
-import { ArticleRepository } from './model/model';
+import { type ArticleRepository } from './model/model';
 import { config } from './config';
 import { logger } from './utils/logger';
 import { createApp } from './app';
