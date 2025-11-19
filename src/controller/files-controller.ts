@@ -4,7 +4,8 @@ import { config } from '../config';
 
 export const filesController = () => {
   const downloadSupplementaryFile = async (req: Request, res: Response, next: NextFunction) => {
-    const { fileId } = req.params;
+    // A wildcard route will separate te result into an array of segments. This puts them back together
+    const fileId = Array.isArray(req.params.fileId) ? req.params.fileId.join('/') : req.params.fileId;
 
     // construct a presigned URL for the requested file
     try {

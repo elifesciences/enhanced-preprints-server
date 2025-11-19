@@ -18,7 +18,7 @@ export const filesRoutes = () => {
     res.status(200).send(svgContent);
   });
 
-  router.get('/api/files/:fileId(*)', filesController().downloadSupplementaryFile);
+  router.get('/api/files/*fileId', filesController().downloadSupplementaryFile);
 
   return router;
 };

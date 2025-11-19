@@ -58,7 +58,9 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const version = await repo.findArticleVersion(req.params.identifier, req.query.previews !== undefined);
+      // A wildcard route will separate te result into an array of segments. This puts them back together
+      const identifier = Array.isArray(req.params.identifier) ? req.params.identifier.join('/') : req.params.identifier;
+      const version = await repo.findArticleVersion(identifier, req.query.previews !== undefined);
       if (!version) {
         logger.info(`Cannot find a matching article version (${req.params.identifier})`);
         res.status(404).send({
@@ -127,7 +129,9 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const deletePreprintByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const deleteResult = await repo.deleteArticleVersion(req.params.identifier);
+      // A wildcard route will separate te result into an array of segments. This puts them back together
+      const identifier = Array.isArray(req.params.identifier) ? req.params.identifier.join('/') : req.params.identifier;
+      const deleteResult = await repo.deleteArticleVersion(identifier);
       if (deleteResult) res.sendStatus(200);
       else res.status(404).send('Article not found');
     } catch (err) {
