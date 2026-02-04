@@ -4767,10 +4767,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "bson@npm:7.0.0"
-  checksum: 10c0/6b12fb0411f4e6f4473da878c0aa615f03439040a349f4115beae336e3922265b25d833c6cc93fcb299017904b32e4ef86e284996f1103addc5918c576b57d9d
+"bson@npm:^7.1.1":
+  version: 7.2.0
+  resolution: "bson@npm:7.2.0"
+  checksum: 10c0/f6d074d910a23e9fe2d6b6c2d1095ceab11f99e2b2e351062b396d5ea5c31ae276544582374e3c0c25e579d62c9187797c75460e48e8813306dc1d23ca1b0107
   languageName: node
   linkType: hard
 
@@ -5600,7 +5600,7 @@ __metadata:
     jest: "npm:30.2.0"
     jest-mock: "npm:30.2.0"
     joi: "npm:^18.0.0"
-    mongodb: "npm:7.0.0"
+    mongodb: "npm:7.1.0"
     nodemon: "npm:3.1.11"
     supertest: "npm:^7.0.0"
     ts-jest: "npm:29.4.6"
@@ -9092,12 +9092,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:7.0.0":
-  version: 7.0.0
-  resolution: "mongodb@npm:7.0.0"
+"mongodb@npm:7.1.0":
+  version: 7.1.0
+  resolution: "mongodb@npm:7.1.0"
   dependencies:
     "@mongodb-js/saslprep": "npm:^1.3.0"
-    bson: "npm:^7.0.0"
+    bson: "npm:^7.1.1"
     mongodb-connection-string-url: "npm:^7.0.0"
   peerDependencies:
     "@aws-sdk/credential-providers": ^3.806.0
@@ -9122,7 +9122,7 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: 10c0/425258188fd6d0d73c58ce2f16177d53d4280804b52de0e6dfd4ce0bec2c2965625c1765111f800ce8e6f2a28187657e8f42bf7dd6cc9675844e619b0dec18b9
+  checksum: 10c0/8f566dc3d5e079966b4ff11061811713f2fc6397798295772a45a0ef2d38d701be3f16394496a870736a7ff968f6b9aeef26ab2733e9cfd3d2a6a2e4cd04e10e
   languageName: node
   linkType: hard
 

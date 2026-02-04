@@ -42,7 +42,7 @@
     "axios": "1.13.4",
     "express": "4.22.1",
     "joi": "^18.0.0",
-    "mongodb": "7.0.0",
+    "mongodb": "7.1.0",
     "winston": "3.19.0"
   },
   "scripts": {
