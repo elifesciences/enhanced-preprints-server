@@ -3605,17 +3605,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/node16@npm:16.1.8":
-  version: 16.1.8
-  resolution: "@tsconfig/node16@npm:16.1.8"
-  checksum: 10c0/393f640f732590837bc7598c67c60a24e913a374b4dc2b7e6758c2760d80db65bd9b55159391162d6bc2ec266c3f86ecad8e3fd77977324c076ea7ea8720a0c6
-  languageName: node
-  linkType: hard
-
 "@tsconfig/node16@npm:^1.0.2":
   version: 1.0.2
   resolution: "@tsconfig/node16@npm:1.0.2"
   checksum: 10c0/d402706562444a173d48810d13fdf866c78f1b876ed8962eeac6c7cddf4e29e8aaa06dc28093219e3e9eb6316799cf4d9a7acba62c6a4e215ee0c94d83f9081f
+  languageName: node
+  linkType: hard
+
+"@tsconfig/node18@npm:18.2.0":
+  version: 18.2.0
+  resolution: "@tsconfig/node18@npm:18.2.0"
+  checksum: 10c0/6d763244f43b191f53d4e841d99e25c6a28594981c695b0da4f6895f70ab5e4e26e69a90b6912334a3a68dfe6483f8323b902d75bc821b7c5f9a86a4513b913e
   languageName: node
   linkType: hard
 
@@ -5730,7 +5730,7 @@ __metadata:
     "@eslint/compat": "npm:^2.0.0"
     "@shelf/jest-mongodb": "npm:^5.0.0"
     "@smithy/util-stream": "npm:^4.0.0"
-    "@tsconfig/node16": "npm:16.1.8"
+    "@tsconfig/node18": "npm:18.2.0"
     "@types/eslint": "npm:9.6.1"
     "@types/express": "npm:4.17.25"
     "@types/jest": "npm:30.0.0"
