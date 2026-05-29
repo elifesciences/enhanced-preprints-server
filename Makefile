@@ -4,7 +4,21 @@ else
   DOCKER_COMPOSE=docker-compose
 endif
 
-.PHONY: start-dev
+.PHONY: lint
+lint:
+	yarn lint
 
+.PHONY: test
+test:
+	yarn test
+
+.PHONY: test-integration
+test-integration:
+	yarn test:integration
+
+.PHONY: check
+check: lint test
+
+.PHONY: start-dev
 start-dev:
 	@$(DOCKER_COMPOSE) up
