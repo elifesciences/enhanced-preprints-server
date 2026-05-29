@@ -103,6 +103,7 @@ export type ProcessedArticle = {
   abstract: ArticleAbstract,
   licenses: License[],
   content: Content,
+  oxaContent?: string,
   references: Reference[],
   meta?: ArticleMeta,
 };
