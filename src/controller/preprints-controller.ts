@@ -115,6 +115,10 @@ export const preprintsController = (repo: ArticleRepository) => {
           version.siteName = siteName;
         }
 
+        if (Object.keys(req.query).includes('oxa')) {
+          articleWithoutSitename.article.oxaContent = 'OXA CONTENT.';
+        }
+
         res.send({
           ...version,
           article: articleWithoutSitename,
