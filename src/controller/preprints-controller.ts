@@ -66,20 +66,6 @@ export const preprintsController = (repo: ArticleRepository) => {
           message: `no result found for: (${req.params.identifier})`,
         });
       } else {
-        const { msid, versionIdentifier } = version.article;
-        if (version.article.pdfUrl === undefined && msid !== '85111') {
-          const pdfUrl = `https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/${msid}/v${versionIdentifier}/${msid}-v${versionIdentifier}.pdf`;
-          try {
-            const { status } = await axios.get(pdfUrl);
-            if (status === 200) {
-              version.article.pdfUrl = pdfUrl;
-            }
-          } catch (err) {
-            // eslint-disable-next-line no-console
-            console.log('no PDF found or fetch failed');
-          }
-        }
-
         if (config.elifeMetricsUrl) {
           const fetchMetric = async <T>(url: string): Promise<T | null> => {
             try {
@@ -94,7 +80,7 @@ export const preprintsController = (repo: ArticleRepository) => {
             }
           };
 
-          const metricsBasepath = `${config.elifeMetricsUrl}/metrics/article/${msid}/`;
+          const metricsBasepath = `${config.elifeMetricsUrl}/metrics/article/${version.article.msid}/`;
           const [citations, downloads, views] = await Promise.all([
             fetchMetric<{ citations: number }[]>(`${metricsBasepath}citations`)
               .then((data) => (data !== null ? data.reduce((m, c) => Math.max(m, c.citations), 0) : 0)),
