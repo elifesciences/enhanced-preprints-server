@@ -114,3 +114,4 @@ dist
 
 # database dumps
 *.dump
+.idea/

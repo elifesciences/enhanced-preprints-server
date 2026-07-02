@@ -1,7 +1,7 @@
 import request from 'supertest';
 import axios from 'axios';
 import { MongoClient } from 'mongodb';
-import { type Express } from 'express';
+import { type Express, response } from 'express';
 import { config } from '../src/config';
 import { createApp } from '../src/app';
 import mockBody1 from './mock-data/mock-body-1.json';
@@ -257,6 +257,7 @@ describe('server tests', () => {
 
     it('imports non-published content, which is retrieved using query param `previews`', async () => {
       const app = createApp(articleStore);
+      const previewUrl = 'https://prod--epp.elifesciences.org/api/files/article.2/v2/content/elife-preprint/article.2-v2.pdf';
 
       const exampleVersion1 = {
         ...enhancedArticle,
@@ -328,15 +329,20 @@ describe('server tests', () => {
             testid4: versionSummary1,
           },
         });
-      await request(app)
-        .get('/api/preprints/article.2?previews=true')
-        .expect({
-          article: exampleVersion2,
-          versions: {
-            testid4: versionSummary1,
-            testid5: versionSummary2,
-          },
-        });
+
+      const response = await request(app)
+        .get('/api/preprints/article.2?previews=true');
+
+      expect(response.body).toMatchObject({
+        article: {
+          ...exampleVersion2,
+          pdfUrl: expect.stringMatching(previewUrl),
+        },
+        versions: {
+          testid4: versionSummary1,
+          testid5: versionSummary2,
+        },
+      });
     });
 
     it('imports content with forward slash in ID', async () => {
@@ -872,6 +878,28 @@ describe('server tests', () => {
             license: 'https://creativecommons.org/licenses/by/4.0/',
             firstPublished: '2023-01-22T00:00:00.000Z',
           });
+        });
+    });
+
+    it('supplies the pdfUrl if the article is a preview', async () => {
+      const app = createApp(articleStore);
+
+      const unpublishedArticle = enhancedArticle;
+      unpublishedArticle.published = `${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}T00:00:00.000Z`;
+
+      await request(app)
+        .post('/preprints')
+        .send(unpublishedArticle)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200, {
+          result: true,
+          message: 'OK',
+        });
+
+      await request(app)
+        .get('/api/preprints/testmsid?previews=true')
+        .expect((response) => {
+          expect(response.body.article.pdfUrl).toBe('https://prod--epp.elifesciences.org/api/files/testmsid/v1/content/elife-preprint/testmsid-v1.pdf');
         });
     });
 
