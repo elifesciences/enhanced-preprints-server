@@ -58,7 +58,8 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const version = await repo.findArticleVersion(req.params.identifier, req.query.previews !== undefined);
+      const isPreview = req.query.previews !== undefined;
+      const version = await repo.findArticleVersion(req.params.identifier, isPreview);
       if (!version) {
         logger.info(`Cannot find a matching article version (${req.params.identifier})`);
         res.status(404).send({
@@ -66,6 +67,11 @@ export const preprintsController = (repo: ArticleRepository) => {
           message: `no result found for: (${req.params.identifier})`,
         });
       } else {
+        if (isPreview) {
+          const { msid, versionIdentifier } = version.article;
+          const downloadFilename = `${msid}-v${versionIdentifier}.pdf`;
+          version.article.pdfUrl = `https://prod--epp.elifesciences.org/api/files/${msid}/v${versionIdentifier}/content/elife-preprint/${downloadFilename}`;
+        }
         if (config.elifeMetricsUrl) {
           const fetchMetric = async <T>(url: string): Promise<T | null> => {
             try {
