@@ -1,7 +1,7 @@
 import request from 'supertest';
 import axios from 'axios';
 import { MongoClient } from 'mongodb';
-import { type Express, response } from 'express';
+import { type Express } from 'express';
 import { config } from '../src/config';
 import { createApp } from '../src/app';
 import mockBody1 from './mock-data/mock-body-1.json';
@@ -882,7 +882,7 @@ describe('server tests', () => {
     });
 
     it('supplies the pdfUrl if the article is a preview', async () => {
-      const app = createApp(articleStore);
+      app = createApp(articleStore);
 
       const unpublishedArticle = enhancedArticle;
       unpublishedArticle.published = `${new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}T00:00:00.000Z`;
