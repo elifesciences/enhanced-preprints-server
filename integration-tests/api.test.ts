@@ -899,7 +899,7 @@ describe('server tests', () => {
       await request(app)
         .get('/api/preprints/testmsid?previews=true')
         .expect((response) => {
-          expect(response.body.article.pdfUrl).toBe('https://prod--epp.elifesciences.org/api/files/testmsid/v1/content/elife-preprint/testmsid-v1.pdf');
+          expect(response.body.article.pdfUrl).toBe('https://prod--epp.elifesciences.org/api/files/testmsid/v1/content/elife-preprint-testmsid-v1.pdf');
         });
     });
 
