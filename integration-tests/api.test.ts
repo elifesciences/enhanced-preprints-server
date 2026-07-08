@@ -12,8 +12,7 @@ import { createMongoDBArticleRepositoryFromMongoClient } from '../src/model/mong
 
 jest.mock('axios');
 
-const buildPreviewPdfUrl = (msid: string, versionIdentifier: string) =>
-  `https://prod--epp.elifesciences.org/api/files/${msid}/v${versionIdentifier}/content/elife-preprint-${msid}-v${versionIdentifier}.pdf`;
+const buildPreviewPdfUrl = (msid: string, versionIdentifier: string) => `https://prod--epp.elifesciences.org/api/files/${msid}/v${versionIdentifier}/content/elife-preprint-${msid}-v${versionIdentifier}.pdf`;
 
 const referenceMock = {
   type: 'Article',
