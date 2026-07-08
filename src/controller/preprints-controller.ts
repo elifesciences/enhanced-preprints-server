@@ -70,7 +70,7 @@ export const preprintsController = (repo: ArticleRepository) => {
         if (isPreview) {
           const { msid, versionIdentifier } = version.article;
           const downloadFilename = `${msid}-v${versionIdentifier}.pdf`;
-          version.article.pdfUrl = `https://prod--epp.elifesciences.org/api/files/${msid}/v${versionIdentifier}/content/elife-preprint/${downloadFilename}`;
+          version.article.pdfUrl = `https://prod--epp.elifesciences.org/api/files/${msid}/v${versionIdentifier}/content/elife-preprint-${downloadFilename}`;
         }
         if (config.elifeMetricsUrl) {
           const fetchMetric = async <T>(url: string): Promise<T | null> => {

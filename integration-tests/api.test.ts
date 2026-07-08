@@ -12,6 +12,9 @@ import { createMongoDBArticleRepositoryFromMongoClient } from '../src/model/mong
 
 jest.mock('axios');
 
+const buildPreviewPdfUrl = (msid: string, versionIdentifier: string) =>
+  `https://prod--epp.elifesciences.org/api/files/${msid}/v${versionIdentifier}/content/elife-preprint-${msid}-v${versionIdentifier}.pdf`;
+
 const referenceMock = {
   type: 'Article',
   id: 'ref1',
@@ -257,7 +260,7 @@ describe('server tests', () => {
 
     it('imports non-published content, which is retrieved using query param `previews`', async () => {
       const app = createApp(articleStore);
-      const previewUrl = 'https://prod--epp.elifesciences.org/api/files/article.2/v2/content/elife-preprint/article.2-v2.pdf';
+      const previewUrl = buildPreviewPdfUrl('article.2', '2');
 
       const exampleVersion1 = {
         ...enhancedArticle,
@@ -899,7 +902,7 @@ describe('server tests', () => {
       await request(app)
         .get('/api/preprints/testmsid?previews=true')
         .expect((response) => {
-          expect(response.body.article.pdfUrl).toBe('https://prod--epp.elifesciences.org/api/files/testmsid/v1/content/elife-preprint/testmsid-v1.pdf');
+          expect(response.body.article.pdfUrl).toBe(buildPreviewPdfUrl('testmsid', '1'));
         });
     });
 
