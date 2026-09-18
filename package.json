@@ -9,7 +9,7 @@
     "@aws-sdk/types": "^3.292.0",
     "@eslint/compat": "^2.0.0",
     "@shelf/jest-mongodb": "^5.0.0",
-    "@tsconfig/node16": "16.1.8",
+    "@tsconfig/node18": "18.2.0",
     "@types/eslint": "9.6.1",
     "@types/express": "4.17.25",
     "@types/jest": "30.0.0",
