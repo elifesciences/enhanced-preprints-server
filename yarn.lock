@@ -46,8 +46,8 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/client-s3@npm:^3.723.0":
-  version: 3.1134.0
-  resolution: "@aws-sdk/client-s3@npm:3.1134.0"
+  version: 3.1135.0
+  resolution: "@aws-sdk/client-s3@npm:3.1135.0"
   dependencies:
     "@aws-sdk/checksums": "npm:^3.1001.0"
     "@aws-sdk/core": "npm:^3.978.0"
@@ -60,7 +60,7 @@ __metadata:
     "@smithy/node-http-handler": "npm:^4.11.3"
     "@smithy/types": "npm:^4.17.2"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/57bd10381f0aee5210740385577f9488a682b9411350acb787de9bbefc038abcc0a95421457c31b5833e998bb6adaaef78c80770f915076244011ef90e3d6927
+  checksum: 10c0/671e64e127210dcb1719cb62dbcc5461dde0f350f29cb7dcd41373774bb8b7008db9dc3b491943faeb8696ee713bcff7c2f3a12a11343975a2077014f0aa4679
   languageName: node
   linkType: hard
 
@@ -218,8 +218,8 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/credential-providers@npm:^3.723.0":
-  version: 3.1134.0
-  resolution: "@aws-sdk/credential-providers@npm:3.1134.0"
+  version: 3.1135.0
+  resolution: "@aws-sdk/credential-providers@npm:3.1135.0"
   dependencies:
     "@aws-sdk/core": "npm:^3.978.0"
     "@aws-sdk/credential-provider-cognito-identity": "npm:^3.972.70"
@@ -237,7 +237,7 @@ __metadata:
     "@smithy/credential-provider-imds": "npm:^4.4.16"
     "@smithy/types": "npm:^4.17.2"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/d55fa28b05afc1d85501c68ce56f91c42c8421c9fbc0fd7b67bf43290e185263bf41b5a22339401dd265d83b748a8a97e4277842523fb2761109b2802fc6883c
+  checksum: 10c0/b0217a3a78298b987b6c3e20513bd37e676d292fedafc110ecc91eec1d34b7a70485ec51d7cc54cd3efb8e4cdd3978a36591f2cea8a4dcc67a8a9b415d83f06d
   languageName: node
   linkType: hard
 
@@ -272,8 +272,8 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/s3-request-presigner@npm:^3.723.0":
-  version: 3.1134.0
-  resolution: "@aws-sdk/s3-request-presigner@npm:3.1134.0"
+  version: 3.1135.0
+  resolution: "@aws-sdk/s3-request-presigner@npm:3.1135.0"
   dependencies:
     "@aws-sdk/core": "npm:^3.978.0"
     "@aws-sdk/signature-v4-multi-region": "npm:^3.996.46"
@@ -281,7 +281,7 @@ __metadata:
     "@smithy/core": "npm:^3.33.3"
     "@smithy/types": "npm:^4.17.2"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/1b3f605d55bb37d9c448abdd005368ccb953751adccf008f1b4ee7ae35419a37635f454dfa84ddbbd2f11a18a8091e7cbc599fda4913e99bc1a215e4ea550974
+  checksum: 10c0/249bdcf9bb19c21d98de24e6aa092ce314d5c7507a1d481f8e4824b969bd0d58a765ef4c7a787ab771b211101999a477b3749aa4b06087bae1f28dd5da20a29c
   languageName: node
   linkType: hard
 
