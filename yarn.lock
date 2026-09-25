@@ -1824,6 +1824,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mongodb-js/saslprep@npm:^1.4.11":
+  version: 1.5.4
+  resolution: "@mongodb-js/saslprep@npm:1.5.4"
+  dependencies:
+    sparse-bitfield: "npm:^3.0.3"
+  checksum: 10c0/af517c5cbe71bfa4c640c6d22a9d320561995d3cb055c0e4bec6ba23cb9059f2c8a5698414ba20362fbdb026ff37add6b79bb8c48c7ee44510db48a64a7a69b6
+  languageName: node
+  linkType: hard
+
 "@napi-rs/wasm-runtime@npm:^1.1.4":
   version: 1.2.4
   resolution: "@napi-rs/wasm-runtime@npm:1.2.4"
@@ -3614,10 +3623,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^7.1.1":
-  version: 7.2.0
-  resolution: "bson@npm:7.2.0"
-  checksum: 10c0/f6d074d910a23e9fe2d6b6c2d1095ceab11f99e2b2e351062b396d5ea5c31ae276544582374e3c0c25e579d62c9187797c75460e48e8813306dc1d23ca1b0107
+"bson@npm:^7.2.0":
+  version: 7.3.3
+  resolution: "bson@npm:7.3.3"
+  checksum: 10c0/d6ff014750446460185d05f5ffffd3c7ec854787d6547cf865a19796d36ad526643c8fa68a7bfc0d897b7f33f66ec5c24b11183212778f0484bb853f05dee4fd
   languageName: node
   linkType: hard
 
@@ -4447,7 +4456,7 @@ __metadata:
     jest: "npm:30.5.1"
     jest-mock: "npm:30.5.1"
     joi: "npm:^18.0.0"
-    mongodb: "npm:7.1.0"
+    mongodb: "npm:7.6.0"
     nodemon: "npm:3.1.14"
     supertest: "npm:^7.0.0"
     ts-jest: "npm:29.4.12"
@@ -7922,13 +7931,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-connection-string-url@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "mongodb-connection-string-url@npm:7.0.0"
+"mongodb-connection-string-url@npm:^7.0.1":
+  version: 7.0.2
+  resolution: "mongodb-connection-string-url@npm:7.0.2"
   dependencies:
     "@types/whatwg-url": "npm:^13.0.0"
     whatwg-url: "npm:^14.1.0"
-  checksum: 10c0/33fe304a0f8e59bf541b2ddef073ddb2ae66d6cb3175c6297c8f844004b1608573e2e61892aa8486f8273634c9cb8a90202d21c289aa1b1f8b8e5cd92711be09
+  checksum: 10c0/f705457af027d6e05819c863361707acf541499f424793c5c38a5cdefaeb26bb7356e99e82e9145e2e74ca8f28b35f02dadd154a1ecda0528ba1f9927ebe7ae8
   languageName: node
   linkType: hard
 
@@ -7962,19 +7971,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:7.1.0":
-  version: 7.1.0
-  resolution: "mongodb@npm:7.1.0"
+"mongodb@npm:7.6.0":
+  version: 7.6.0
+  resolution: "mongodb@npm:7.6.0"
   dependencies:
-    "@mongodb-js/saslprep": "npm:^1.3.0"
-    bson: "npm:^7.1.1"
-    mongodb-connection-string-url: "npm:^7.0.0"
+    "@mongodb-js/saslprep": "npm:^1.4.11"
+    bson: "npm:^7.2.0"
+    mongodb-connection-string-url: "npm:^7.0.1"
   peerDependencies:
     "@aws-sdk/credential-providers": ^3.806.0
     "@mongodb-js/zstd": ^7.0.0
     gcp-metadata: ^7.0.1
     kerberos: ^7.0.0
-    mongodb-client-encryption: ">=7.0.0 <7.1.0"
+    mongodb-client-encryption: ^7.2.0
     snappy: ^7.3.2
     socks: ^2.8.6
   peerDependenciesMeta:
@@ -7992,7 +8001,7 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: 10c0/8f566dc3d5e079966b4ff11061811713f2fc6397798295772a45a0ef2d38d701be3f16394496a870736a7ff968f6b9aeef26ab2733e9cfd3d2a6a2e4cd04e10e
+  checksum: 10c0/91f45d49aaa17af40b1dbd4f5eff85fd11f12c7df993cadbe51e96c31f40c74596b2d979f7eeebb376889a1397deb9081db10cbb0e8904853c80b1f2fcddf7d0
   languageName: node
   linkType: hard
 
