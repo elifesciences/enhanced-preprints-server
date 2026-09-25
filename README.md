@@ -11,7 +11,7 @@ You will find it helpful to install local dependencies, by running `yarn`, so th
 If you want to use docker-compose.yml without docker-compose.override.yaml you will want to add the following to your `/etc/hosts` file for the file redirects to work on your host machine:
 
 ```shell
-127.0.0.1 minio
+127.0.0.1 s3mock
 ```
 
 ## Development build - `docker-compose up` or `make start-dev`
