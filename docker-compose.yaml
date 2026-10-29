@@ -51,7 +51,7 @@ services:
       start_period: 2s
 
   createbucket:
-    image: amazon/aws-cli:2.37.1
+    image: amazon/aws-cli:2.39.1
     depends_on:
       s3mock:
         condition: service_healthy
