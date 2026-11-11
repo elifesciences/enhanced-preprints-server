@@ -2,7 +2,9 @@
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
-const { defaults: tsjPreset } = require('ts-jest/presets')
+import { createDefaultPreset } from 'ts-jest';
+
+const tsjPreset = createDefaultPreset();
 
 export default {
 

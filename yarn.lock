@@ -2284,10 +2284,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/node18@npm:18.2.0":
-  version: 18.2.0
-  resolution: "@tsconfig/node18@npm:18.2.0"
-  checksum: 10c0/6d763244f43b191f53d4e841d99e25c6a28594981c695b0da4f6895f70ab5e4e26e69a90b6912334a3a68dfe6483f8323b902d75bc821b7c5f9a86a4513b913e
+"@tsconfig/node24@npm:24.0.5":
+  version: 24.0.5
+  resolution: "@tsconfig/node24@npm:24.0.5"
+  checksum: 10c0/cea0c13ac00121e210f69823104d69081c99cf98c801a0772b6df5b51b3412e188084d74b6d2a42b33f29e3cf99298faf02c0baed41d336f5ef8828cc04d458f
   languageName: node
   linkType: hard
 
@@ -2505,12 +2505,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.19.28":
-  version: 20.19.28
-  resolution: "@types/node@npm:20.19.28"
+"@types/node@npm:24.19.2":
+  version: 24.19.2
+  resolution: "@types/node@npm:24.19.2"
   dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10c0/aaa2de8570bfafdb9c160c1dbe3ecd7d9b2ccdc496ab6b0f24ccd5023aabe6f8c7fd02d7090185c2912052174f7cffef4ace80edd7d2a433200429c7a0a4869d
+    undici-types: "npm:>=7.24.0 <7.24.7"
+  checksum: 10c0/b51a7f8854007ad579dffdd0633d8addbfeb2c97cceb380f2eba0ed163638ec52e17565385a6cc04d54ac4ff99c70c64aee68a4ca45b6128c035e828794e29c5
   languageName: node
   linkType: hard
 
@@ -4451,11 +4451,11 @@ __metadata:
     "@eslint/compat": "npm:^2.0.0"
     "@shelf/jest-mongodb": "npm:^5.0.0"
     "@smithy/util-stream": "npm:^4.0.0"
-    "@tsconfig/node18": "npm:18.2.0"
+    "@tsconfig/node24": "npm:24.0.5"
     "@types/eslint": "npm:9.6.1"
     "@types/express": "npm:4.17.25"
     "@types/jest": "npm:30.0.0"
-    "@types/node": "npm:20.19.28"
+    "@types/node": "npm:24.19.2"
     "@types/supertest": "npm:^7.0.0"
     "@typescript-eslint/eslint-plugin": "npm:7.18.0"
     "@typescript-eslint/parser": "npm:7.18.0"
@@ -10265,10 +10265,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~6.21.0":
-  version: 6.21.0
-  resolution: "undici-types@npm:6.21.0"
-  checksum: 10c0/c01ed51829b10aa72fc3ce64b747f8e74ae9b60eafa19a7b46ef624403508a54c526ffab06a14a26b3120d055e1104d7abe7c9017e83ced038ea5cf52f8d5e04
+"undici-types@npm:>=7.24.0 <7.24.7":
+  version: 7.24.6
+  resolution: "undici-types@npm:7.24.6"
+  checksum: 10c0/d9cd8befb643ac904615c280a095ba4240531f6bb4a5e75a22a7483630ca8d3f1016d2ab6ace6ceda1f63b3a2db2fe037fafe121d6917a0187573aa548ff78ca
   languageName: node
   linkType: hard
 

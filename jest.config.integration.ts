@@ -1,4 +1,4 @@
-import config from './jest.config';
+import config from './jest.config.ts';
 
 export default {
   ...config,
