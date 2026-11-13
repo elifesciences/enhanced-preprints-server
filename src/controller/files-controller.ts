@@ -4,7 +4,7 @@ import { config } from '../config';
 
 export const filesController = () => {
   const downloadSupplementaryFile = async (req: Request, res: Response, next: NextFunction) => {
-    const { fileId } = req.params;
+    const fileId = Array.isArray(req.params.fileId) ? req.params.fileId.join('/') : (req.params.fileId ?? '');
 
     // construct a presigned URL for the requested file
     try {

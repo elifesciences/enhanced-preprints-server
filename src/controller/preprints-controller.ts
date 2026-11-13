@@ -58,13 +58,14 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const getPreprintsByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const identifier = Array.isArray(req.params.identifier) ? req.params.identifier.join('/') : (req.params.identifier ?? '');
       const isPreview = req.query.previews !== undefined;
-      const version = await repo.findArticleVersion(req.params.identifier, isPreview);
+      const version = await repo.findArticleVersion(identifier, isPreview);
       if (!version) {
-        logger.info(`Cannot find a matching article version (${req.params.identifier})`);
+        logger.info(`Cannot find a matching article version (${identifier})`);
         res.status(404).send({
           result: false,
-          message: `no result found for: (${req.params.identifier})`,
+          message: `no result found for: (${identifier})`,
         });
       } else {
         if (isPreview) {
@@ -119,7 +120,7 @@ export const preprintsController = (repo: ArticleRepository) => {
 
   const deletePreprintByIdentifier = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const deleteResult = await repo.deleteArticleVersion(req.params.identifier);
+      const deleteResult = await repo.deleteArticleVersion(Array.isArray(req.params.identifier) ? req.params.identifier.join('/') : (req.params.identifier ?? ''));
       if (deleteResult) res.sendStatus(200);
       else res.status(404).send('Article not found');
     } catch (err) {
